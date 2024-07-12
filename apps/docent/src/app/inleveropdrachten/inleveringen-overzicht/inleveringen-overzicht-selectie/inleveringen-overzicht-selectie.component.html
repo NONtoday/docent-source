@@ -1,0 +1,9 @@
+<ng-container [formGroup]="form">
+    @if (checkboxEnabled) {
+        <dt-form-checkbox [formControlName]="controlName"> </dt-form-checkbox>
+    }
+    <hmy-pill [color]="labelColor" [text]="label"></hmy-pill>
+    @if (labelText === 'In beoordeling') {
+        <i [onTouchAllowed]="true" color="fg-neutral-moderate" hmyIcon="slot" size="small" dtTooltip="Inlevermogelijkheid gesloten"></i>
+    }
+</ng-container>

@@ -1,0 +1,65 @@
+@if (vaksecties$ | async; as vaksecties) {
+    @if (selectedVaksectie$ | async; as selectedVaksectie) {
+        <div class="vaksecties">
+            @for (vaksectie of vaksecties; track trackById($index, vaksectie)) {
+                <div class="vaksectie" [class.is-selected]="selectedVaksectie === vaksectie" (click)="selectedVaksectie$.next(vaksectie)">
+                    <span class="naam text-content-small-semi">{{ vaksectie.naam }}</span>
+                </div>
+            }
+        </div>
+    }
+}
+<ng-content></ng-content>
+@if (heeftSjablonen$ | async) {
+    <div class="sjablonen">
+        @if (sjabloonOverzichtView$ | async; as view) {
+            @for (sjabloon of view.sjablonen; track trackById($index, sjabloon)) {
+                <dt-sjabloon-selectie-item
+                    [isSelected]="isSelected(sjabloon)"
+                    [isDisabled]="isDisabled(sjabloon)"
+                    [displayCheckbox]="displayCheckbox"
+                    [disabledCheckboxTooltip]="disabledCheckboxTooltip"
+                    [sjabloon]="sjabloon"
+                    [heeftVerdieping]="heeftVerdieping"
+                    [isEigenaar]="isEigenaar(sjabloon)"
+                    [displaySynchronisatieStartWeek]="displaySynchronisatieStartWeek"
+                    (checkSjabloon)="onSelect.emit(sjabloon)"
+                    (sjabloonClick)="onSelect.emit(sjabloon)">
+                </dt-sjabloon-selectie-item>
+            }
+            @for (categorie of view.categorieen; track trackById($index, categorie)) {
+                <div>
+                    <dt-sidebar-categorie-divider [naam]="categorie.naam"></dt-sidebar-categorie-divider>
+                    @for (sjabloon of categorie.sjablonen; track trackById($index, sjabloon)) {
+                        <dt-sjabloon-selectie-item
+                            [isSelected]="isSelected(sjabloon)"
+                            [isDisabled]="isDisabled(sjabloon)"
+                            [displayCheckbox]="displayCheckbox"
+                            [disabledCheckboxTooltip]="disabledCheckboxTooltip"
+                            [sjabloon]="sjabloon"
+                            [heeftVerdieping]="heeftVerdieping"
+                            [isEigenaar]="isEigenaar(sjabloon)"
+                            [displaySynchronisatieStartWeek]="displaySynchronisatieStartWeek"
+                            (checkSjabloon)="onSelect.emit(sjabloon)"
+                            (sjabloonClick)="onSelect.emit(sjabloon)">
+                        </dt-sjabloon-selectie-item>
+                    }
+                </div>
+            }
+        }
+    </div>
+} @else {
+    @if (vaksecties$ | async; as vaksecties) {
+        @if (vaksecties.length > 0) {
+            <div class="geen-sjablonen text-content-semi">
+                Er zijn geen sjablonen{{ alleenEigenSjablonen ? ' van jezelf' : '' }}{{ alleenMetBijlagen ? ' met jaarbijlagen' : '' }} in
+                deze vaksectie
+            </div>
+        } @else {
+            <div class="geen-sjablonen text-content-semi">
+                Je kunt sjablonen niet gebruiken, omdat je niet bent toegevoegd aan een vaksectie. Vraag de applicatiebeheerder om dit in te
+                stellen.
+            </div>
+        }
+    }
+}

@@ -1,0 +1,50 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="titel-container">
+            <span class="titel text-content-semi">Instellingen</span
+            ><i class="action-primary-normal" (click)="popup.onClose()" hmyIcon="sluiten"></i>
+        </div>
+        <form [formGroup]="settingForm" (ngSubmit)="onSubmit()">
+            <div class="text-content-small-semi subtitel">Leerlingen tonen na</div>
+            <div class="radio-button-group">
+                <div class="radio-option">
+                    <label>
+                        <input type="radio" value="1" cy="signalering-setting-1" formControlName="aantal" />
+                        <span class="checkmark">1x</span>
+                    </label>
+                </div>
+                <div class="radio-option">
+                    <label>
+                        <input type="radio" value="3" cy="signalering-setting-3" formControlName="aantal" />
+                        <span class="checkmark">3x</span>
+                    </label>
+                </div>
+                <div class="radio-option">
+                    <label>
+                        <input type="radio" value="5" formControlName="aantal" />
+                        <span class="checkmark">5x</span>
+                    </label>
+                </div>
+            </div>
+            <div class="text-content-small-semi subtitel">Toon categorieën</div>
+            <div class="checkbox-group">
+                @for (vrijVeldDef of vrijVeldDefinities; track vrijVeldDef) {
+                    <div class="checkbox">
+                        <dt-form-checkbox [formControlName]="vrijVeldDef.id"></dt-form-checkbox>
+                        <label>{{ vrijVeldDef.naam }} </label>
+                    </div>
+                }
+            </div>
+            <div class="buttons">
+                <dt-outline-button class="cancel" (click)="popup.onClose()" color="typography_3">Annuleren </dt-outline-button>
+                <button
+                    class="submit"
+                    [class.disabled]="!settingForm.valid || !settingForm.dirty"
+                    type="submit"
+                    data-gtm="signalering-setting-opslaan">
+                    Opslaan
+                </button>
+            </div>
+        </form>
+    </div>
+</dt-popup>

@@ -1,0 +1,73 @@
+<span class="titel text-content-small-semi">{{ inlevering.onderwerp }}</span>
+<div class="inlevering-moment">
+    @if (teLaat) {
+        <i
+            [dtTooltip]="teLaatTooltipFn.call({}, inlevering.inleverdatum)"
+            [onTouchAllowed]="true"
+            color="fg-warning-normal"
+            hmyIcon="tijd"
+            size="medium"></i>
+    }
+    <span class="text-content-small-semi inleverdatum">
+        {{ inlevering.inleverdatum | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}
+    </span>
+</div>
+<dt-bijlage-extensie [extensie]="inlevering.extensie"></dt-bijlage-extensie>
+<dt-outline-button
+    class="desktop-small download"
+    (click)="onDownload.emit(inlevering)"
+    icon="downloaden"
+    iconOnlyRangeEnd="desktop"
+    dtTooltip="Downloaden"
+    cy="inlevering-downloaden">
+</dt-outline-button>
+@if (plagiaatFeatureAan && inlevering.plagiaatControleerbaar) {
+    <div class="plagiaat-container text-content-small-semi">
+        @if (error) {
+            <i
+                class="show-for-desktop"
+                [dtTooltip]="submissionErrorDescription"
+                [onTouchAllowed]="true"
+                color="fg-negative-normal"
+                hmyIcon="waarschuwing"></i>
+        }
+        @if (heeftPlagiaatPercentage) {
+            <div (click)="openRapportage(inlevering.plagiaatInfo!)">
+                @if (percentage === 0) {
+                    <span class="geen-plagiaat" dtTooltip="Geen plagiaat gevonden"
+                        >Geen<span class="hide-for-desktop">&nbsp;plagiaat</span></span
+                    >
+                }
+                @if (inlevering.plagiaatInfo && inlevering.plagiaatInfo.percentage! > 0) {
+                    <span class="plagiaat" dtTooltip="Plagiaatrapport bekijken"
+                        >{{ inlevering.plagiaatInfo.percentage | number: '1.0-1' }}%<span class="hide-for-desktop"
+                            >&nbsp;plagiaat</span
+                        ></span
+                    >
+                }
+            </div>
+        }
+        @if (inVerwerking) {
+            <div class="controleren spinning" [maxWidth]="180" [onTouchAllowed]="true" dtTooltip="Plagiaatcontrole in verwerking">
+                <hmy-spinner />
+            </div>
+        }
+        @if (!heeftPlagiaatPercentage && !inVerwerking && inlevering.plagiaatControleerbaar) {
+            <div
+                class="controleren"
+                [class.disabled]="unrecoverableError"
+                [dtTooltip]="unrecoverableError ? 'Plagiaatcontrole niet mogelijk' : 'Plagiaat controleren'"
+                (click)="unrecoverableError || controleren()">
+                <span class="hide-for-desktop">Plagiaat controleren</span><span class="show-for-desktop">Controleren</span>
+            </div>
+        }
+        @if (error) {
+            <div class="hide-for-desktop error">
+                @if (error) {
+                    <i color="fg-negative-normal" hmyIcon="waarschuwing"></i>
+                }
+                <span>{{ submissionErrorDescription }}</span>
+            </div>
+        }
+    </div>
+}

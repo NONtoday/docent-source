@@ -1,0 +1,96 @@
+// De standaard kleuren https://www.figma.com/file/LfZ3lShg99bl9lCe9t5w54/Harmony?node-id=0%3A1
+
+$background-1: #d0dae4;
+$background-2: #d7dfe6;
+$background-3: #e3e9ee;
+$background-4: #f0f3f5;
+$background-5: #f7f9fa;
+$background-6: #fff;
+
+$typography-1: #000829;
+$typography-2: #3b4d68;
+$typography-3: #557195;
+$typography-4: #aab8ca;
+$typography-5: #fff;
+
+$primary-1: #296bd7;
+$primary-2: #005eb8;
+$primary-3: #004f9b;
+$primary-4: #e5edfa;
+$primary-5: #5e90e1;
+
+$secondary-1: #e6ab4a;
+$secondary-2: #c38831;
+$secondary-3: #fbf2e4;
+
+$accent-positive-1: #3f8541;
+$accent-positive-2: #1a6d1c;
+$accent-positive-3: #e8f0e8;
+$accent-positive-4: #6fa370;
+
+$accent-negative-1: #d32f0d;
+$accent-negative-2: #b62507;
+$accent-negative-3: #f8e0db;
+
+$accent-warning-1: #da6710;
+$accent-warning-2: #b64603;
+$accent-warning-3: #f9e8db;
+$accent-warning-4: #fcf4ed;
+
+$accent-alt-1: #793ff5;
+$accent-alt-2: #5012d2;
+$accent-alt-3: #ebe2fe;
+
+$padding-lesitem-mobiel: 10px;
+$padding-lesitem-tablet: 25px;
+$padding-lesitem-desktop: 45px;
+
+// Borders:
+$border-body: 1px solid $background-3;
+$border-body-dashed: 1px dashed $background-3;
+
+$border-contrast: 1px solid $background-1;
+$border-contrast-dashed: 1px dashed $background-1;
+
+$border-primary: 1px solid $primary-1;
+$border-positive: 1px solid $accent-positive-1;
+$border-warning: 1px solid $accent-warning-1;
+$border-error: 1px solid $accent-negative-1;
+$border-notification: 2px solid $background-6;
+$border-divider-line: 1px solid $background-2;
+$border-active: 3px solid $secondary-1;
+
+$br-normal: 3px;
+$br-top: 3px 3px 0 0;
+$br-bottom: 0 0 3px 3px;
+$br-left: 3px 0 0 3px;
+$br-right: 0 3px 3px 0;
+
+$br-large: 5px;
+$br-top-large: 5px 5px 0 0;
+$br-bottom-large: 0 0 5px 5px;
+$br-left-large: 5px 0 0 5px;
+$br-right-large: 0 5px 5px 0;
+$br-label: 50px;
+
+$input-height: 40px;
+$input-height-touch: 48px;
+
+// Box-shadows:
+$shadow-content-container: 0 0 4px rgba($typography-1, 0.15);
+$shadow-sidebar-left: -4px 0 8px rgba($typography-1, 0.25);
+$shadow-sidebar-right: 3px 0 8px rgba($typography-1, 0.25);
+$shadow-page-container: 0 1px 1px rgba($typography-1, 0.25);
+$shadow-popout-mobile: 0 -4px 16px rgba($typography-1, 0.25);
+$shadow-popout-desktop: 0 4px 14px rgba($typography-1, 0.25);
+$shadow-floating: 0 4px 16px rgba($typography-1, 0.25);
+$shadow-button-soft: 0 2px 8px rgba($typography-1, 0.15);
+$shadow-button-hard: 0 1px 3px rgba($typography-1, 0.2);
+$shadow-bar-top: 0 2px 8px rgba($typography-1, 0.2);
+$shadow-bar-bottom: 0 -2px 8px rgba($typography-1, 0.2);
+$shadow-card: 0 2px 8px rgba($typography-1, 0.25);
+$shadow-form-active: 0 0 8px rgba($primary-1, 0.25);
+
+$shadow-inner-table-cell:
+    1px 1px inset $primary-1,
+    -1px -1px inset $primary-1;

@@ -1,0 +1,41 @@
+@if (sjabloonWeken) {
+    @for (week of sjabloonWeken; track week) {
+        <div class="week">
+            <div
+                class="weekheader"
+                [class.clickable]="week.toekenningen.length > 0"
+                (click)="toggleToekenningenTonenVoorWeek(week.weeknummer)">
+                <span class="text-content-semi">Week {{ week.weeknummer }}</span>
+                @if (week.toekenningen.length > 0) {
+                    <i class="arrow-open" [class.expanded]="isWeekOpen(week.weeknummer)" hmyIcon="chevronOnder" size="medium"></i>
+                }
+            </div>
+            <div class="items" [@collapse]="{ value: !isWeekOpen(week.weeknummer) }">
+                @for (toekenning of week.toekenningen; track toekenning) {
+                    <dt-selectable-item
+                        [toekenning]="toekenning"
+                        [group]="toekenningenFormGroup"
+                        (conceptOpdrachtAangevinkt)="openWeekBijhorendeToekenning($event)">
+                    </dt-selectable-item>
+                }
+            </div>
+        </div>
+    }
+    <div class="buttons">
+        <span class="aantal hide-for-phone-only text-content-small-semi" [class.hidden]="!amountSelected"
+            >{{ amountSelected }} geselecteerd</span
+        >
+        <dt-outline-button class="cancel" [class.verborgen]="!amountSelected" (click)="deselectAll()">Deselecteren </dt-outline-button>
+        <button
+            class="submit"
+            [disabled]="!amountSelected"
+            [class.full-width]="!amountSelected"
+            [showLoaderOnClick]="true"
+            (click)="onFormSubmit()"
+            type="submit">
+            {{ amountSelected ? 'Toevoegen' : 'Selecteer een item' }}
+        </button>
+    </div>
+} @else {
+    <hmy-spinner />
+}

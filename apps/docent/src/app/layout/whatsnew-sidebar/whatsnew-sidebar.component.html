@@ -1,0 +1,29 @@
+<dt-sidebar
+    [title]="titel"
+    [icon]="icon"
+    [iconClickable]="!!detail"
+    [titleClickable]="!!detail"
+    (onTitleClick)="terug()"
+    (onIconClick)="terug()"
+    (onMaskClick)="closeSidebar()"
+    (onCloseClick)="closeSidebar()">
+    @if (!detail) {
+        <div class="updates">
+            @for (update of updates; track update) {
+                <div class="update" id="update-{{ update.id }}" [ngClass]="{ clickable: update.detail }" (click)="setDetail(update)">
+                    <div class="unread" [ngClass]="{ hidden: !update.unread }"></div>
+                    <span class="titel text-strong text-content-semi">{{ update.titel }}</span>
+                    @if (update.detail) {
+                        <i class="lees-meer" hmyIcon="chevronRechts" cy="whats-new-lees-meer" dtTooltip="Lees meer" size="small"></i>
+                    }
+                    <div class="text" [innerHTML]="update.text"></div>
+                </div>
+            }
+        </div>
+    }
+    @if (detail) {
+        <div class="whatsnew-detail">
+            <div [innerHTML]="detail"></div>
+        </div>
+    }
+</dt-sidebar>

@@ -1,0 +1,19 @@
+<div class="container" [formGroup]="formGroup">
+    <div class="header">
+        <dt-form-checkbox [formControlName]="controlName"></dt-form-checkbox>
+        <dt-kleur-keuze [kleur]="differentiatiegroep.kleur" [content]="differentiatiegroep.leerlingen?.length"> </dt-kleur-keuze>
+        <span class="naam fg-primary-strongest text-content-semi" (click)="isOpen = !isOpen">{{ differentiatiegroep.naam }}</span>
+        <i
+            class="chevron-icon"
+            [hmyIcon]="isOpen ? 'chevronBoven' : 'chevronOnder'"
+            [color]="isOpen ? 'action-primary-normal' : 'action-neutral-weak'"
+            (click)="isOpen = !isOpen"
+            size="large"></i>
+    </div>
+    <div class="leerlingen" [@collapse]="{ value: !isOpen, params: { duration: 300, delay: 0 } }">
+        @for (leerling of differentiatiegroep.leerlingen; track leerling) {
+            <dt-avatar-naam [avatarUrl]="leerling.pasfoto" [initialen]="leerling.initialen" [naam]="leerling | volledigeNaam">
+            </dt-avatar-naam>
+        }
+    </div>
+</div>

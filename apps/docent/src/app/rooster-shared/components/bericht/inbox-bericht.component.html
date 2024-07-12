@@ -1,0 +1,12 @@
+<div class="icon-container">
+    <i [hmyIcon]="icon" color="action-primary-normal" size="large"></i>
+    @if (!bericht.gelezen) {
+        <div class="notificatie notificatie-small-alt"></div>
+    }
+</div>
+<span class="verzender">{{ bericht.verzender ? bericht.verzender : 'Afzender onbekend' }}</span>
+<span class="datum text-content-smallest-semi text-weak">{{ bericht.verzendDatum | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}</span>
+<span class="onderwerp text-weak">{{ bericht.onderwerp }}</span>
+@if (bericht.heeftBijlagen) {
+    <i class="bijlage-icon" color="text-weakest" hmyIcon="bijlage" size="small"></i>
+}

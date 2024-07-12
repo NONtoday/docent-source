@@ -1,0 +1,58 @@
+@if (!editBijlage) {
+    <dt-checkbox class="checkbox" [checked]="!!bijlage.isSelected" (click)="toggleBijlageSelection($event)"> </dt-checkbox>
+    @if (bijlage.extensie) {
+        <div class="extensie" [dtTooltip]="bijlage.synchroniseertMet">
+            <dt-bijlage-extensie [extensie]="bijlage.extensie"> </dt-bijlage-extensie>
+            @if (bijlage.synchroniseertMet) {
+                <i [color]="isPopupOpen ? 'fg-neutral-weak' : 'fg-neutral-inverted'" hmyIcon="synchroniseren" size="small"></i>
+            }
+        </div>
+    }
+    <span class="titel" (click)="open()">{{ bijlage.titel }}</span>
+    @if (bijlage.synchroniseertMet && inBulkMode) {
+        <i
+            class="sync-info info"
+            [onTouchAllowed]="true"
+            color="fg-neutral-moderate"
+            hmyIcon="informatie"
+            size="medium"
+            dtTooltip="Beheer van deze gesynchroniseerde bijlage kan vanuit {{ bijlage.synchroniseertMet }}"></i>
+    }
+    @if (kleuren.length > 0) {
+        <dt-kleuren-stack
+            class="kleuren-stack"
+            [displayTooltip]="!!(kleuren.length! > 0 && (isDesktop$ | async))"
+            [kleuren]="kleuren"
+            [showBorder]="true"
+            [nummerKleur]="bijlage.differentiatiegroepen.length! > 0 ? 0 : bijlage.differentiatieleerlingen.length"
+            (click)="openDifferentiatiePopup($event)">
+        </dt-kleuren-stack>
+    }
+    @if (!bijlage.zichtbaarVoorLeerling) {
+        <i class="fill-typography-3" hmyIcon="nietZichtbaar" size="medium"></i>
+    }
+    @if (!inBulkMode) {
+        <div class="actions">
+            @if (!isReadOnly) {
+                <dt-zichtbaarheidstoggle
+                    class="zichtbaarheid"
+                    [isZichtbaar]="bijlage.zichtbaarVoorLeerling"
+                    (click)="this.zichtbaarheidEmitter.emit(bijlage)"
+                    dtTooltip="Maak {{ bijlage.zichtbaarVoorLeerling ? 'on' : '' }}zichtbaar voor leerling"
+                    data-gtm="jaarbijlage-zichtbaarheid"></dt-zichtbaarheidstoggle>
+            }
+            <dt-icon class="meer" #moreOptions (click)="openOptiesPopup(); $event.stopPropagation()" icon="opties" size="medium"></dt-icon>
+        </div>
+    }
+    @if (!isReadOnly) {
+        <div class="drag-handle color-background-1">
+            <ng-content #dragHandle></ng-content>
+        </div>
+    }
+} @else {
+    <dt-inline-edit
+        class="edit-form"
+        [value]="bijlage.titel"
+        (saveClick)="saveBestand($event)"
+        (cancelClick)="cancelEdit()"></dt-inline-edit>
+}

@@ -1,0 +1,173 @@
+@if ({ value: toonTrend$ | async }; as toonTrends) {
+    <div class="container">
+        @if (resultaten.examenVakSamenvattendeResultaten.length > 0) {
+            <div
+                class="table"
+                [class.includes-ce]="!toonTrends.value"
+                [class.includes-trend]="toonTrends.value"
+                (mouseleave)="highlight(null)">
+                <!-- Table header -->
+                <ng-container>
+                    <div class="table-th vak-header text-content-semi align-left">
+                        <span>Vak</span>
+                    </div>
+                    @if (toonTrends.value) {
+                        <div class="table-th trend-header text-content-semi">
+                            <span>Trend</span>
+                        </div>
+                    }
+                    <div class="spacer show-for-tablet" [style.width.px]="8"></div>
+                    <div class="table-th text-content-bold se-header">
+                        <span class="no-hover label primary"> SE </span>
+                    </div>
+                    @if (!toonTrends.value) {
+                        <div class="table-th text-content-bold" data-testid="CE-header">
+                            <span class="no-hover label primary"> CE </span>
+                        </div>
+                    }
+                    @if (!toonTrends.value) {
+                        <div class="table-th text-content-bold" data-testid="eind-header">
+                            <span class="no-hover label">
+                                <span class="hide-for-tablet">E</span>
+                                <span class="show-for-tablet">Eindcijfer</span>
+                            </span>
+                        </div>
+                    }
+                </ng-container>
+                <!-- Table body -->
+                @for (vak of resultaten.examenVakSamenvattendeResultaten; track vak; let i = $index) {
+                    <div class="table-td text-content-semi align-left no-hover first-column" [class.highlighted]="highlightIndex === i">
+                        <div class="vaknaam no-border-right">{{ vak.vak.naam }}</div>
+                        <div class="labels">
+                            @if (vak.anderNiveau) {
+                                <div
+                                    class="show-for-tablet label no-hover secondary small text-label-semi hoger-niveau"
+                                    [hmyTooltip]="'Volgt vak op hoger niveau: ' + vak.anderNiveau"
+                                    [onTouchAllowed]="true">
+                                    <i hmyIcon="hogerNiveau" size="smallest"></i>
+                                    {{ vak.anderNiveau }}
+                                </div>
+                            }
+                            @if (vak.anderNiveau) {
+                                <div
+                                    class="hide-for-tablet label icon-only secondary small"
+                                    [hmyTooltip]="'Volgt vak op hoger niveau: ' + vak.anderNiveau"
+                                    [onTouchAllowed]="true">
+                                    <i hmyIcon="hogerNiveau" size="medium"></i>
+                                </div>
+                            }
+                            @if (vak.vrijstelling && !vak.ontheffing) {
+                                <div
+                                    class="label no-hover positive small text-label-semi"
+                                    [hmyTooltip]="'Vrijgesteld van het examen'"
+                                    [onTouchAllowed]="true">
+                                    VR
+                                </div>
+                            }
+                            @if (vak.ontheffing) {
+                                <div
+                                    class="label no-hover positive small text-label-semi"
+                                    [hmyTooltip]="'Ontheffing voor vak'"
+                                    [onTouchAllowed]="true">
+                                    ONT
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @if (toonTrends.value) {
+                        <div class="table-td trend-cell no-hover" [class.highlighted]="highlightIndex === i">
+                            @if (!vak.trendindicatieSE) {
+                                <hmy-pill
+                                    class="trend"
+                                    [onTouchAllowed]="true"
+                                    [alignCenter]="false"
+                                    [text]="
+                                        vak.trendindicatieSE === null || vak.trendindicatieSE === undefined
+                                            ? '-'
+                                            : (vak.trendindicatieSE | mathAbs | commaResult)
+                                    "
+                                    [hmyTooltip]="
+                                        vak.trendindicatieSE
+                                            | leerlingResultatenTrendTooltip: vak.aantalResultatenVoorTrendindicatieSE : vak.vak.naam
+                                    "
+                                    color="neutral" />
+                            }
+                            @if (vak.trendindicatieSE) {
+                                <hmy-icon-pill
+                                    class="trend"
+                                    [onTouchAllowed]="true"
+                                    [alignCenter]="false"
+                                    [text]="vak.trendindicatieSE | mathAbs | commaResult"
+                                    [icon]="vak.trendindicatieSE < 0 ? 'trendBeneden' : 'trendBoven'"
+                                    [color]="vak.trendindicatieSE | trendPillColor"
+                                    [hmyTooltip]="
+                                        vak.trendindicatieSE
+                                            | leerlingResultatenTrendTooltip: vak.aantalResultatenVoorTrendindicatieSE : vak.vak.naam : true
+                                    " />
+                            }
+                        </div>
+                    }
+                    <div class="spacer show-for-tablet" [style.width.px]="8"></div>
+                    <div
+                        class="table-td resultaat-cell se-cell"
+                        [class.negative]="!vak.seCijfer?.isVoldoende"
+                        [hmyTooltip]="vak.seCijfer?.bijzonderheid === ontbrekendResultaat ? 'Gemiddelde waar resultaten ontbreken' : null"
+                        [class.highlighted]="highlightIndex === i"
+                        (click)="openSEDetailsSidebar(vak.vak)"
+                        (mouseenter)="highlight(i)"
+                        data-testid="SE-body"
+                        data-gtm="mentordashboard-examenresultaat-details-sidebar">
+                        {{ vak.seCijfer?.labelAfkorting ?? vak.seCijfer?.formattedResultaat }}
+                        @if (vak.seCijfer?.bijzonderheid === ontbrekendResultaat) {
+                            <i class="fill-typography-4 t3-on-hover waarschuwing" hmyIcon="waarschuwing" size="smallest"></i>
+                        }
+                    </div>
+                    @if (!toonTrends.value) {
+                        <div
+                            class="table-td resultaat-cell"
+                            [class.negative]="!vak.ceCijfer?.isVoldoende"
+                            [hmyTooltip]="
+                                vak.ceType === variantenCE
+                                    ? 'Examen met varianten'
+                                    : vak.ceType === samengesteldCE
+                                      ? 'Samengesteld examen'
+                                      : null
+                            "
+                            [class.highlighted]="highlightIndex === i"
+                            (click)="openCEDetailsSidebar(vak.vak)"
+                            (mouseenter)="highlight(i)"
+                            data-testid="CE-body"
+                            data-gtm="mentordashboard-examenresultaat-details-sidebar">
+                            {{ vak.ceCijfer?.labelAfkorting ?? vak.ceCijfer?.formattedResultaat }}
+                            @if (vak.ceType === variantenCE) {
+                                <i
+                                    class="fill-typography-4 t3-on-hover examenMetVarianten"
+                                    hmyIcon="examenMetVarianten"
+                                    size="smallest"></i>
+                            }
+                            @if (vak.ceType === samengesteldCE) {
+                                <i
+                                    class="fill-typography-4 t3-on-hover samengesteldeToets"
+                                    hmyIcon="samengesteldeToets"
+                                    size="smallest"></i>
+                            }
+                        </div>
+                    }
+                    @if (!toonTrends.value) {
+                        <div
+                            class="table-td resultaat-cell no-hover"
+                            [class.negative]="!vak.eindCijfer?.isVoldoende"
+                            [class.highlighted]="highlightIndex === i"
+                            (mouseenter)="highlight(i)"
+                            (mouseleave)="highlight(null)"
+                            data-testid="eind-body">
+                            {{ vak.eindCijfer?.labelAfkorting ?? vak.eindCijfer?.formattedResultaat }}
+                        </div>
+                    }
+                }
+            </div>
+        } @else {
+            <div class="geen-vakken">Geen vakken beschikbaar voor dit examendossier.</div>
+        }
+    </div>
+}

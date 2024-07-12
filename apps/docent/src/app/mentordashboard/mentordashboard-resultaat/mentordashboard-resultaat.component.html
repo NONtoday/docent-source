@@ -1,0 +1,43 @@
+<div class="top" [class.herkansing]="herkansingsNummer">
+    @if (herkansingsNummer) {
+        <i class="fill-typography-4" hmyIcon="pijlAfslaanRechts" size="small"></i>
+    }
+    <span class="text-content-semi toetscode" [class.herkansing]="herkansingsNummer">{{
+        herkansingsNummer ? 'Her ' + herkansingsNummer : toetsKolom.toetscode
+    }}</span>
+    @if (toetsKolom.type === dbResultaatKolomType.SamengesteldeToetsKolom) {
+        <i class="fill-typography-4" hmyIcon="samengesteldeToets" size="small"></i>
+    }
+    @if (toetsKolom.type === dbResultaatKolomType.DeeltoetsKolom) {
+        <i class="fill-typography-4" hmyIcon="deeltoets" size="small"></i>
+    }
+    @if (toetsKolom.bijzonderheid === resultaatBijzonderheid.NietGemaakt && toetsKolom.type !== dbResultaatKolomType.DeeltoetsKolom) {
+        <i
+            class="fill-typography-4 info-icon"
+            [onTouchAllowed]="true"
+            hmyIcon="waarschuwing"
+            size="small"
+            dtTooltip="Gemiddelde waarbij toetsen missen"></i>
+    }
+    @if (toetsKolom.opmerkingen) {
+        <i
+            class="fill-typography-4 info-icon"
+            [dtTooltip]="opmerkingTooltip"
+            [onTouchAllowed]="true"
+            [alignCenter]="false"
+            hmyIcon="reacties"
+            size="small"></i>
+    }
+    <div class="weging">
+        <i class="fill-typography-4" hmyIcon="weging" size="small"></i>
+        <span class="text-small-content-semi color-typography-4">{{ toetsKolom.weging }}x</span>
+    </div>
+    <span class="resultaat text-content-semi" [class.onvoldoende]="!voldoende && !toetsKolom.bijzonderheid">{{
+        getFormattedResultaat(resultaat)
+    }}</span>
+</div>
+@if (!herkansingsNummer) {
+    <div class="bottom">
+        <span class="text-small-content-semi color-typography-3 omschrijving">{{ toetsKolom.omschrijving }}</span>
+    </div>
+}

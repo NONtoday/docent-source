@@ -1,0 +1,43 @@
+@if (leerlingkaart$ | async; as leerlingkaart) {
+    <div class="content">
+        <div class="left container">
+            <dt-leerling-personalia
+                class="personalia"
+                [leerling]="leerlingkaart.leerling"
+                [opleidingnaam]="leerlingkaart.opleidingnaam"
+                [stamgroep]="leerlingkaart.stamgroep"
+                [heeftLeerlingPlaatsingenRegistratiesInzienRecht]="heeftLeerlingPlaatsingenRegistratiesInzienRecht$ | async"
+                [indicatiesCounter]="indicatiesCounter"
+                [beperkingen]="leerlingkaart.beperkingen"
+                [interventies]="leerlingkaart.interventies"
+                [hulpmiddelen]="leerlingkaart.hulpmiddelen"
+                [heeftBerichtenRecht]="heeftBerichtenRecht$ | async">
+            </dt-leerling-personalia>
+            @if (leerlingkaart.relaties.length > 0 || leerlingkaart.broersEnZussen.length > 0) {
+                <dt-leerling-contactpersonen
+                    class="contactpersonen"
+                    [leerlingnummer]="leerlingkaart.leerling.leerlingnummer"
+                    [relaties]="leerlingkaart.relaties"
+                    [broersEnZussen]="leerlingkaart.broersEnZussen"
+                    [heeftBerichtenRecht]="heeftBerichtenRecht$ | async">
+                </dt-leerling-contactpersonen>
+            }
+        </div>
+        <div class="right container">
+            @if (leerlingkaart.opmerkingenGezinsSituatie) {
+                <dt-leerling-gezinssituatie
+                    class="gezinssituatie"
+                    [opmerking]="leerlingkaart.opmerkingenGezinsSituatie"></dt-leerling-gezinssituatie>
+            }
+            <dt-leerling-maatregelen
+                class="maatregelen"
+                [leerlingId]="leerlingkaart.leerling.id"
+                [vestigingId]="leerlingkaart.leerling.vestigingId!">
+            </dt-leerling-maatregelen>
+            @if (notitieboekToegang$ | async) {
+                <dt-leerling-vastgeprikte-notities-preview
+                    [leerlingId]="leerlingkaart.leerling.id"></dt-leerling-vastgeprikte-notities-preview>
+            }
+        </div>
+    </div>
+}

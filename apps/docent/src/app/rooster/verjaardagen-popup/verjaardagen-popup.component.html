@@ -1,0 +1,43 @@
+<dt-popup>
+    @if (verjaardagenDezeEnVolgendeWeek$ | async; as verjaardagen) {
+        <div class="container" popup-content>
+            <div class="tabs">
+                <div
+                    class="tab text-content-semi"
+                    [class.active]="(activeTab$ | async) === 'dezeWeek'"
+                    (click)="activeTab$.next('dezeWeek')"
+                    cy="deze-week">
+                    <span
+                        >Deze week
+                        @if (verjaardagen?.jarigenDezeWeek?.length; as aantalJarigenDezeWeek) {
+                            <span class="aantaljarigen">({{ aantalJarigenDezeWeek }})</span>
+                        }
+                    </span>
+                </div>
+                <div
+                    class="tab text-content-semi active"
+                    [class.active]="(activeTab$ | async) === 'volgendeWeek'"
+                    (click)="activeTab$.next('volgendeWeek')"
+                    cy="volgende-week">
+                    <span>Volgende week</span>
+                </div>
+            </div>
+            @if ((activeTab$ | async) === 'dezeWeek') {
+                @for (jarigeJob of verjaardagen.jarigenDezeWeek; track jarigeJob) {
+                    <dt-jarige-leerling [leerling]="jarigeJob"></dt-jarige-leerling>
+                }
+                @if (verjaardagen.jarigenDezeWeek.length === 0) {
+                    <div class="geen-jarigen text-content-semi">Geen verjaardagen deze week</div>
+                }
+            }
+            @if ((activeTab$ | async) === 'volgendeWeek') {
+                @for (jarigeJob of verjaardagen.jarigenVolgendeWeek; track jarigeJob) {
+                    <dt-jarige-leerling [leerling]="jarigeJob"></dt-jarige-leerling>
+                }
+                @if (verjaardagen.jarigenVolgendeWeek.length === 0) {
+                    <div class="geen-jarigen text-content-semi">Geen verjaardagen volgende week</div>
+                }
+            }
+        </div>
+    }
+</dt-popup>

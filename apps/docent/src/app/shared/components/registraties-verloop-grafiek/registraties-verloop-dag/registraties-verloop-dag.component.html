@@ -1,0 +1,14 @@
+<div class="icons">
+    @if (heeftToets()) {
+        <i class="toets-icon toets" hmyIcon="toets" size="smallest" color="fg-warning-normal"></i>
+    }
+    @if (heefGroteToets()) {
+        <i class="toets-icon grote-toets" hmyIcon="toetsGroot" size="smallest" color="fg-negative-normal"></i>
+    }
+</div>
+<div class="registraties" [style.height.px]="height()">
+    @if (aantalRegistraties() > 0) {
+        <span class="aantal">{{ aantalRegistraties() }}</span>
+    }
+</div>
+<span class="dagnaam" [class.is-weekend]="isWeekend()">{{ datum() | dtDate: 'dag_kort' }} </span>

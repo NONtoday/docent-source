@@ -1,0 +1,7 @@
+<div class="switch">
+    <input [(ngModel)]="isSelected" [disabled]="disabled" type="checkbox" />
+    <span class="slider"></span>
+</div>
+@if (label) {
+    <span class="label text-strong">{{ label }}</span>
+}

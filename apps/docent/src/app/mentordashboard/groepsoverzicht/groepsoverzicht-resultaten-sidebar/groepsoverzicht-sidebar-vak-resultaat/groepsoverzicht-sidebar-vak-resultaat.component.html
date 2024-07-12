@@ -1,0 +1,36 @@
+<span class="vaknaam"
+    >{{ resultaatTrend.vak.naam }}
+    @if (resultaatTrend.isAlternatieveNormering) {
+        <span class="alt-normering">(alt. norm)</span>
+    }
+</span>
+<div class="informatie">
+    @if (adviesTag) {
+        <hmy-tag
+            class="advies-kolommen"
+            #tag
+            [icon]="adviesTag.icon"
+            [label]="adviesTag.text"
+            [dtPopupOpen]="[tagRef]"
+            [textEllipsis]="true"
+            (click)="openAdviesKolommenPopup(resultaatTrend)"
+            (iconClick)="openAdviesKolommenPopup(resultaatTrend)"
+            data-gtm="groepsoverzicht-sidebar-resultaten-adviestag"
+            popupOpenClass="active"
+            type="outline"
+            color="neutral"
+            activeColor="accent" />
+    }
+    @if (trendwaardePill.icon) {
+        <hmy-icon-pill
+            class="trend-waarde"
+            [icon]="trendwaardePill.icon"
+            [color]="trendwaardePill.color"
+            [text]="trendwaardePill.text"
+            [hmyTooltip]="trendwaardePill.tooltip" />
+    }
+    @if (!trendwaardePill.icon) {
+        <hmy-pill [text]="trendwaardePill.text" [color]="trendwaardePill.color" [hmyTooltip]="trendwaardePill.tooltip" />
+    }
+    <span class="r-waarde" [style.color]="resultaatText | mentordashboardResultaatKleur: instellingen | cssVar">{{ resultaatText }}</span>
+</div>

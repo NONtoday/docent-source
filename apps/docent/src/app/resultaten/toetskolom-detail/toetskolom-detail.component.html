@@ -1,0 +1,138 @@
+<div class="details">
+    <div class="kolom-code text-content-bold">
+        <div class="code">
+            @if (isSamengesteldeToets || isDeeltoets) {
+                <i class="icon" [class.fill-primary-1]="isDeeltoets" hmyIcon="samengesteldeToets"></i>
+            }
+            @if (!isSamengesteldeToets && !isDeeltoets) {
+                <i class="icon fill-primary-1" hmyIcon="normaleToets"></i>
+            }
+            @if (isDeeltoets) {
+                <span
+                    class="text-content-semi color-primary-1 pointer"
+                    (click)="onSwitchDetail.emit({ kolom: samengesteldeToets!, editmode: 'view', terugNaarSGT: false })"
+                    data-gtm="naar-samengestelde-toets"
+                    >{{ (samengesteldeToets?.resultaatkolom)!.code }}
+                    <i class="icon fill-background-1" hmyIcon="chevronRechts"></i>
+                </span>
+            }
+            <span>{{ kolom.code }}</span>
+        </div>
+        @if (geslotenKolom) {
+            <dt-gesloten-status [kolom]="kolom" [magBekoeldeResultatenBewerken]="magBewerken" [geimporteerdeToets]="isGeimporteerd">
+            </dt-gesloten-status>
+        }
+    </div>
+    <div class="info">
+        <i class="fill-primary-1 icon-details" hmyIcon="kalender"></i>
+        <span>Periode {{ kolom.periode }}</span>
+    </div>
+    @if (kolom.toetsSoort) {
+        <div class="info">
+            <i class="fill-primary-1 icon-details" hmyIcon="toets"></i>
+            <span>{{ kolom.toetsSoort.naam }}</span>
+        </div>
+    }
+    <div class="info">
+        <i class="fill-primary-1 icon-details" hmyIcon="verversen"></i>
+        <span>{{ kolom.herkansing! | herkansingNaam }}</span>
+    </div>
+    <div class="info">
+        <i class="fill-primary-1 icon-details" hmyIcon="resultaten"></i>
+        <span>Beoordeling: {{ kolom.resultaatLabelLijst?.naam }}</span>
+    </div>
+    <div class="info weging-container">
+        <i class="fill-primary-1 icon-details-weging" hmyIcon="weging"></i>
+        @if (!isDeeltoets) {
+            <span>Weging voortgangsdossier: {{ kolom.weging }}</span>
+        }
+        @if (isDeeltoets) {
+            <span>Weging samengestelde toets: {{ $any(kolom).deeltoetsWeging }}</span>
+        }
+    </div>
+    @if (kolom.datumToets) {
+        <div class="info">
+            <i class="fill-primary-1 icon-details" hmyIcon="kalenderDag"></i>
+            <span>{{ kolom.datumToets | dtDate: 'dag_kort_dagnummer_maand_kort' }}</span>
+        </div>
+    }
+    <div class="omschrijving-container">
+        @if (matrixKolom.lesgroepSpecifiekeOmschrijving) {
+            <div class="text-content-semi color-typography-2 omschrijving-label-algemeen">Toetsomschrijving</div>
+        }
+        <span class="omschrijving omschrijving-algemeen">{{ kolom.omschrijving }}</span>
+    </div>
+    @if (matrixKolom.lesgroepSpecifiekeOmschrijving) {
+        <div class="omschrijving-container">
+            <div class="text-content-semi color-typography-2 omschrijving-label-lesgroep">Lesgroepspecifieke omschrijving</div>
+            <span class="omschrijving omschrijving-lesgroep">{{ matrixKolom.lesgroepSpecifiekeOmschrijving }}</span>
+        </div>
+    }
+    @if (toonDomeinvelden && heeftDomeinvelden) {
+        <div class="omschrijving-container">
+            <span class="text-content-semi color-typography-1">Domeingegevens</span>
+            @if (heeftDomeinomschrijving) {
+                <div class="domeinomschrijving">{{ domeinomschrijving }}</div>
+            }
+            @if (kolom.toetsduur) {
+                <div class="veld toetsduur">
+                    <span class="text-content-semi">Toetsduur: </span>{{ kolom.toetsduur }}
+                    {{ kolom.toetsduur === 1 ? 'minuut' : 'minuten' }}
+                </div>
+            }
+            @if (kolom.toetsvorm) {
+                <div class="veld toetsvorm"><span class="text-content-semi">Toetsvorm: </span>{{ kolom.toetsvorm }}</div>
+            }
+            @if (kolom.afnamevorm) {
+                <div class="veld afnamevorm"><span class="text-content-semi">Afnamevorm: </span>{{ kolom.afnamevorm }}</div>
+            }
+        </div>
+    }
+    @if (isSamengesteldeToets) {
+        <div>
+            <span class="text-content-semi color-typography-2 deeltoetsen-header"
+                >Deeltoetsen {{ deeltoetsen && deeltoetsen.length > 0 ? '(' + deeltoetsen.length + ')' : '' }}</span
+            >
+            @if (magDeeltoetsToevoegen) {
+                <div
+                    class="kolom-header pointer deeltoets-toevoegen"
+                    #toevoegen
+                    [class.border]="deeltoetsen && deeltoetsen.length > 0"
+                    (click)="onDeeltoetsToevoegenClick.emit()"
+                    data-gtm="deeltoetskolom-toevoegen">
+                    <dt-background-icon icon="toevoegen" color="accent_positive_1" size="small"> </dt-background-icon>
+                    <span class="color-accent-positive-1 text-small-content-semi">Deeltoets toevoegen</span>
+                </div>
+            }
+            @if (deeltoetsen) {
+                @for (kolom of deeltoetsen; track kolom) {
+                    <dt-deeltoets
+                        [deeltoets]="kolom"
+                        (click)="onSwitchDetail.emit({ kolom, editmode: 'view', terugNaarSGT: false })"
+                        (bewerkDeeltoets)="onSwitchDetail.emit({ kolom, editmode: 'editStructuur', terugNaarSGT: true })"
+                        (bewerkLesgroepOmschrijving)="
+                            onSwitchDetail.emit({ kolom, editmode: 'editLesgroepOmschrijving', terugNaarSGT: true })
+                        "
+                        (deleteDeeltoets)="verwijderDeeltoets($event)">
+                    </dt-deeltoets>
+                }
+            }
+        </div>
+    }
+</div>
+@if (magBewerken || magLesgroepOmschrijvingWijzigen) {
+    <div class="buttons">
+        @if (magVerwijderen) {
+            <dt-verwijder-button [withBorder]="true" (onDelete)="onVerwijderenClick.emit()" data-gtm="toetskolom-verwijderen">
+            </dt-verwijder-button>
+        }
+        @if (magBewerken) {
+            <dt-outline-button (click)="onBewerkenClick.emit()" data-gtm="toetskolom-bewerken" icon="bewerken">Bewerken </dt-outline-button>
+        }
+        @if (magLesgroepOmschrijvingWijzigen) {
+            <dt-outline-button (click)="onLesgroepOmschrijvingWijzigenClick.emit()" data-gtm="toetskolom-bewerken" icon="bewerken"
+                >Bewerken
+            </dt-outline-button>
+        }
+    </div>
+}

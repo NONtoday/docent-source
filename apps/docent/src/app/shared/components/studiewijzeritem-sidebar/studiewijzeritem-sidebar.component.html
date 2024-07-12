@@ -1,0 +1,180 @@
+@if (sidebarService.currentPage$ | async; as page) {
+    <dt-sidebar
+        [title]="sidebar.title || page.titel"
+        [icon]="sidebar.icon || page.icon"
+        [display]="sidebar.display!"
+        [iconClickable]="sidebar.iconClickable"
+        (onIconClick)="sidebar.onIconClick?.()"
+        (onMaskClick)="closeSidebar()"
+        (onCloseClick)="closeSidebar()">
+        @if (studiewijzeritem$ | async; as studiewijzeritem) {
+            @if (page.id === 'swi-bekijken') {
+                <div
+                    class="weergeven-container"
+                    [class.heeft-inleveropdracht]="studiewijzeritem.inleverperiode || studiewijzeritem.conceptInleveropdracht">
+                    @if (studiewijzeritem.conceptInleveropdracht || studiewijzeritem.inleverperiode) {
+                        <div class="inleveropdracht-inhoud">
+                            @if (studiewijzeritem.conceptInleveropdracht) {
+                                <dt-conceptinleveropdracht-inhoud
+                                    [weektoekenning]="$any(toekenning)"
+                                    [weekOpties]="conceptInleveropdrachtWeekOpties">
+                                </dt-conceptinleveropdracht-inhoud>
+                            }
+                            @if (studiewijzeritem.inleverperiode) {
+                                <dt-inleveropdracht-inhoud
+                                    class="inleveropdracht-inhoud"
+                                    [lesgroep]="toekenning.lesgroep!"
+                                    [studiewijzeritem]="$any(studiewijzeritem)"
+                                    [toekenningId]="toekenning.id"
+                                    [toonLesgroep]="toonLesgroep"
+                                    [isProjectgroepenEditable]="isEditable"
+                                    (openProjectgroepen)="openProjectgroepen()">
+                                    <!-- toon "synchroniseer" balk enkel als een studiewijzer aanwezig is -->
+                                    @if (studiewijzer) {
+                                        @if (studiewijzer.gesynchroniseerdeSjablonen.length > 0 || toekenning.synchroniseertMet) {
+                                            <dt-synchroniseer-item-met-sjabloon
+                                                class="synchronisatie-inleveropdracht"
+                                                [synchroniseertMet]="toekenning.synchroniseertMet"
+                                                [gesynchroniseerdeSjablonen]="studiewijzer.gesynchroniseerdeSjablonen"
+                                                [canUnlink]="studiewijzer.gesynchroniseerdeSjablonen.length > 0"
+                                                (onSynchroniseren)="onSynchroniseren($event)"
+                                                (onUnlink)="ontkoppelToekenning()">
+                                            </dt-synchroniseer-item-met-sjabloon>
+                                        }
+                                    }
+                                </dt-inleveropdracht-inhoud>
+                            }
+                        </div>
+                    } @else {
+                        @if (studiewijzeritem.onderwerp) {
+                            <span class="onderwerp text-content-bold">{{ studiewijzeritem.onderwerp }}</span>
+                        }
+                        <div
+                            class="datum"
+                            [class.afspraak-tonen]="isAfspraakTonen"
+                            [class.onzichtbaar]="!studiewijzeritem.zichtbaarVoorLeerling">
+                            @if (isAfspraakTonen) {
+                                <dt-lesuur
+                                    [beginlesuur]="afspraak.lesuur"
+                                    [eindlesuur]="afspraak.eindLesuur"
+                                    [isRoosterToets]="afspraak.isRoosterToets"
+                                    [hmyTooltip]="afspraak | roosterToets"
+                                    [alignCenter]="false"
+                                    [maxWidth]="300"
+                                    [onTouchAllowed]="true"></dt-lesuur>
+                                <span class="afspraak-datum">
+                                    {{ toekenning | toekenningDatum: afspraak }}, {{ afspraak.begin | dtDate: 'tijd' }} -
+                                    {{ afspraak.eind | dtDate: 'tijd' }}
+                                </span>
+                            } @else {
+                                <i class="kalender-dag-icon" hmyIcon="kalenderDag" size="medium"></i>
+                                <span>{{ toekenning | toekenningDatum: afspraak : conceptInleveropdrachtWeekOpties }}</span>
+                            }
+                            <i
+                                class="niet-zichtbaar-icon"
+                                [onTouchAllowed]="true"
+                                hmyIcon="nietZichtbaar"
+                                size="large"
+                                hmyTooltip="Niet zichtbaar voor leerling"></i>
+                        </div>
+                        @if (studiewijzeritem.tijdsindicatie) {
+                            <hmy-icon-pill
+                                class="tijdsindicatie"
+                                [text]="studiewijzeritem.tijdsindicatie"
+                                [hoverable]="true"
+                                icon="klok"
+                                iconSize="smallest"
+                                hmyTooltip="Tijdsindicatie"></hmy-icon-pill>
+                        }
+                        @if (studiewijzer?.gesynchroniseerdeSjablonen && studiewijzer!.gesynchroniseerdeSjablonen.length > 0) {
+                            <dt-synchroniseer-item-met-sjabloon
+                                [synchroniseertMet]="toekenning.synchroniseertMet"
+                                [gesynchroniseerdeSjablonen]="studiewijzer!.gesynchroniseerdeSjablonen"
+                                [canUnlink]="true"
+                                (onSynchroniseren)="onSynchroniseren($event)"
+                                (onUnlink)="ontkoppelToekenning()">
+                            </dt-synchroniseer-item-met-sjabloon>
+                        }
+                    }
+                    <dt-studiewijzeritem-inhoud
+                        [studiewijzeritem]="$any(studiewijzeritem)"
+                        [sidebar]="true"
+                        [toonDifferentiatie]="toonDifferentiatie"
+                        [differentiatiegroepen]="toekenning.differentiatiegroepen"
+                        [differentiatieleerlingen]="toekenning.differentiatieleerlingen"
+                        [readOnlyDifferentiatie]="!heeftToegangTotDifferentiatie"
+                        (verwijderAlleDiffLeerlingen)="verwijderAlleDiffLeerlingen()"
+                        (verwijderDiffGroep)="verwijderDiffGroep($event)"
+                        (verwijderDiffLeerling)="verwijderDiffLeerling($event)"
+                        (onDifferentiatieToekenning)="onDifferentiatieToekenning.emit(toekenning)">
+                    </dt-studiewijzeritem-inhoud>
+                    @if (isEditable) {
+                        <div class="buttons">
+                            @if (toonVerwijderButton) {
+                                <dt-verwijder-button
+                                    [withBorder]="true"
+                                    [hideIconForMobile]="true"
+                                    (onDelete)="onVerwijderenClick()"
+                                    cy="swi-verwijder-button"
+                                    gtmTag="studiewijzeritem-sidebar-verwijderen">
+                                </dt-verwijder-button>
+                            }
+                            <dt-outline-button
+                                class="edit-button"
+                                [hideIconForMobile]="true"
+                                (click)="toggleEditMode()"
+                                cy="swi-aanpassen-button"
+                                icon="bewerken"
+                                data-gtm="swi-bewerken-sidebar"
+                                >Bewerken
+                            </dt-outline-button>
+                        </div>
+                    }
+                </div>
+            }
+            @if (page.id === 'projectgroepen') {
+                <dt-projectgroepen
+                    [studiewijzeritemId]="studiewijzeritem.id"
+                    [toekenningId]="toekenning.id"
+                    [lesgroepId]="toekenning.lesgroep!.id"
+                    [differentiatiegroepen]="toekenning.differentiatiegroepen"
+                    [differentiatieleerlingen]="toekenning.differentiatieleerlingen"
+                    (terug)="closeProjectgroepen()"
+                    (onSaveProjectgroep)="scrollSidebarToBottom()">
+                </dt-projectgroepen>
+            }
+        }
+        <dt-toekenning-formulier
+            [class.no-display]="!inEditMode"
+            [toekenning]="$any(toekenning)"
+            [afspraak]="afspraak"
+            [heeftToegangTotElo]="heeftToegangTotElo"
+            [heeftToegangTotSw]="heeftToegangTotSw"
+            [toonDatepicker]="!abstractStudiewijzer?.id && !$any(toekenning)['startWeek'] && toonDatepicker"
+            [conceptInleveropdrachtWeekOpties]="conceptInleveropdrachtWeekOpties"
+            [toonLesgroepenControls]="toonLesgroepenControls"
+            [toonUitMethode]="toonUitMethode"
+            [magSynchroniserenMetSjabloon]="magSynchroniserenMetSjabloon"
+            [gesynchroniseerdeSjablonen]="studiewijzer?.gesynchroniseerdeSjablonen"
+            [toekomendeAfspraken]="toekomendeAfspraken"
+            [lesgroepen]="lesgroepen"
+            [magDifferentiatieTonen]="!isSjabloon"
+            [openWithDirtyForm]="openWithDirtyForm"
+            [magDifferentiatieBewerken]="heeftToegangTotDifferentiatie"
+            (onSaveToekenning)="saveToekenning($event)"
+            (onCancel)="onCancel($event)">
+        </dt-toekenning-formulier>
+        @if (showSuccesMessage) {
+            <dt-message
+                class="succes-message"
+                [@slideInUpOnEnter]
+                [@slideOutDownOnLeave]
+                [text]="succesMessage"
+                [duration]="3000"
+                [isToast]="true"
+                (onClose)="showSuccesMessage = false"
+                soort="ok">
+            </dt-message>
+        }
+    </dt-sidebar>
+}

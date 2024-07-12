@@ -1,0 +1,22 @@
+<dt-avatar
+    class="leerling-avatar"
+    [fontsize]="avatarFontSize"
+    [allowPhotoPopup]="false"
+    [src]="registratieLeerling.leerling.pasfoto"
+    [initialen]="registratieLeerling.leerling.initialen"
+    [size]="avatarSize"></dt-avatar>
+<span class="leerling-naam text-small-content-semi text-ellipsis text-strong">{{ registratieLeerling.leerling | volledigeNaam }}</span>
+<div
+    class="trend-aantal"
+    [hmyTooltip]="registratieLeerling.trend | mentordashboardRegistratieTrendTooltip: tijdspan"
+    [onTouchAllowed]="true">
+    @if (registratieLeerling.trend) {
+        <i
+            class="trend"
+            [hmyIcon]="registratieLeerling.trend < 0 ? 'trendBeneden' : 'trendBoven'"
+            [color]="registratieLeerling.trend < 0 ? 'fg-positive-normal' : 'fg-negative-normal'"></i>
+    }
+    <span class="aantal-registraties text-content-bold text-strong" data-cy="groepsoverzicht-leerling-aantal-registraties">
+        {{ registratieLeerling.aantalRegistraties }}x
+    </span>
+</div>

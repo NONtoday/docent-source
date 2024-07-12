@@ -1,0 +1,47 @@
+<div
+    class="value-box text-content"
+    [class.selection-open]="showDropdown"
+    [class.invalid]="invalid"
+    [class.disabled]="!enabled"
+    [class.has-selection]="selectedOptie"
+    (click)="onTouched(); toggleDropdown()"
+    tabindex="0">
+    @if (icon) {
+        <i class="icon option-icon" [hmyIcon]="icon" [style.fill]="iconColor" [class.needs-padding]="!!icon" size="medium"></i>
+    }
+    @if (!selectedOptie) {
+        <div class="placeholder">{{ placeholder }}</div>
+    }
+    @if (selectedOptie?.icon) {
+        <i
+            class="option-icon text-content"
+            [hmyIcon]="selectedOptie?.icon ?? 'noRadio'"
+            [style.fill]="selectedOptie?.iconColor ?? ''"
+            size="medium"></i>
+    }
+    @if (selectedOptie) {
+        <div class="selected-value" [class.null-value]="!selectedOptie.value">{{ selectedOptie.text }}</div>
+    }
+    <i class="icon chevron-icon" [hmyIcon]="chevronIcon" [style.fill]="chevronColor" size="small"></i>
+</div>
+@if (showDropdown) {
+    <div
+        class="selection-box"
+        #dropdown
+        [clickOutsideEvents]="'click,touchend'"
+        [delayClickOutsideInit]="true"
+        [style.height.px]="selectBoxHeight"
+        (clickOutside)="closeDropDown($event)">
+        @for (optie of opties; track optie) {
+            <div class="optie" [class.is-selected]="isSelected(optie)" (click)="writeValue(optie.value, $event)">
+                @if (optie.icon) {
+                    <i class="icon" [hmyIcon]="optie.icon" [style.fill]="optie.iconColor" size="medium"></i>
+                }
+                <span class="optie-text text-content action-primary-normal text-ellipsis">{{ optie.text }}</span>
+                @if (optie.label) {
+                    <span class="label text-content-small-semi {{ optie.labelstyle }}">{{ optie.label }}</span>
+                }
+            </div>
+        }
+    </div>
+}

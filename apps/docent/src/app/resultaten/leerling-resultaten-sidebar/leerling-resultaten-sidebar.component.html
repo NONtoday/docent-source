@@ -1,0 +1,249 @@
+<dt-sidebar #sidebar [title]="leerling | volledigeNaam" [showHeader]="false" (onMaskClick)="closeSidebar()">
+    <div class="content">
+        <header>
+            <div class="leerling-header">
+                <dt-avatar [src]="leerling.pasfoto" [initialen]="leerling.initialen" [size]="32" [fontsize]="12"> </dt-avatar>
+                <span class="naam text-content-bold">{{ leerling | volledigeNaam }}</span>
+            </div>
+            <dt-resultaten-save-indicator [withBackground]="true"></dt-resultaten-save-indicator>
+            <i class="fill-background-6" (click)="closeSidebar()" hmyIcon="sluiten" size="large" cy="sluit-sidebar-icon"></i>
+        </header>
+        @for (periodeResultaten of leerlingPeriodeResultaten$ | async; track trackByPeriodeKolomId($index, periodeResultaten)) {
+            <div class="periodes">
+                <div class="periode-header text-content-semi">
+                    <div class="periode-naam">Periode {{ periodeResultaten.matrixPeriode.cijferPeriode.nummer }}</div>
+                </div>
+                @for (kolomResultaat of periodeResultaten.resultaten; track trackByKolomResultaatId($index, kolomResultaat)) {
+                    <div
+                        class="resultaatkolommen"
+                        [class.active]="
+                            isActiveCell(
+                                activeCell$.value,
+                                kolomResultaat.matrixKolom.resultaatkolom.id
+                                    | resultaatKey: leerling.uuid : kolomResultaat.matrixKolom.herkansingsNummer
+                            )
+                        "
+                        [class.herkansing]="kolomResultaat.matrixKolom.herkansingsNummer">
+                        <div
+                            class="text-ellipsis text-small-content-semi kolom-info"
+                            [class.herkansing]="!!kolomResultaat.matrixKolom.herkansingsNummer">
+                            @if (!kolomResultaat.matrixKolom.herkansingsNummer) {
+                                <span>{{ kolomResultaat.matrixKolom.resultaatkolom.code }}<br /></span>
+                            }
+                            @if (!kolomResultaat.matrixKolom.herkansingsNummer) {
+                                <span class="color-typography-3">{{ kolomResultaat.matrixKolom.resultaatkolom.omschrijving }}</span>
+                            }
+                            @if (kolomResultaat.matrixKolom.herkansingsNummer) {
+                                <i class="fill-typography-4 icon-pijl-afslaan-rechts" hmyIcon="pijlAfslaanRechts" size="medium"></i>
+                            }
+                            @if (kolomResultaat.matrixKolom.herkansingsNummer) {
+                                <span class="herkansing color-typography-2"> Her {{ kolomResultaat.matrixKolom.herkansingsNummer }}</span>
+                            }
+                        </div>
+                        <dt-toetskolom-icons
+                            [basisResultaat]="kolomResultaat"
+                            [leerling]="leerling"
+                            [matrixKolom]="kolomResultaat.matrixKolom"
+                            [lesgroepId]="lesgroepId"
+                            [alternatiefNiveau]="alternatiefNiveau"
+                            [magResultatenInvoeren]="kolomResultaat.magResultatenInvoeren"
+                            [magOpmerkingToevoegen]="kolomResultaat.magOpmerkingToevoegen"
+                            [isActiveCell]="
+                                isActiveCell(
+                                    activeCell$.value,
+                                    kolomResultaat.matrixKolom.resultaatkolom.id
+                                        | resultaatKey: leerling.uuid : kolomResultaat.matrixKolom.herkansingsNummer
+                                )
+                            ">
+                        </dt-toetskolom-icons>
+                        <dt-resultaat-cell
+                            class="resultaat-cell"
+                            #cel
+                            [id]="
+                                kolomResultaat.matrixKolom.id | resultaatKey: leerling.uuid : kolomResultaat.matrixKolom.herkansingsNummer
+                            "
+                            [resultaatkolom]="kolomResultaat.matrixKolom.resultaatkolom"
+                            [resultaat]="kolomResultaat.resultaat!"
+                            [alternatiefNiveau]="alternatiefNiveau"
+                            [missendeToets]="kolomResultaat.missendeToets"
+                            [readOnly]="!kolomResultaat.magResultatenInvoeren"
+                            [inputDisabledBijResultaatLabels]="false"
+                            [kolomHerkansingsNummer]="kolomResultaat.matrixKolom.herkansingsNummer"
+                            [opmerkingToevoegenToegestaan]="kolomResultaat.magOpmerkingToevoegen"
+                            (onNieuwResultaat)="
+                                onNieuwResultaat(
+                                    $event.resultaatInput,
+                                    $event.isCijfer,
+                                    $event.selecteerCellNaOpslaan,
+                                    leerling.uuid,
+                                    alternatiefNiveau
+                                        ? kolomResultaat.resultaat?.formattedResultaatAfwijkendNiveau
+                                        : kolomResultaat.resultaat?.formattedResultaat,
+                                    kolomResultaat.matrixKolom
+                                )
+                            ">
+                        </dt-resultaat-cell>
+                    </div>
+                }
+                @for (kolomResultaat of periodeResultaten.adviesResultaten; track trackByKolomResultaatId($index, kolomResultaat)) {
+                    <div
+                        class="advieskolommen"
+                        [class.active]="
+                            isActiveCell(
+                                activeCell$.value,
+                                kolomResultaat.matrixKolom.resultaatkolom.id
+                                    | resultaatKey: leerling.uuid : kolomResultaat.matrixKolom.herkansingsNummer
+                            )
+                        ">
+                        <div class="kolom-letter text-content-bold color-secondary-2 background-color-secondary-3">A</div>
+                        <div class="text-ellipsis text-small-content-semi">
+                            <span>{{ kolomResultaat.matrixKolom.resultaatkolom.code }}</span
+                            ><span class="color-typography-3"> • {{ $any(kolomResultaat.matrixKolom.resultaatkolom).categorie }}</span>
+                            <br />
+                            <span class="color-typography-3">{{ kolomResultaat.matrixKolom.resultaatkolom.omschrijving }}</span>
+                        </div>
+                        <dt-toetskolom-icons
+                            [basisResultaat]="kolomResultaat"
+                            [leerling]="leerling"
+                            [matrixKolom]="kolomResultaat.matrixKolom"
+                            [lesgroepId]="lesgroepId"
+                            [alternatiefNiveau]="alternatiefNiveau"
+                            [magResultatenInvoeren]="kolomResultaat.magResultatenInvoeren"
+                            [magOpmerkingToevoegen]="kolomResultaat.magOpmerkingToevoegen"
+                            [isActiveCell]="
+                                isActiveCell(
+                                    activeCell$.value,
+                                    kolomResultaat.matrixKolom.resultaatkolom.id
+                                        | resultaatKey: leerling.uuid : kolomResultaat.matrixKolom.herkansingsNummer
+                                )
+                            ">
+                        </dt-toetskolom-icons>
+                        <dt-resultaat-cell
+                            class="resultaat-cell"
+                            #cel
+                            [id]="
+                                kolomResultaat.matrixKolom.id | resultaatKey: leerling.uuid : kolomResultaat.matrixKolom.herkansingsNummer
+                            "
+                            [resultaatkolom]="kolomResultaat.matrixKolom.resultaatkolom"
+                            [resultaat]="kolomResultaat.resultaat!"
+                            [alternatiefNiveau]="alternatiefNiveau"
+                            [missendeToets]="kolomResultaat.missendeToets"
+                            [readOnly]="!kolomResultaat.magResultatenInvoeren"
+                            [inputDisabledBijResultaatLabels]="false"
+                            [kolomHerkansingsNummer]="kolomResultaat.matrixKolom.herkansingsNummer"
+                            [opmerkingToevoegenToegestaan]="kolomResultaat.magOpmerkingToevoegen"
+                            (onNieuwResultaat)="
+                                onNieuwResultaat(
+                                    $event.resultaatInput,
+                                    $event.isCijfer,
+                                    $event.selecteerCellNaOpslaan,
+                                    leerling.uuid,
+                                    alternatiefNiveau
+                                        ? kolomResultaat.resultaat?.formattedResultaatAfwijkendNiveau
+                                        : kolomResultaat.resultaat?.formattedResultaat,
+                                    kolomResultaat.matrixKolom
+                                )
+                            ">
+                        </dt-resultaat-cell>
+                    </div>
+                }
+                <div class="gemiddeldekolommen periodegemiddelde">
+                    <span class="kolom-letter text-content-bold color-accent-alt-1 background-color-accent-alt-3">P</span>
+                    <span class="text-small-content-semi">Periodegemiddelde</span>
+                    <span class="resultaat text-content-semi">
+                        {{
+                            alternatiefNiveau
+                                ? periodeResultaten.periodeGemiddelde?.resultaat?.formattedResultaatAfwijkendNiveau
+                                : periodeResultaten.periodeGemiddelde?.resultaat?.formattedResultaat
+                        }}
+                    </span>
+                </div>
+                <div class="gemiddeldekolommen rapportgemiddelde">
+                    <span class="kolom-letter text-content-bold color-accent-positive-1 background-color-accent-positive-3">r</span>
+                    <span class="text-small-content-semi">Berekend rapportcijfer</span>
+                    <span class="resultaat text-content-semi">
+                        {{
+                            alternatiefNiveau
+                                ? periodeResultaten.rapportGemiddelde?.resultaat?.formattedResultaatAfwijkendNiveau
+                                : periodeResultaten.rapportGemiddelde?.resultaat?.formattedResultaat
+                        }}
+                    </span>
+                </div>
+                <div
+                    class="gemiddeldekolommen rapportcijfer"
+                    [class.active]="
+                        isActiveCell(
+                            activeCell$.value,
+                            periodeResultaten.rapportCijfer?.matrixKolom?.resultaatkolom?.id
+                                | resultaatKey: leerling.uuid : periodeResultaten.rapportCijfer?.matrixKolom?.herkansingsNummer
+                        )
+                    ">
+                    <span class="kolom-letter text-content-bold color-accent-positive-1 background-color-accent-positive-3">R</span>
+                    <span class="text-small-content-semi">Rapportcijfer</span>
+                    @if (periodeResultaten.rapportCijfer) {
+                        <dt-toetskolom-icons
+                            [basisResultaat]="periodeResultaten.rapportCijfer"
+                            [leerling]="leerling"
+                            [matrixKolom]="periodeResultaten.rapportCijfer.matrixKolom"
+                            [lesgroepId]="lesgroepId"
+                            [alternatiefNiveau]="alternatiefNiveau"
+                            [magResultatenInvoeren]="periodeResultaten.rapportCijfer.magResultatenInvoeren"
+                            [magOpmerkingToevoegen]="periodeResultaten.rapportCijfer.magOpmerkingToevoegen"
+                            [isActiveCell]="
+                                isActiveCell(
+                                    activeCell$.value,
+                                    periodeResultaten.rapportCijfer.matrixKolom.resultaatkolom.id
+                                        | resultaatKey: leerling.uuid : periodeResultaten.rapportCijfer.matrixKolom.herkansingsNummer
+                                )
+                            ">
+                        </dt-toetskolom-icons>
+                    }
+                    @if (!periodeResultaten.rapportCijfer?.magResultatenInvoeren) {
+                        <span class="resultaat text-content-semi">
+                            {{
+                                alternatiefNiveau
+                                    ? periodeResultaten.rapportCijfer?.resultaat?.formattedResultaatAfwijkendNiveau
+                                    : periodeResultaten.rapportCijfer?.resultaat?.formattedResultaat
+                            }}
+                        </span>
+                    }
+                    @if (periodeResultaten.rapportCijfer && periodeResultaten.rapportCijfer.magResultatenInvoeren) {
+                        <dt-resultaat-cell
+                            class="resultaat-cell"
+                            #cel
+                            [id]="
+                                periodeResultaten.rapportCijfer.matrixKolom.id
+                                    | resultaatKey: leerling.uuid : periodeResultaten.rapportCijfer.matrixKolom.herkansingsNummer
+                            "
+                            [resultaatkolom]="periodeResultaten.rapportCijfer.matrixKolom.resultaatkolom"
+                            [resultaat]="periodeResultaten.rapportCijfer.resultaat!"
+                            [alternatiefNiveau]="alternatiefNiveau"
+                            [missendeToets]="periodeResultaten.rapportCijfer.missendeToets"
+                            [readOnly]="!periodeResultaten.rapportCijfer.magResultatenInvoeren"
+                            [inputDisabledBijResultaatLabels]="false"
+                            [kolomHerkansingsNummer]="periodeResultaten.rapportCijfer.matrixKolom.herkansingsNummer"
+                            [opmerkingToevoegenToegestaan]="periodeResultaten.rapportCijfer.magOpmerkingToevoegen"
+                            (onNieuwResultaat)="
+                                onNieuwResultaat(
+                                    $event.resultaatInput,
+                                    $event.isCijfer,
+                                    $event.selecteerCellNaOpslaan,
+                                    leerling.uuid,
+                                    alternatiefNiveau
+                                        ? periodeResultaten.rapportCijfer.resultaat?.formattedResultaatAfwijkendNiveau
+                                        : periodeResultaten.rapportCijfer.resultaat?.formattedResultaat,
+                                    periodeResultaten.rapportCijfer!.matrixKolom
+                                )
+                            ">
+                        </dt-resultaat-cell>
+                    }
+                </div>
+            </div>
+        }
+        @if (niveauOptions$ | async; as niveaus) {
+            @if (niveaus.length > 1) {
+                <dt-floating-options class="hide-for-tablet" [options]="niveaus"> </dt-floating-options>
+            }
+        }
+    </div>
+</dt-sidebar>

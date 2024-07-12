@@ -1,0 +1,25 @@
+@if (voorHeleSchooljaarText()) {
+    <div class="schooljaar-text">
+        Totalen schooljaar {{ voorHeleSchooljaarText() }}
+        <i
+            [hmyTooltip]="
+                'Totalen schooljaar ' +
+                voorHeleSchooljaarText() +
+                ', omdat de huidige periode geen begin- en eind datum heeft, of de periode is nog niet begonnen.'
+            "
+            [onTouchAllowed]="true"
+            hmyIcon="informatie"></i>
+    </div>
+}
+
+@for (registratie of vakRegistraties(); track $index) {
+    <dt-mentordashboard-overzicht-sidebar-vak-registratie
+        [isAfwezigheidsCategorie]="registratie.isAfwezigheidsCategorie"
+        [notificationColor]="registratie.notificationColor"
+        [totaalMinuten]="registratie.totaalMinuten"
+        [trendindicatie]="registratie.trend"
+        [trendindicatieTooltip]="registratie.trendTooltip"
+        [vakRegistratie]="registratie" />
+} @empty {
+    <div class="geen-registraties">Geen registraties</div>
+}

@@ -1,0 +1,127 @@
+@import 'breakpoints';
+@import 'visibility';
+@include foundation-visibility-classes;
+
+@mixin text-head {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+@mixin text-content-bold {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+@mixin text-content-semi {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+@mixin text-content {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+@mixin text-small-content-bold {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+@mixin text-small-content-semi {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+@mixin text-small-content {
+    font-weight: 400;
+    font-size: 14px;
+}
+
+@mixin text-label-bold {
+    font-weight: 700;
+    font-size: 11px;
+}
+
+@mixin text-label-semi {
+    font-weight: 600;
+    font-size: 11px;
+}
+
+@mixin text-label {
+    font-weight: 400;
+    font-size: 11px;
+}
+
+@mixin text-ellipsis {
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+@mixin label-pill {
+    @include text-label-semi;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    padding: 4px 10px;
+
+    border-radius: $br-label;
+}
+
+@mixin label-pill-lightest {
+    @include label-pill;
+    color: $primary-1;
+
+    background-color: $background-6;
+
+    fill: $primary-1;
+}
+
+@mixin label-pill-lighter {
+    @include label-pill;
+    color: var(--fg-on-primary-weak);
+
+    background-color: var(--bg-primary-weak);
+
+    i {
+        fill: var(--fg-on-primary-weak);
+    }
+}
+
+@mixin hide-scrollbar {
+    // Firefox
+    scrollbar-width: none;
+
+    // Edge
+    -ms-overflow-style: none;
+
+    // Chrome/Safari
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+
+        background: transparent;
+    }
+}
+
+@mixin thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--fg-on-neutral-weakest) var(--bg-neutral-weakest);
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--bg-neutral-weakest);
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--fg-on-neutral-weakest);
+        border-radius: 6px;
+    }
+}

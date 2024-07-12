@@ -1,0 +1,284 @@
+@if (showAs === layout) {
+    <div class="table-container">
+        <div class="tables" (mouseleave)="highlight(null)">
+            <!-- linker kolom met de vaknamen -->
+            <div class="vakken table-with-header is-sticky">
+                <div class="header periode no-right-border"></div>
+                <table [dataSource]="resultaten.vakPeriodes" [trackBy]="trackByVakId" cdk-table>
+                    <ng-container cdkColumnDef="naam">
+                        <th class="vak-naam-cell vak-header align-left text-content-semi" *cdkHeaderCellDef cdk-header-cell>Vak</th>
+                        <td
+                            class="vak-naam-cell no-hover text-content-semi align-left text-content-semi"
+                            *cdkCellDef="let vakRow; let i = index"
+                            [class.color-primary-1]="highlightIndex === i"
+                            cdk-cell>
+                            {{ vakRow.vak.naam }}
+                        </td>
+                    </ng-container>
+                    <ng-container cdkColumnDef="trend">
+                        <th class="vak-trend-cell cijfertrend-header align-center text-content-semi" *cdkHeaderCellDef cdk-header-cell>
+                            Trend
+                        </th>
+                        <td
+                            class="vak-trend-cell no-hover text-content-semi align-left text-content-semi"
+                            *cdkCellDef="let vakRow; let i = index"
+                            [class.color-primary-1]="highlightIndex === i"
+                            cdk-cell>
+                            @if (getTrendVoorNormering(vakRow, alternatieveNormering); as normeringTrend) {
+                                @if (!normeringTrend.trend) {
+                                    <hmy-pill
+                                        class="trend"
+                                        [onTouchAllowed]="true"
+                                        [alignCenter]="false"
+                                        [text]="
+                                            normeringTrend.trend === null || normeringTrend.trend === undefined
+                                                ? '-'
+                                                : (normeringTrend.trend | mathAbs | commaResult)
+                                        "
+                                        [hmyTooltip]="
+                                            normeringTrend.trend
+                                                | leerlingResultatenTrendTooltip: normeringTrend.aantalResultaten : vakRow.vak.naam
+                                        "
+                                        color="neutral" />
+                                }
+                                @if (normeringTrend.trend) {
+                                    <hmy-icon-pill
+                                        class="trend"
+                                        [onTouchAllowed]="true"
+                                        [alignCenter]="false"
+                                        [text]="normeringTrend.trend | mathAbs | commaResult"
+                                        [icon]="normeringTrend.trend < 0 ? 'trendBeneden' : 'trendBoven'"
+                                        [color]="normeringTrend.trend | trendPillColor"
+                                        [hmyTooltip]="
+                                            normeringTrend.trend
+                                                | leerlingResultatenTrendTooltip: normeringTrend.aantalResultaten : vakRow.vak.naam
+                                        " />
+                                }
+                            }
+                        </td>
+                    </ng-container>
+                    <tr *cdkHeaderRowDef="zichtbareColumns$ | async" cdk-header-row></tr>
+                    <tr
+                        *cdkRowDef="let row; columns: zichtbareColumns$ | async; let i = index"
+                        [class.highlighted]="highlightIndex === i"
+                        (mouseenter)="highlight(i)"
+                        cdk-row></tr>
+                </table>
+            </div>
+            <div class="spacer" [style.width.px]="8"></div>
+            <!-- periode tabel(len) -->
+            @if (resultaten.adviesKolommenPerPeriode.length > 0) {
+                @for (kolom of resultaten.adviesKolommenPerPeriode; track kolom; let i = $index) {
+                    <div class="table-with-header">
+                        <!-- periodeheaders -->
+                        <div class="header periode">
+                            <span class="name text-content-semi no-selection" [hmyTooltip]="periodeTooltip(kolom)">
+                                Periode {{ kolom.periode }}
+                            </span>
+                        </div>
+                        <div class="header label-header">
+                            <!-- advieskolomcontext headers -->
+                            @for (adviesContext of kolom.kolomContexten; track adviesContext) {
+                                <div class="header-item resultaat-kolom advies-header-container">
+                                    <span
+                                        class="text-small-content-semi item advies"
+                                        [hmyTooltip]="
+                                            '<b>Adviescategorie</b><br>' +
+                                            adviesContext.adviesCategorieNaam +
+                                            '<br><b>Adviesweergave</b><br>' +
+                                            adviesContext.adviesKolomNaam
+                                        "
+                                        [onTouchAllowed]="true"
+                                        [alignCenter]="false">
+                                        {{ adviesContext.adviesKolomAfkorting }}
+                                    </span>
+                                </div>
+                            }
+                            <!-- P / R headers -->
+                            <div class="header-item resultaat-kolom p-container">
+                                <span
+                                    class="name text-small-content-semi color-typography-2 p item"
+                                    [onTouchAllowed]="true"
+                                    hmyTooltip="Periodegemiddelde">
+                                    P
+                                </span>
+                            </div>
+                            <div class="header-item resultaat-kolom r-container">
+                                <span
+                                    class="name text-small-content-semi color-typography-2 r item"
+                                    [onTouchAllowed]="true"
+                                    hmyTooltip="Rapportcijfer">
+                                    R
+                                </span>
+                            </div>
+                        </div>
+                        <table class="resultaten-table">
+                            @for (adviesContext of kolom.kolomContexten; track adviesContext) {
+                                <div class="table-cell">
+                                    @for (vakPeriode of resultaten.vakPeriodes; track vakPeriode; let j = $index) {
+                                        <tr
+                                            class="header resultaat-kolom resultaat-cell pointer"
+                                            [class.geen-resultaat]="getAdviesFor(vakPeriode, kolom.periode, adviesContext) === ''"
+                                            [class.highlighted]="highlightIndex === j"
+                                            (click)="openDetailsSidebar(vakPeriode, kolom.periode, resultaten.adviesKolommenPerPeriode)"
+                                            (mouseenter)="highlight(j)"
+                                            data-gtm="mentordashboard-voortgangsresultaat-details-sidebar">
+                                            {{
+                                                getAdviesFor(vakPeriode, kolom.periode, adviesContext)
+                                            }}
+                                            <div class="icons">
+                                                @if (
+                                                    getAdviesGeldendResultaatFor(vakPeriode, kolom.periode, adviesContext)?.opmerkingen;
+                                                    as opmerking
+                                                ) {
+                                                    <i
+                                                        class="fill-typography-4 opmerking"
+                                                        [hmyTooltip]="'<b>Opmerking</b></br>' + opmerking"
+                                                        [alignCenter]="false"
+                                                        hmyIcon="reacties"
+                                                        size="smallest"></i>
+                                                }
+                                            </div>
+                                        </tr>
+                                    }
+                                </div>
+                            }
+                            <div class="table-cell">
+                                @for (vakPeriode of resultaten.vakPeriodes; track vakPeriode; let j = $index) {
+                                    <tr
+                                        class="header resultaat-kolom resultaat-cell pointer"
+                                        [class.onvoldoende]="!getPeriodeVoldoendeFor(vakPeriode, kolom.periode)"
+                                        [class.geen-resultaat]="getPeriodeFor(vakPeriode, kolom.periode) === ''"
+                                        [class.highlighted]="highlightIndex === j"
+                                        (click)="openDetailsSidebar(vakPeriode, kolom.periode, resultaten.adviesKolommenPerPeriode)"
+                                        (mouseenter)="highlight(j)"
+                                        data-gtm="mentordashboard-voortgangsresultaat-details-sidebar">
+                                        {{
+                                            getPeriodeFor(vakPeriode, kolom.periode)
+                                        }}
+                                        <div class="icons">
+                                            @if (getPeriodeGeldendResultaatFor(vakPeriode, kolom.periode)?.opmerkingen; as opmerking) {
+                                                <i
+                                                    class="fill-typography-4 opmerking"
+                                                    [hmyTooltip]="opmerking"
+                                                    [onTouchAllowed]="true"
+                                                    hmyIcon="reacties"
+                                                    size="smallest"></i>
+                                            }
+                                        </div>
+                                    </tr>
+                                }
+                            </div>
+                            <div class="background-color-background-5 table-cell">
+                                @for (vakPeriode of resultaten.vakPeriodes; track vakPeriode; let j = $index) {
+                                    <tr
+                                        class="header resultaat-kolom resultaat-cell pointer"
+                                        [class.onvoldoende]="!getRapportVoldoendeFor(vakPeriode, kolom.periode)"
+                                        [class.geen-resultaat]="getRapportFor(vakPeriode, kolom.periode) === ''"
+                                        [class.highlighted]="highlightIndex === j"
+                                        (click)="openDetailsSidebar(vakPeriode, kolom.periode, resultaten.adviesKolommenPerPeriode)"
+                                        (mouseenter)="highlight(j)"
+                                        data-gtm="mentordashboard-voortgangsresultaat-details-sidebar">
+                                        {{
+                                            getRapportFor(vakPeriode, kolom.periode)
+                                        }}
+                                        <div class="icons">
+                                            @if (getRapportGeldendResultaatFor(vakPeriode, kolom.periode); as resultaat) {
+                                                @if (resultaat?.opmerkingen; as opmerking) {
+                                                    <i
+                                                        class="fill-typography-4 opmerking"
+                                                        [hmyTooltip]="opmerking"
+                                                        [onTouchAllowed]="true"
+                                                        hmyIcon="reacties"
+                                                        size="smallest"></i>
+                                                }
+                                                @if (resultaat.bijzonderheid === resultaatBijzonderheid.NietGemaakt) {
+                                                    <i
+                                                        class="fill-typography-4 info-icon"
+                                                        [onTouchAllowed]="true"
+                                                        hmyIcon="waarschuwing"
+                                                        size="smallest"
+                                                        hmyTooltip="Gemiddelde waarbij toetsen missen"></i>
+                                                }
+                                            }
+                                        </div>
+                                    </tr>
+                                }
+                            </div>
+                        </table>
+                    </div>
+                }
+            } @else {
+                <div class="geen-resultaten">
+                    <span class="text-content-semi color-typography-3">Voor deze leerling zijn geen resultaten beschikbaar.</span>
+                </div>
+            }
+        </div>
+    </div>
+} @else {
+    <div class="periode-body" @blockInitialRenderAnimation body>
+        <div class="header accordion-header" [class.met-trend]="heeftMentordashboardCompleet$ | async">
+            <div class="accordion-vak-naam text-content-semi">Vak</div>
+            @if (heeftMentordashboardCompleet$ | async) {
+                <div class="accordion-trend text-content-semi">Trend</div>
+            }
+            <div class="item p text-content-bold">P</div>
+            <div class="item r text-content-bold">R</div>
+        </div>
+        @for (vakPeriode of resultaten.vakPeriodes; track vakPeriode) {
+            <div
+                class="resultaten"
+                [class.met-trend]="heeftMentordashboardCompleet$ | async"
+                (click)="openDetailsSidebar(vakPeriode, resultaten.relevanteCijferperiode, resultaten.adviesKolommenPerPeriode)">
+                <span class="color-typography-2 text-content-semi text-ellipsis vaknaam">{{ vakPeriode.vak.naam }}</span>
+                @if (getTrendVoorNormering(vakPeriode, alternatieveNormering); as normeringTrend) {
+                    @if (!normeringTrend.trend) {
+                        <hmy-pill
+                            class="trend"
+                            [onTouchAllowed]="true"
+                            [alignCenter]="false"
+                            [text]="
+                                normeringTrend.trend === null || normeringTrend.trend === undefined
+                                    ? '-'
+                                    : (normeringTrend.trend | mathAbs | commaResult)
+                            "
+                            [hmyTooltip]="
+                                normeringTrend.trend | leerlingResultatenTrendTooltip: normeringTrend.aantalResultaten : vakPeriode.vak.naam
+                            "
+                            color="neutral" />
+                    }
+                    @if (normeringTrend.trend) {
+                        <hmy-icon-pill
+                            class="trend"
+                            [onTouchAllowed]="true"
+                            [alignCenter]="false"
+                            [text]="normeringTrend.trend | mathAbs | commaResult"
+                            [icon]="normeringTrend.trend < 0 ? 'trendBeneden' : 'trendBoven'"
+                            [color]="normeringTrend.trend | trendPillColor"
+                            [hmyTooltip]="
+                                normeringTrend.trend | leerlingResultatenTrendTooltip: normeringTrend.aantalResultaten : vakPeriode.vak.naam
+                            " />
+                    }
+                }
+                @if ({ value: getPeriodeGeldendResultaatFor(vakPeriode, resultaten.relevanteCijferperiode) }; as resultaat) {
+                    <span
+                        class="resultaat"
+                        [class.onvoldoende]="resultaat.value && !resultaat.value.isVoldoende"
+                        [class.color-typography-4]="!resultaat.value"
+                        data-gtm="mentordashboard-voortgangsresultaat-details-sidebar">
+                        {{ resultaat.value ? getFormattedResultaat(resultaat.value) : '' }}
+                    </span>
+                }
+                @if ({ value: getRapportGeldendResultaatFor(vakPeriode, resultaten.relevanteCijferperiode) }; as resultaat) {
+                    <span
+                        class="resultaat"
+                        [class.onvoldoende]="resultaat.value && !resultaat.value.isVoldoende"
+                        [class.color-typography-4]="!resultaat.value"
+                        data-gtm="mentordashboard-voortgangsresultaat-details-sidebar">
+                        {{ resultaat.value ? getFormattedResultaat(resultaat.value) : '' }}
+                    </span>
+                }
+            </div>
+        }
+    </div>
+}

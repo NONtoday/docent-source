@@ -1,0 +1,51 @@
+<dt-header titel="Rooster" icon="rooster"></dt-header>
+@if (initialLoading) {
+    <dt-fullscreen-loader class="loader"></dt-fullscreen-loader>
+} @else {
+    <dt-rooster-toolbar
+        [date]="datum"
+        [loading]="showLoader"
+        [dayViewMode]="dayViewMode"
+        [showWeekend]="showWeekend"
+        [toonVrijeUren]="toonVrijeUren"
+        (toggleWeekend)="onToggleWeekend()"
+        (toggleDayViewMode)="onToggleDayViewMode($event)"
+        (toggleVrijeUren)="onToggleVrijeUren()"></dt-rooster-toolbar>
+    <dt-rooster-dagen-balk [date]="datum"></dt-rooster-dagen-balk>
+    <div class="week">
+        @for (week of weken; track week) {
+            <div class="dagen" [@weekAnimatie]="weekAnimationDirection">
+                @for (dag of week; track dag) {
+                    <dt-rooster-dag
+                        [toonVrijeUren]="toonVrijeUren"
+                        [dag]="dag"
+                        [currentDateInView]="datum"
+                        [ngClass]="{ 'animation-day': dag.isAdjacentWeek, weekend: dag.isWeekend }">
+                    </dt-rooster-dag>
+                }
+            </div>
+        }
+    </div>
+    @if (afspraakSidebar$ | async; as afspraakContainer) {
+        <dt-afspraak-sidebar
+            [@allowLeaveAnimation]
+            [afspraak]="afspraakContainer.afspraak!"
+            [bewerkenState]="afspraakContainer.bewerkenState"
+            (showMessage)="showMessage($event)"></dt-afspraak-sidebar>
+    }
+    @if (showSuccesMessage) {
+        <dt-message
+            class="succes-message"
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [text]="succesMessage"
+            [duration]="3000"
+            [isToast]="true"
+            (onClose)="showSuccesMessage = false"
+            soort="ok">
+        </dt-message>
+    }
+    <!-- Back-to-top tonen wanneer de dagenbalk net buiten beeld is. Dit is na 150px -->
+    <dt-back-to-top [showAfter]="150" paddingBottom="10px"></dt-back-to-top>
+}
+<ng-template #werkdruksidebarContainer></ng-template>

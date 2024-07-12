@@ -1,0 +1,45 @@
+<ng-template #editorContainer></ng-template>
+<div class="options" [class.show-border]="showBorder">
+    @for (bijlage of bijlagen; track trackById(i, bijlage); let isLast = $last; let i = $index) {
+        <div>
+            <dt-bijlage
+                class="edit"
+                [bijlage]="bijlage"
+                [inEditMode]="true"
+                [canOpen]="false"
+                [heeftToegangTotElo]="!!heeftToegangTotElo"
+                [last]="!toonBestandUploaden && !toonUitMethode && isLast"
+                [toonZichtbaarheidToggle]="toonZichtbaarheidToggle"
+                (removeBijlage)="verwijderBijlage.emit($event)"
+                (editUrl)="editUrl.emit($event)"
+                (saveBijlage)="onSaveBijlage($event, i)">
+            </dt-bijlage>
+        </div>
+    }
+    <dt-bijlage-upload-lijst
+        [uploadingFiles]="uploadingFiles"
+        (fileUploaded)="parseUpload($event.uploadContextId!, $event.file)"></dt-bijlage-upload-lijst>
+    <form #uploadForm [formGroup]="uploadFormGroup">
+        <input
+            #fileInput
+            (change)="onFilesAdded($event)"
+            onclick="this.value = null"
+            type="file"
+            cy="upload-bijlage"
+            style="display: none"
+            multiple
+            formControlName="files" />
+    </form>
+    @if (toonBestandUploaden) {
+        <div class="upload-bijlage" (click)="onBijlageToevoegen()" cy="bijlage-toevoegen">
+            <i #uploadIcon color="action-positive-normal" hmyIcon="bijlageToevoegen" size="medium"></i>
+            <span class="text text-content-semi action-positive-normal">Bijlage toevoegen</span>
+        </div>
+    }
+    @if (toonUitMethode) {
+        <div class="uit-methode" (click)="openMethodeSelectie.emit()">
+            <i #methodeIcon color="action-positive-normal" hmyIcon="methode" size="medium"></i>
+            <span class="text text-content-semi action-positive-normal">Uit methode</span>
+        </div>
+    }
+</div>

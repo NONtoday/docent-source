@@ -1,0 +1,82 @@
+<div class="header">
+    <i (click)="close()" hmyIcon="pijlLinks" size="medium"></i>
+    <span class="text-content-bold">Betrokkenen toevoegen</span>
+</div>
+<div class="search">
+    <div class="search-input" (click)="focusInput()">
+        <dt-background-icon color="accent_positive_1" icon="toevoegen" size="smallest" iconSize="smallest"></dt-background-icon>
+        <div class="tags" [class.has-tags]="betrokkenenSelectie.length > 0">
+            @for (tag of betrokkenenTags; track trackById($index, tag)) {
+                @if (tag.type === 'leerling') {
+                    <hmy-avatar-tag
+                        class="betrokkene"
+                        [label]="tag.naam"
+                        [src]="tag.pasfoto"
+                        [initialen]="tag.initialen ?? undefined"
+                        [actionIcon]="tag.id !== contextId ? 'sluiten' : 'none'"
+                        (iconClick)="removeBetrokkene(tag.id)"
+                        size="big">
+                    </hmy-avatar-tag>
+                }
+                @if (tag.type === 'groep') {
+                    <hmy-icon-tag
+                        class="betrokkene"
+                        [label]="tag.naam"
+                        (iconClick)="removeBetrokkene(tag.id)"
+                        actionIcon="sluiten"
+                        size="big"
+                        icon="groep">
+                    </hmy-icon-tag>
+                }
+            }
+            <input
+                class="mobile-input"
+                #search
+                [formControl]="searchControl"
+                [placeholder]="betrokkenenSelectie.length === 0 ? 'Zoek leerling of groep' : ''"
+                cy="betrokkene-zoekveld"
+                type="text" />
+        </div>
+    </div>
+    @if (filteredSearchResults) {
+        @for (leerlingResult of filteredSearchResults.leerlingen; track leerlingResult) {
+            <div class="mobile-optie" (click)="addBetrokkene($event, leerlingResult.leerling)">
+                <dt-avatar
+                    [src]="leerlingResult.leerling.pasfoto"
+                    [allowPhotoPopup]="false"
+                    [initialen]="leerlingResult.leerling.initialen"
+                    [size]="32"
+                    [fontsize]="12"></dt-avatar>
+                <span class="text-strong text-content-semi">{{ leerlingResult.leerling | volledigeNaam }}</span>
+                @if (leerlingResult.deelnemerVanContextGroep) {
+                    <hmy-pill [text]="leerlingResult.deelnemerVanContextGroep"></hmy-pill>
+                }
+            </div>
+        }
+        @for (lesgroep of filteredSearchResults.lesgroepen; track lesgroep) {
+            <div class="mobile-optie" (click)="addBetrokkene($event, lesgroep)">
+                <dt-background-icon [color]="$any(lesgroep.color)" icon="groep" size="medium" iconSize="small"></dt-background-icon>
+                <span class="text-strong text-content-semi">{{ lesgroep.naam }}</span>
+                @if (lesgroep.vestiging) {
+                    <hmy-pill [text]="lesgroep.vestiging.naam"></hmy-pill>
+                }
+            </div>
+        }
+        @for (stamgroep of filteredSearchResults.stamgroepen; track stamgroep) {
+            <div class="mobile-optie" (click)="addBetrokkene($event, stamgroep)">
+                <dt-background-icon [color]="$any(stamgroep.color)" icon="groep" size="medium" iconSize="small"></dt-background-icon>
+                <span class="text-strong text-content-semi">{{ stamgroep.naam }}</span>
+                @if (stamgroep.vestiging) {
+                    <hmy-pill [text]="stamgroep.vestiging.naam"></hmy-pill>
+                }
+            </div>
+        }
+        @if (geenResultaten) {
+            <div class="no-results-melding text-weak">Geen groep of personen gevonden</div>
+        }
+    }
+</div>
+<div class="buttons">
+    <dt-outline-button (click)="close()">Annuleren</dt-outline-button>
+    <dt-button [disabled]="betrokkenenSelectie.length === 0" (click)="toevoegen()" buttonType="positive"> Toevoegen </dt-button>
+</div>

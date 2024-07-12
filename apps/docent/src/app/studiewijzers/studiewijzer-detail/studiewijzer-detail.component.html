@@ -1,0 +1,241 @@
+<dt-header titel="Studiewijzers" icon="studiewijzer"></dt-header>
+@if ({ view: studiewijzerView$ | async }; as data) {
+    <div class="toolbar text-small-content" #toolbar>
+        <div class="terug" [routerLink]="['/studiewijzers']">
+            <i hmyIcon="pijlLinks" size="medium"></i>
+            <span class="show-for-tablet text-content-semi">Terug</span>
+        </div>
+        @if (!data.view) {
+            <hmy-spinner [isWhite]="deviceService.isPhoneOrTabletPortrait()" [centeredInParent]="true" />
+        }
+        <div class="periode-switch show-for-tablet">
+            @if ({ actievePeriode: actievePeriode$ | async, periodes: cijferperiodes$ | async }; as data) {
+                @if (data.periodes) {
+                    <div class="label-block">P{{ data.actievePeriode }}</div>
+                }
+                <hmy-browse
+                    [backDisabled]="!(data.actievePeriode! > 1)"
+                    [nextDisabled]="!(data.periodes !== null && data.actievePeriode! < data.periodes.length)"
+                    [backAdditionalAttributes]="{ 'data-gtm': 'studiewijzer-periode-terug' }"
+                    [nextAdditionalAttributes]="{ 'data-gtm': 'studiewijzer-periode-verder' }"
+                    (backClick)="onPeriodeClick(data.actievePeriode! - 1)"
+                    (nextClick)="onPeriodeClick(data.actievePeriode! + 1)"
+                    backIcon="pijlBoven"
+                    nextIcon="pijlOnder"
+                    tooltipPosition="bottom"
+                    backTooltip="Vorige periode"
+                    nextTooltip="Volgende periode" />
+            }
+        </div>
+        @if (data.view) {
+            <div class="sw-info">
+                <div class="lesgroep-container">
+                    <dt-background-icon class="show-for-tablet" [color]="$any(data.view.studiewijzer.lesgroep.color)" icon="groep">
+                    </dt-background-icon>
+                    <span class="lesgroep text-content-semi">{{ data.view.studiewijzer.lesgroep.naam }}</span>
+                </div>
+                <hmy-pill
+                    class="show-for-tablet"
+                    color="primary"
+                    text="{{ data.view.studiewijzer.schooljaar }}/{{ data.view.studiewijzer.schooljaar + 1 }}"></hmy-pill>
+                <dt-icon
+                    class="show-for-tablet"
+                    #moreOptions
+                    (click)="onMoreOptionsClick(data.view.studiewijzer, false, $event)"
+                    icon="opties"
+                    size="medium"></dt-icon>
+            </div>
+        }
+        @if (data.view) {
+            <div class="buttons">
+                <div
+                    class="button importeren show-for-tablet"
+                    #importeren
+                    (click)="onImporterenClick(data.view.studiewijzer.id)"
+                    cy="studiewijzer-importeren-button">
+                    <i #importerenTablet hmyIcon="importeren" size="medium"></i>
+                    <span class="text-content-semi show-for-desktop">Importeren</span>
+                </div>
+                <div
+                    class="button jaarbijlagen"
+                    (click)="openJaarbijlagen(data.view.studiewijzer.id)"
+                    dtTooltip="Jaarbijlagen"
+                    position="bottom"
+                    data-gtm="jaarbijlagen">
+                    <i hmyIcon="bijlage" size="medium"></i>
+                    @if (data.view.studiewijzer.aantalBijlagen > 0) {
+                        <span class="counter">{{ data.view.studiewijzer.aantalBijlagen }}</span>
+                    }
+                    <span class="show-for-desktop text-content-semi">Jaarbijlagen</span>
+                </div>
+                <div
+                    class="more-options hide-for-tablet"
+                    #moreOptionsMobile
+                    (click)="onMoreOptionsClick(data.view.studiewijzer, true, $event)">
+                    <i color="action-primary-normal" hmyIcon="opties"></i>
+                </div>
+            </div>
+        }
+    </div>
+    @if (data.view) {
+        <div class="kalender" cdkDropListGroup>
+            @for (
+                studiewijzerWeek of data.view.weken;
+                track trackByWeeknummer($index, studiewijzerWeek);
+                let isFirst = $first;
+                let isLast = $last
+            ) {
+                <dt-studiewijzer-week
+                    [studiewijzerWeek]="$any(studiewijzerWeek)"
+                    [disableDragDrop]="!!(disableDragAndDrop$ | async)"
+                    [lesgroep]="data.view.studiewijzer.lesgroep"
+                    [heeftVaksecties]="heeftVaksecties"
+                    [verschuifOmhoogWarningVanaf]="verschuifOmhoogWarningVanaf"
+                    [verschuifOmlaagWarningVanaf]="verschuifOmlaagWarningVanaf"
+                    [showVerschuifOmhoog]="!isFirst"
+                    [showVerschuifOmlaag]="!isLast"
+                    [inBulkmode]="inBulkmode$ | async"
+                    (onVerwijder)="onVerwijderToekenning($event)"
+                    (onDupliceer)="onDupliceerToekenning($event)"
+                    (verschuifPlanningOmhoog)="verschuifPlanningOmhoog(data.view.studiewijzer.id, studiewijzerWeek.weeknummer, $event)"
+                    (verschuifPlanningOmlaag)="verschuifPlanningOmlaag(data.view.studiewijzer.id, studiewijzerWeek.weeknummer, $event)"
+                    (onUpdateLesitemType)="updateLesitemType($event.huiswerkType, $event.toekenning, data.view.studiewijzer.id)">
+                </dt-studiewijzer-week>
+            }
+            @if (methodeSidebar$ | async; as methodeContainer) {
+                <dt-methode-sidebar
+                    [@allowLeaveAnimation]
+                    [createToekenningFn]="methodeContainer.createToekenningFn!"
+                    (onSaveToekenning)="saveToekenning($event, data.view.studiewijzer.lesgroep, 'never')"></dt-methode-sidebar>
+            }
+        </div>
+    }
+    @if (toonBulkacties || studiewijzerBulkLength > 0) {
+        <dt-bulkacties
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [bulkactiesLength]="studiewijzerBulkLength"
+            [showKopieerButton]="true"
+            [showDifferentierenButton]="heeftToegangTotDifferentiatie"
+            [context]="'studiewijzer-detail'"
+            (closeBulkacties)="setBulkacties(false)"
+            (bulkVerwijderen)="bulkVerwijderen()"
+            (bulkZichtbaarheid)="bulkZichtbaarheid($event)"
+            (kopieerClicked)="bulkKopieer()"
+            (onToekennen)="onBulkToekennen(data.view!.studiewijzer.lesgroep, $event)">
+        </dt-bulkacties>
+    }
+    @if (jaarbijlagenSidebar$ | async; as data) {
+        <dt-jaarbijlagen-sidebar
+            [@allowLeaveAnimation]
+            [abstractSwId]="data.abstractSwId!"
+            [isEditable]="true"
+            [isSjabloon]="false"
+            [heeftVaksecties]="heeftVaksecties"
+            [heeftToegangTotDifferentiatie]="heeftToegangTotDifferentiatie">
+        </dt-jaarbijlagen-sidebar>
+    }
+    @if (sjabloonImporterenSidebar$ | async; as selectieData) {
+        <dt-sjabloon-importeren-sidebar
+            [@allowLeaveAnimation]
+            [id]="selectieData.id!"
+            [studiewijzerId]="data.view!.studiewijzer.id"
+            [lesgroepId]="data.view!.studiewijzer.lesgroep.id"
+            [schooljaar]="data.view!.studiewijzer.schooljaar"
+            (onImporteren)="showImporterenGelukt()">
+        </dt-sjabloon-importeren-sidebar>
+    }
+    @if (sjabloonSynchronisatieSelectieSidebar$ | async) {
+        <dt-sjabloon-synchronisatie-selectie-sidebar
+            [@allowLeaveAnimation]
+            [studiewijzer]="data.view!.studiewijzer"
+            (onShowToevoegenMessage)="onSynchroniseren($event)">
+        </dt-sjabloon-synchronisatie-selectie-sidebar>
+    }
+    @if (differentiatieSidebar$ | async; as data) {
+        <dt-differentiatie-sidebar [@allowLeaveAnimation] [lesgroep]="data.lesgroep!"> </dt-differentiatie-sidebar>
+    }
+    @if (differentiatieToekennenSidebar$ | async; as data) {
+        <dt-differentiatie-toekennen-sidebar
+            [@allowLeaveAnimation]
+            [lesgroep]="data.lesgroep!"
+            [toekenning]="data.toekenning"
+            [disableSidebarAnimation]="!!data.disableSidebarAnimation"
+            [showVervangenGuard]="!!(differentatieBulkContext$ | async)"
+            [bevatGedifferentieerdeItems]="data.bevatGedifferentieerdeItems!"
+            (onDifferentieren)="onDifferentiatieToekennen($event)">
+        </dt-differentiatie-toekennen-sidebar>
+    }
+    @if (werkdrukSidebar$ | async; as werkdrukData) {
+        <dt-werkdruk-sidebar
+            [@allowLeaveAnimation]
+            [lesgroepen]="werkdrukData.lesgroepen!"
+            [initielePeildatum]="werkdrukData.initielePeildatum!"
+            [eersteWeek]="werkdrukData.eersteWeek!"
+            [laatsteWeek]="werkdrukData.laatsteWeek!"
+            [toegangTotDifferentiatie]="heeftToegangTotDifferentiatie"
+            [showUitSjabloonOptie]="heeftVaksecties"
+            [showInleveropdrachtOptie]="true"
+            [showOpgeslagenMessage]="werkdrukData.showOpgeslagenMessage!"
+            [exacteLesgroepenMatch]="false">
+        </dt-werkdruk-sidebar>
+    }
+    @if (studiewijzeritemSidebar$ | async; as swisidebarData) {
+        <dt-studiewijzeritem-sidebar
+            [@allowLeaveAnimation]
+            [toekenning]="swisidebarData.toekenning!"
+            [isEditable]="true"
+            [studiewijzer]="data.view!.studiewijzer"
+            [openInEditMode]="swisidebarData.openInEditMode!"
+            [afspraak]="swisidebarData.afspraak!"
+            [heeftToegangTotElo]="true"
+            [toonDatepicker]="false"
+            [magSynchroniserenMetSjabloon]="
+                magSynchroniserenMetSjabloon(swisidebarData.toekenning!, data.view!.studiewijzer.gesynchroniseerdeSjablonen)
+            "
+            [openWithDirtyForm]="!!swisidebarData.openWithDirtyForm"
+            [heeftToegangTotDifferentiatie]="heeftToegangTotDifferentiatie"
+            [toonLesgroepenControls]="!!swisidebarData.toonLesgroepenControls"
+            (onSaveToekenning)="saveToekenning($event, data.view!.studiewijzer.lesgroep)"
+            (onVerwijder)="onVerwijderToekenning($event)"
+            (onDifferentiatieToekenning)="onDifferentiatieToekennenClick(data.view!.studiewijzer.lesgroep, $event)">
+        </dt-studiewijzeritem-sidebar>
+    }
+    @if (selecteerSjabloonContentSidebar$ | async; as sidebarData) {
+        <dt-selecteer-sjabloon-content-sidebar
+            [@allowLeaveAnimation]
+            [studiewijzerContent]="sidebarData.studiewijzerContent!"
+            (onToevoegen)="kopieerToekenningen($event, sidebarData.studiewijzerContent!)">
+        </dt-selecteer-sjabloon-content-sidebar>
+    }
+    @if (studiewijzerSelectieSidebar$ | async; as studiewijzerSelectie) {
+        <dt-studiewijzer-selectie-sidebar
+            [@allowLeaveAnimation]
+            [studiewijzer]="data.view!.studiewijzer"
+            (onSubmit)="exporteerToekenningen($event, studiewijzerSelectie.toekenningIds!)"
+            buttonText="Kopiëren"
+            sidebarTitle="Kopiëren naar studiewijzer"
+            sidebarIcon="kopierenNaar">
+            @if (studiewijzerSelectie.studiewijzerItems!.length > 0) {
+                <dt-selected-lesitems
+                    [selectedStudiewijzeritems]="studiewijzerSelectie.studiewijzerItems!"
+                    tooltip="Kopieën komen op hetzelfde moment te staan als het origineel.">
+                </dt-selected-lesitems>
+            }
+        </dt-studiewijzer-selectie-sidebar>
+    }
+    @if (showMessage) {
+        <dt-message
+            class="message text-content-semi"
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [text]="message"
+            [duration]="3000"
+            [isToast]="true"
+            (onClose)="showMessage = false"
+            soort="ok"></dt-message>
+    }
+    @if (!(inBulkmode$ | async) && data.view) {
+        <dt-floating-action-bar [actions]="floatingActions"> </dt-floating-action-bar>
+    }
+}

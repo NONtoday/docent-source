@@ -1,0 +1,25 @@
+<div class="title-row">
+    <span class="tile-title ellipsis text-weak text-content-small-semi"> Trend </span>
+    <i
+        class="info-icon"
+        [hmyTooltip]="trendindicatie | mentordashboardResultaatTrendTooltip: aantalResultatenVoorTrendindicatie"
+        [onTouchAllowed]="true"
+        size="small"
+        hmyIcon="informatie"
+        position="left"></i>
+</div>
+<div class="trend-row">
+    <div class="trend">
+        @if (trendindicatie !== null && trendindicatie !== undefined) {
+            <i
+                class="trend-icon"
+                [hmyIcon]="trendindicatie | mentordashboardResultaatTrendIcon"
+                [color]="trendindicatie | mentordashboardResultaatTrendColor"
+                size="smallest"></i>
+        }
+        <span class="trend-cijfer text-content-semi" [style.color]="trendindicatie | mentordashboardResultaatTrendColor | cssVar">
+            {{ trendindicatie | mentordashboardResultaatTrendText }}
+        </span>
+    </div>
+    <i class="chevron-icon" hmyIcon="chevronRechts" size="smallest"></i>
+</div>

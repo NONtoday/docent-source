@@ -1,0 +1,51 @@
+<dt-popup>
+    <div class="content" #content popup-content>
+        @if (activeView$ | async; as view) {
+            <div class="header">
+                <hmy-switch-group class="voortgangsdossier-examendossier">
+                    <hmy-switch
+                        class="afgerond"
+                        [label]="view.buttonLabelAfgerond"
+                        [active]="(activeTab$ | async) === 'afgerond'"
+                        (click)="setTab('afgerond')"
+                        size="smallest"></hmy-switch>
+                    <hmy-switch
+                        class="niet-afgerond"
+                        [active]="(activeTab$ | async) === 'nietAfgerond'"
+                        [label]="view.buttonLabelOnafgerond"
+                        (click)="setTab('nietAfgerond')"
+                        size="smallest"
+                        mode="secondary"></hmy-switch>
+                </hmy-switch-group>
+            </div>
+            @for (item of $any(view).items; track item) {
+                <div class="item" [class.with-avatar]="item.initialen" (click)="onInleveraarClick(item.id)">
+                    @if (item.initialen) {
+                        <dt-avatar
+                            [src]="item.pasfoto"
+                            [initialen]="item.initialen"
+                            [allowPhotoPopup]="false"
+                            [size]="32"
+                            [fontsize]="11"></dt-avatar>
+                    }
+                    <div class="ellipsis text-content-semi text-strong">
+                        {{ item.initialen ? (item | volledigeNaam) : $any(item).naam }}
+                    </div>
+                    @if (item.hoogstePlagiaat > 0) {
+                        <i
+                            [color]="item.hoogstePlagiaat | plagiaatKleur"
+                            [onTouchAllowed]="true"
+                            hmyIcon="plagiaat"
+                            size="small"
+                            dtTooltip="{{ item.hoogstePlagiaat }}% plagiaat gevonden"></i>
+                    }
+                </div>
+            } @empty {
+                <div class="geen-items text-content-semi text-weak">
+                    Geen
+                    {{ typeLabel }}
+                </div>
+            }
+        }
+    </div>
+</dt-popup>

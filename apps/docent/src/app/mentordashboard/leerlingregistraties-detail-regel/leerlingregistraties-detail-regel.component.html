@@ -1,0 +1,26 @@
+<div class="omschrijving-container">
+    @if (registratie.les) {
+        <dt-lesuur
+            class="lesuur"
+            [beginlesuur]="registratie.beginLesuur"
+            [eindlesuur]="registratie.eindLesuur"
+            [isKwt]="registratie.kwt"
+            [isRoosterToets]="registratie.roosterToets">
+        </dt-lesuur>
+    }
+    <div class="omschrijving color-typography-2 text-content-semi">
+        <span [dtTooltip]="omschrijving" [onTouchAllowed]="true">{{ omschrijving }}</span>
+    </div>
+    <div class="tijdsindicatie color-typography-3 text-small-content-semi">{{ tijdsindicatie }}</div>
+</div>
+<div class="icons">
+    @if (toets) {
+        <i class="fill-accent-warning-1" hmyIcon="toets" size="medium"></i>
+    }
+    @if (groteToets) {
+        <i class="fill-accent-negative-1" hmyIcon="toetsGroot" size="medium"></i>
+    }
+    @if (registratie.opmerkingen) {
+        <i class="fill-typography-4" [dtTooltip]="registratie.opmerkingen" [onTouchAllowed]="true" hmyIcon="reacties" size="medium"></i>
+    }
+</div>

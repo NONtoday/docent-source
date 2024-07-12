@@ -1,0 +1,56 @@
+<!-- Hou toch een lesuur div, zodat de afspraken uitgelijnt zijn -->
+<div class="lesuur">
+    @if (afspraak.presentieRegistratieVerwerkt) {
+        <i class="check afspraak-check"></i>
+    }
+</div>
+<div class="tijd">
+    <div class="start text-content-small-semi">{{ afspraak.begin | dtDate: 'tijd' }}</div>
+    <div class="eind text-content-small">{{ afspraak.eind | dtDate: 'tijd' }}</div>
+</div>
+<div class="lijn"></div>
+<div class="titel text-content-small-semi">
+    <span #titel>{{ afspraak | afspraakTitel }}</span>
+</div>
+<div class="icons">
+    @if (afspraak.herhalendeAfspraak) {
+        <i color="fg-neutral-moderate" size="small" hmyIcon="verversen"></i>
+    }
+    @if (afspraak.bijlagen.length > 0) {
+        <i color="fg-neutral-moderate" size="small" hmyIcon="bijlage"></i>
+    }
+</div>
+<div class="locatie">{{ afspraak.locatie }}</div>
+@if (!ingelogdeMedewerkerIsAuteur) {
+    <hmy-tag [label]="afspraak.auteurEigenAfspraak | volledigeNaam" [textEllipsis]="true" icon="none" color="positive"></hmy-tag>
+}
+@if (afspraakParticipantenLength > 0) {
+    <hmy-pill class="deelnemer-counter" text="+{{ afspraakParticipantenLength }}"></hmy-pill>
+}
+<div class="actions">
+    <dt-icon
+        class="delete"
+        #deleteIcon
+        [ngClass]="{ 'popup-open': isPopupOpen }"
+        (click)="onDeleteClick($event)"
+        color="negative"
+        icon="verwijderen"
+        size="medium"></dt-icon>
+    @if (afspraak.presentieRegistratieVerplicht) {
+        <dt-icon
+            class="ok"
+            #okIcon
+            [ngClass]="{ 'popup-open': isPopupOpen }"
+            [color]="afspraak.presentieRegistratieVerwerkt ? 'positive' : 'primary'"
+            (click)="onRegistratieClick($event)"
+            size="medium"
+            icon="yesRadio"></dt-icon>
+    }
+    <dt-icon
+        class="edit"
+        #editIcon
+        [ngClass]="{ 'popup-open': isPopupOpen }"
+        (click)="onEditClick($event)"
+        size="medium"
+        icon="bewerken"></dt-icon>
+</div>

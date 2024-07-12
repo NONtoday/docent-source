@@ -1,0 +1,108 @@
+<div class="maand-en-view-toggle show-for-desktop">
+    <h2 class="maand">{{ date | dtDate: 'maand' }}</h2>
+    <hmy-switch-group class="show-for-desktop">
+        <hmy-switch
+            class="weekview"
+            [active]="!dayViewMode"
+            (click)="setWeekViewMode(false)"
+            data-gtm="rooster-weekview"
+            label="Week"></hmy-switch>
+        <hmy-switch
+            class="dagview"
+            [active]="dayViewMode"
+            (click)="setWeekViewMode(true)"
+            data-gtm="rooster-dagview"
+            label="Dag"></hmy-switch>
+    </hmy-switch-group>
+</div>
+<i
+    class="link-dezeweek icon hide-for-desktop"
+    [routerLink]="[path(datumHuidigeWeek)]"
+    color="action-primary-normal"
+    hmyIcon="kalenderDag"
+    cy="rooster-deze-week"
+    dtTooltip="Toon deze week"
+    size="medium"></i>
+<div class="kalender">
+    <i
+        class="fill-primary-1 link-dezeweek icon show-for-desktop"
+        [routerLink]="[path(datumHuidigeWeek)]"
+        hmyIcon="kalenderDag"
+        cy="rooster-deze-week"
+        dtTooltip="Toon deze week"
+        size="medium"></i>
+    <i
+        class="pointer week-nav"
+        id="weekTerug"
+        [routerLink]="[path(vorigeWeek)]"
+        color="fg-on-primary-weak"
+        dtTooltip="Vorige week"
+        hmyIcon="chevronLinks"
+        size="small"
+        cy="rooster-week-terug">
+    </i>
+    @if (!loading) {
+        <span class="label-week text-content-semi">{{ date | dtDate: 'week' }}</span>
+    }
+    @if (loading) {
+        <hmy-spinner />
+    }
+    <i
+        class="pointer week-nav"
+        id="weekVooruit"
+        [routerLink]="[path(volgendeWeek)]"
+        color="fg-on-primary-weak"
+        dtTooltip="Volgende week"
+        hmyIcon="chevronRechts"
+        size="small"
+        cy="rooster-week-vooruit">
+    </i>
+</div>
+<div class="action-icons">
+    <i
+        class="icon icon-opties show-for-phone-only"
+        #moreOptions
+        (click)="openMoreOptions()"
+        hmyIcon="opties"
+        size="medium"
+        cy="rooster-more-options"></i>
+    <div class="hide-for-phone-only" (click)="openJarigPopup()">
+        <i class="fill-primary-1 icon" #jarigIcon hmyIcon="taart" dtTooltip="Jarige leerlingen" size="medium"> </i>
+        @if (aantalVerjaardagen$ | async; as aantalJarigen) {
+            <div class="jarigencounter">{{ aantalJarigen }}</div>
+        }
+    </div>
+    <div class="werkdruk hide-for-phone-only">
+        <i
+            class="werkdruk-link fill-primary-1 icon"
+            #werkdrukIcon
+            (click)="openWerkdruk()"
+            dtTooltip="Toon werkdruk"
+            hmyIcon="werkdruk"
+            size="medium"
+            data-gtm="rooster-werkdruk">
+        </i>
+    </div>
+    <i
+        class="icon vrije-uren-icon hide-for-phone-only"
+        [hmyIcon]="toonVrijeUren ? 'rijVerbergen' : 'rijTonen'"
+        [attr.data-gtm]="toonVrijeUren ? 'verberg-vrije-uren' : 'toon-vrije-uren'"
+        [class.vrije-uren-actief]="toonVrijeUren"
+        (click)="onVrijeUrenClick()"
+        size="medium"
+        dtTooltip="Toon vrije uren"></i>
+    <div
+        class="weekend show-for-desktop"
+        id="weekendToggle"
+        [dtTooltip]="showWeekend ? 'Verberg weekend' : 'Toon weekend'"
+        [class.show-weekend]="showWeekend"
+        [attr.data-gtm]="showWeekend ? 'verberg-weekend' : 'toon-weekend'"
+        (click)="onWeekendClick()">
+        @if (this.showWeekend) {
+            <i class="icon fill-primary-1" hmyIcon="uitklappenRechts" size="medium"></i>
+        }
+        @if (!this.showWeekend) {
+            <i class="icon fill-primary-1" hmyIcon="uitklappenLinks" size="medium"></i>
+        }
+    </div>
+</div>

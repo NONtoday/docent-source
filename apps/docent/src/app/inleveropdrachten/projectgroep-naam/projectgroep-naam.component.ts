@@ -1,0 +1,19 @@
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ColorToken, CssVarPipe } from 'harmony';
+import { Projectgroep } from '../../../generated/_types';
+
+@Component({
+    selector: 'dt-projectgroep-naam',
+    templateUrl: './projectgroep-naam.component.html',
+    styleUrls: ['./projectgroep-naam.component.scss'],
+    imports: [CssVarPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true
+})
+export class ProjectgroepNaamComponent {
+    @HostBinding('class.actief') @Input() actief: boolean;
+    @HostBinding('class.read-only') @Input() readOnly: boolean;
+
+    @Input() projectgroep: Projectgroep;
+    @Input() color: ColorToken = 'text-strong';
+}

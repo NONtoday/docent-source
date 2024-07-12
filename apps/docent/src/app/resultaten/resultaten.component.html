@@ -1,0 +1,173 @@
+<dt-header titel="Voortgangsdossier" icon="voortgangsdossier"></dt-header>
+@if (data$ | async; as data) {
+    <div class="content" [class.met-niveaus]="metNiveaus">
+        @if (data.niveaus.length > 1) {
+            <div class="niveaus show-for-tablet">
+                @for (option of data.niveaus; track option) {
+                    <div
+                        class="niveau color-primary-1 text-content-semi"
+                        [class.active]="option.active"
+                        [attr.data-gtm]="option.gtmTag"
+                        (click)="option.onClickFn()">
+                        {{ option.text }}
+                    </div>
+                }
+            </div>
+        }
+        <div class="scroll-wrapper" [style.grid-template-columns]="templateColumns">
+            <div class="lesgroep-leerlingen">
+                <div class="lesgroep-container">
+                    <dt-background-icon [color]="$any(data.matrix.lesgroep.color)" [sizes]="['medium', 'small']" icon="groep">
+                    </dt-background-icon>
+                    <div class="lesgroep-action" (click)="openResultatenQuickNavPopup()">
+                        <span class="lesgroep">{{ data.matrix.lesgroep.naam }} </span>
+                        <i class="text-content-bold icon-chevron-onder fill-primary-4" #lesgroep hmyIcon="chevronOnder" size="smallest"></i>
+                    </div>
+                    <dt-resultaten-save-indicator class="show-for-tablet"></dt-resultaten-save-indicator>
+                    <i
+                        class="icon-opties fill-typography-5"
+                        #moreOptions
+                        [sizes]="['large', 'large', 'large', 'medium']"
+                        (click)="onMoreOptions(data.matrix.lesgroep)"
+                        hmyIcon="opties"></i>
+                </div>
+                <div class="mobile-buttons hide-for-tablet">
+                    <div
+                        [ngClass]="{ selected: selectedTab$.value === 'leerlingen' }"
+                        (click)="selectedTab$.next('leerlingen')"
+                        cy="resultaten-leerlingen-tab">
+                        Leerlingen
+                    </div>
+                    <div
+                        [ngClass]="{ selected: selectedTab$.value === 'toetsen' }"
+                        (click)="selectedTab$.next('toetsen')"
+                        cy="resultaten-toetsen-tab">
+                        Toetsen
+                    </div>
+                </div>
+                @if (toonLeerlingen) {
+                    <div class="leerling-bar">
+                        <div class="sorteer-container">
+                            <div class="sorteer-header pointer" #sorteerheader (click)="sorteerClick(data.leerlingSortering)">
+                                <span class="color-primary-1 text-small-content-semi">{{ data.leerlingSortering.veld | ucfirst }}</span>
+                                <i
+                                    class="fill-primary-1 icon-sort"
+                                    [hmyIcon]="data.leerlingSortering.order.toString() === 'ASC' ? 'aZ' : 'zA'"
+                                    size="smallest"></i>
+                            </div>
+                        </div>
+                        <div class="klasgemiddelde color-primary-3 text-content-semi show-for-tablet">Klasgemiddelde</div>
+                        @for (leerling of data.sortedLeerlingen; track trackById(i, leerling); let i = $index) {
+                            <div
+                                class="leerling-container"
+                                [attr.data-gtm]="isPhoneOrTabletPortrait ? 'resultaten-leerling-mobile' : null"
+                                (mouseenter)="resultaatService.nextIndexToHighlight(i)"
+                                (mouseleave)="resultaatService.nextIndexToHighlight(null)"
+                                (click)="isPhoneOrTabletPortrait ? openLeerlingResultaten(leerling) : resultaatService.nextIndexToPin(i)">
+                                <dt-leerling
+                                    [leerling]="$any(leerling)"
+                                    [avatarsize]="32"
+                                    [avatarfontsize]="12"
+                                    [verkleinLeerlingNaamFontsize]="true"
+                                    [class.highlight]="(highlight$ | async) === i || (activeLeerling$ | async) === leerling.uuid"
+                                    [class.pinned]="(pinned$ | async) === i"
+                                    [toonMoreOptions]="!isPhoneOrTabletPortrait"
+                                    [toonWerkdruk]="false"
+                                    [heeftNotificatie]="oudResultaatInDateRange(leerling.datumInLesgroepVoorOvernemenResultaten)"
+                                    [notitieboekToegankelijk]="!!leerling.notitieboekToegankelijk"
+                                    notificatieTooltip="Nieuwe in deze lesgroep. Je kan resultaten
+                  uit de vorige lesgroep importeren.">
+                                </dt-leerling>
+                                @if ((pinned$ | async) === i) {
+                                    <dt-background-icon
+                                        class="pinned-icon"
+                                        [backgroundColor]="primary_1"
+                                        icon="pinned"
+                                        color="background_6"
+                                        size="smallest"></dt-background-icon>
+                                }
+                                @if ((pinned$ | async) !== i) {
+                                    <dt-background-icon
+                                        class="pinned-icon hover show-for-desktop"
+                                        [backgroundColor]="background_6"
+                                        icon="pinned"
+                                        color="typography_3"
+                                        hoverColor="primary_1"
+                                        size="smallest">
+                                    </dt-background-icon>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            @if (toonToetsen) {
+                @for (periode of data.matrix.periodes; track trackByCijferperiodeId(i, periode); let i = $index) {
+                    <dt-resultaat-periode
+                        [periode]="periode"
+                        [collapsed]="resultaatService.periodeCollapsedStatus$.value[periode.cijferPeriode.nummer]"
+                        [leerlingen]="data.sortedLeerlingen"
+                        [highlight]="highlight$ | async"
+                        [pinned]="pinned$ | async"
+                        [magBewerken]="data.magKolomBewerken"
+                        [magBekoeldePeriodeBewerken]="data.magBekoeldePeriodeBewerken"
+                        [alternatiefNiveau]="data.alternatiefNiveau"
+                        [kolomZichtbaarheid]="
+                            data.kolommenzichtbaarheid[periode.cijferPeriode.nummer - 1]
+                                ? data.kolommenzichtbaarheid[periode.cijferPeriode.nummer - 1]
+                                : defaultPeriodeKolomZichtbaarheid
+                        "
+                        [lesgroepId]="data.lesgroepId"
+                        (onKolomToggle)="toggleKolom($event, periode.cijferPeriode.nummer, data.kolommenzichtbaarheid)"
+                        (onCollapseToggle)="togglePeriodeStatus(periode.cijferPeriode.nummer, $event)">
+                    </dt-resultaat-periode>
+                }
+            }
+            @if (data.niveaus.length > 1) {
+                <dt-floating-options class="hide-for-tablet" [options]="data.niveaus"> </dt-floating-options>
+            }
+        </div>
+    </div>
+    @if (toetskolomSidebar$ | async; as kolomData) {
+        <dt-toetskolom-sidebar
+            [@allowLeaveAnimation]
+            [kolomId]="kolomData.kolomId"
+            [leerlingen]="kolomData.leerlingen"
+            [kolomType]="kolomData.kolomType"
+            [herkansingsNummer]="kolomData.herkansingsNummer"
+            [alternatiefNiveau]="data.alternatiefNiveau"
+            [sortering]="data.leerlingSortering"
+            [periode]="kolomData.periode"
+            [lesgroep]="data.matrix.lesgroep"
+            [cijferPeriodes]="data.cijferPeriodes"
+            [voortgangsdossierId]="data.matrix.voortgangsdossier.id"
+            [leerlingMissendeToetsen]="kolomData.leerlingMissendeToetsen"
+            (saveToetsKolom)="onToetskolomSaved($event)"
+            (deleteToetsKolom)="deleteToetsKolom($event, data.matrix.lesgroep.id)">
+        </dt-toetskolom-sidebar>
+    }
+    @if (leerlingResultatenSidebar$ | async; as kolomData) {
+        <dt-leerling-resultaten-sidebar
+            [@allowLeaveAnimation]
+            [leerling]="kolomData.leerling"
+            [initialVoortgangsdossierMatrix]="data.matrix"
+            [lesgroepId]="data.matrix.lesgroep.id">
+        </dt-leerling-resultaten-sidebar>
+    }
+} @else {
+    <div class="loading">
+        <hmy-spinner />
+    </div>
+}
+@if (showSuccesMessage) {
+    <dt-message
+        class="succes-message"
+        [@slideInUpOnEnter]
+        [@slideOutDownOnLeave]
+        [text]="succesMessage"
+        [duration]="3000"
+        [isToast]="true"
+        (onClose)="showSuccesMessage = false"
+        soort="ok">
+    </dt-message>
+}

@@ -1,0 +1,9 @@
+<span class="titel">{{ titel }}</span>
+<div class="info-gemiddelde">
+    <i class="info" [hmyTooltip]="tooltip" [onTouchAllowed]="true" hmyIcon="informatie" size="smallest"></i>
+    @if (gemiddelde) {
+        <span class="gemiddelde" [class.onvoldoende]="isOnvoldoende">~{{ gemiddelde | commaResult }}</span>
+    } @else {
+        <span class="gemiddelde is-leeg"> - </span>
+    }
+</div>

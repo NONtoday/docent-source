@@ -1,0 +1,137 @@
+<div class="menu-toggle" (click)="openMenu('Main')">
+    <i hmyIcon="hamburger" size="large"></i>
+</div>
+<div class="main-menu" [class.alternative-theme]="isTestEnvironment">
+    <div class="home" (click)="onHomeClicked()">
+        @if (isTestEnvironment) {
+            <hmy-pill [pointer]="true" color="primary-strong" text="Test" type="darker" />
+        } @else {
+            <i class="menu-icon" [sizeInPx]="32" hmyIcon="somtoday"></i>
+        }
+        <span class="menu-text text-content-small-bold">Somtoday</span>
+        <i
+            class="show-for-phone-only"
+            [color]="isTestEnvironment ? 'action-neutral-normal' : 'fg-on-primary-max'"
+            (click)="closeMenu('Main', $event)"
+            hmyIcon="sluiten"
+            size="medium">
+        </i>
+    </div>
+    <div
+        class="menu-item met-verdieping rooster"
+        [class.expanded]="menuState.get('Rooster')"
+        [class.active]="isRouterLinkActive('rooster')"
+        (mouseenter)="onMouseEnter('Rooster')"
+        (mouseleave)="onMouseLeave('Rooster')"
+        (click)="onClick('Rooster', 'rooster')"
+        data-gtm="menu-item-rooster">
+        <i class="menu-icon" [sizeInPx]="24" hmyIcon="rooster" dtTooltip="Rooster"> </i>
+        <span class="menu-text show-for-phone-only">Rooster</span>
+        @if (menuState.get('Rooster')) {
+            <dt-rooster-submenu
+                class="submenu"
+                [afspraken]="(afspraken$ | async)!"
+                [vandaag]="vandaag"
+                [menuOpen]="menuState.get('Rooster')"></dt-rooster-submenu>
+        }
+        <i
+            class="show-for-phone-only"
+            [color]="isTestEnvironment ? 'action-neutral-normal' : 'fg-on-primary-max'"
+            hmyIcon="chevronRechts"
+            size="small"></i>
+    </div>
+    @if (heeftToegangTotEloEnSw$ | async) {
+        <div
+            class="menu-item studiewijzer"
+            [routerLink]="['/studiewijzers']"
+            [class.active]="isRouterLinkActive('studiewijzers')"
+            (click)="closeAllMenus($event)"
+            data-gtm="menu-item-studiewijzer">
+            <i class="menu-icon" [elementOffset]="12" [sizeInPx]="24" hmyIcon="studiewijzer" dtTooltip="Studiewijzers" position="right">
+            </i>
+            <span class="menu-text show-for-phone-only">Studiewijzers</span>
+        </div>
+    }
+    @if (heeftToegangTotEloEnSw$ | async) {
+        <div
+            class="menu-item inleveropdrachten"
+            [routerLink]="['/inleveropdrachten']"
+            [class.active]="isRouterLinkActive('inleveropdrachten')"
+            (click)="closeAllMenus($event)"
+            data-gtm="menu-item-inleveropdrachten">
+            <i
+                class="menu-icon"
+                [elementOffset]="12"
+                [sizeInPx]="24"
+                hmyIcon="inleveropdrachtFilled"
+                dtTooltip="Inleveropdrachten"
+                position="right">
+            </i>
+            <span class="menu-text show-for-phone-only">Inleveropdrachten</span>
+        </div>
+    }
+    <div
+        class="menu-item resultaten"
+        *dtHeeftRecht="['heeftVoortgangsdossierInzienRecht', 'heeftExamendossierInzienRecht']; operation: 'OR'"
+        [class.active]="isRouterLinkActive('resultaten')"
+        [dtPopupOpen]="[resultatenContainerRef]"
+        (click)="openResultatenQuickNavPopup()"
+        popupOpenClass="active"
+        data-gtm="menu-item-resultaten">
+        <i class="menu-icon" #resultaten [elementOffset]="12" [sizeInPx]="24" hmyIcon="resultaten" dtTooltip="Resultaten" position="right">
+        </i>
+        <span class="menu-text show-for-phone-only">Resultaten</span>
+    </div>
+    @if (heeftNotitieboekToegang$ | async) {
+        <div
+            class="menu-item notitieboek"
+            [class.active]="isRouterLinkActive('notitieboek') || notitieboekPopupOpen"
+            (click)="openNotitieboekQuickNavPopup()"
+            data-gtm="menu-item-notitieboek"
+            dtTooltip="Notitieboek"
+            position="right">
+            @if (heeftOngelezenNotitie) {
+                <div class="notificatie notificatie-small-alt"></div>
+            }
+            <i class="menu-icon" #notitieboek [sizeInPx]="24" hmyIcon="notitieboek"> </i>
+            <span class="menu-text show-for-phone-only">Notitieboek</span>
+        </div>
+    }
+    @if (heeftMentordashboardToegang$ | async) {
+        <div
+            class="menu-item mentordashboard"
+            [class.active]="isRouterLinkActive('mentordashboard') || mentordashboardPopupOpen"
+            (click)="openMentordashboardQuickNavPopup()"
+            data-gtm="menu-item-mentordashboard"
+            dtTooltip="Mentorleerlingen"
+            position="right">
+            <i class="menu-icon" #mentorleerlingen [sizeInPx]="24" hmyIcon="groepAlt" title="Mentorleerlingen"> </i>
+            <span class="menu-text show-for-phone-only">Mentorleerlingen</span>
+        </div>
+    }
+    <div class="menu-item show-for-phone-only" (click)="naarSomtoday()" data-gtm="menu-item-terug-naar-somtoday">
+        <i class="menu-icon" [sizeInPx]="24" hmyIcon="terugNaarSomtoday"> </i>
+        <span class="menu-text show-for-phone-only naar-somtoday">{{
+            isCoreUriSet
+                ? 'Terug naar Somtoday'
+                : 'Naar
+      Somtoday'
+        }}</span>
+    </div>
+    <div class="bottom-menu-items">
+        <dt-whatsnew
+            class="menu-item bottom-menu-item whatsnew"
+            [alternativeTheme]="isTestEnvironment"
+            data-gtm="whatsnew-icon"></dt-whatsnew>
+        <div class="menu-item bottom-menu-item" id="appcuesWidget">
+            <i
+                class="appcues-widget-icon menu-icon"
+                [elementOffset]="12"
+                [sizeInPx]="24"
+                hmyIcon="help"
+                dtTooltip="Informatie & uitleg"
+                position="right"></i>
+        </div>
+    </div>
+    <div class="overlay" (click)="closeAllMenus($event)"></div>
+</div>

@@ -1,0 +1,22 @@
+<span class="naam text-content-semi">{{ sjabloon.naam }}</span>
+@if (!isEigenaar && sjabloon.eigenaar) {
+    <dt-avatar
+        [src]="sjabloon.eigenaar.pasfoto"
+        [initialen]="sjabloon.eigenaar.initialen"
+        [allowPhotoPopup]="false"
+        [size]="32"
+        dtTooltip="{{ [sjabloon.eigenaar] | personenNamen }}"
+        altTag="Sjabloon van collega - {{ sjabloon.eigenaar | volledigeNaam }}"></dt-avatar>
+}
+@if (weeknummer) {
+    <div class="week-selectie text-content-small-semi" #weekSelectie (click)="openWeekSelectiePopup()">
+        <span>Week {{ weeknummer }} </span>
+        <i color="fg-primary-normal" hmyIcon="reeks" size="small"></i>
+    </div>
+}
+@if (weeknummer) {
+    <i (click)="onVerwijderSjabloon.emit(sjabloon)" color="action-negative-normal" hmyIcon="verwijderen" size="medium"></i>
+}
+@if (!weeknummer) {
+    <i class="add" color="action-positive-normal" hmyIcon="toevoegen"></i>
+}

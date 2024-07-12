@@ -1,0 +1,29 @@
+<div class="title-row">
+    <span class="text-content-semi text-strong vaknaam">
+        {{ resultaat.toetscode }}
+        @if (isAlternatieveNormering) {
+            <span class="alt-normering">(alt. norm)</span>
+        }
+    </span>
+    <div class="cijfer-info">
+        @if (resultaat.opmerkingen) {
+            <i class="opmerking-icon" [hmyTooltip]="tooltipOpmerking" [onTouchAllowed]="true" hmyIcon="reacties"></i>
+        }
+        <span class="text-content-semi" [style.color]="resultaat.formattedResultaat | mentordashboardResultaatKleur: instellingen | cssVar">
+            {{ formattedResultaat }}
+        </span>
+    </div>
+</div>
+<div class="info-row text-content-small-semi text-weak">
+    @if (isDeeltoets) {
+        <i class="deeltoets-icon" [hmyTooltip]="tooltipDeeltoets" [onTouchAllowed]="true" hmyIcon="deeltoets" size="smallest"></i>
+    }
+    <span class="toetssoort">{{ resultaat.toetssoort }}</span>
+    <span class="weging"> <i hmyIcon="weging" color="text-weak" size="smallest"></i> {{ resultaat.weging }}x</span>
+    @if (isHerkansing) {
+        <div class="herkansing">
+            <i hmyIcon="herkansing" color="text-weak" size="smallest"></i>
+            <span>her {{ herkansingsnummer }}</span>
+        </div>
+    }
+</div>

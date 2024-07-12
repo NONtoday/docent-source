@@ -1,0 +1,27 @@
+@for (item of stack; track item; let i = $index) {
+    @if (i < maxshown || item.prio) {
+        <div class="item" [style.zIndex]="i">
+            @if (item.initialen) {
+                <dt-avatar
+                    [allowPhotoPopup]="false"
+                    [src]="item.pasfoto"
+                    [initialen]="item.initialen"
+                    [fontsize]="fontSize"
+                    [size]="stackSize">
+                </dt-avatar>
+            }
+            @if (item.color) {
+                <dt-background-icon [color]="item.color" [size]="stackSize === 24 ? 'small' : 'smallest'" icon="groep"></dt-background-icon>
+            }
+        </div>
+    }
+}
+@if (counter > 0) {
+    <div
+        class="counter text-label-bold action-primary-normal"
+        [style.height.px]="stackSize"
+        [style.width.px]="stackSize"
+        [style.zIndex]="stack.length + 1">
+        +{{ counter }}
+    </div>
+}

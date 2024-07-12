@@ -1,0 +1,63 @@
+<dt-popup>
+    <div class="popup-content" #content popup-content>
+        @if (labels) {
+            <div class="labels">
+                @if (nonMatchingLabels$ | async; as notMatching) {
+                    @for (label of normaleLabels; track label) {
+                        <div
+                            class="label text-content-semi color-primary-1 pointer"
+                            [class.active]="label.id === activeLabel?.id"
+                            [class.fade]="notMatching | contains: label"
+                            (click)="labelSelected(label)"
+                            data-gtm="resultaatlabel-geselecteerd">
+                            <span class="text-ellipsis">{{ label.naam }}</span>
+                            <span>({{ label.afkorting }})</span>
+                        </div>
+                    }
+                }
+            </div>
+        }
+        @if (labels) {
+            <div class="divider"></div>
+        }
+        <div class="text-content-semi color-primary-1">
+            @for (label of specialeWaardeLabels; track label) {
+                <div
+                    class="label text-content-semi color-primary-1 pointer"
+                    [class.active]="label.id === activeLabel?.id"
+                    (click)="labelSelected(label)"
+                    data-gtm="resultaatlabel-geselecteerd">
+                    <span class="text-ellipsis">{{ label.naam }}</span>
+                    <span>({{ label.afkorting }})</span>
+                </div>
+            }
+            @if (!labels) {
+                @if (!isRapportCijferKolom) {
+                    <div class="label pointer" (click)="onSpecialeWaardeSelected('*')" data-gtm="niet-gemaakt-geselecteerd">
+                        Niet gemaakt (*)
+                    </div>
+                }
+                @if (!isRapportCijferKolom) {
+                    <div class="label pointer" (click)="onSpecialeWaardeSelected('vr')" data-gtm="vrijstelling-geselecteerd">
+                        Vrijstelling (vr)
+                    </div>
+                }
+                @if (isRapportCijferKolom) {
+                    <div class="label pointer" (click)="onSpecialeWaardeSelected('X')" data-gtm="telt-niet-mee-geselecteerd">
+                        Telt niet mee (X)
+                    </div>
+                }
+            }
+            <div class="label pointer" (click)="onSpecialeWaardeSelected('leeg')" data-gtm="leeg-resultaatlabel-geselecteerd">
+                Leeg resultaat
+            </div>
+        </div>
+        @if (toonImporteerButton) {
+            <div class="divider"></div>
+            <div class="text-content-semi color-primary-1 importeren" (click)="onImporteren()">
+                <i class="fill-primary-1" hmyIcon="downloaden" size="small"></i>
+                Resultaten importeren
+            </div>
+        }
+    </div>
+</dt-popup>

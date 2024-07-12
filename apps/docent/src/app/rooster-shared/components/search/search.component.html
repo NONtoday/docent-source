@@ -1,0 +1,14 @@
+<input
+    #searchInput
+    [formControl]="searchControl"
+    [placeholder]="placeholder"
+    [autoFocus]="autofocus"
+    dtAutofocus
+    type="text"
+    cy="zoekveld" />
+@if (!showSpinner) {
+    <i class="search-icon" hmyIcon="zoeken"></i>
+}
+@if (showSpinner) {
+    <hmy-spinner class="search-icon spinner" />
+}

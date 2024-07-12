@@ -1,0 +1,41 @@
+<dt-popup>
+    <div popup-content>
+        @if (absentieMelding) {
+            <div class="melding">
+                <div class="titel">
+                    <i [hmyIcon]="icon" [style.fill]="iconColor" size="medium"></i>
+                    <span class="titel-text text-content-semi text-strong">{{ titel }}</span>
+                </div>
+                @if (isAfwezigMelding) {
+                    <hmy-pill [color]="geoorloofd ? 'primary' : 'negative'" [text]="geoorloofd ? 'Geoorloofd' : 'Ongeoorloofd'"></hmy-pill>
+                }
+                <div class="details">
+                    @if (!isAfwezigMelding) {
+                        <span class="tijd text-content-semi text-strong">{{ absentieMelding.tijdstip | dtDate: 'tijd' }}</span>
+                    }
+                    <div>
+                        <span class="text-content-semi text-strong"
+                            >{{ absentieMelding.absentieReden!.afkorting }} - {{ absentieMelding.absentieReden!.omschrijving }} </span
+                        ><br />
+                        @if (absentieMelding.opmerkingen) {
+                            <span class="text-content text-strong">{{ absentieMelding.opmerkingen }}</span>
+                        }
+                    </div>
+                    @if (absentieMelding.ingevoerdDoor || absentieMelding.ingevoerdDoorVerzorger) {
+                        <span class="gemeld-door text-label-semi text-weak"
+                            >Gemeld door {{ absentieMelding.ingevoerdDoorVerzorger ?? absentieMelding.ingevoerdDoor | volledigeNaam }}
+                        </span>
+                    }
+                </div>
+                <div class="buttons">
+                    @if (isAbsentieMeldingToegestaan) {
+                        <dt-verwijder-button [withBorder]="true" [icon]="null" (onDelete)="verwijderButtonClicked()"> </dt-verwijder-button>
+                        <dt-outline-button class="bewerk" (click)="bewerkButtonClicked()">Bewerken</dt-outline-button>
+                    } @else {
+                        <dt-button class="sluit-button" (click)="sluitButtonClicked()" buttonType="primary">Sluiten </dt-button>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</dt-popup>

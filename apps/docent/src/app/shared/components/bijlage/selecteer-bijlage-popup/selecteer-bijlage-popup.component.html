@@ -1,0 +1,29 @@
+<dt-popup>
+    <div popup-content>
+        <form #uploadForm [formGroup]="uploadFormGroup">
+            <input
+                #fileInput
+                (change)="onFilesAdded($event)"
+                type="file"
+                cy="upload-bijlage"
+                style="display: none"
+                multiple
+                formControlName="files" />
+        </form>
+        <div class="actions">
+            <dt-popup-button
+                class="upload-button"
+                (click)="upload()"
+                icon="uploaden"
+                hideOutlineForBreakpointUp="tablet"
+                text="Vanaf apparaat">
+            </dt-popup-button>
+            <dt-popup-button
+                class="link-button"
+                (click)="link()"
+                icon="link"
+                hideOutlineForBreakpointUp="tablet"
+                text="Link"></dt-popup-button>
+        </div>
+    </div>
+</dt-popup>

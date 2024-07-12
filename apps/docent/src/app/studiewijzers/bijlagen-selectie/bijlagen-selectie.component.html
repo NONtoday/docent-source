@@ -1,0 +1,104 @@
+<form id="ngForm" [formGroup]="bijlagenForm" (ngSubmit)="submit()">
+    @if (formMappen.controls.length > 0) {
+        <div class="container bijlagemappen">
+            <div class="header">
+                <span class="header-titel">Mappen</span>
+                @if (disableMappenSelectie) {
+                    <i
+                        [onTouchAllowed]="true"
+                        color="fg-neutral-moderate"
+                        hmyIcon="informatie"
+                        size="small"
+                        dtTooltip="Het is niet mogelijk om mappen toe te voegen in een andere map"></i>
+                }
+                <span class="alles-selecteren" (click)="toggleAllMappen(!selectedAllFormMappen)">{{
+                    selectedAllFormMappen ? 'Alles deselecteren' : 'Alles selecteren'
+                }}</span>
+            </div>
+            @for (mapcontrol of formMappen.controls; track mapcontrol; let i = $index) {
+                <div formArrayName="mappen">
+                    <div class="bijlage-map" [formGroupName]="i">
+                        <div
+                            class="selectie-item map"
+                            [class.disabled]="disableMappenSelectie"
+                            (click)="expandedmappen[i] = !expandedmappen[i]">
+                            @if (!disableMappenSelectie) {
+                                <dt-form-checkbox (click)="toggleMapBijlageSelectie(i); $event.stopPropagation()" formControlName="map">
+                                </dt-form-checkbox>
+                            }
+                            <i color="fg-primary-normal" hmyIcon="map" size="medium"></i>
+                            <span class="naam text-content-semi">{{ bijlageMappen[i].naam }}</span>
+                            @if (bijlageMapKleuren.get(bijlageMappen[i])?.length! > 0) {
+                                <dt-kleuren-stack
+                                    class="kleuren-stack"
+                                    [kleuren]="bijlageMapKleuren.get(bijlageMappen[i])"
+                                    [showBorder]="false"
+                                    [nummerKleur]="
+                                        bijlageMappen[i].differentiatiegroepen.length! > 0
+                                            ? 0
+                                            : bijlageMappen[i].differentiatieleerlingen.length
+                                    ">
+                                </dt-kleuren-stack>
+                            }
+                            @if (bijlageMappen[i].bijlagen.length > 0) {
+                                <i class="svg-open-close" [class.is-open]="expandedmappen[i]" hmyIcon="chevronOnder" size="small"></i>
+                            }
+                        </div>
+                        <div class="map-bijlagen" [@collapse]="!expandedmappen[i]" formArrayName="mapbijlagen">
+                            @for (bijlagecontrol of getMapbijlagen(i).controls; track bijlagecontrol; let j = $index) {
+                                <div class="selectie-item bijlage">
+                                    <dt-form-checkbox [formControl]="$any(bijlagecontrol)"></dt-form-checkbox>
+                                    @if (bijlageMappen[i].bijlagen[j].extensie) {
+                                        <dt-bijlage-extensie [extensie]="bijlageMappen[i].bijlagen[j].extensie!"></dt-bijlage-extensie>
+                                    }
+                                    <span class="naam" (click)="openBijlage(bijlageMappen[i].bijlagen[j])">
+                                        {{ bijlageMappen[i].bijlagen[j].titel }}
+                                    </span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    @if (formBijlagen.controls.length > 0) {
+        <div class="container rootbijlagen">
+            <div class="header">
+                <i color="fg-primary-normal" hmyIcon="bijlage" size="medium"></i>
+                <span class="header-titel">Bijlagen</span>
+                <span class="alles-selecteren" (click)="toggleBijlageSelectie(!selectedAllFormBijlagen)">{{
+                    selectedAllFormBijlagen ? 'Alles deselecteren' : 'Alles selecteren'
+                }}</span>
+            </div>
+            @for (control of formBijlagen.controls; track control; let i = $index) {
+                <div class="selectie-item bijlage" formArrayName="bijlagen">
+                    <dt-form-checkbox [formControl]="$any(control)"></dt-form-checkbox>
+                    <dt-bijlage-extensie [class.hidden]="!bijlagen[i].extensie" [extensie]="bijlagen[i].extensie!"> </dt-bijlage-extensie>
+                    <span class="naam" (click)="openBijlage(bijlagen[i])"> {{ bijlagen[i].titel }} </span>
+                    @if (bijlageKleuren.get(bijlagen[i])?.length! > 0) {
+                        <dt-kleuren-stack
+                            class="kleuren-stack"
+                            [kleuren]="bijlageKleuren.get(bijlagen[i])"
+                            [showBorder]="false"
+                            [nummerKleur]="bijlagen[i].differentiatiegroepen.length! > 0 ? 0 : bijlagen[i].differentiatieleerlingen.length">
+                        </dt-kleuren-stack>
+                    }
+                </div>
+            }
+        </div>
+    }
+</form>
+@if ({ aantal: aantalGeselecteerd$ | async }; as data) {
+    <div class="buttons">
+        <span class="aantal show-for-tablet text-content-small-semi" [class.hidden]="data.aantal! <= 0"
+            >{{ data.aantal }} geselecteerd</span
+        >
+        <dt-outline-button class="deselect-all" [class.verborgen]="data.aantal! <= 0" (click)="deselectAll()"
+            >Deselecteren
+        </dt-outline-button>
+        <button class="submit" [disabled]="data.aantal! <= 0" [class.full-width]="data.aantal! <= 0" type="submit" form="ngForm">
+            {{ data.aantal! > 0 ? 'Toevoegen' : 'Selecteer een item' }}
+        </button>
+    </div>
+}

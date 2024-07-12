@@ -1,0 +1,323 @@
+<div class="lesregistratie" [ngClass]="{ 'lesregistratie-enabled': enabled }">
+    @if (afspraak && !enabled) {
+        <div class="disabled-registration-info">
+            @if (afspraak.presentieRegistratieVerwerkt && !afspraakIsVandaag) {
+                <i hmyIcon="waarschuwing" size="large"></i>
+                <span>{{
+                    !(deviceService.isDesktop$ | async)
+                        ? 'Reeds opgeslagen, wijzigen niet mogelijk.'
+                        : 'Registratie is reeds voltooid en kan niet meer worden bewerkt.'
+                }}</span>
+            }
+            @if (afspraakIsDagInToekomst) {
+                <i hmyIcon="waarschuwing" size="large"></i>
+                <span>{{
+                    !(deviceService.isDesktop$ | async)
+                        ? 'Je kunt niet registreren in de toekomst.'
+                        : 'Registreren in de toekomst is niet mogelijk.'
+                }}</span>
+            }
+            @if (!afspraak.presentieRegistratieVerplicht) {
+                <i hmyIcon="waarschuwing" size="large"></i>
+                <span>Registratie is voor deze afspraak niet toegestaan.</span>
+            }
+        </div>
+    }
+    <div class="leerlingregistratie-headers hide-for-desktop">
+        <span class="mobile-aanwezig-header">
+            <div class="aanwezigheid-counter hide-for-desktop">
+                <span class="text-content-semi text-strong">Aanwezig</span>
+                <span class="aanwezig text-content-semi text-weakest">
+                    {{ afspraak?.begin | dtDate: 'dag_kort_dagnummer_maand_kort' }}</span
+                >
+                <hmy-pill class="aanwezig-counter" color="primary" text="{{ aantalAanwezig }}/{{ aantalTotaal }}"></hmy-pill>
+            </div>
+        </span>
+    </div>
+    <div class="header-wrapper" #headers [class.block-view]="blockView">
+        <div class="headers">
+            <div class="sorteer-aanwezig-pill">
+                @if (sortering) {
+                    <div
+                        class="sorteer-header pointer show-for-tablet"
+                        #sorteerheader
+                        (click)="sorteerClick(sortering)"
+                        cy="registratie-sortering">
+                        <span class="action-primary-normal text-content-semi">{{ sortering.veld | ucfirst }}</span>
+                        <i [hmyIcon]="sortering.order === 'ASC' ? 'aZ' : 'zA'" color="action-primary-normal"></i>
+                    </div>
+                }
+                <hmy-pill
+                    [onTouchAllowed]="true"
+                    [hoverable]="true"
+                    dtTooltip="Aanwezig {{ afspraak?.begin | dtDate: 'dag_kort_dagnummer_maand_kort' }}"
+                    color="primary"
+                    text="{{ aantalAanwezig }}/{{ aantalTotaal }}">
+                </hmy-pill>
+            </div>
+            <div
+                class="listview-headers text-content-semi text-moderate"
+                [class.met-verwijderd]="verwijderdMeldingToegestaan"
+                [class.disabled]="registratieDisabled"
+                [class.block-view]="blockView">
+                <ng-container>
+                    <div
+                        class="listview-header aanwezigheid"
+                        #aanwezigheidHeader
+                        [class.disabled]="heeftIedereenExterneRegistratie"
+                        (click)="openBulkAanwezigheidSelectiePopup()">
+                        <span>Aanwezigheid</span>
+                        <i color="action-primary-normal" hmyIcon="bulkCheck"></i>
+                    </div>
+                    @if (verwijderdMeldingToegestaan) {
+                        <div
+                            class="listview-header verwijderd"
+                            #verwijderdHeader
+                            [class.deselect-all]="heeftIedereenRegistratieVerwijderd"
+                            [class.disabled]="heeftIedereenExterneRegistratie || isIedereenAfwezig"
+                            (mouseenter)="bepaalBulkStatusVerwijderd()"
+                            (click)="openBulkVerwijderdMeldingPopup()">
+                            <span class="text-ellipsis" [showIfEllipsed]="true" dtTooltip="Verwijderd"> Verwijderd </span>
+                            <i
+                                [color]="heeftIedereenRegistratieVerwijderd ? 'action-negative-normal' : 'action-primary-normal'"
+                                [hmyIcon]="heeftIedereenRegistratieVerwijderd ? 'bulkUncheck' : 'bulkCheck'"></i>
+                        </div>
+                    }
+                    <div
+                        class="listview-header huiswerk"
+                        #huiswerkHeader
+                        [class.deselect-all]="heeftIedereenRegistratieHuiswerk"
+                        (mouseenter)="bepaalBulkStatusHuiswerk()"
+                        (click)="openBulkHuiswerkPopup()">
+                        <span class="show-for-desktop text-ellipsis" [showIfEllipsed]="true" dtTooltip="Huiswerk niet in orde">
+                            Huiswerk niet in orde
+                        </span>
+                        <i
+                            [color]="heeftIedereenRegistratieHuiswerk ? 'action-negative-normal' : 'action-primary-normal'"
+                            [hmyIcon]="heeftIedereenRegistratieHuiswerk ? 'bulkUncheck' : 'bulkCheck'"></i>
+                    </div>
+                    <div
+                        class="listview-header materiaal"
+                        #materiaalHeader
+                        [class.deselect-all]="heeftIedereenRegistratieMateriaal"
+                        (mouseenter)="bepaalBulkStatusMateriaal()"
+                        (click)="openBulkMateriaalPopup()">
+                        <span class="show-for-desktop text-ellipsis" [showIfEllipsed]="true" dtTooltip="Materiaal niet in orde">
+                            Materiaal niet in orde
+                        </span>
+                        <i
+                            [color]="heeftIedereenRegistratieMateriaal ? 'action-negative-normal' : 'action-primary-normal'"
+                            [hmyIcon]="heeftIedereenRegistratieMateriaal ? 'bulkUncheck' : 'bulkCheck'"></i>
+                    </div>
+                    <div class="extra-registraties show-for-desktop" #extraRegistraties>
+                        @for (item of [].constructor(aantalExtraRegistratiesTonen); track item; let i = $index) {
+                            <div
+                                class="listview-header extra-registratie"
+                                #extraRegistratiesLosHeaders
+                                [class.deselect-all]="heeftIedereenRegistratieAankruisVakVrijVeld(alleExtraVrijveldDefinities[i].id)"
+                                (mouseenter)="bepaalBulkStatusLosVrijVeld(alleExtraVrijveldDefinities[i].id)"
+                                (click)="openBulkLosVrijVeldPopup(alleExtraVrijveldDefinities[i].id, i)">
+                                <div
+                                    class="header-extra-vrijveld"
+                                    [dtTooltip]="alleExtraVrijveldDefinities[i].naam"
+                                    [showIfEllipsed]="true">
+                                    {{ alleExtraVrijveldDefinities[i].naam }}
+                                </div>
+                                <i
+                                    [color]="
+                                        heeftIedereenRegistratieAankruisVakVrijVeld(alleExtraVrijveldDefinities[i].id)
+                                            ? 'action-negative-normal'
+                                            : 'action-primary-normal'
+                                    "
+                                    [hmyIcon]="
+                                        heeftIedereenRegistratieAankruisVakVrijVeld(alleExtraVrijveldDefinities[i].id)
+                                            ? 'bulkUncheck'
+                                            : 'bulkCheck'
+                                    "></i>
+                            </div>
+                        }
+                        @if (aantalExtraRegistratiesTonen < alleExtraVrijveldDefinities.length) {
+                            <div class="listview-header meer-registraties" (click)="openBulkMeerRegistratiesPopup()">
+                                <div
+                                    class="header-extra-registraties"
+                                    [dtTooltip]="
+                                        'Meer registraties (' + (alleExtraVrijveldDefinities.length - aantalExtraRegistratiesTonen) + ')'
+                                    ">
+                                    <div>Meer registraties</div>
+                                    <div>({{ alleExtraVrijveldDefinities.length - aantalExtraRegistratiesTonen }})</div>
+                                </div>
+                                <i color="action-primary-normal" hmyIcon="bulkCheck"></i>
+                            </div>
+                        }
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div class="empty" #empty></div>
+    </div>
+    @if (deviceService.isDesktop$ | async) {
+        <div class="infopanels">
+            @if (heeftNotitieboekToegang$ | async) {
+                <dt-notitie-accordion
+                    [actueleNotities]="(actueleNotities$ | async)!"
+                    [afspraakId]="afspraak?.id"
+                    data-gtm="toggle-notitie-accordion-voor-notities-lespagina"></dt-notitie-accordion>
+            }
+            @if (lesRegistratie) {
+                <dt-vandaag-afwezig [leerlingRegistraties]="$any(lesRegistratie.leerlingRegistraties)"> </dt-vandaag-afwezig>
+            }
+            @if (lesRegistratie) {
+                <dt-signaleringen
+                    [signaleringen]="signaleringen$ | async"
+                    [vrijveldDefinities]="alleVrijveldDefinities"
+                    [periode]="periodeSignaleringen$ | async"
+                    (getSignaleringen)="loadSignaleringen()"></dt-signaleringen>
+            }
+        </div>
+    } @else {
+        <div class="infopanels">
+            <div class="title" (click)="openInfopanelsSidebar(afwezigheidNav)" cy="nu-afwezig">
+                <span class="text-content-semi">Nu afwezig</span>
+                @if (aantalAfwezig > 0) {
+                    <span class="notificatie-counter">{{ aantalAfwezig }}</span>
+                }
+            </div>
+            <div
+                class="title"
+                (click)="openInfopanelsSidebar(signaleringenNav)"
+                cy="signaleringen"
+                data-gtm="open-sidepanel-voor-signaleringen-lespagina">
+                <span class="text-content-semi">Signaleringen</span>
+            </div>
+            @if (heeftNotitieboekToegang$ | async) {
+                <div
+                    class="title"
+                    (click)="openInfopanelsSidebar(notitiesNav)"
+                    cy="notities"
+                    data-gtm="open-sidepanel-voor-notities-lespagina">
+                    <span class="text-content-semi">Notities</span>
+                    @if ((aantalActueleNotities$ | async)! > 0) {
+                        <span class="notificatie-counter">{{ aantalActueleNotities$ | async }}</span>
+                    }
+                </div>
+            }
+            @if (infopanelsSidebar$ | async; as data) {
+                <dt-infopanels-sidebar
+                    [@allowLeaveAnimation]
+                    [leerlingRegistraties]="data.leerlingRegistraties"
+                    [signaleringen]="(signaleringen$ | async)!"
+                    [heeftNotitieboekToegang]="(heeftNotitieboekToegang$ | async)!"
+                    [actueleNotities]="(actueleNotities$ | async)!"
+                    [vrijVeldDefinities]="data.vrijVeldDefinities"
+                    [titel]="data.titel"
+                    [navItem]="data.navItem"
+                    [periode]="periodeSignaleringen$ | async">
+                </dt-infopanels-sidebar>
+            }
+        </div>
+    }
+    @if (sortering) {
+        <div
+            class="sorteer-header-mobile pointer hide-for-tablet"
+            #sorteerheader
+            (click)="sorteerClick(sortering)"
+            cy="registratie-sortering">
+            <span class="action-primary-normal text-content-semi">{{ sortering.veld | ucfirst }}</span>
+            <i [hmyIcon]="sortering.order === 'ASC' ? 'aZ' : 'zA'" color="action-primary-normal"></i>
+        </div>
+    }
+    @if (afspraak && lesRegistratie) {
+        <div class="leerlingregistraties">
+            <div class="registraties">
+                @if (blockView) {
+                    @for (registratie of lesRegistratie.leerlingRegistraties; track trackById($index, registratie)) {
+                        <dt-leerling-block-registratie
+                            [vrijveldDefinities]="alleExtraVrijveldDefinities"
+                            [registratie]="registratie"
+                            [disabled]="registratieDisabled"
+                            [afspraak]="afspraak"
+                            [teLaatMeldingToegestaan]="teLaatMeldingToegestaan"
+                            [verwijderdMeldingToegestaan]="verwijderdMeldingToegestaan"
+                            [paginaEnabled]="enabled"
+                            [aantalExtraRegistratiesTonen]="aantalExtraRegistratiesTonen"
+                            (onWerkdrukSelected)="openWerkdruk($event)">
+                        </dt-leerling-block-registratie>
+                    }
+                } @else {
+                    @for (registratie of lesRegistratie.leerlingRegistraties; track trackById($index, registratie)) {
+                        <dt-leerling-list-registratie
+                            [vrijveldDefinities]="alleExtraVrijveldDefinities"
+                            [registratie]="registratie"
+                            [disabled]="registratieDisabled"
+                            [afspraak]="afspraak"
+                            [teLaatMeldingToegestaan]="teLaatMeldingToegestaan"
+                            [verwijderdMeldingToegestaan]="verwijderdMeldingToegestaan"
+                            [paginaEnabled]="enabled"
+                            [aantalExtraRegistratiesTonen]="aantalExtraRegistratiesTonen"
+                            (onWerkdrukSelected)="openWerkdruk($event)">
+                        </dt-leerling-list-registratie>
+                    }
+                }
+            </div>
+        </div>
+    }
+    @if (afspraak && !loading) {
+        <div class="footer">
+            <i
+                [ngClass]="{ selected: !blockView }"
+                (click)="enableListView()"
+                hmyIcon="lijst"
+                size="large"
+                data-gtm="registratie-listview"></i>
+            <i
+                [ngClass]="{ selected: blockView }"
+                (click)="enableBlockView()"
+                hmyIcon="blokken"
+                size="large"
+                data-gtm="registratie-blockview"></i>
+            @if (!afspraakIsDagInToekomst) {
+                <div class="inner-footer">
+                    <div class="status show-for-tablet">
+                        @if (afspraak.presentieRegistratieVerwerkt) {
+                            <span class="status-text saved-text">
+                                @if (laatstGewijzigdDatum) {
+                                    <span>{{ laatstGewijzigdDatum | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}</span>
+                                }
+                            </span>
+                        } @else {
+                            <span class="status-text unsaved-text show-for-tablet">Nog niet opgeslagen</span>
+                        }
+                    </div>
+                    <div class="status phone-and-tablet-portrait">
+                        @if (afspraak.presentieRegistratieVerwerkt) {
+                            <span class="status-text saved-text text-label-semi">
+                                @if (laatstGewijzigdDatum) {
+                                    <span>{{ laatstGewijzigdDatum | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}</span>
+                                }
+                            </span>
+                        } @else {
+                            <span class="status-text unsaved-text show-for-tablet">Nog niet opgeslagen</span>
+                        }
+                    </div>
+                    <dt-button
+                        class="save-button"
+                        [class.opgeslagen]="savePressed"
+                        [disabled]="!enabled || loading"
+                        (click)="onSubmit()"
+                        data-gtm="registratie-save">
+                        @if (savePressed) {
+                            <i color="fg-on-positive-normal" hmyIcon="check"></i>
+                        }
+                        @if (enabled && !savePressed) {
+                            <span>Opslaan</span>
+                        }
+                        @if (!enabled) {
+                            <span>Opgeslagen</span>
+                        }
+                    </dt-button>
+                </div>
+            }
+        </div>
+    }
+</div>
+<dt-back-to-top [showAfter]="150" paddingBottom="106px" data-gtm="back-to-top"></dt-back-to-top>

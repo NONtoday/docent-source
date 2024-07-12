@@ -1,0 +1,35 @@
+<div class="header">
+    <span class="heatmaplabel">{{ label }}</span>
+    @if (infoTooltip) {
+        <i class="informatie" [onTouchAllowed]="true" [hmyTooltip]="infoTooltip" hmyIcon="informatie"></i>
+    }
+</div>
+@if (_data().length > 0) {
+    @for (dag of heatmapDagen; track dag; let kolomIndex = $index) {
+        <div class="kolom">
+            @for (tijd of heatmapTijden; track tijd; let rijIndex = $index) {
+                <div class="cel">
+                    @if (kolomIndex === 0) {
+                        <span class="label tijd">
+                            {{ rijIndex | heatmapTijdLabel }}
+                        </span>
+                    }
+                    @if (rijIndex === heatmapTijden.length - 1) {
+                        <span class="label dag">{{ dag | slice: 0 : 2 }}</span>
+                    }
+                    @if (dag !== '' && tijd !== -1 && heatmap()[dag][tijd]; as cell) {
+                        <hmy-heatmap-cell
+                            [attr.cy]="dag + '-' + tijd"
+                            [cell]="cell"
+                            [hmyTooltip]="cell.tooltip"
+                            [tooltipDisplayable]="!!cell.tooltip"
+                            [alignCenter]="false"
+                            [onTouchAllowed]="true" />
+                    }
+                </div>
+            }
+        </div>
+    }
+} @else {
+    <span class="geen-data-text">{{ geenDataTekst }}</span>
+}

@@ -1,0 +1,43 @@
+<div class="leerling" [class.show-groepen]="showGroepen">
+    @if (leerlingItem.ongelezenNotitieAanwezig === 'MENTOR') {
+        <div class="notificatie notificatie-smallest-alt-3"></div>
+    }
+    @if (leerlingItem.ongelezenNotitieAanwezig === 'STANDAARD') {
+        <div class="notificatie notificatie-smallest-alt"></div>
+    }
+    <dt-avatar
+        [tooltipDisplayable]="leerlingItem.ongelezenNotitieAanwezig === 'MENTOR'"
+        [src]="leerlingItem.leerling.pasfoto"
+        [initialen]="leerlingItem.leerling.initialen"
+        [size]="32"
+        [fontsize]="12"
+        dtTooltip="Notitie van de mentor">
+    </dt-avatar>
+    <div class="leerling-naam text-ellipsis" [class.naam-groepen]="showGroepen">
+        <span class="naam text-content-semi text-strong">{{ leerlingItem.leerling | volledigeNaam }}</span>
+        @if (showGroepen === 'Lesgroepen' && leerlingItem.leerlingGroepNamen) {
+            <span class="groep-naam text-small-content-semi text-weak">
+                {{ leerlingItem.leerlingGroepNamen }}
+            </span>
+        }
+        @if (showGroepen === 'Stamgroep' && leerlingItem.leerlingStamgroepNaam) {
+            <span class="groep-naam text-small-content-semi text-weak">
+                {{ leerlingItem.leerlingStamgroepNaam }}
+            </span>
+        }
+    </div>
+    <i
+        class="action add-notitie pointer"
+        [routerLink]="['/notitieboek']"
+        [queryParams]="{
+            leerling: leerlingItem.leerling.id,
+            notitie: 'nieuw',
+            contextToevoegen: true,
+            edit: true
+        }"
+        data-gtm="notitieboek-menu-notitie-toevoegen"
+        queryParamsHandling="merge"
+        hmyIcon="reactieToevoegen"
+        dtTooltip="Notitie toevoegen"
+        size="medium"></i>
+</div>

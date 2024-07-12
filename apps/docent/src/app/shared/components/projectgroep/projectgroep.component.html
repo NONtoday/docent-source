@@ -1,0 +1,24 @@
+<dt-projectgroep-header
+    [projectgroep]="projectgroep"
+    [lockedVerwijderButton]="projectgroep.heeftInlevering"
+    (saveProjectgroep)="saveProjectgroep.emit($event)"
+    (verwijderProjectgroep)="deleteProjectgroep.emit($event)"
+    gtmTag="projectgroep-aanpassen">
+</dt-projectgroep-header>
+@if (toonToevoegenKnop) {
+    <div class="leerling-toevoegen" (click)="openLeerlingSelectie.emit()">
+        <div class="icon"><i hmyIcon="toevoegen" size="smallest"></i></div>
+        <span class="text-content-semi action-positive-normal">Leerling toevoegen</span>
+    </div>
+}
+@for (leerling of projectgroep.leerlingen; track trackById($index, leerling)) {
+    <dt-leerling-groep
+        [leerling]="leerling"
+        [cdkDragData]="leerling"
+        (onVerwijderLeerling)="removeLeerling(leerling)"
+        cdkDrag
+        gtmTag="projectgroep-leerling-verwijderen">
+        <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+        <dt-icon class="show-for-desktop-only" cdkDragHandle icon="draggable" size="medium" color="background"></dt-icon>
+    </dt-leerling-groep>
+}

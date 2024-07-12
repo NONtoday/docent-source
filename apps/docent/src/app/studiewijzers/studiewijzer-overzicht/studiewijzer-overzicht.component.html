@@ -1,0 +1,143 @@
+<dt-header titel="Studiewijzers" icon="studiewijzer"></dt-header>
+<div class="toolbar">
+    <hmy-switch-group>
+        <hmy-switch [active]="true" routerLink="/studiewijzers" cy="studiewijzer-tab" label="Studiewijzers" icon="studiewijzer" />
+        <hmy-switch routerLink="/studiewijzers/sjablonen" cy="sjablonen-tab" label="Sjablonen" icon="sjabloon" />
+    </hmy-switch-group>
+    @if (schooljaar$ | async; as schooljaar) {
+        <dt-schooljaar-selectie
+            [schooljaar]="schooljaar"
+            [hidePreviousButton]="schooljaar <= huidigSchooljaar - 2"
+            [hideNextButton]="schooljaar > huidigSchooljaar"
+            [justifyRight]="(notDesktop$ | async)!"
+            gtmPreviousButton="sw-vorig-jaar"
+            gtmNextButton="sw-volgend-jaar">
+        </dt-schooljaar-selectie>
+    }
+</div>
+@if (loadingState.isLoading) {
+    <hmy-spinner [centeredInParent]="true" />
+} @else {
+    @if (view$ | async; as view) {
+        <div class="droplistgroup" cdkDropListGroup>
+            <div class="studiewijzers" (cdkDropListDropped)="verplaats($event)" cdkDropList cdkDropListSortingDisabled>
+                @if (heeftLesgroepenZonderSw$ | async) {
+                    <div class="add-tile" (click)="addStudiewijzer()" cy="add-studiewijzer-tile">
+                        <div class="toevoegen-background">
+                            <i class="toevoegen-icon" color="action-positive-normal" hmyIcon="toevoegen" size="medium"></i>
+                        </div>
+                        <span class="text-content-semi">Nieuwe studiewijzer</span>
+                    </div>
+                } @else {
+                    <div class="add-tile disabled">
+                        <div class="toevoegen-background">
+                            <i class="informatie-icon" color="action-neutral-normal" hmyIcon="informatie" size="medium"></i>
+                        </div>
+                        <span class="text-content-semi">Geen lesgroep voor nieuwe studiewijzer</span>
+                    </div>
+                }
+                @for (studiewijzer of view.studiewijzers; track studiewijzer) {
+                    <dt-studiewijzer-overzicht-item
+                        class="studiewijzer"
+                        [cdkDragData]="studiewijzer"
+                        [studiewijzer]="studiewijzer"
+                        [routerLink]="['/studiewijzers', studiewijzer.id]"
+                        [draggable]="view.categorieen.length > 0"
+                        (cdkDragStarted)="popupService.closePopUp()"
+                        cdkDrag>
+                        <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                        <i color="action-neutral-normal" hmyIcon="draggable" size="medium" cdkDragHandle></i>
+                    </dt-studiewijzer-overzicht-item>
+                }
+            </div>
+            <div class="categorieen">
+                <dt-add-categorie (addCategorie)="addCategorie()" data-gtm="sw-categorie-toevoegen"></dt-add-categorie>
+                @for (categorie of view.categorieen; track trackById(i, categorie); let i = $index) {
+                    <dt-abstract-studiewijzer-categorie
+                        class="categorie"
+                        [categorie]="$any(categorie)"
+                        [showOrderDown]="i + 1 !== view.categorieen.length"
+                        [showOrderUp]="i !== 0"
+                        (setEditMode)="setEditMode(categorie.id, $event)"
+                        (saveCategorie)="saveCategorie($event)"
+                        (deleteCategorie)="openDeletePopup(categorie, $event)"
+                        (moveCategorie)="moveCategorie(categorie, $event)"
+                        (removeEmptyCategories)="removeEmptyCategories()"
+                        (moreActionsClick)="openMoreActionsPopup(categorie, $event)"
+                        (onItemDrop)="verplaats($event)">
+                    </dt-abstract-studiewijzer-categorie>
+                }
+            </div>
+        </div>
+    }
+}
+<ng-template #nolesgroepen>
+    <div class="add-tile disabled">
+        <div class="toevoegen-background">
+            <i class="informatie-icon" color="action-neutral-normal" hmyIcon="informatie" size="medium"></i>
+        </div>
+        <span class="text-content-semi">Geen lesgroep voor nieuwe studiewijzer</span>
+    </div>
+</ng-template>
+<ng-template #view>
+    @if (view$ | async; as view) {
+        <div class="droplistgroup" cdkDropListGroup>
+            <div class="studiewijzers" (cdkDropListDropped)="verplaats($event)" cdkDropList cdkDropListSortingDisabled>
+                @if (heeftLesgroepenZonderSw$ | async) {
+                    <div class="add-tile" (click)="addStudiewijzer()" cy="add-studiewijzer-tile">
+                        <div class="toevoegen-background">
+                            <i class="toevoegen-icon" color="action-positive-normal" hmyIcon="toevoegen" size="medium"></i>
+                        </div>
+                        <span class="text-content-semi">Nieuwe studiewijzer</span>
+                    </div>
+                } @else {
+                    <div class="add-tile disabled">
+                        <div class="toevoegen-background">
+                            <i class="informatie-icon" color="action-neutral-normal" hmyIcon="informatie" size="medium"></i>
+                        </div>
+                        <span class="text-content-semi">Geen lesgroep voor nieuwe studiewijzer</span>
+                    </div>
+                }
+                @for (studiewijzer of view.studiewijzers; track studiewijzer) {
+                    <dt-studiewijzer-overzicht-item
+                        class="studiewijzer"
+                        [cdkDragData]="studiewijzer"
+                        [studiewijzer]="studiewijzer"
+                        [routerLink]="['/studiewijzers', studiewijzer.id]"
+                        [draggable]="view.categorieen.length > 0"
+                        (cdkDragStarted)="popupService.closePopUp()"
+                        cdkDrag>
+                        <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                        <i color="action-neutral-normal" hmyIcon="draggable" size="medium" cdkDragHandle></i>
+                    </dt-studiewijzer-overzicht-item>
+                }
+            </div>
+            <div class="categorieen">
+                <dt-add-categorie (addCategorie)="addCategorie()" data-gtm="sw-categorie-toevoegen"></dt-add-categorie>
+                @for (categorie of view.categorieen; track trackById(i, categorie); let i = $index) {
+                    <dt-abstract-studiewijzer-categorie
+                        class="categorie"
+                        [categorie]="$any(categorie)"
+                        [showOrderDown]="i + 1 !== view.categorieen.length"
+                        [showOrderUp]="i !== 0"
+                        (setEditMode)="setEditMode(categorie.id, $event)"
+                        (saveCategorie)="saveCategorie($event)"
+                        (deleteCategorie)="openDeletePopup(categorie, $event)"
+                        (moveCategorie)="moveCategorie(categorie, $event)"
+                        (removeEmptyCategories)="removeEmptyCategories()"
+                        (moreActionsClick)="openMoreActionsPopup(categorie, $event)"
+                        (onItemDrop)="verplaats($event)">
+                    </dt-abstract-studiewijzer-categorie>
+                }
+            </div>
+        </div>
+    }
+</ng-template>
+@if (editStudiewijzerSidebar$ | async; as sidebarData) {
+    <dt-edit-studiewijzer-sidebar
+        [@allowLeaveAnimation]
+        [studiewijzer]="sidebarData.studiewijzer!"
+        [schooljaar]="(schooljaar$ | async)!"
+        [lesgroepen]="(lesgroepenZonderSw$ | async)!">
+    </dt-edit-studiewijzer-sidebar>
+}

@@ -1,0 +1,78 @@
+<div class="content">
+    <span class="title text-content-bold text-strong">{{ afspraak | afspraakTitel }}</span>
+    <span class="locatie text-content text-weak">{{ afspraak.locatie }}</span>
+    <div class="participanten" #participanten>
+        @if (afspraak.auteurEigenAfspraak) {
+            <hmy-tag [label]="afspraak.auteurEigenAfspraak | volledigeNaam" icon="none" color="positive"></hmy-tag>
+        }
+        @for (participant of afspraak.participantenEigenAfspraak; track participant) {
+            <hmy-tag [label]="participant | afspraakParticipantNaam" icon="none"></hmy-tag>
+        }
+    </div>
+    <div class="afspraak-informatie">
+        <div class="afspraak-date">
+            <i hmyIcon="kalenderDag" size="medium" color="fg-primary-normal"></i>
+            <span class="text-content-semi text-strong"
+                >{{ afspraak.begin | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }} - {{ afspraak.eind | dtDate: 'tijd' }}</span
+            >
+        </div>
+        @if (afspraak.presentieRegistratieVerplicht) {
+            <div class="presentieregistratie">
+                <i
+                    [class.fill-accent-positive-1]="afspraak.presentieRegistratieVerwerkt"
+                    color="fg-primary-normal"
+                    hmyIcon="check"
+                    size="medium"></i>
+                <span class="text-content-semi text-strong">Presentieregistratie</span>
+            </div>
+        }
+        @if (afspraak.herhalendeAfspraak) {
+            <div class="herhaling-info">
+                <i color="fg-primary-normal" hmyIcon="verversen" size="medium"></i>
+                <span class="herhaling-text text-content-semi text-strong">{{ afspraak | herhalendeAfspraakInfo }}</span>
+            </div>
+        }
+        @if (afspraak.herhalendeAfspraak) {
+            <div class="herhaling-verwijderen pointer" (click)="deleteHerhaling()" data-gtm="afspraak-herhaling-verwijderen">
+                <i color="action-negative-normal" hmyIcon="verwijderen" size="medium"></i>
+                <span class="text-content-semi action-negative-normal" #deleteHerhalingRef>
+                    Herhaling verwijderen ({{ afspraak.aantalToekomstigeHerhalingen }} resterend)
+                </span>
+            </div>
+        }
+    </div>
+    @if (afspraak.omschrijving || afspraak.bijlagen.length > 0) {
+        <div class="inhoud">
+            <div class="omschrijving text-strong" [innerHTML]="afspraak.omschrijving"></div>
+            <dt-bijlage-lijst
+                class="bijlagen"
+                [class.heeft-bijlagen]="afspraak.bijlagen.length > 0"
+                [bijlagen]="afspraak.bijlagen"></dt-bijlage-lijst>
+        </div>
+    }
+</div>
+<div class="buttons">
+    <dt-verwijder-button [withBorder]="true" (onDelete)="onDelete.emit()" cy="afspraak-sidebar-verwijder-button" iconOnlyRangeEnd="tablet">
+    </dt-verwijder-button>
+    <dt-outline-button
+        class="edit-button"
+        (click)="onEdit.emit()"
+        cy="afspraak-sidebar-bewerken-button"
+        color="primary_1"
+        iconColor="primary_1"
+        icon="bewerken"
+        iconOnlyRangeEnd="tablet"
+        >Bewerken
+    </dt-outline-button>
+    @if (afspraak.presentieRegistratieVerplicht) {
+        <dt-outline-button
+            class="registratie-button"
+            [color]="afspraak.presentieRegistratieVerwerkt ? 'accent_positive_1' : 'primary_1'"
+            [iconColor]="afspraak.presentieRegistratieVerwerkt ? 'accent_positive_1' : 'primary_1'"
+            (click)="onRegistreren.emit()"
+            icon="yesRadio"
+            iconOnlyRangeEnd="tablet"
+            >Registratie
+        </dt-outline-button>
+    }
+</div>

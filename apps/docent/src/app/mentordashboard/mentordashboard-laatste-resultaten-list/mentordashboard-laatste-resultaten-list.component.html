@@ -1,0 +1,34 @@
+@if (laatsteResultatenView$ | async; as lrv) {
+    <div class="laatste-resultaten">
+        @if (lrv.laatsteResultaten.length > 0) {
+            <div class="laatste-resultaten-header">
+                <span class="text-strong text-content-semi"> Laatste {{ lrv.laatsteResultaten.length }} resultaten </span>
+                <dt-mentordashboard-trend-met-info
+                    [aantalVoorTrendindicatie]="aantalVoorTrendindicatie"
+                    [trendindicatie]="trendindicatie" />
+            </div>
+        }
+        @for (resultaat of lrv.laatsteResultaten; track resultaat) {
+            <dt-mentordashboard-toets-resultaat [instellingen]="lrv.instellingen" [recentResultaat]="resultaat" />
+        }
+    </div>
+    @if (!showEerdereResultaten() && lrv.laatsteResultaten.length > 0) {
+        <div class="laad-eerdere-resultaten" (click)="loadEerdereResultaten()" data-gtm="mentordashboard-laatste-resultaten-laad-eerdere">
+            <span class="text-content-semi">Laad eerdere resultaten</span>
+            @if (showEerdereResultatenSpinner()) {
+                <hmy-spinner></hmy-spinner>
+            }
+        </div>
+    }
+    @if (showEerdereResultaten()) {
+        <div class="eerdere-resultaten">
+            <div class="eerdere-resultaten-header text-strong text-content-semi">Eerdere resultaten</div>
+            @for (resultaat of lrv.eerdereResultaten; track resultaat) {
+                <dt-mentordashboard-toets-resultaat [instellingen]="lrv.instellingen" [recentResultaat]="resultaat" />
+            }
+        </div>
+    }
+    @if (lrv.laatsteResultaten.length === 0) {
+        <span class="geen-resultaten">Geen resultaten</span>
+    }
+}

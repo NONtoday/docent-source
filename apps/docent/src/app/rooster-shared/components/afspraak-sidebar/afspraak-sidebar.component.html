@@ -1,0 +1,13 @@
+<dt-sidebar #sidebar [icon]="icon" [title]="title" (onMaskClick)="closeSidebar()" (onCloseClick)="closeSidebar()">
+    @if (bewerkenState) {
+        <dt-afspraak-formulier [afspraak]="$any(afspraak)" (onCancel)="onCancel()" (onSaveAfspraak)="onSaveAfspraak($event)">
+        </dt-afspraak-formulier>
+    } @else {
+        <dt-afspraak-tonen
+            [afspraak]="$any(afspraak)"
+            (onRegistreren)="onRegistreren()"
+            (onDelete)="onDelete()"
+            (onEdit)="onEdit()"
+            (onDeleteHerhaling)="onDeleteHerhaling()"></dt-afspraak-tonen>
+    }
+</dt-sidebar>

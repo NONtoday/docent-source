@@ -1,0 +1,110 @@
+<form class="form" [formGroup]="form" [class.in-sidebar]="inSidebar" (ngSubmit)="onSubmit()">
+    @if (!inSidebar) {
+        <div class="detail-header">
+            <div class="terug pointer" (click)="onAnnuleerNotitie.emit()">
+                <i class="icon" [sizes]="['large', 'large', 'large', 'medium']" hmyIcon="pijlLinks"></i>
+            </div>
+            <span class="titel text-content-bold text-ellipsis">{{ header }}</span>
+            <dt-notitie-zichtbaarheid-button
+                class="show-for-tablet-portrait"
+                [docenten]="form.controls.gedeeldVoorDocenten.value"
+                [mentoren]="form.controls.gedeeldVoorMentoren.value"
+                [docentenDisabled]="form.controls.betrokkenen.getRawValue() | notitieDelenDisabled: 'Docenten'"
+                [mentorenDisabled]="form.controls.betrokkenen.getRawValue() | notitieDelenDisabled: 'Mentoren'"
+                [reactiesToegestaan]="form.controls.reactiesToegestaan.value"
+                [alignCenter]="false"
+                [iconSizesOog]="['medium']"
+                [editMode]="true"
+                (onSubmit)="setDelen($event)"
+                hmyTooltip="<b>Notitie zichtbaar maken</b><br/>Maak de notitie zichtbaar voor collega's"
+                position="bottom">
+            </dt-notitie-zichtbaarheid-button>
+        </div>
+    }
+    <div class="formcontrols" [class.in-sidebar]="inSidebar">
+        <div class="zichtbaarheid-vastgeprikt body-zichtbaarheid">
+            <dt-notitie-zichtbaarheid-button
+                [docenten]="form.controls.gedeeldVoorDocenten.value"
+                [mentoren]="form.controls.gedeeldVoorMentoren.value"
+                [docentenDisabled]="form.controls.betrokkenen.getRawValue() | notitieDelenDisabled: 'Docenten'"
+                [mentorenDisabled]="form.controls.betrokkenen.getRawValue() | notitieDelenDisabled: 'Mentoren'"
+                [reactiesToegestaan]="form.controls.reactiesToegestaan.value"
+                [iconSizesOog]="['large']"
+                [editMode]="true"
+                (onSubmit)="setDelen($event)">
+            </dt-notitie-zichtbaarheid-button>
+        </div>
+        <div class="divider body-zichtbaarheid"></div>
+        <div class="betrokkenen">
+            <label>Betrokkenen</label>
+            <dt-betrokkene-selectie
+                class="spacing"
+                [contextId]="context.id"
+                [betrokkenenAltijdVerwijderbaar]="betrokkenenAltijdVerwijderbaar"
+                [class.invalid-betrokkenen]="form.controls.betrokkenen.hasError('betrokkenen')"
+                formControlName="betrokkenen"></dt-betrokkene-selectie>
+            @if (form.controls.betrokkenen.hasError('betrokkenen')) {
+                <span class="error text-label-semi action-negative-normal">
+                    Voeg minimaal één leerling of groep toe waar je les aan geeft.
+                </span>
+            }
+        </div>
+        <div class="onderwerp">
+            <label>Onderwerp</label>
+            <input class="spacing" dtAutofocus type="text" formControlName="titel" placeholder="Wat is de aanleiding?" />
+        </div>
+        @if (vakkenDropdownOptions$ | async; as vakken) {
+            <div class="vak">
+                <label>Vak</label>
+                <dt-form-dropdown class="spacing" [opties]="vakken" formControlName="vak"></dt-form-dropdown>
+            </div>
+        }
+        <div class="opties">
+            @if (bevatMentorleerling$ | async) {
+                <dt-switch formControlName="belangrijk" label="Belangrijk"> </dt-switch>
+            }
+            @if ((form.controls.gedeeldVoorDocenten.value || form.controls.gedeeldVoorMentoren.value) && (bevatMentorleerling$ | async)) {
+                <div class="initieel-vastprikken">
+                    <dt-switch formControlName="initieelVastgeprikt" label="Vastprikken voor collega's"></dt-switch>
+                    <i
+                        class="info"
+                        [onTouchAllowed]="true"
+                        [maxWidth]="260"
+                        hmyIcon="informatie"
+                        size="small"
+                        hmyTooltip="Notitie blijft vastgeprikt bij leerling op de lesregistratie totdat dit wordt opgeheven."></i>
+                </div>
+            }
+            <dt-switch formControlName="privacygevoelig" label="Inhoud markeren als privacygevoelig"> </dt-switch>
+        </div>
+        <div class="editor-container">
+            <dt-omschrijving-en-bijlage
+                [formGroup]="form"
+                [bijlagen]="$any(notitie.bijlagen)"
+                [heeftBijlagen]="true"
+                [toonZichtbaarheidToggle]="false"
+                [heeftToegangTotElo]="true"
+                [toonBestandUploaden]="true"
+                [alleenBestanden]="true"
+                [toonUitMethode]="false"
+                [showBorder]="false"
+                (verwijderBijlage)="removeBijlage($event)"
+                (saveBijlage)="onBijlageSave($event)"
+                (fileUploaded)="fileUploaded($event)"
+                controlName="inhoud"
+                omschrijvingPlaceholder="Waar gaat het over?">
+            </dt-omschrijving-en-bijlage>
+        </div>
+    </div>
+    <div class="buttons" [class.in-sidebar]="inSidebar">
+        <dt-outline-button (click)="onAnnuleerNotitie.emit()" color="typography_3"> Annuleren </dt-outline-button>
+        <button
+            [disabled]="!form.valid || isUploading ? true : null"
+            [showLoaderOnClick]="true"
+            [buttonClicked]="formSubmitted"
+            buttonType="positive"
+            type="submit">
+            Opslaan
+        </button>
+    </div>
+</form>

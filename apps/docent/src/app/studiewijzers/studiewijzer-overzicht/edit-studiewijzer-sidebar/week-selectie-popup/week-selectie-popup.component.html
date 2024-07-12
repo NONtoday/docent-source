@@ -1,0 +1,31 @@
+<dt-popup>
+    <div class="popup-content" popup-content>
+        @if (startweekSchooljaar$ | async; as startweek) {
+            <div class="week text-content-small-semi" (click)="onSelecteerWeek(startweek)">
+                <span>Start schooljaar</span>
+                <i
+                    [onTouchAllowed]="true"
+                    color="fg-neutral-normal"
+                    hmyIcon="informatie"
+                    size="medium"
+                    dtTooltip="Dit is de eerste week na de zomervakantie (week {{ startweek }})"></i>
+            </div>
+        } @else {
+            <hmy-spinner [centeredInParent]="true" />
+        }
+        @for (week of cijferPeriodeWeken$ | async; track week) {
+            <div
+                class="week text-content-small-semi"
+                [class.selected]="week.weeknummer === geselecteerdeWeek"
+                (click)="onSelecteerWeek(week.weeknummer)">
+                <span>Week {{ week.weeknummer }}</span>
+                @if (week.vakantienaam) {
+                    <dt-vakantie [vakantieNaam]="week.vakantienaam"></dt-vakantie>
+                }
+                @if (isEersteWeekVanPeriode(week)) {
+                    <div class="periode text-content-bold">P{{ week.periode!.nummer }}</div>
+                }
+            </div>
+        }
+    </div>
+</dt-popup>

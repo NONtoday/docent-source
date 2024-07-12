@@ -1,0 +1,28 @@
+<div class="lesitem" [formGroup]="group" [class.selected]="group.controls[controlId].value">
+    <div class="header">
+        <hmy-checkbox class="checkbox" [checked]="selected()" (valueChanged)="onCheckboxClick()" />
+        @if (icon) {
+            <i class="huiswerktype" [hmyIcon]="icon" [class]="icon.toLowerCase() + '-icon'" size="medium"></i>
+        }
+        <span class="details-toggle ellipsis text-content-small text-moderate" (click)="toggleDetails()">{{
+            toekenning.studiewijzeritem | studiewijzeritemTitel
+        }}</span>
+        @if (toekenning.synchroniseertMet) {
+            <i
+                color="fg-neutral-weak"
+                hmyIcon="synchroniseren"
+                size="small"
+                dtTooltip="Gesynchroniseerd met {{ toekenning.synchroniseertMet }}"></i>
+        }
+        <i class="chevron-onder-icon" [class.expanded]="expanded" (click)="toggleDetails()" hmyIcon="chevronOnder" size="small"></i>
+    </div>
+    <div class="details" [@collapse]="{ value: !expanded }">
+        <dt-studiewijzeritem-inhoud
+            [studiewijzeritem]="toekenning.studiewijzeritem"
+            [sidebar]="true"
+            [differentiatiegroepen]="toekenning.differentiatiegroepen"
+            [differentiatieleerlingen]="toekenning.differentiatieleerlingen"
+            [readOnlyDifferentiatie]="true">
+        </dt-studiewijzeritem-inhoud>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="personalia">
+    @if (indicatiesCounter > 0) {
+        <div class="indicaties" #indicaties (click)="openIndicaties()" data-gtm="mentordashboard-indicaties-openen">
+            <span class="notificatie-counter">{{ indicatiesCounter }}</span>
+            <span class="text-content-semi color-primary-1">Indicaties</span>
+        </div>
+    }
+    <dt-avatar
+        class="avatar"
+        [allowPhotoPopup]="false"
+        [initialen]="leerling.initialen"
+        [src]="leerling.pasfoto"
+        [size]="72"
+        [fontsize]="28"
+        [lazyLoaded]="false">
+    </dt-avatar>
+    <span class="naam text-head">{{ leerling | volledigeNaam }}</span>
+    <span class="adres text-content-semi color-typography-2">
+        {{ leerling.adres | adres: '• ' }}{{ leerling.geboortedatum | dtDate: 'dagnummer_maand_kort' }}
+    </span>
+    <div class="labels">
+        @for (label of labels; track label) {
+            <hmy-pill
+                class="label"
+                [attr.data-gtm]="label.gtmTag"
+                [text]="label.label"
+                [hoverable]="label.heeftRecht"
+                [class.pointer]="label.heeftRecht"
+                (click)="onLabelClick(label.deeplink, label.heeftRecht)">
+            </hmy-pill>
+        }
+    </div>
+</div>
+<div class="buttons">
+    @if (leerling.email || heeftBerichtenRecht) {
+        <div class="button" #berichtButton [class.popup-open]="berichtPopupOpen" (click)="onBerichtClick()" cy="leerlingpersonalia-bericht">
+            <i class="fill-primary-1" [sizes]="['large', 'large', 'medium']" hmyIcon="bericht"></i>
+            <span class="text-content-semi color-primary-1 show-for-tablet">Bericht sturen</span>
+            <i class="fill-background-1" #berichtIcon hmyIcon="chevronOnder" size="small"></i>
+        </div>
+    }
+    @if (telefoonnummers.length > 0) {
+        <div class="button" #telefoonButton [class.popup-open]="telefoonnummerPopupOpen" (click)="onPhoneNumberClick()">
+            <i class="fill-primary-1" [sizes]="['large', 'large', 'medium']" hmyIcon="telefoon"></i>
+            <span class="text-content-semi color-primary-1 show-for-tablet">Telefoon</span>
+            <i class="fill-background-1" #telefoonIcon hmyIcon="chevronOnder" size="small"></i>
+        </div>
+    }
+</div>

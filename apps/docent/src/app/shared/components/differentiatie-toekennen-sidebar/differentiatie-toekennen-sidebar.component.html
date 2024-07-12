@@ -1,0 +1,17 @@
+<dt-sidebar
+    #sidebar
+    [@.disabled]="!!disableSidebarAnimation"
+    (onMaskClick)="closeSidebar()"
+    (onCloseClick)="closeSidebar()"
+    title="Kies groep of leerling"
+    icon="differentiatie">
+    @if (differentiatie$ | async; as differentiatie) {
+        <dt-differentiatie-selectie
+            [differentiatiegroepen]="differentiatie.differentiatiegroepen"
+            [leerlingen]="differentiatie.differentiatieleerlingen"
+            (onAnnuleren)="closeSidebar()"
+            (onToevoegen)="onToevoegenClick($event)"></dt-differentiatie-selectie>
+    } @else {
+        <hmy-spinner [centeredInParent]="true" />
+    }
+</dt-sidebar>

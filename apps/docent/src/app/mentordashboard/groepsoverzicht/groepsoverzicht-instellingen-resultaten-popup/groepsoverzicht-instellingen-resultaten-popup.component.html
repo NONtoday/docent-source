@@ -1,0 +1,123 @@
+<dt-popup>
+    <div popup-content>
+        <div class="content" [formGroup]="instellingenForm">
+            <header class="text section-row">
+                <span class="main-text">
+                    {{ headerTitle }}
+                    <i
+                        class="info-icon pointer"
+                        [alignCenter]="false"
+                        [maxWidth]="300"
+                        [onTouchAllowed]="true"
+                        position="left"
+                        hmyIcon="informatie"
+                        size="small"
+                        dtTooltip="Instellingen zijn enkel van toepassing op dit groepsoverzicht."></i>
+                </span>
+                <span class="sub-text">{{ headerSubtitle }}</span>
+            </header>
+            @if (popupMode === 'resultaat') {
+                <div class="instellingen-header">
+                    <span>Kolom</span>
+                    <span class="header-kolom-aantal">Aantal</span>
+                </div>
+                <div class="instelling-veld section-row">
+                    <div class="text">
+                        <span class="main-text">
+                            <i hmyIcon="lijst" color="fg-accent-normal" size="smallest"></i>
+                            Aandacht
+                        </span>
+                        <span class="sub-text">
+                            Vak onvoldoende < {{ instellingenForm.get('grenswaardeOnvoldoende')?.value | commaResult }}
+                        </span>
+                    </div>
+                    <hmy-manual-counter
+                        [initialValue]="instelling.aantalVakkenOnvoldoende"
+                        formControlName="aantalVakkenOnvoldoende"></hmy-manual-counter>
+                </div>
+                <div class="instelling-veld section-row">
+                    <div class="text">
+                        <span class="main-text">
+                            <i hmyIcon="lijst" color="fg-negative-normal" size="smallest"></i>
+                            Extra aandacht
+                        </span>
+                        <span class="sub-text">
+                            Vak zwaar onvoldoende < {{ instellingenForm.get('grenswaardeZwaarOnvoldoende')?.value | commaResult }}
+                        </span>
+                    </div>
+                    <hmy-manual-counter
+                        [initialValue]="instelling.aantalVakkenZwaarOnvoldoende"
+                        formControlName="aantalVakkenZwaarOnvoldoende"></hmy-manual-counter>
+                </div>
+            }
+            @if (popupMode === 'onvoldoende') {
+                <div class="instellingen-onvoldoende">
+                    <div class="instellingen-header">
+                        <span>Toon als</span>
+                        <span class="header-kolom-cijfer">Cijfer</span>
+                    </div>
+                    <div class="instelling-veld section-row">
+                        <div class="onvoldoende-veld">
+                            <hmy-notification-solid color="accent"></hmy-notification-solid>
+                            Onvoldoende
+                        </div>
+                        <div class="input-veld">
+                            <span class="kleiner-dan-indicatie"><</span>
+                            <dt-groepsoverzicht-decimal-number-input
+                                [initialValue]="instelling.grenswaardeOnvoldoende"
+                                [hasError]="instellingenForm.errors?.['grenswaarde'] && lastChangedValue() === 'grenswaardeOnvoldoende'"
+                                formControlName="grenswaardeOnvoldoende"></dt-groepsoverzicht-decimal-number-input>
+                        </div>
+                        @if (instellingenForm.errors?.['grenswaarde'] && lastChangedValue() === 'grenswaardeOnvoldoende') {
+                            <div class="error-message">
+                                <i hmyIcon="noRadio" size="small" color="fg-negative-normal"></i>
+                                <span>Invoer moet hoger zijn dan zwaar onvoldoende</span>
+                            </div>
+                        }
+                    </div>
+                    <div class="instelling-veld section-row">
+                        <div class="onvoldoende-veld">
+                            <hmy-notification-solid color="negative"></hmy-notification-solid>
+                            Zwaar onvoldoende
+                        </div>
+                        <div class="input-veld">
+                            <span class="kleiner-dan-indicatie"><</span>
+                            <dt-groepsoverzicht-decimal-number-input
+                                [hasError]="
+                                    instellingenForm.errors?.['grenswaarde'] && lastChangedValue() === 'grenswaardeZwaarOnvoldoende'
+                                "
+                                [initialValue]="instelling.grenswaardeZwaarOnvoldoende"
+                                formControlName="grenswaardeZwaarOnvoldoende"></dt-groepsoverzicht-decimal-number-input>
+                        </div>
+                        @if (instellingenForm.errors?.['grenswaarde'] && lastChangedValue() === 'grenswaardeZwaarOnvoldoende') {
+                            <div class="error-message">
+                                <i hmyIcon="noRadio" size="small" color="fg-negative-normal"></i>
+                                <span>Invoer moet lager zijn dan onvoldoende</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <div
+                class="type-toggle section-row"
+                (click)="togglePopupMode()"
+                data-gtm="groepsdashboard-instellingen-resultaten-popup-toggle">
+                {{ toggleText }}
+                <i class="toggle-icon" hmyIcon="chevronRechts"></i>
+            </div>
+            <div class="buttons section-row">
+                <hmy-button
+                    (click)="annuleer()"
+                    label="Annuleren"
+                    mode="tertiary"
+                    data-gtm="groepsoverzicht-instellingen-resultaten-popup-annuleren"></hmy-button>
+                <hmy-button
+                    [disabled]="instellingenForm.invalid"
+                    (click)="opslaan()"
+                    label="Opslaan"
+                    data-gtm="groepsoverzicht-instellingen-resultaten-popup-opslaan"></hmy-button>
+            </div>
+        </div>
+    </div>
+</dt-popup>

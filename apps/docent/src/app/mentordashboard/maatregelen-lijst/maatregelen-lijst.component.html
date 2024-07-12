@@ -1,0 +1,74 @@
+<div class="maatregelen">
+    @if (!maatregelToekenningen.actief.length && !maatregelToekenningen.afgehandeld.length) {
+        <div class="text-content-semi geen-items">Geen maatregelen</div>
+    } @else {
+        @if (maatregelToekenningen.actief.length) {
+            <div class="titel">
+                <span class="text-content-semi">Actieve maatregelen ({{ maatregelToekenningen.actief!.length }})</span>
+            </div>
+            <div class="actief">
+                @for (maatregelToekenning of maatregelToekenningen.actief; track maatregelToekenning) {
+                    <dt-maatregeltoekenning
+                        [maatregeltoekenning]="maatregelToekenning"
+                        [editMode]="editMode"
+                        (bewerken)="onBewerken.emit($event)"
+                        (afgehandeld)="onAfgehandeld.emit($event)"
+                        (verwijderen)="onVerwijderen.emit($event)">
+                    </dt-maatregeltoekenning>
+                }
+            </div>
+        }
+        @if (maatregelToekenningen.afgehandeld.length) {
+            <div class="titel">
+                <span class="text-content-semi">Afgehandelde maatregelen</span>
+            </div>
+            <div class="afgehandeld">
+                @for (maatregelToekenning of maatregelToekenningen.afgehandeld; track maatregelToekenning) {
+                    <dt-maatregeltoekenning
+                        [maatregeltoekenning]="maatregelToekenning"
+                        [editMode]="editMode"
+                        (bewerken)="onBewerken.emit($event)"
+                        (afgehandeld)="onAfgehandeld.emit($event)"
+                        (verwijderen)="onVerwijderen.emit($event)">
+                    </dt-maatregeltoekenning>
+                }
+            </div>
+        }
+    }
+
+    <ng-template #maatregelen>
+        @if (maatregelToekenningen.actief.length) {
+            <div class="titel">
+                <span class="text-content-semi">Actieve maatregelen ({{ maatregelToekenningen.actief!.length }})</span>
+            </div>
+            <div class="actief">
+                @for (maatregelToekenning of maatregelToekenningen.actief; track maatregelToekenning) {
+                    <dt-maatregeltoekenning
+                        [maatregeltoekenning]="maatregelToekenning"
+                        [editMode]="editMode"
+                        (bewerken)="onBewerken.emit($event)"
+                        (afgehandeld)="onAfgehandeld.emit($event)"
+                        (verwijderen)="onVerwijderen.emit($event)">
+                    </dt-maatregeltoekenning>
+                }
+            </div>
+        }
+
+        @if (maatregelToekenningen.afgehandeld.length) {
+            <div class="titel">
+                <span class="text-content-semi">Afgehandelde maatregelen</span>
+            </div>
+            <div class="afgehandeld">
+                @for (maatregelToekenning of maatregelToekenningen.afgehandeld; track maatregelToekenning) {
+                    <dt-maatregeltoekenning
+                        [maatregeltoekenning]="maatregelToekenning"
+                        [editMode]="editMode"
+                        (bewerken)="onBewerken.emit($event)"
+                        (afgehandeld)="onAfgehandeld.emit($event)"
+                        (verwijderen)="onVerwijderen.emit($event)">
+                    </dt-maatregeltoekenning>
+                }
+            </div>
+        }
+    </ng-template>
+</div>

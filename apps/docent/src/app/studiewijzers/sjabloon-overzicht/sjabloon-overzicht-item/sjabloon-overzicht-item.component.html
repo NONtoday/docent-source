@@ -1,0 +1,32 @@
+<div class="drag-handle">
+    <ng-content #dragHandle></ng-content>
+</div>
+<div class="titel text-content-small-semi">
+    <span>{{ sjabloon.naam }}</span>
+</div>
+<i class="icon" #moreOptionsIcon (click)="openActiesPopup($event)" color="action-primary-normal" hmyIcon="opties" size="medium"></i>
+@if (isSjabloonCollega) {
+    @if (sjabloon.eigenaar) {
+        <dt-avatar
+            [src]="sjabloon.eigenaar.pasfoto"
+            [initialen]="sjabloon.eigenaar.initialen"
+            [allowPhotoPopup]="false"
+            [onTouchAllowed]="true"
+            dtTooltip="{{ [sjabloon.eigenaar] | personenNamen }}"
+            altTag="Sjabloon van collega - {{ sjabloon.eigenaar | volledigeNaam }}">
+        </dt-avatar>
+    }
+} @else {
+    @if (toonZichtbaarheidEnDupliceren) {
+        <i
+            class="zichtbaarheid"
+            #zichtbaarheid
+            [hmyIcon]="sjabloon.gedeeldMetVaksectie ? 'zichtbaarCheckbox' : 'nietZichtbaarCheckbox'"
+            [ngClass]="sjabloon.gedeeldMetVaksectie ? 'check-zichtbaar' : 'check-onzichtbaar'"
+            (click)="openZichtbaarheidPopup($event)"
+            size="medium"></i>
+    }
+    @if (isGesynchroniseerd) {
+        <i [dtTooltip]="tooltipMessage" [onTouchAllowed]="true" color="fg-positive-normal" hmyIcon="synchroniseren" size="medium"></i>
+    }
+}

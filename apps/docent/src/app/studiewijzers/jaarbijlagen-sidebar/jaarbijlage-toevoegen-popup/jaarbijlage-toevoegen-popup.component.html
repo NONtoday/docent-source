@@ -1,0 +1,41 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <dt-popup-button
+            class="upload"
+            (click)="onApparaatClick()"
+            cy="bijlage-toevoegen"
+            icon="uploaden"
+            text="Vanaf apparaat"
+            hideOutlineForBreakpointUp="tabletPortrait"></dt-popup-button>
+        <dt-popup-button
+            class="url"
+            (click)="onUrlClick()"
+            icon="link"
+            text="Link"
+            cy="url-toevoegen"
+            hideOutlineForBreakpointUp="tabletPortrait">
+        </dt-popup-button>
+        @if (inSjabloon || onSjabloonClick) {
+            <div class="divider"></div>
+        }
+        @if (inSjabloon) {
+            <dt-popup-button
+                class="studiewijzer"
+                (click)="onStudiewijzerClick()"
+                icon="studiewijzer"
+                text="Uit studiewijzer"
+                hideOutlineForBreakpointUp="tabletPortrait"
+                data-gtm="jaarbijlage-uit-studiewijzer"></dt-popup-button>
+        }
+        @if (!inSjabloon && onSjabloonClick) {
+            <dt-popup-button
+                class="sjabloon"
+                (click)="onSjabloonClick()"
+                icon="sjabloon"
+                text="Uit sjabloon"
+                hideOutlineForBreakpointUp="tabletPortrait"
+                data-gtm="jaarbijlage-uit-sjabloon">
+            </dt-popup-button>
+        }
+    </div>
+</dt-popup>

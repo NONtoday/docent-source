@@ -1,0 +1,62 @@
+@if ({ afspraak: afspraak$ | async }; as data) {
+    <dt-header [metNavigatie]="true" titel="Deze les" icon="rooster">
+        @if (navigatie$ | async; as navigatie) {
+            <dt-lesmoment-header-navigatie
+                [afspraak]="navigatie.afspraak"
+                [heeftVolgende]="!!navigatie.nextId"
+                [heeftVorige]="!!navigatie.prevId"
+                (terugClick)="navigeerNaarRooster(navigatie.afspraak)"
+                (meerOptiesClick)="onMeerOptiesClick($event, navigatie.afspraak, navigatie.toegangTotDifferentiatie)"
+                (vorigeClick)="toPrevious(navigatie.prevId)"
+                (volgendeClick)="toNext(navigatie.nextId)">
+            </dt-lesmoment-header-navigatie>
+        }
+    </dt-header>
+    <dt-groep-navigatie
+        [afspraak]="data.afspraak!"
+        [showInleveropdrachten]="(showInleveropdrachten$ | async) ?? false"
+        (onInleveropdrachtenClick)="onInleveropdrachtenClick()"></dt-groep-navigatie>
+    <router-outlet></router-outlet>
+    @if (inleveropdrachtenOverzichtSidebar$ | async; as sidebarData) {
+        <dt-inleveropdrachten-overzicht-sidebar
+            [@allowLeaveAnimation]
+            [openToekenning]="sidebarData.openToekenning"
+            [disableSidebarAnimation]="!!sidebarData.disableSidebarAnimation"
+            [afspraak]="data.afspraak!"
+            (onDifferentiatieToekenning)="onDifferentiatieToekennenClick($event)">
+        </dt-inleveropdrachten-overzicht-sidebar>
+    }
+    @if (werkdrukSidebar$ | async; as werkdrukData) {
+        <dt-werkdruk-sidebar
+            [@allowLeaveAnimation]
+            [lesgroepen]="werkdrukData.lesgroepen!"
+            [initielePeildatum]="werkdrukData.initielePeildatum!"
+            [eersteWeek]="werkdrukData.eersteWeek!"
+            [laatsteWeek]="werkdrukData.laatsteWeek!"
+            [initieleLeerlingenContext]="werkdrukData.initieleLeerlingenContext!"
+            [toegangTotDifferentiatie]="(heeftToegangTotDifferentiatie$ | async) ?? false"
+            [showOpgeslagenMessage]="werkdrukData.showOpgeslagenMessage ?? false"
+            [showAddItem]="werkdrukData.showAddItem ?? false">
+        </dt-werkdruk-sidebar>
+    }
+    @if (differentiatieSidebar$ | async; as data) {
+        <dt-differentiatie-sidebar [@allowLeaveAnimation] [lesgroep]="data.lesgroep!"> </dt-differentiatie-sidebar>
+    }
+    @if (differentiatieToekennenSidebar$ | async; as diffData) {
+        <dt-differentiatie-toekennen-sidebar
+            [@allowLeaveAnimation]
+            [lesgroep]="diffData.lesgroep!"
+            [toekenning]="diffData.toekenning"
+            [disableSidebarAnimation]="!!diffData.disableSidebarAnimation"
+            [showVervangenGuard]="false"
+            (onDifferentieren)="onDifferentiatieToekennen($event, data.afspraak!)">
+        </dt-differentiatie-toekennen-sidebar>
+    }
+    @if (actueleNotitiesSidebar$ | async; as data) {
+        <dt-actuele-notities-sidebar
+            [@allowLeaveAnimation]
+            [context]="data.context!"
+            [nieuwOnEnter]="!!data.nieuwOnEnter"
+            [afspraakId]="data.afspraakId"></dt-actuele-notities-sidebar>
+    }
+}

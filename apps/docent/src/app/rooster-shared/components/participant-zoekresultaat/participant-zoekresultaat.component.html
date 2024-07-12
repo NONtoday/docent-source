@@ -1,0 +1,23 @@
+@if ($any(participantData)['initialen']) {
+    <dt-avatar
+        class="avatar"
+        [src]="$any(participantData)['pasfoto']"
+        [initialen]="$any(participantData)['initialen']"
+        [allowPhotoPopup]="false"
+        [size]="24"
+        [fontsize]="10">
+    </dt-avatar>
+}
+@if (!$any(participantData)['initialen']) {
+    <dt-background-icon
+        class="klas-icon"
+        [color]="participant.lesgroep ? $any(participant.lesgroep.color) : 'primary_2'"
+        [sizes]="['small']"
+        icon="groep"></dt-background-icon>
+}
+<div class="naam">
+    {{ participant | afspraakParticipantNaam }}
+</div>
+@if (participant.leerling) {
+    <span class="text-content-small-semi stamgroep">{{ $any(participantData)['stamgroep'] }}</span>
+}

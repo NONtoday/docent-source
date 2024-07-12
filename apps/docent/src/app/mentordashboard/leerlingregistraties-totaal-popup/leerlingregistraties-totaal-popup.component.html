@@ -1,0 +1,18 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="header">
+            <span class="text-content-semi">{{ titel }} · {{ periodeNaam }}</span>
+            <span class="text-small-content-semi color-typography-3">Aantal registraties per vak</span>
+        </div>
+        <div class="registraties">
+            @for (registratie of registraties; track registratie) {
+                <div class="registratie">
+                    <span class="text-content-semi color-typography-2">{{ (registratie | keyvalue)[0].key }}</span>
+                    <span class="text-content-semi">
+                        {{ (registratie | keyvalue)[0].value === 0 ? '-' : (registratie | keyvalue)[0].value + 'x' }}
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+</dt-popup>

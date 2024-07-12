@@ -1,0 +1,26 @@
+@if (showHeader) {
+    <header>
+        @if (title) {
+            <div class="content" [class.no-icon]="!icon && !avatar">
+                @if (icon) {
+                    <i
+                        class="icon"
+                        [hmyIcon]="icon"
+                        [ngClass]="{ clickable: iconClickable }"
+                        (click)="iconClick()"
+                        color="fg-on-primary-strongest"
+                        size="large"
+                        cy="sidebar-terug"></i>
+                }
+                @if (avatar) {
+                    <dt-avatar class="avatar" [src]="avatar.url" [initialen]="avatar.initialen" [allowPhotoPopup]="false"></dt-avatar>
+                }
+                <span class="title" [ngClass]="{ clickable: titleClickable }" (click)="titleClick()">{{ title }}</span>
+                @if (icon !== 'pijlLinks') {
+                    <i class="sluiten" (click)="close()" hmyIcon="sluiten" size="large" cy="sluit-sidebar-icon"></i>
+                }
+            </div>
+        }
+    </header>
+}
+<ng-content></ng-content>

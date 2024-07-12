@@ -1,0 +1,22 @@
+<label class="datum-label">Inplannen op<span class="required">*</span></label>
+<label class="tijd-label">Tijd<span class="required">*</span></label>
+<dt-datepicker [min]="min" [max]="max" [formControlName]="dateControlName"></dt-datepicker>
+<div class="tijd">
+    <input
+        class="van-tijd-input"
+        [formControlName]="startControlName"
+        cy="afspraak-begin-tijd-input"
+        type="time"
+        dtTimeInputHelper
+        required="required"
+        placeholder="09:00" />
+    <div class="tot">tot</div>
+    <input
+        class="tot-tijd-input"
+        [formControlName]="eindControlName"
+        cy="afspraak-eind-tijd-input"
+        type="time"
+        dtTimeInputHelper
+        required="required"
+        placeholder="10:00" />
+</div>

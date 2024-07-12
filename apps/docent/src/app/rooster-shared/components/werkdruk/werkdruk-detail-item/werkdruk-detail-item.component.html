@@ -1,0 +1,30 @@
+<div class="header pointer" [attr.data-gtm]="!expanded ? 'werkdruk-item-details' : ''" (click)="toggleDetails()">
+    <span class="text-weak info">
+        <span
+            class="aantal"
+            #leerlingen
+            [class.highlight]="aantalTekst !== 'Iedereen'"
+            (click)="openLeerlingenPopup($event)"
+            cy="werkdruk-aantal-leerlingen"
+            data-gtm="werkdruk-item-leerlingen"
+            >{{ aantalTekst }}</span
+        >
+        @if (werkdrukStudiewijzeritem.vaknaam) {
+            • {{ werkdrukStudiewijzeritem.vaknaam }}
+        }
+        @if (werkdrukStudiewijzeritem.studiewijzerItem.tijdsindicatie) {
+            • {{ werkdrukStudiewijzeritem.studiewijzerItem.tijdsindicatie }}
+        }
+    </span>
+    <i class="chevron-onder-icon" [class.is-open]="expanded" hmyIcon="chevronOnder" size="medium"></i>
+    <span class="titel text-strong">{{ werkdrukStudiewijzeritem.studiewijzerItem | studiewijzeritemTitel }}</span>
+</div>
+<div class="details text-moderate" [@collapse]="{ value: !expanded }" [class.expanded]="expanded">
+    @if (werkdrukStudiewijzeritem.studiewijzerItem) {
+        <span class="omschrijving" [innerHtml]="werkdrukStudiewijzeritem.studiewijzerItem | studiewijzeritemOmschrijving"></span>
+    }
+    <div class="opgegeven text-content-smallest-semi">
+        {{ werkdrukStudiewijzeritem | werkdrukitemDocentLesgroep }} • ingepland op
+        {{ werkdrukStudiewijzeritem.ingeplandOp | dtDate: 'dag_kort_dagnummer_maand_kort_tijd_lowercase' }}
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="header">
+    <span>SE resultaten</span>
+    @if (vakToetsTrend(); as trend) {
+        <dt-mentordashboard-trend-met-info
+            [aantalVoorTrendindicatie]="trend.aantalResultatenVoorTrendindicatie"
+            [trendindicatie]="trend.trendindicatie" />
+    }
+</div>
+@if (seResultaten().isPending) {
+    <hmy-spinner />
+} @else if (seResultaten().hasError) {
+    <span class="error text-content-semi text-weakest">{{ seResultaten().error?.message }}</span>
+} @else {
+    @for (resultaat of seResultaten().data; track resultaat) {
+        <dt-leerlingoverzicht-vak-toets-resultaat
+            [instellingen]="instellingen()"
+            [resultaat]="resultaat"
+            [isAlternatieveNormering]="false"
+            [omschrijvingSamengesteldeToets]="null"
+            [toetscodeSamengesteldeToets]="null" />
+    } @empty {
+        <span class="geen-resultaten text-content-semi text-weakest">Geen toetsresultaten</span>
+    }
+}

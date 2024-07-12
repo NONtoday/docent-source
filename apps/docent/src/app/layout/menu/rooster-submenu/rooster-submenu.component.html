@@ -1,0 +1,22 @@
+<header>
+    <i class="margin-auto" (click)="closeMenu('Rooster', $event)" color="action-neutral-weak" hmyIcon="chevronLinks" size="medium"></i>
+    <span class="header-text text-small-content-bold">Rooster</span>
+    <div class="exit-container">
+        <i class="margin-auto" (click)="closeAllMenus($event)" color="action-neutral-weak" hmyIcon="sluiten" size="medium"></i>
+    </div>
+</header>
+<div class="roosteroverzicht text-content-semi" [routerLink]="['/rooster']" (click)="closeAllMenus($event)">
+    Naar roosteroverzicht
+    <i class="margin-auto" color="action-neutral-weak" hmyIcon="chevronRechts" size="small"></i>
+</div>
+<div class="vandaag">
+    <div class="text text-heading-2">{{ vandaag | dtDate: 'dag_kort_dagnummer_maand_kort' }}</div>
+</div>
+@for (afspraak of afspraken; track afspraak; let i = $index; let last = $last) {
+    <dt-lesuur-afspraak
+        class="quicknav"
+        [afspraak]="afspraak"
+        [last]="last"
+        (click)="closeAllMenus($event)"
+        data-gtm="rooster-quicknavigatie"></dt-lesuur-afspraak>
+}

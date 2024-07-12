@@ -1,0 +1,13 @@
+<dt-popup>
+    <div class="content" popup-content>
+        @for (telefoonnummer of telefoonnummers; track telefoonnummer) {
+            <div
+                class="telefoonnummer-container pointer"
+                (click)="onTelefoonnummerClick(telefoonnummer)"
+                data-gtm="leerling-contactpersoon-telefoonnummer">
+                <span class="naam text-small-content-semi color-typography-2">{{ telefoonnummer.naam }}</span>
+                <a class="telefoonnummer">{{ telefoonnummer.nummer }}</a>
+            </div>
+        }
+    </div>
+</dt-popup>

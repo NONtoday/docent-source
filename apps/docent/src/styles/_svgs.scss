@@ -1,0 +1,31 @@
+.svg-smallest {
+    width: 12px;
+    height: 12px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px 12px;
+}
+
+.svg-opmerking {
+    background-image: url('../assets/img/resultaat-reactie.svg');
+}
+
+// Deze class wordt gebruikt in harmony-icon.directive
+.svg {
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
+}
+
+.svg-open-close {
+    transition: transform 0.25s ease-out;
+
+    fill: var(--action-primary-normal);
+
+    &.close {
+        transform: rotateX(-180deg);
+
+        fill: var(--action-neutral-normal);
+    }
+}

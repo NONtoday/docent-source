@@ -1,0 +1,5 @@
+@for (dag of dagen; track dag; let isFirst = $first; let isLast = $last) {
+    <div class="dag">
+        <dt-dagen-balk-dag [class.first]="isFirst" [class.last]="isLast" [dag]="dag" [datum]="date"></dt-dagen-balk-dag>
+    </div>
+}

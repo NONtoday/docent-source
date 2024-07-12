@@ -1,0 +1,108 @@
+@if (sidebarService.currentPage$ | async; as page) {
+    <dt-sidebar
+        [title]="page.titel"
+        [icon]="page.icon"
+        [iconClickable]="page.iconClickable"
+        (onIconClick)="sidebarService.previousPage()"
+        (onMaskClick)="closeSidebar()"
+        (onCloseClick)="closeSidebar()">
+        @if (page.pagenumber === 1) {
+            <div class="sticky-container">
+                @if (differentiatiegroepen$ | async; as differentiatiegroepen) {
+                    <div>
+                        @if (leerlingenZonderGroep$ | async; as leerlingenZonderGroep) {
+                            <div class="message">
+                                <span class="hide-for-phone-only"
+                                    ><b
+                                        [dtTooltip]="leerlingenZonderGroepTooltip(leerlingenZonderGroep)"
+                                        [onTouchAllowed]="true"
+                                        position="bottom"
+                                        >{{ leerlingenZonderGroep.length }} leerling{{ leerlingenZonderGroep.length > 1 ? 'en' : '' }}</b
+                                    >
+                                    zonder differentiatiegroep</span
+                                >
+                                <span class="show-for-phone-only"
+                                    ><b
+                                        [dtTooltip]="leerlingenZonderGroepTooltip(leerlingenZonderGroep)"
+                                        [onTouchAllowed]="true"
+                                        position="bottom"
+                                        >{{ leerlingenZonderGroep.length }} leerling{{ leerlingenZonderGroep.length > 1 ? 'en' : '' }}</b
+                                    >
+                                    zonder groep</span
+                                >
+                            </div>
+                        }
+                        @if (differentiatiegroepen.length > 0) {
+                            <dt-differentiatiegroepen
+                                [differentiatiegroepen]="differentiatiegroepen"
+                                (onLeerlingenToevoegen)="onLeerlingenToevoegen($event)"
+                                (saveDifferentiatiegroep)="saveDifferentiatiegroep($event)"
+                                (deleteDifferentiatiegroep)="deleteDifferentiatiegroep($event)"
+                                (onVerwijderLeerling)="verwijderLeerlingUitGroep($event.leerling, $event.differentiatiegroep)"
+                                (onLeerlingVerplaatst)="onLeerlingVerplaatst($event)"
+                                (onGroepToevoegen)="addGroep()">
+                            </dt-differentiatiegroepen>
+                        }
+                        @if (differentiatiegroepen.length === 0 && !(nieuweGroep$ | async)) {
+                            <div class="empty-container">
+                                <div class="empty text-content-semi text-weak">
+                                    Klik op Toevoegen om te beginnen <i color="text-weak" hmyIcon="pijlKleinOnder"></i>
+                                </div>
+                            </div>
+                        }
+                        @if (nieuweGroep$ | async; as nieuweGroep) {
+                            <dt-differentiatiegroep-header
+                                [differentiatiegroep]="nieuweGroep"
+                                [inEditMode]="true"
+                                (saveDifferentiatiegroep)="saveDifferentiatiegroep($event)"
+                                (editCancelled)="editCancelled()">
+                            </dt-differentiatiegroep-header>
+                        }
+                    </div>
+                } @else {
+                    <hmy-spinner [centeredInParent]="true" />
+                }
+                <div class="buttons">
+                    <dt-outline-button
+                        (click)="addGroep()"
+                        icon="toevoegen"
+                        iconColor="accent_positive_1"
+                        color="accent_positive_1"
+                        data-gtm="differentiatiegroep-toevoegen"
+                        >Nieuwe groep toevoegen
+                    </dt-outline-button>
+                </div>
+            </div>
+        } @else {
+            <div class="sticky-container">
+                @if (leerlingen$ | async; as leerlingen) {
+                    @if (leerlingen.length > 0) {
+                        <div class="control-container">
+                            @for (leerling of leerlingen; track leerling) {
+                                <dt-leerling-groep-form-control
+                                    [formGroup]="formGroup"
+                                    [controlName]="leerling.id"
+                                    [leerling]="leerling"
+                                    [groepen]="leerling.differentiatiegroepen ?? []">
+                                </dt-leerling-groep-form-control>
+                            }
+                        </div>
+                    } @else {
+                        <div class="geen-leerlingen">Geen leerlingen in deze lesgroep</div>
+                    }
+                    <div class="buttons">
+                        <dt-outline-button (click)="sidebarService.previousPage()" color="typography_3">Annuleren </dt-outline-button>
+                        @if ({ value: aantalGeselecteerdeLeerlingen$ | async }; as aantal) {
+                            <dt-button
+                                [disabled]="!!aantal.value && aantal.value < 1"
+                                (click)="voegLeerlingenToe(leerlingen)"
+                                data-gtm="differentiatiegroep-leerlingen-toevoegen"
+                                >{{ (aantal.value! > 0 ? '(' + aantal.value + ') ' : '') + 'Toevoegen' }}
+                            </dt-button>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </dt-sidebar>
+}

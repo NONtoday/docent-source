@@ -1,0 +1,80 @@
+<div class="header">
+    <i
+        [hmyIcon]="$any(toekenning.studiewijzeritem.icon)"
+        [class]="toekenning.studiewijzeritem.huiswerkType | huiswerkTypeColor | harmonyColorToFillClass"
+        size="large"></i>
+    <span class="text-head text-moderate lesitemtitel">{{ titel }}</span>
+    @if (!toekenning.studiewijzeritem.zichtbaarVoorLeerling) {
+        <i
+            [onTouchAllowed]="true"
+            color="fg-neutral-moderate"
+            hmyIcon="nietZichtbaar"
+            size="large"
+            dtTooltip="Niet zichtbaar voor leerling"></i>
+    }
+    @if (toekenning.synchroniseertMet) {
+        <i
+            [dtTooltip]="'Gesynchroniseerd met ' + toekenning.synchroniseertMet"
+            [onTouchAllowed]="true"
+            color="fg-positive-normal"
+            hmyIcon="synchroniseren"
+            size="large"></i>
+    }
+    <div class="actie-icons" [dtPopupOpen]="[moreOptionsIconRef, deleteIconRef, ontkoppelIconRef]">
+        <dt-icon class="hide-for-desktop" #moreOptionsIcon (click)="openActionsPopup()" icon="opties" size="medium"> </dt-icon>
+        @if (toekenning.synchroniseertMet) {
+            <dt-icon
+                class="show-for-desktop ontkoppelen"
+                #ontkoppelIcon
+                (click)="onOntkoppelClick()"
+                dtTooltip="Ontkoppelen"
+                icon="ontkoppelen"
+                color="negative"
+                size="medium">
+            </dt-icon>
+        }
+        <dt-icon
+            class="show-for-desktop"
+            #deleteIcon
+            (click)="onDeleteClick()"
+            dtTooltip="Verwijderen"
+            icon="verwijderen"
+            color="negative"
+            size="medium"></dt-icon>
+        <dt-icon class="show-for-desktop" (click)="onEditClick()" dtTooltip="Bewerken" icon="bewerken" size="medium"> </dt-icon>
+    </div>
+    @if (heeftLabels) {
+        <div class="labels">
+            @if (showDatumLabel) {
+                <hmy-icon-pill
+                    [text]="datumLabelContent | dtDate: 'dag_kort_dagnummer_maand_kort'"
+                    [iconVisible]="isToekomend"
+                    icon="opgegeven"
+                    iconSize="smallest"
+                    color="neutral"></hmy-icon-pill>
+            }
+            @if (showLesgroepLabel) {
+                <hmy-pill class="lesgroepen" [text]="toekenning.lesgroep!.naam" color="primary"></hmy-pill>
+            }
+            @if (showTijdsindicatieLabel) {
+                <hmy-icon-pill
+                    [text]="toekenning.studiewijzeritem.tijdsindicatie!"
+                    icon="clockRadio"
+                    iconSize="smallest"
+                    color="primary"></hmy-icon-pill>
+            }
+        </div>
+    }
+</div>
+<dt-studiewijzeritem-inhoud
+    [toekomend]="isToekomend"
+    [studiewijzeritem]="toekenning.studiewijzeritem"
+    [differentiatiegroepen]="toekenning.differentiatiegroepen"
+    [differentiatieleerlingen]="toekenning.differentiatieleerlingen"
+    [toonNamenInTags]="false"
+    [readOnlyDifferentiatie]="!heeftToegangTotDifferentiatie"
+    (verwijderAlleDiffLeerlingen)="verwijderAlleDiffLeerlingen.emit()"
+    (verwijderDiffGroep)="verwijderDiffGroep.emit($event)"
+    (verwijderDiffLeerling)="verwijderDiffLeerling.emit($event)"
+    (onDifferentiatieToekenning)="onDifferentiatieToekenning.emit()">
+</dt-studiewijzeritem-inhoud>

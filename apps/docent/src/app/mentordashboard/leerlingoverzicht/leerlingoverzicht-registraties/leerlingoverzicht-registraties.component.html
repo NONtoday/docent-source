@@ -1,0 +1,131 @@
+<div class="header-buttons">
+    <div class="header-left">
+        <dt-outline-button
+            class="tijdspan-button"
+            #tijdspan
+            [iconRight]="true"
+            [iconSizes]="['smallest']"
+            (click)="openTijdspanPopup(instellingen().tijdspan)"
+            data-gtm="leerlingoverzicht-tijdspan-selectie"
+            cy="tijdspan-button"
+            icon="chevronOnder"
+            iconColor="typography_4"
+            color="typography_1">
+            {{ instellingen().tijdspan }}
+        </dt-outline-button>
+        <div class="show-for-tablet periode-text">
+            {{ periodeText() }}
+        </div>
+    </div>
+    <dt-outline-button
+        class="weergave-button"
+        #weergave
+        (click)="openWeergavePopup(registratieCategorieen(), instellingen().weergaves)"
+        data-gtm="leerlingoverzicht-weergave-selectie"
+        cy="weergave-button"
+        icon="blokken"
+        iconColor="primary_1"
+        iconOnlyRangeEnd="tablet-portrait">
+        Weergave
+    </dt-outline-button>
+</div>
+
+<div class="hide-for-tablet periode-text">
+    {{ periodeText() }}
+</div>
+
+<div class="content">
+    <div class="registraties">
+        @if (registratieResponse().isPending) {
+            <hmy-spinner />
+        } @else if (registratieResponse().hasError) {
+            <div class="error text-content-semi">
+                <span>{{ registratieResponse().error?.message }}</span>
+            </div>
+        } @else {
+            @for (regCategorie of filteredRegistratieCategorieen(); track regCategorie) {
+                <dt-leerlingregistratie-categorie
+                    [naam]="regCategorie.categorie | registratieCategorieNaam"
+                    [kolom]="regCategorie.categorie | registratieCategorieKolom"
+                    [aantalLessen]="regCategorie.details.aantalLessen"
+                    [aantalRegistraties]="regCategorie.details.aantalRegistraties"
+                    [aantalRegistratiesTijdensLes]="regCategorie.details.aantalLesRegistraties"
+                    [totaalMinuten]="regCategorie.details.totaalMinuten"
+                    [trend]="regCategorie.trend"
+                    [periode]="instellingen().tijdspan"
+                    (click)="openRegistratieSidebar(regCategorie)"
+                    data-gtm="leerlingoverzicht-registratie-details" />
+            } @empty {
+                @if (instellingenLoaded() && instellingen().weergaves.length === 0) {
+                    <div class="geen-categorieen text-content-semi">
+                        <span>Geen categorieën geselecteerd</span>
+                        <span
+                            class="weergave-wijzigen pointer"
+                            (click)="openWeergavePopup(registratieCategorieen(), instellingen().weergaves)">
+                            <i class="" hmyIcon="settings" color="action-primary-normal"> </i>Weergave wijzigen
+                        </span>
+                    </div>
+                }
+                @if (geenCijferperiode() && instellingenLoaded() && instellingen().weergaves.length > 0) {
+                    <div class="geen-periodes text-content-semi">
+                        <span>Er zijn geen periodes beschikbaar.</span>
+                        <span class="geen-periodes-alternatieven">
+                            Bekijk de
+                            <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Laatste 7 dagen')">laatste 7 dagen</a>,
+                            <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Laatste 30 dagen')">laatste 30 dagen</a>,
+                            of
+                            <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Huidig schooljaar')">dit schooljaar</a>
+                        </span>
+                    </div>
+                }
+            }
+        }
+    </div>
+    <div class="aanvullende-informatie">
+        <hmy-stackitem-group>
+            @if (indicaties().aantal > 0) {
+                <hmy-stackitem
+                    class="indicaties-button"
+                    (click)="openIndicatiesSidebar(indicaties())"
+                    titel="Indicaties"
+                    icon="zorgindicaties"
+                    data-gtm="leerlingoverzicht-indicaties">
+                    <hmy-notification-counter [count]="indicaties().aantal" color="warning" />
+                </hmy-stackitem>
+            }
+            <hmy-stackitem
+                class="maatregelen-button"
+                (click)="openMaatregelenSidebar()"
+                data-gtm="leerlingoverzicht-maatregelen"
+                titel="Maatregelen"
+                icon="waarschuwing">
+                @if (maatregelen().actief.length > 0) {
+                    <hmy-notification-counter [count]="maatregelen().actief.length" color="warning" />
+                }
+            </hmy-stackitem>
+            @if (aantalVastgeprikteNotities() > 0) {
+                <hmy-stackitem
+                    class="notities-button"
+                    *dtHeeftVestigingsRecht="['heeftToegangTotNotitieboek']; vestigingId: vestigingId()!"
+                    (click)="openNotitiesSidebar()"
+                    data-gtm="leerlingoverzicht-notities"
+                    titel="Vastgeprikte notities"
+                    icon="pinned">
+                    <hmy-notification-counter [count]="aantalVastgeprikteNotities()" color="warning" />
+                </hmy-stackitem>
+            }
+        </hmy-stackitem-group>
+    </div>
+</div>
+
+@if (showWeergaveOpgeslagenMessage()) {
+    <dt-message
+        [@slideInUpOnEnter]
+        [@slideOutDownOnLeave]
+        [duration]="3000"
+        [isToast]="true"
+        (onClose)="showWeergaveOpgeslagenMessage.set(false)"
+        cy="weergave-opgeslagen-bericht"
+        text="Weergave opgeslagen"
+        soort="ok" />
+}

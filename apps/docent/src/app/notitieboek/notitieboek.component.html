@@ -1,0 +1,128 @@
+@if (!zonderHeader) {
+    <dt-header [metNavigatie]="!!(showHeaderNavigation$ | async)" titel="Notitieboek" icon="notitieboek">
+        @if (navigatie$ | async; as navigatie) {
+            <dt-groep-leerling-header-navigatie
+                [groep]="navigatie.groep"
+                [leerling]="navigatie.leerling"
+                [heeftVolgende]="!!navigatie.nextId"
+                [heeftVorige]="!!navigatie.prevId"
+                [beschrijving]="navigatie.beschrijving"
+                (volgendeClick)="navigeerNaarLeerling(navigatie.nextId)"
+                (vorigeClick)="navigeerNaarLeerling(navigatie.prevId)"
+                (leerlingClick)="onLeerlingClick($event, navigatie.groep, !!navigatie.nextId || !!navigatie.prevId)"
+                (groepClick)="navigeerNaarGroep()">
+            </dt-groep-leerling-header-navigatie>
+        }
+    </dt-header>
+}
+@if (
+    {
+        detail: detail$ | async,
+        context: context$ | async,
+        edit: edit$ | async
+    };
+    as data
+) {
+    @if (data.context) {
+        <dt-notitie-stream
+            [notitiestream$]="stream$"
+            [context]="data.context"
+            [huidigeSchooljaarSelected]="selectedSchooljaarIsHuidig()"
+            [class.show-stream-for-mobile]="!data.detail && !data.edit"
+            (onSchooljaarSelected)="selectSchooljaar($event)"></dt-notitie-stream>
+        @if (data.detail) {
+            <dt-notitie-detail
+                [notitie]="data.detail.current"
+                [context]="data.context"
+                [huidigeSchooljaarSelected]="selectedSchooljaarIsHuidig()"
+                [nextNotitie]="data.detail.next"
+                [prevNotitie]="data.detail.prev"
+                (onVerwijderNotitie)="verwijderNotitie($event)"></dt-notitie-detail>
+        }
+        @if (data.edit) {
+            <dt-notitie-edit
+                [notitie]="data.edit"
+                [context]="data.context"
+                (onAnnuleerNotitie)="onAnnuleerNotitie()"
+                (onSaveNotitie)="onSavedNotitie($event.isNieuw, $event.notitieId)">
+            </dt-notitie-edit>
+        }
+        @if (!data.detail && !data.edit) {
+            <div class="geen-selectie text-content-semi">
+                <div class="text">
+                    <span class="text-weak">👈🏻 Selecteer een notitie {{ selectedSchooljaarIsHuidig() ? ' of' : '' }}</span
+                    ><br />
+                    @if (selectedSchooljaarIsHuidig()) {
+                        <span
+                            class="action-primary-normal pointer nieuwe-notitie"
+                            [routerLink]="['./']"
+                            [queryParams]="{
+                                notitie: 'nieuw',
+                                contextToevoegen: null,
+                                edit: true,
+                                leerlingBetrokkenenData: null,
+                                scrollto: null
+                            }"
+                            data-gtm="notitieboek-notitie-toevoegen"
+                            queryParamsHandling="merge">
+                            Maak nieuwe notitie aan
+                        </span>
+                    }
+                </div>
+                @if (selectedSchooljaarIsHuidig()) {
+                    <div class="footer">
+                        <dt-outline-button
+                            class="nieuw-button"
+                            [routerLink]="['./']"
+                            [queryParams]="{
+                                notitie: 'nieuw',
+                                contextToevoegen: null,
+                                edit: true,
+                                leerlingBetrokkenenData: null,
+                                scrollto: null
+                            }"
+                            data-gtm="notitieboek-notitie-toevoegen"
+                            icon="toevoegen"
+                            iconColor="accent_positive_1"
+                            color="accent_positive_1"
+                            queryParamsHandling="merge">
+                            Nieuw
+                        </dt-outline-button>
+                    </div>
+                }
+            </div>
+        }
+        @if (showOpgeslagenMessage) {
+            <dt-message
+                class="message text-content-semi"
+                [@slideInUpOnEnter]
+                [@slideOutDownOnLeave]
+                [duration]="3000"
+                [isToast]="true"
+                (onClose)="showOpgeslagenMessage = false"
+                soort="ok"
+                text="Notitie toegevoegd">
+            </dt-message>
+        }
+        @if (showSuccesMessageAfspraak) {
+            <dt-message
+                class="succes-message-afspraak"
+                [@slideInUpOnEnter]
+                [@slideOutDownOnLeave]
+                [text]="succesMessageAfspraak"
+                [duration]="3000"
+                [isToast]="true"
+                (onClose)="showSuccesMessageAfspraak = false"
+                soort="ok">
+            </dt-message>
+        }
+        @if (afspraakSidebar$ | async; as afspraakContainer) {
+            <dt-afspraak-sidebar
+                [@allowLeaveAnimation]
+                [afspraak]="afspraakContainer.afspraak!"
+                [bewerkenState]="afspraakContainer.bewerkenState"
+                [openDetailBijNieuweAfspraak]="afspraakContainer.openDetailBijNieuweAfspraak"
+                (showMessage)="showAfspraakSuccesMessage($event)"></dt-afspraak-sidebar>
+        }
+    }
+}

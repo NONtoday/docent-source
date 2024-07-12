@@ -1,0 +1,64 @@
+<dt-popup>
+    <div class="popup-content" popup-content>
+        <div class="geadresseerden">
+            @for (leerling of leerlingen; track leerling) {
+                <hmy-tag [label]="leerling | volledigeNaam" (iconClick)="verwijderGeadresseerde(leerling.id)"></hmy-tag>
+            }
+            @for (projectgroep of projectgroepen; track projectgroep) {
+                <hmy-tag [label]="projectgroep.naam" (iconClick)="verwijderGeadresseerde(projectgroep.id)"></hmy-tag>
+            }
+        </div>
+        <div class="editor-container">
+            @if (ingelogdeMedewerker$ | async; as ingelogdeMedewerker) {
+                <dt-avatar
+                    class="show-for-tablet"
+                    [src]="ingelogdeMedewerker.pasfoto"
+                    [initialen]="ingelogdeMedewerker.initialen"></dt-avatar>
+            }
+            <div class="shadow-layer">
+                <input #fileInput (change)="onFilesSelected($event)" type="file" style="display: none" multiple />
+                <dt-editor-form-control
+                    [formGroup]="berichtForm"
+                    [heeftBijlagen]="true"
+                    [showBorder]="true"
+                    [useMinHeight]="isPhoneOrTabletPortrait$ | async"
+                    [setInitialFocus]="true"
+                    controlName="bericht"
+                    ngDefaultControl>
+                </dt-editor-form-control>
+                @for (bijlage of bijlagen; track trackByBijlageId($index, bijlage)) {
+                    <div>
+                        <dt-bijlage
+                            class="edit"
+                            [bijlage]="bijlage"
+                            [inEditMode]="true"
+                            [canOpen]="false"
+                            [heeftToegangTotElo]="true"
+                            [alleenDeleteIcon]="true"
+                            (removeBijlage)="removeBijlage($event)">
+                        </dt-bijlage>
+                    </div>
+                }
+                <dt-bijlage-upload-lijst
+                    [uploadingFiles]="uploadingFiles"
+                    (fileUploadCancelled)="cancelUpload()"
+                    (fileUploaded)="fileUploaded($event.uploadContextId!, $event.file)"></dt-bijlage-upload-lijst>
+                <div class="upload-bijlage">
+                    <div class="bijlage-knop" (click)="openBijlagePicker()">
+                        <i color="action-positive-normal" hmyIcon="bijlageToevoegen" size="medium"></i>
+                        <span class="text text-content-semi">Bijlage toevoegen</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <dt-outline-button (click)="popup.onClose()">Annuleren</dt-outline-button>
+            <dt-button
+                [attr.data-gtm]="herinnering ? 'bulk-inlever-herinnering' : 'bulk-inlever-bericht'"
+                [disabled]="verzendenDisabled$ | async"
+                (click)="onBerichtVersturenClick()"
+                >Verzenden</dt-button
+            >
+        </div>
+    </div>
+</dt-popup>

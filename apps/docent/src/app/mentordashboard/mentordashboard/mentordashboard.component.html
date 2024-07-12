@@ -1,0 +1,211 @@
+<dt-header [metNavigatie]="vakLeerlingGroepHeaderMenuEnabled" titel="Mentorleerlingen" icon="groepAlt">
+    @if (vakLeerlingGroepHeaderMenuEnabled) {
+        @if (vakNavigatie$ | async; as navigatie) {
+            <dt-vak-navigatie-header
+                [vaknaam]="navigatie.vakkolom.naam"
+                [leerling]="mentordashboardService.huidigeLeerling!"
+                (meerOptiesClick)="meerOptiesClick($event, navigatie.leerling)"
+                (terugClick)="navigatie.onTerugClick()"
+                (vakClick)="navigatie.onVakNaamClick($event)">
+            </dt-vak-navigatie-header>
+        } @else {
+            @if (navigatie$ | async; as navigatie) {
+                <dt-groep-leerling-header-navigatie
+                    [groep]="navigatie.groep"
+                    [leerling]="navigatie.leerling"
+                    [isGezamenlijkOverzicht]="navigatie.isGezamenlijkOverzicht"
+                    [heeftVolgende]="!!navigatie.nextId"
+                    [heeftVorige]="!!navigatie.prevId"
+                    [beschrijving]="navigatie.beschrijving"
+                    [showBackgroundIcon]="true"
+                    [kanNavigerenNaarGroep]="navigatie.kanNavigerenNaarGroep"
+                    [hideArrows]="!!(isGroepsoverzicht$ | async)"
+                    [showMoreOptions]="!!navigatie.leerling"
+                    (meerOptiesClick)="meerOptiesClick($event, navigatie.leerling!)"
+                    (volgendeClick)="navigeerNaarId(navigatie.nextId)"
+                    (vorigeClick)="navigeerNaarId(navigatie.prevId)"
+                    (leerlingClick)="onLeerlingClick($event, navigatie.isGezamenlijkOverzicht, navigatie.groep?.id)"
+                    (groepClick)="navigeerNaarGroep(navigatie.isGezamenlijkOverzicht, navigatie.groep?.id)">
+                </dt-groep-leerling-header-navigatie>
+            }
+        }
+    }
+</dt-header>
+@if (mentordashboardNavigatieHeaderMenuEnabled) {
+    <dt-mentordashboard-navigatie></dt-mentordashboard-navigatie>
+}
+<div class="content">
+    <router-outlet></router-outlet>
+</div>
+
+@if (message$ | async; as message) {
+    <dt-message
+        class="succes-message"
+        [@slideInUpOnEnter]
+        [@slideOutDownOnLeave]
+        [soort]="message.soort"
+        [text]="message.text"
+        [duration]="message.duration"
+        [closable]="message.closable"
+        [isToast]="true"
+        (onClose)="closeMessage()">
+    </dt-message>
+}
+
+@if (afspraakSidebar$ | async; as afspraakContainer) {
+    <dt-afspraak-sidebar
+        [@allowLeaveAnimation]
+        [afspraak]="afspraakContainer.afspraak!"
+        [bewerkenState]="afspraakContainer.bewerkenState"
+        [openDetailBijNieuweAfspraak]="afspraakContainer.openDetailBijNieuweAfspraak"
+        (showMessage)="showAfspraakSuccesMessage($event)">
+    </dt-afspraak-sidebar>
+}
+
+@if (werkdrukSidebar$ | async; as werkdrukData) {
+    <dt-werkdruk-sidebar
+        [@allowLeaveAnimation]
+        [initielePeildatum]="werkdrukData.initielePeildatum!"
+        [initieleLeerlingenContext]="werkdrukData.initieleLeerlingenContext ?? []"
+        [showAddItem]="false"
+        [eersteWeek]="werkdrukData.eersteWeek!"
+        [laatsteWeek]="werkdrukData.laatsteWeek!"
+        [toegangTotDifferentiatie]="false"
+        [mentorLeerlingen]="werkdrukData.mentorLeerlingen">
+    </dt-werkdruk-sidebar>
+}
+
+@if (maatregelenSidebar$ | async; as maatregelenData) {
+    <dt-maatregelen-sidebar [@allowLeaveAnimation] [leerlingId]="maatregelenData.leerlingId!" [vestigingId]="maatregelenData.vestigingId!">
+    </dt-maatregelen-sidebar>
+}
+
+@if (maatregelenBewerkenSidebar$ | async; as maatregelenData) {
+    <dt-maatregelen-bewerken-sidebar
+        [@allowLeaveAnimation]
+        [maatregelen]="maatregelenData.maatregelen!"
+        [maatregelToekenning]="maatregelenData.maatregelToekenning!"
+        [leerlingId]="maatregelenData.leerlingId!">
+    </dt-maatregelen-bewerken-sidebar>
+}
+
+@if (leerlingregistratiesTotaalSidebar$ | async; as sidebar) {
+    <dt-leerlingregistraties-totaal-sidebar
+        [@allowLeaveAnimation]
+        [sidebar]="sidebar.sidebar!"
+        [registratie]="sidebar.registratie!"
+        [sidebarAvatar]="sidebar.sidebarAvatar!"
+        [totaalAantalLessen]="sidebar.totaalAantalLessen!">
+    </dt-leerlingregistraties-totaal-sidebar>
+}
+
+@if (leerlingRegistratiesSidebar$ | async; as data) {
+    <dt-leerlingregistraties-sidebar
+        [@allowLeaveAnimation]
+        [sidebar]="data.sidebar!"
+        [leerlingId]="data.leerlingId!"
+        [vakId]="data.vakId!"
+        [kolom]="data.kolom!"
+        [vrijVeld]="data.vrijVeld!"
+        [periodes]="data.periodes!"
+        [initialPeriode]="data.initialPeriode!"
+        [sidebarAvatar]="data.sidebarAvatar!"
+        [keuzelijstWaardeMogelijkheid]="data.keuzelijstWaardeMogelijkheid!">
+    </dt-leerlingregistraties-sidebar>
+}
+
+@if (mentordashboardResultatenSidebar$ | async; as data) {
+    <dt-mentordashboard-resultaten-sidebar
+        [@allowLeaveAnimation]
+        [leerlingId]="data.leerlingId!"
+        [periode]="data.periode!"
+        [vak]="data.vak!"
+        [periodes]="data.periodes!"
+        [alternatieveNormering]="data.alternatieveNormering">
+    </dt-mentordashboard-resultaten-sidebar>
+}
+
+@if (mentordashboardResultatenSeSidebar$ | async; as data) {
+    <dt-mentordashboard-resultaten-se-sidebar
+        [@allowLeaveAnimation]
+        [plaatsingId]="data.plaatsingId!"
+        [vak]="data.vak!"
+        [lichtingId]="data.lichtingId">
+    </dt-mentordashboard-resultaten-se-sidebar>
+}
+
+@if (mentordashboardResultatenCeSidebar$ | async; as data) {
+    <dt-mentordashboard-resultaten-ce-sidebar
+        [@allowLeaveAnimation]
+        [plaatsingId]="data.plaatsingId!"
+        [vak]="data.vak!"
+        [lichtingId]="data.lichtingId">
+    </dt-mentordashboard-resultaten-ce-sidebar>
+}
+
+@if (notitieSidebar$ | async; as notitiesData) {
+    <dt-notities-sidebar
+        [@allowLeaveAnimation]
+        [titel]="notitiesData.titel"
+        [context]="notitiesData.context!"
+        [notities$]="notitiesData.notities$!"
+        [openInNotitieboekCallback]="notitiesData.openInNotitieboekCallback"
+        [onNotitieToevoegenClick]="notitiesData.onNotitieToevoegenClick"
+        [onNavigeerNotitieboekClick]="notitiesData.onNavigeerNotitieboekClick"
+        [openNotitieActiveId]="notitiesData.openNotitieActiveId">
+    </dt-notities-sidebar>
+}
+
+@if (groepsoverzichtRegistratieSidebar$ | async; as groepsoverzichtRegistratie) {
+    <dt-groepsoverzicht-registratie-sidebar
+        [@allowLeaveAnimation]
+        [leerlingRegistratie]="groepsoverzichtRegistratie.leerlingRegistratie!" />
+}
+
+@if (groepsoverzichtResultatenSidebar$ | async; as groepsoverzichtResultaten) {
+    <dt-groepsoverzicht-resultaten-sidebar
+        [@allowLeaveAnimation]
+        [leerlingCijferoverzicht]="groepsoverzichtResultaten.leerlingCijferoverzicht!"
+        [resultatenSoort]="groepsoverzichtResultaten.resultatenSoort!" />
+}
+
+@if (indicatiesSidebar$ | async; as indicatiesData) {
+    <dt-indicaties-sidebar
+        [@allowLeaveAnimation]
+        [leerlingId]="indicatiesData.leerlingId!"
+        [beperkingen]="indicatiesData.beperkingen!"
+        [interventies]="indicatiesData.interventies!"
+        [hulpmiddelen]="indicatiesData.hulpmiddelen!" />
+}
+
+@if (leerlingoverzichtRegistratieSidebar$ | async; as leerlingoverzichtRegistratie) {
+    <dt-leerlingoverzicht-registratie-sidebar
+        [@allowLeaveAnimation]
+        [leerlingRegistratie]="leerlingoverzichtRegistratie.leerlingRegistratie!" />
+}
+
+@if (leerlingoverzichtGemisteToetsenSidebar$ | async; as leerlingOverzichtGemisteToetsen) {
+    <dt-leerlingoverzicht-gemiste-toetsen-sidebar
+        [@allowLeaveAnimation]
+        [gemisteToetsen]="leerlingOverzichtGemisteToetsen.gemisteToetsen!"
+        [title]="leerlingOverzichtGemisteToetsen.title!" />
+}
+
+@if (leerlingoverzichtLaatsteResultatenSidebar$ | async; as leerlingOverzichtLaatsteResultaten) {
+    <dt-leerlingoverzicht-laatste-resultaten-sidebar
+        [@allowLeaveAnimation]
+        [trendindicatie]="leerlingOverzichtLaatsteResultaten.trendindicatie!"
+        [aantalVoorTrendindicatie]="leerlingOverzichtLaatsteResultaten.aantalVoorTrendindicatie!"
+        [instellingen]="leerlingOverzichtLaatsteResultaten.instellingen!"
+        [laatsteResultaten]="leerlingOverzichtLaatsteResultaten.laatsteResultaten!"
+        [resultatenSoort]="leerlingOverzichtLaatsteResultaten.resultatenSoort!"
+        [leerlingId]="leerlingOverzichtLaatsteResultaten.leerlingId!" />
+}
+
+@if (leerlingoverzichtVakSamenvattingSidebar$ | async; as leerlingoverzichtVakSamenvatting) {
+    <dt-leerlingoverzicht-vak-samenvatting-sidebar [@allowLeaveAnimation] [data]="leerlingoverzichtVakSamenvatting.data!" />
+}
+
+@if (showFloatingActions$ | async) {
+    <dt-floating-action-bar [actions]="floatingActions$ | async"></dt-floating-action-bar>
+}

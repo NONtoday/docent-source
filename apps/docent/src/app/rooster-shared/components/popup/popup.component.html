@@ -1,0 +1,27 @@
+<div
+    class="popup"
+    #popup
+    [clickOutsideEnabled]="visibility === 'visible'"
+    [clickOutsideEvents]="'mousedown,touchend'"
+    [delayClickOutsideInit]="true"
+    [class.with-header]="settings.showHeader"
+    (clickOutside)="onClickedOutside($event)">
+    @if (settings.showHeader) {
+        <div #popupHeader [ngClass]="headerClass">
+            @if (headerIcon) {
+                <i class="header-icon" [hmyIcon]="headerIcon" size="large"></i>
+            }
+            <span class="titel">{{ title }}</span>
+            @if (headerLabel) {
+                <!-- FIXME: hier hmy-pill gebruiken zodra we de blauwe headers vervangen. Dan kunnen alle label-pill scss classes en mixins ook opgeruimd worden. -->
+                <span class="label label-pill-lightest">{{ headerLabel }}</span>
+            }
+            @if (showCloseButton()) {
+                <i class="sluiten-icon" [sizes]="['medium', 'medium', 'medium', 'large']" (click)="onClose('cross')" hmyIcon="sluiten"></i>
+            }
+        </div>
+    }
+    <div class="content" #popupContent>
+        <ng-content select="[popup-content]"></ng-content>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<header>
+    <span class="titel">Verloop</span>
+    <i
+        class="info"
+        [onTouchAllowed]="true"
+        hmyIcon="informatie"
+        hmyTooltip="Verloop van registraties per dag binnen het geselecteerde tijdsvak"></i>
+</header>
+@if (registraties().length > 0) {
+    <div class="mask-container" #scrollElement [topOffset]="-26" hmyHorizontalScrollButtons>
+        <div class="verloop">
+            @for (week of grafiekModel(); track week.week) {
+                <dt-registraties-verloop-week [verloopWeek]="week" />
+            }
+        </div>
+    </div>
+} @else {
+    <span class="geen-registraties">Geen registraties</span>
+}

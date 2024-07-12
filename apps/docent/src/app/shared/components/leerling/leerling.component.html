@@ -1,0 +1,41 @@
+<dt-avatar
+    #avatar
+    [circle]="!blockView"
+    [src]="leerling.pasfoto"
+    [initialen]="leerling.initialen"
+    [size]="avatarsize"
+    [fontsize]="avatarfontsize"
+    [toonJarigIcoon]="toonJarigIcoon"
+    [toonOnlineIcoon]="toonOnlineIcoon"
+    [heeftNotificatie]="heeftNotificatie"
+    [notificatieTooltip]="notificatieTooltip"
+    [offsetOverlayTop]="offsetNameBottom"></dt-avatar>
+<span
+    class="naam text-content-semi"
+    #naam
+    [class.small-font]="verkleinLeerlingNaamFontsize"
+    [class.offset-top]="offsetNameBottom"
+    [dtTooltip]="getVolledigeNaam()"
+    [showIfEllipsed]="true"
+    >{{ leerling | volledigeNaam }}</span
+>
+@if (heeftIcons) {
+    <div class="icons">
+        @if (notitieboekToegankelijk && toonNieuweNotitie) {
+            <dt-icon
+                class="show-for-desktop nieuwe-notitie"
+                (click)="onNieuweNotitie()"
+                dtTooltip="Notitie toevoegen"
+                size="medium"
+                icon="reactieToevoegen"></dt-icon>
+        }
+        @if (toonMoreOptions) {
+            <dt-icon
+                class="more-options"
+                #moreOptions
+                [class.popup-open]="isPopupOpen"
+                (click)="onMoreOptions($event)"
+                icon="opties"></dt-icon>
+        }
+    </div>
+}

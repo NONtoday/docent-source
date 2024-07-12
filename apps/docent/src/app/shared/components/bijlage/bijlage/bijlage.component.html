@@ -1,0 +1,52 @@
+@if (!editBijlage) {
+    <span class="naam" cy="bijlage-naam">{{ bijlage.titel }}</span>
+    @if (!bijlage.zichtbaarVoorLeerling && !inEditMode) {
+        <i
+            class="niet-zichtbaar-icon"
+            [onTouchAllowed]="true"
+            (click)="$event.stopPropagation()"
+            hmyIcon="nietZichtbaar"
+            size="large"
+            dtTooltip="Niet zichtbaar voor leerling"></i>
+    }
+    <dt-bijlage-extensie [class.hidden]="!bijlage.extensie" [extensie]="bijlage.extensie!"></dt-bijlage-extensie>
+    @if (!alleenDeleteIcon) {
+        <i
+            class="show-for-phone-only opties-icon pointer"
+            #moreOptions
+            (click)="openActionsPopup()"
+            color="action-primary-normal"
+            hmyIcon="opties"
+            size="medium"
+            cy="bijlage-more-options"></i>
+    }
+    @if (inEditMode && heeftToegangTotElo && !alleenDeleteIcon) {
+        <i
+            class="hide-for-phone-only pointer bewerken-icon"
+            (click)="onEditClick()"
+            hmyIcon="bewerken"
+            size="medium"
+            cy="bijlage-bewerken"></i>
+    }
+    @if (inEditMode && toonZichtbaarheidToggle && !alleenDeleteIcon) {
+        <dt-zichtbaarheidstoggle
+            class="hide-for-phone-only zichtbaarheid-toggle"
+            [isZichtbaar]="bijlage.zichtbaarVoorLeerling"
+            (click)="toggleZichtbaarheid()"></dt-zichtbaarheidstoggle>
+    }
+    @if (inEditMode) {
+        <i
+            class="verwijderen-icon pointer"
+            [class.hide-for-phone-only]="!alleenDeleteIcon"
+            (click)="onRemoveClick()"
+            hmyIcon="verwijderen"
+            size="medium"
+            cy="bijlage-verwijderen"></i>
+    }
+} @else {
+    <dt-inline-edit
+        class="edit-form"
+        [value]="bijlage.titel"
+        (saveClick)="updateTitel($event)"
+        (cancelClick)="cancelEdit()"></dt-inline-edit>
+}

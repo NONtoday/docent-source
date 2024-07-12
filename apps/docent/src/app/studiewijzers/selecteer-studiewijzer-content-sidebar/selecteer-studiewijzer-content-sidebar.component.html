@@ -1,0 +1,20 @@
+<dt-sidebar
+    #sidebar
+    [title]="currentPage.titel"
+    [icon]="currentPage.icon"
+    [iconClickable]="!!currentPage.iconClickable"
+    (onMaskClick)="closeSidebar()"
+    (onIconClick)="currentPage.onIconClick?.()"
+    (onCloseClick)="closeSidebar()">
+    @if (currentPage.pagenumber === 1) {
+        <dt-studiewijzer-selectie (onSelect)="onStudiewijzerSelect($event)"> </dt-studiewijzer-selectie>
+    }
+    @if (currentPage.pagenumber === 2) {
+        <dt-selecteer-content-page
+            [studiewijzer]="selectedStudiewijzer"
+            [weeknummer]="weeknummer"
+            [sjabloonId]="sjabloonId"
+            (closeSidebar)="closeSidebar()">
+        </dt-selecteer-content-page>
+    }
+</dt-sidebar>

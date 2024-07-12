@@ -1,0 +1,55 @@
+@if (groep || isGezamenlijkOverzicht) {
+    <div class="groep" [class.met-navigatie]="kanNavigerenNaarGroep" [class.met-leerling]="leerling" (click)="onGroepClick()">
+        @if (showBackgroundIcon) {
+            <dt-background-icon [color]="groepColor" icon="groep" size="medium"></dt-background-icon>
+        }
+        @if (!showBackgroundIcon) {
+            <i class="notitieboek-icon" hmyIcon="notitieboek" size="large"></i>
+        }
+        <span class="groep-naam">{{ groepName }}</span>
+        <i class="chevron" hmyIcon="chevronRechts" size="smallest"> </i>
+    </div>
+}
+@if (leerling) {
+    <div class="leerling pointer" (click)="onLeerlingClick()">
+        <dt-avatar
+            [src]="leerling.pasfoto"
+            [initialen]="leerling.initialen"
+            [size]="avatarSize$ | async"
+            [fontsize]="avatarFontSize$ | async"
+            [bordersize]="2"
+            [allowPhotoPopup]="false"
+            [lazyLoaded]="false"
+            (click)="onLeerlingClick()">
+        </dt-avatar>
+        <div class="naam-beschrijving pointer" #popupRef [class.met-beschrijving]="beschrijving" [class.active]="isActive">
+            <span class="text-content-bold naam text-ellipsis" cy="header-item-naam">
+                {{ leerling | volledigeNaam }}
+            </span>
+            <i class="chevron action-neutral-normal" hmyIcon="chevronOnder" size="smallest"> </i>
+            @if (beschrijving) {
+                <span class="text-content-small-semi beschrijving text-ellipsis">{{ beschrijving }}</span>
+            }
+        </div>
+    </div>
+}
+<div class="flex-container">
+    @if (!leerling) {
+        <div class="select-leerling naam-beschrijving pointer" #popupRef (click)="onLeerlingClick()">
+            <span class="text-content-semi text-ellipsis"> Kies een leerling </span>
+            <i class="chevron action-neutral-normal" hmyIcon="chevronOnder" size="smallest"> </i>
+        </div>
+    }
+</div>
+<dt-header-navigatie-buttons
+    [heeftVolgende]="heeftVolgende && !hideArrows"
+    [heeftVorige]="heeftVorige && !hideArrows"
+    [showMoreOptions]="showMoreOptions"
+    (meerOptiesClick)="onMeerOptiesClick($event)"
+    (vorigeClick)="vorigeClick.emit()"
+    (volgendeClick)="volgendeClick.emit()"
+    volgendeTooltip="Volgende leerling"
+    vorigeTooltip="Vorige leerling"
+    gtmVolgendeButton="volgende-leerling-header-navigatie"
+    gtmVorigeButton="vorige-leerling-header-navigatie">
+</dt-header-navigatie-buttons>

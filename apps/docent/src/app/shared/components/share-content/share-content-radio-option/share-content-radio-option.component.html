@@ -1,0 +1,6 @@
+<label class="radio-option">
+    <input [value]="radioOption.value" type="radio" />
+    <i class="radio" [hmyIcon]="checked ? 'radioSelect' : 'radio'" [class]="checked ? 'radio-select-icon' : 'radio-icon'" size="medium"></i>
+    <i class="type" [hmyIcon]="radioOption.icon" [style.fill]="radioOption.iconColor" [class]="radioOption.icon" size="medium"></i>
+    <span class="text-content-semi">{{ radioOption.placeholder }}</span>
+</label>

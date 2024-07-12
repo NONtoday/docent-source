@@ -1,0 +1,55 @@
+@if (selectieControle$ | async; as selectieData) {
+    <div class="controle">
+        <div class="controles">
+            @for (selectie of selectieData.selecties; track selectie; let i = $index) {
+                <dt-methode-controle [form]="selectieData.forms[i]" [methodeSelectie]="selectie"></dt-methode-controle>
+            }
+        </div>
+        <div class="spacer"></div>
+        <div class="buttons">
+            <dt-outline-button (click)="onAnnulerenClick()">Annuleren</dt-outline-button>
+            <dt-button (click)="onInplannenClick()" cy="methode-inplannen" data-gtm="methode-toevoegen">Inplannen </dt-button>
+        </div>
+    </div>
+} @else {
+    <div class="selectie">
+        <div class="hoofdstukken">
+            @for (hoofdstuk of methode.hoofdstukken; track hoofdstuk; let i = $index) {
+                <div class="hoofdstuk">
+                    <div class="header" (click)="toggleHoofdstukOpen(hoofdstuk.id)">
+                        <span class="label text-content-bold color-background-5">{{ i + 1 }}</span>
+                        <span class="naam text-content-semi text-strong">{{ hoofdstuk.naam }}</span>
+                        <i
+                            class="icon-arrow-open-close"
+                            [class.close]="geslotenHoofdstukken[hoofdstuk.id]"
+                            hmyIcon="chevronBoven"
+                            size="small"></i>
+                    </div>
+                    <div
+                        class="sub-hoofstukken"
+                        [@collapse]="{ value: !!isHoofdstukGesloten(hoofdstuk.id) }"
+                        [formGroup]="geselecteerdeSubHoofdstukkenForm">
+                        @for (subHoofdstuk of hoofdstuk.subHoofdstukken; track subHoofdstuk) {
+                            <div class="sub-hoofdstuk" [class.selected]="geselecteerdeSubHoofdstukkenForm.controls[subHoofdstuk.id].value">
+                                <dt-form-checkbox [formControlName]="subHoofdstuk.id"> </dt-form-checkbox>
+                                <span class="sub-naam">{{ subHoofdstuk.naam }}</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="spacer"></div>
+        <div class="buttons">
+            @if (geselecteerdeSubHoofdstukken.length > 0) {
+                <dt-outline-button class="deselecteren" (click)="onDeselecterenClick()">Deselecteren</dt-outline-button>
+                <dt-button class="kiezen" (click)="onKiezenClick()">Kiezen</dt-button>
+            } @else {
+                <dt-outline-button [disabled]="true" [dashed]="false">Selecteer een item</dt-outline-button>
+            }
+            <ng-template #disabled>
+                <dt-outline-button [disabled]="true" [dashed]="false">Selecteer een item</dt-outline-button>
+            </ng-template>
+        </div>
+    </div>
+}

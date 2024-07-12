@@ -1,0 +1,42 @@
+<dt-popup>
+    <div class="popup-content" popup-content>
+        <div class="header text-content-semi">
+            <i class="alert" [class.warning]="warning" hmyIcon="waarschuwing" size="large"></i>
+            <span class="titel">{{ title }}</span>
+            <i class="cross" (click)="onExitClick()" hmyIcon="sluiten" size="medium"></i>
+        </div>
+        <p [innerHTML]="message"></p>
+        <div class="buttons">
+            <dt-outline-button
+                class="cancel"
+                [attr.data-gtm]="cancelGtmTag"
+                [color]="cancelButtonColor"
+                [icon]="cancelIcon"
+                [iconColor]="cancelIconColor"
+                [wordWrap]="cancelWordWrap"
+                (click)="onCancelClick()">
+                {{ cancelLabel }}
+            </dt-outline-button>
+            @if (outlineConfirmKnop) {
+                <dt-outline-button
+                    class="confirm"
+                    [attr.data-gtm]="confirmGtmTag"
+                    [color]="buttonColor"
+                    [icon]="icon"
+                    [iconColor]="iconColor"
+                    (click)="onActionClick(); $event.stopPropagation()"
+                    >{{ actionLabel }}
+                </dt-outline-button>
+            }
+            @if (!outlineConfirmKnop) {
+                <dt-button
+                    class="confirm"
+                    [attr.data-gtm]="confirmGtmTag"
+                    [showLoaderOnClick]="showLoaderOnConfirm"
+                    (click)="onActionClick(); $event.stopPropagation()">
+                    {{ actionLabel }}
+                </dt-button>
+            }
+        </div>
+    </div>
+</dt-popup>

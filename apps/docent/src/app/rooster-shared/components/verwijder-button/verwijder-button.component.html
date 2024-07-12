@@ -1,0 +1,68 @@
+@if (withBorder) {
+    <dt-outline-button
+        class="verwijder-button"
+        [class.button-active]="showConfirmationButtons"
+        [hideIconForMobile]="hideIconForMobile"
+        (click)="onVerwijderClick($event)"
+        cy="verwijder-button"
+        iconColor="accent_negative_1"
+        color="accent_negative_1">
+        <div class="button-text-container" [attr.icon-only-range]="iconOnlyRangeEnd">
+            <i
+                class="fill-accent-negative-1 verwijder-icon"
+                [hmyIcon]="icon!"
+                [class.hide-icon]="showConfirmationButtons"
+                [class.hide-icon-for-mobile]="hideIconForMobile"
+                [sizes]="['large', 'large', 'large', 'medium']"></i>
+            @if (!showConfirmationButtons) {
+                <span class="text"> {{ buttonText }}</span>
+            }
+            @if (showConfirmationButtons) {
+                <span class="verwijder-buttons">
+                    <i
+                        class="check-icon"
+                        [attr.data-gtm]="gtmTag"
+                        (click)="showConfirmationButtons = false; onDelete.emit(); $event.stopPropagation()"
+                        color="action-negative-normal"
+                        hmyIcon="check"
+                        size="smallest"
+                        cy="delete-confirm-check"></i>
+                    <i
+                        class="sluiten-icon"
+                        (click)="showConfirmationButtons = false; $event.stopPropagation()"
+                        hmyIcon="sluiten"
+                        size="smallest"></i>
+                </span>
+            }
+        </div>
+    </dt-outline-button>
+} @else {
+    <a
+        class="verwijder-button"
+        [icon]="icon!"
+        [class.button-active]="showConfirmationButtons"
+        (click)="onVerwijderClick($event)"
+        cy="verwijder-button"
+        iconColor="accent_negative_1"
+        color="accent_negative_1">
+        @if (!showConfirmationButtons) {
+            <span> {{ buttonText }}</span>
+        }
+        @if (showConfirmationButtons) {
+            <span class="verwijder-buttons">
+                <i
+                    class="check-icon"
+                    [attr.data-gtm]="gtmTag"
+                    (click)="showConfirmationButtons = false; onDelete.emit(); $event.stopPropagation()"
+                    hmyIcon="check"
+                    size="smallest"
+                    cy="delete-confirm-check"></i>
+                <i
+                    class="sluiten-icon"
+                    (click)="showConfirmationButtons = false; $event.stopPropagation()"
+                    hmyIcon="sluiten"
+                    size="smallest"></i>
+            </span>
+        }
+    </a>
+}

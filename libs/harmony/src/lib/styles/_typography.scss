@@ -1,0 +1,117 @@
+@mixin text-heading-1 {
+    font: var(--heading-1);
+}
+
+.text-heading-1 {
+    @include text-heading-1;
+}
+
+@mixin text-heading-2 {
+    font: var(--heading-2);
+}
+
+.text-heading-2 {
+    @include text-heading-2;
+}
+
+@mixin text-content {
+    font: var(--body-content-regular);
+}
+
+.text-content {
+    @include text-content;
+}
+
+@mixin text-content-semi {
+    font: var(--body-content-semi);
+}
+
+.text-content-semi {
+    @include text-content-semi;
+}
+
+@mixin text-content-bold {
+    font: var(--body-content-bold);
+}
+
+.text-content-bold {
+    @include text-content-bold;
+}
+
+@mixin text-content-small {
+    font: var(--body-content-small-regular);
+}
+
+.text-content-small {
+    @include text-content-small;
+}
+
+@mixin text-content-small-semi {
+    font: var(--body-content-small-semi);
+}
+
+.text-content-small-semi {
+    @include text-content-small-semi;
+}
+
+@mixin text-content-small-bold {
+    font: var(--body-content-small-bold);
+}
+
+.text-content-small-bold {
+    @include text-content-small-bold;
+}
+
+@mixin text-content-smallest {
+    font: var(--body-content-smallest-regular);
+}
+
+.text-content-smallest {
+    @include text-content-smallest;
+}
+
+@mixin text-content-smallest-semi {
+    font: var(--body-content-smallest-semi);
+}
+
+.text-content-smallest-semi {
+    @include text-content-smallest-semi;
+}
+
+@mixin text-content-smallest-bold {
+    font: var(--body-content-smallest-bold);
+}
+
+.text-content-smallest-bold {
+    @include text-content-smallest-bold;
+}
+
+@mixin ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ellipsis {
+    @include ellipsis;
+}
+
+body {
+    @include text-content;
+    color: var(--text-moderate);
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+    @include text-heading-1;
+    margin: 0;
+}
+
+h2 {
+    @include text-heading-2;
+    margin: 0;
+}
+
+h3 {
+    margin: 0;
+}

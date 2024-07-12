@@ -1,0 +1,23 @@
+<span class="title">{{ titel }}</span>
+@if (infoTooltip) {
+    <i class="info" [hmyTooltip]="infoTooltip" [alignCenter]="true" [onTouchAllowed]="true" hmyIcon="informatie"></i>
+}
+<span class="value" [style.color]="valueColor | cssVar" [ngClass]="valueSmallFont ? 'text-content-semi' : 'text-heading-2'">{{
+    value
+}}</span>
+@if (trend) {
+    <hmy-icon-pill
+        class="trend"
+        [icon]="trend < 0 ? 'trendBeneden' : 'trendBoven'"
+        [color]="trend < 0 ? 'positive' : 'negative'"
+        [text]="trend < 0 ? trend.toString() : '+' + trend.toString()"
+        [hmyTooltip]="trendTooltip"
+        [onTouchAllowed]="true"
+        [alignCenter]="false" />
+}
+@if (!showChevron && !trend) {
+    <span class="extra-info">{{ additionalText }}</span>
+}
+@if (showChevron) {
+    <i class="extra-info" size="smallest" hmyIcon="chevronOnder"></i>
+}

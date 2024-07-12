@@ -1,0 +1,25 @@
+<dt-menu class="show-for-tablet-portrait"></dt-menu>
+<div class="content">
+    <router-outlet></router-outlet>
+    @if (isServiceWorkerUpdate$ | async) {
+        <dt-message
+            class="update-message"
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [closable]="false"
+            (onButtonClick)="onUpdateClick()"
+            soort="confirm"
+            buttonText="Verversen"
+            text="Er is een nieuwe versie van Somtoday Docent beschikbaar"
+            gtmTag="docent-verversen-message-button">
+        </dt-message>
+    }
+</div>
+@if (showBerichtenSidebar$ | async) {
+    <dt-inbox-berichten-sidebar [@allowLeaveAnimation]></dt-inbox-berichten-sidebar>
+}
+@if (showWhatsNew$ | async) {
+    <dt-whatsnew-sidebar [@allowLeaveAnimation]></dt-whatsnew-sidebar>
+}
+<!-- preload de spinner, zodat deze direct zichtbaar is wanneer er iets aan het laden is -->
+<img src="/assets/img/spinner-docent.svg" style="display: none" />

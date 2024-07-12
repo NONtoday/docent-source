@@ -1,0 +1,38 @@
+<dt-popup>
+    <div class="popup-content" popup-content>
+        <div class="header" [ngClass]="{ shadow: canScrollUp }">
+            <div class="titel-container">
+                <span class="titel text-content-semi">{{ titel }}</span
+                ><i (click)="popup.onClose()" hmyIcon="sluiten"></i>
+            </div>
+            <div class="leerling">
+                <dt-avatar
+                    [src]="signalering.leerling.pasfoto"
+                    [initialen]="signalering.leerling.initialen"
+                    [size]="30"
+                    [fontsize]="10"></dt-avatar>
+                <span class="naam text-moderate text-content-semi">{{ leerlingNaam }}</span>
+            </div>
+        </div>
+        <div class="afspraak-container" #afspraakContainer (scroll)="onScroll()">
+            @if (canScrollUp) {
+                <div class="overflow content-up"></div>
+            }
+            @for (afspraak of signalering.afspraken; track afspraak; let last = $last) {
+                <div class="afspraak" [ngClass]="{ last: last }">
+                    <dt-lesuur [beginlesuur]="afspraak.lesuur" [isRoosterToets]="afspraak.isRoosterToets"></dt-lesuur>
+                    <div class="datum">
+                        <!-- Expres een spatie aan het einde van de eerste span -->
+                        <span>{{ afspraak.begin | dtDate: 'dag_kort_dagnummer_maand_kort' }} </span>
+                    </div>
+                </div>
+            }
+            @if (canScrollDown) {
+                <div class="overflow content-down"></div>
+            }
+        </div>
+        <div class="button-wrapper" [ngClass]="{ shadow: canScrollDown }">
+            <dt-button class="oke-button" (click)="popup.onClose()" buttonType="primary">Oké</dt-button>
+        </div>
+    </div>
+</dt-popup>

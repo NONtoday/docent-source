@@ -1,0 +1,200 @@
+@import './styles/_normalize.css';
+@import './styles/fonts';
+@import './styles/mixins';
+@import './styles/visibility';
+@import './styles/global-variables';
+@import './styles/forms';
+@import './styles/colors';
+@import './styles/labels';
+@import './styles/svgs';
+@import './styles/notificaties';
+@import './styles/_quil.snow_1.2.2.css';
+@import './styles/_appcues-widget.css';
+@import 'harmony-styles';
+
+:root {
+    --toastr-tablet-desktop-top: 86px;
+}
+
+body {
+    @include text-content;
+
+    // Oude sidebar/popup header styling
+    --bg-sidebar-header: #{$primary-1};
+    --fg-sidebar-header-default: #{$typography-5};
+    --fg-sidebar-header-normal: var(--fg-on-primary-strongest);
+    --fg-sidebar-header-strong: var(--fg-on-primary-max);
+
+    // Oude pageheader styling
+    --fg-header-icon: #{$primary-3};
+    --fg-header-title: var(--text-moderate);
+
+    // Oude mobile groep-leerling-header-navigatie styling
+    --bg-groep-leerling-header: #{$primary-1};
+    --fg-groep-leerling-header: var(--fg-on-primary-normal);
+
+    // Voorkomt verspringen van de pagina wanneer de data groter is dan de pagina
+    margin-right: calc(-100vw + 100%);
+
+    color: var(--text-moderate);
+    font-family: 'Open Sans', sans-serif;
+    line-height: 20px;
+
+    background-color: var(--bg-neutral-weakest);
+    overflow-x: hidden;
+    overflow-anchor: none;
+
+    .mask-overlay {
+        cursor: pointer;
+    }
+
+    &.no-scroll {
+        position: fixed;
+
+        width: 100%;
+        overflow-y: scroll;
+    }
+
+    &.disable-vertical-scrolling {
+        overflow: hidden;
+
+        // is nodig zodat Safari op iOS de pagina op de achtergrond niet laat scrollen
+        -webkit-overflow-scrolling: touch;
+    }
+
+    // Verberg tap hightlights op touch die de browser toepast
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.no-display {
+    display: none !important;
+}
+
+.visible {
+    visibility: visible;
+}
+
+/** Drag & Drop Styling **/
+.dragdrop-placeholder {
+    height: 40px;
+
+    background-color: var(--bg-positive-weak);
+    border: var(--thinnest-solid-positive-normal);
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+}
+
+.cdk-drop-list-dragging .cdk-drag {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Animate an item that has been dropped. */
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-disabled {
+    cursor: auto;
+}
+
+i[icon='draggable'] {
+    cursor: grab;
+}
+
+/** ====== **/
+
+.subtext {
+    color: var(--text-weak);
+    font-size: 10pt;
+}
+
+a {
+    color: var(--action-primary-normal);
+    text-decoration: none;
+
+    outline: 0;
+    cursor: pointer;
+}
+
+// default styling from foundation
+p {
+    margin-top: 1em;
+    margin-bottom: 1rem;
+}
+
+.p-not-padded p {
+    margin-top: initial;
+    margin-bottom: initial;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.not-allowed {
+    cursor: not-allowed;
+}
+
+.no-selection {
+    user-select: none;
+}
+
+.text-ellipsis {
+    @include text-ellipsis;
+}
+
+input {
+    /* stylelint-disable-next-line  property-no-vendor-prefix */
+    -webkit-appearance: none;
+}
+
+.show-for-tablet-portrait {
+    display: none;
+}
+
+// styling chevron icon in- en uitklappen
+.icon-arrow-open-close {
+    transition: transform 0.25s ease-out;
+
+    fill: var(--action-primary-normal);
+
+    &.close {
+        transform: rotateX(-180deg);
+
+        fill: var(--action-neutral-weak);
+    }
+}
+
+@include breakpoint(tablet-portrait) {
+    body.disable-vertical-scrolling {
+        position: initial;
+
+        max-height: initial;
+    }
+
+    .show-for-tablet-portrait {
+        display: initial;
+    }
+
+    .hide-for-tablet-portrait {
+        display: none;
+    }
+}

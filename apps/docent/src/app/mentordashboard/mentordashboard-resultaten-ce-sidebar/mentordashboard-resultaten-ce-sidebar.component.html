@@ -1,0 +1,47 @@
+<dt-sidebar class="sidebar" #sidebar [title]="vak.naam + ' · CE'" (onMaskClick)="closeSidebar()" (onCloseClick)="closeSidebar()">
+    @if (ceResultaten$ | async; as ceResultaten) {
+        <div>
+            @if (ceResultaten.length > 0) {
+                <div class="text-content-semi ce-header">
+                    <span>Tijdvak</span>
+                    <span class="score">Score</span>
+                    <span class="resultaat">Cijfer</span>
+                </div>
+                @for (ceResultaat of ceResultaten; track ceResultaat) {
+                    <div
+                        class="ce-resultaat"
+                        [class.deelexamen]="ceResultaat.geldendResultaat.type === dbResultaatKolomType.DeelCentraalExamenkolom"
+                        [class.examenvariant]="ceResultaat.geldendResultaat.type === dbResultaatKolomType.CentraalExamenVariantKolom">
+                        <div class="examenkolom-info">
+                            <div class="kolom-icon">
+                                @if (ceResultaat.geldendResultaat.type === dbResultaatKolomType.CentraalExamenkolom) {
+                                    <div class="text-label-bold tijdvak tijdvak-{{ ceResultaat.geldendResultaat.volgnummer }}">
+                                        CE{{ ceResultaat.geldendResultaat.volgnummer }}
+                                    </div>
+                                }
+                                @if (ceResultaat.geldendResultaat.type === dbResultaatKolomType.DeelCentraalExamenkolom) {
+                                    <i class="fill-typography-4" hmyIcon="deeltoets" size="small"></i>
+                                }
+                                @if (ceResultaat.geldendResultaat.type === dbResultaatKolomType.CentraalExamenVariantKolom) {
+                                    <i class="fill-typography-4" hmyIcon="examenVariant" size="small"></i>
+                                }
+                            </div>
+                            <span class="text-small-content-semi color-typography-2">{{ ceResultaat.geldendResultaat.toetscode }}</span>
+                            <span class="text-small-content-semi color-typography-3 omschrijving">{{
+                                ceResultaat.geldendResultaat.omschrijving
+                            }}</span>
+                        </div>
+                        <span class="text-content-semi score">{{ ceResultaat.score }}</span>
+                        <span class="text-content-semi resultaat" [class.onvoldoende]="!ceResultaat.geldendResultaat.isVoldoende">{{
+                            ceResultaat.geldendResultaat.formattedResultaat
+                        }}</span>
+                    </div>
+                }
+            } @else {
+                <span class="text-content-semi geen-resultaten color-typography-4">Geen resultaten</span>
+            }
+        </div>
+    } @else {
+        <hmy-spinner [centeredInParent]="true" />
+    }
+</dt-sidebar>

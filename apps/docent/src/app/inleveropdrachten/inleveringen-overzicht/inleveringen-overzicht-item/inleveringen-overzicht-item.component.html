@@ -1,0 +1,20 @@
+@if (leerling) {
+    <dt-leerling
+        [leerling]="leerling"
+        [toonHoverstate]="true"
+        [verkleinLeerlingNaamFontsize]="true"
+        [avatarsize]="32"
+        [avatarfontsize]="12"
+        [actief]="!!(isActief$ | async)"></dt-leerling>
+}
+@if (projectgroep) {
+    <dt-projectgroep-naam [projectgroep]="projectgroep" [actief]="!!(isActief$ | async)"> </dt-projectgroep-naam>
+}
+@if (hoogstePlagiaat && hoogstePlagiaat > 0) {
+    <i
+        [color]="hoogstePlagiaat | plagiaatKleur"
+        [onTouchAllowed]="true"
+        hmyIcon="plagiaat"
+        size="small"
+        dtTooltip="{{ hoogstePlagiaat }}% plagiaat gevonden"></i>
+}

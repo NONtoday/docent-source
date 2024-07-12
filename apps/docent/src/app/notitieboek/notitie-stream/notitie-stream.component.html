@@ -1,0 +1,104 @@
+<div class="stream-header" [class.met-schooljaar-opties]="context().leerling && schooljaarOpties().length > 1">
+    <hmy-setting-button
+        [opties]="filterOpties"
+        [showLoader]="false"
+        [selected]="filterOptie$ | async"
+        [hideLabel]="(deviceService.isDesktop$ | async)!"
+        [titel]="'Notities filteren'"
+        (selection)="filterOptie$.next($event)"
+        icon="filter"
+        hmyTooltip="Filteren"
+        label="Filter" />
+    @if (context().leerling && schooljaarOpties().length > 1) {
+        <hmy-dropdown
+            [modalOnMobile]="true"
+            [buttonHeight]="40"
+            [items]="schooljaarOpties()"
+            [selected]="selectedSchooljaar()"
+            (onSelectionChanged)="selectSchooljaar($event)"
+            data-gtm="notitieboek-schooljaar-dropdown"
+            mobileModalTitle="Notities per schooljaar"
+            listWidth="fit-options"
+            cy="schooljaar-dropdown" />
+    }
+    <div class="search">
+        <input
+            class="search-input"
+            #searchInput
+            [formControl]="searchControl"
+            type="text"
+            cy="notitieboek-zoekveld"
+            placeholder="Notitie zoeken" />
+        <i class="search-icon" hmyIcon="zoeken"></i>
+    </div>
+</div>
+@if (filteredStream$ | async; as stream) {
+    <div class="stream" id="notitie-stream" [class.is-empty]="noNotities$ | async">
+        @for (week of stream; track week; let i = $index) {
+            <div class="week">
+                <div class="week-header">
+                    @if (i === 0 && isHuidigeWeek(week)) {
+                        <span class="text-content-semi">Deze week</span>
+                    } @else {
+                        <span class="weeknummer text-content-semi">{{ week.start | dtDate: 'week' }}</span>
+                    }
+                    <span class="week-datum text-small-content-semi text-weakest">
+                        {{ week.start | dtDate: 'dagnummer_maand_kort_zonder_jaar' }} -
+                        {{ week.eind | dtDate: 'dagnummer_maand_kort_zonder_jaar' }}
+                    </span>
+                    @if (i === 0 && huidigeSchooljaarSelected()) {
+                        <div
+                            class="notitie-toevoegen pointer"
+                            [routerLink]="['./']"
+                            [queryParams]="{ notitie: 'nieuw', direct: null, edit: true, scrollto: null }"
+                            queryParamsHandling="merge">
+                            <dt-background-icon icon="toevoegen" color="accent_positive_1" size="smallest" iconSize="smallest">
+                            </dt-background-icon>
+                            <span class="text-content-semi action-positive-normal show-for-desktop">Notitie toevoegen</span>
+                        </div>
+                    }
+                </div>
+                @for (notitie of week.notities; track trackById($index, notitie)) {
+                    <dt-notitie-kaart
+                        [notitie]="notitie"
+                        [huidigeSchooljaarSelected]="huidigeSchooljaarSelected()"
+                        [routerLink]="['./']"
+                        [queryParams]="{ notitie: notitie.id, edit: null, scrollto: null }"
+                        [context]="context()"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        (notitieBewerken)="notitieBewerken($event)"
+                        meerOptiesPopupChildSelector="#notitie-stream"
+                        routerLinkActive="is-active"
+                        queryParamsHandling="merge">
+                    </dt-notitie-kaart>
+                }
+            </div>
+        }
+        @if (noNotities$ | async) {
+            <span class="geen-notities text-content-semi text-weak">Geen notities gevonden</span>
+        }
+    </div>
+} @else {
+    <hmy-spinner [centeredInParent]="true" />
+}
+@if (huidigeSchooljaarSelected()) {
+    <div class="nieuw-button-row hide-for-desktop">
+        <dt-outline-button
+            class="nieuw-button"
+            [routerLink]="['./']"
+            [queryParams]="{
+                notitie: 'nieuw',
+                edit: true,
+                contextToevoegen: null,
+                scrollto: null
+            }"
+            [wordWrap]="true"
+            icon="toevoegen"
+            color="accent_positive_1"
+            iconColor="accent_positive_1"
+            queryParamsHandling="merge"
+            data-gtm="notitieboek-notitie-toevoegen">
+            Nieuw
+        </dt-outline-button>
+    </div>
+}

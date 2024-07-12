@@ -1,0 +1,75 @@
+<div class="icons">
+    <div class="left">
+        @if (moetAvatarTonen) {
+            <dt-avatar
+                [src]="medewerker.pasfoto"
+                [initialen]="medewerker.initialen"
+                [size]="24"
+                [allowPhotoPopup]="false"
+                [fontsize]="8"
+                [hmyTooltip]="medewerkerLesuurTooltip"
+                [onTouchAllowed]="true"
+                altTag="Les van collega - {{ medewerker | volledigeNaam }}">
+            </dt-avatar>
+        }
+        <dt-lesuur
+            [class.hide-while-loading]="moetAvatarTonen"
+            [beginlesuur]="studiewijzerAfspraak.afspraak.lesuur"
+            [eindlesuur]="studiewijzerAfspraak.afspraak.eindLesuur"
+            [isRoosterToets]="studiewijzerAfspraak.afspraak.isRoosterToets"
+            [hmyTooltip]="studiewijzerAfspraak.afspraak.isRoosterToets ? (studiewijzerAfspraak.afspraak | roosterToets) : lesuurTooltip"
+            [alignCenter]="false"
+            [maxWidth]="300"
+            [onTouchAllowed]="true">
+        </dt-lesuur>
+        @if (studiewijzerAfspraak.afspraak.lesgroepen.length > 1) {
+            <hmy-icon-pill
+                #lesgroepenPill
+                [metChevron]="true"
+                (click)="openToekenningenVanLesgroepenPopup()"
+                icon="groep"
+                iconSize="smallest"
+                data-gtm="toekenningen-van-andere-lesgroep"
+                hmyTooltip="{{ studiewijzerAfspraak.afspraak.lesgroepen | lesgroepNamen }}"></hmy-icon-pill>
+        }
+    </div>
+    <div class="right">
+        <dt-background-icon
+            class="toevoegen"
+            #toevoegen
+            [class.popup-open]="isPopupOpen"
+            [sizes]="['small']"
+            (click)="openToevoegenPopup()"
+            color="accent_positive_1"
+            icon="toevoegen">
+        </dt-background-icon>
+    </div>
+</div>
+<div
+    class="items"
+    [cdkDropListEnterPredicate]="isGeenInleverPeriode"
+    [cdkDropListData]="studiewijzerAfspraak"
+    [cdkDropListDisabled]="disableDragDrop"
+    [class.geen-items]="studiewijzerAfspraak.toekenningen.length === 0"
+    (cdkDropListDropped)="verplaatsNaarAfspraak($event)"
+    cdkDropList>
+    @for (toekenning of studiewijzerAfspraak.toekenningen; track trackById($index, toekenning)) {
+        <dt-studiewijzeritem
+            [cdkDragData]="toekenning"
+            [studiewijzeritem]="toekenning.studiewijzeritem"
+            [inleverstart]="!!toekenning.isStartInleverperiode"
+            [toekenningId]="toekenning.id"
+            [differentiatiegroepen]="toekenning.differentiatiegroepen"
+            [differentiatieleerlingen]="toekenning.differentiatieleerlingen"
+            (onStudiewijzeritemClick)="openSidebar(toekenning, studiewijzerAfspraak.afspraak, false)"
+            (bewerken)="openSidebar(toekenning, studiewijzerAfspraak.afspraak, true)"
+            (verwijder)="onVerwijder.emit(toekenning)"
+            (dupliceer)="onDupliceer.emit(toekenning)"
+            (onUpdateLesitemType)="onUpdateLesitemType.emit({ huiswerkType: $event, toekenning: toekenning })"
+            (cdkDragStarted)="isDragging = true"
+            (cdkDragEnded)="isDragging = false"
+            cdkDrag>
+            <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+        </dt-studiewijzeritem>
+    }
+</div>

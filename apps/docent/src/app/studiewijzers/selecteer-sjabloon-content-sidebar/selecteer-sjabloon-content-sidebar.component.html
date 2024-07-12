@@ -1,0 +1,16 @@
+<dt-sidebar
+    #sidebar
+    [title]="title"
+    [icon]="icon"
+    [iconClickable]="inSelectiePagina"
+    (onIconClick)="onIconClick()"
+    (onMaskClick)="closeSidebar()"
+    (onCloseClick)="closeSidebar()">
+    @if (!gekozenSjabloon) {
+        <dt-sjabloon-selectie (onSelect)="onSjabloonSelect($event)"></dt-sjabloon-selectie>
+    }
+    @if (gekozenSjabloon) {
+        <dt-selecteer-sjabloon-toekenningen [sjabloon]="gekozenSjabloon" (onToevoegen)="onToevoegen.emit($event)">
+        </dt-selecteer-sjabloon-toekenningen>
+    }
+</dt-sidebar>

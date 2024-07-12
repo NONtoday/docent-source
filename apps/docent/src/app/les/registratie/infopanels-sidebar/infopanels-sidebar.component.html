@@ -1,0 +1,38 @@
+<dt-sidebar [title]="titel" (onMaskClick)="sidebar.onMaskClick?.()" (onCloseClick)="sidebar.onCloseClick?.()">
+    <div class="content">
+        <div class="navigatie">
+            <div
+                class="nav-item"
+                [class.is-selected]="(selectedNav$ | async) === afwezigheidNav"
+                (click)="selectedNav$.next(afwezigheidNav)">
+                <span class="naam text-small-content-semi">Nu afwezig</span>
+            </div>
+            <div
+                class="nav-item"
+                [class.is-selected]="(selectedNav$ | async) === signaleringenNav"
+                (click)="selectedNav$.next(signaleringenNav)">
+                <span class="naam text-small-content-semi">Signaleringen</span>
+            </div>
+            @if (heeftNotitieboekToegang) {
+                <div class="nav-item" [class.is-selected]="(selectedNav$ | async) === notitiesNav" (click)="selectedNav$.next(notitiesNav)">
+                    <span class="naam text-small-content-semi">Notities</span>
+                </div>
+            }
+        </div>
+        @switch (selectedNav$ | async) {
+            @case (afwezigheidNav) {
+                <dt-vandaag-afwezig [class.geen-afwezigen]="geenAfwezigen" [leerlingRegistraties]="leerlingRegistraties">
+                </dt-vandaag-afwezig>
+            }
+            @case (signaleringenNav) {
+                <dt-signaleringen
+                    [signaleringen]="signaleringen"
+                    [vrijveldDefinities]="vrijVeldDefinities"
+                    [periode]="periode"></dt-signaleringen>
+            }
+            @case (notitiesNav) {
+                <dt-notitie-accordion [actueleNotities]="actueleNotities"></dt-notitie-accordion>
+            }
+        }
+    </div>
+</dt-sidebar>

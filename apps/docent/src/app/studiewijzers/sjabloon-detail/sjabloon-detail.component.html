@@ -1,0 +1,187 @@
+<dt-header titel="Sjablonen" icon="sjabloon"></dt-header>
+@if (sjabloonView$ | async; as sjabloonView) {
+    <div class="sjabloon-detail">
+        <div class="toolbar" #toolbar>
+            @if (!editNaam) {
+                <div class="terug" [routerLink]="['/studiewijzers/sjablonen']" queryParamsHandling="merge">
+                    <i hmyIcon="pijlLinks" size="medium"></i>
+                    <span class="text-content-semi show-for-tablet">Terug</span>
+                </div>
+            }
+            <div class="sjabloon-info">
+                <div class="naam-container" [class.hidden]="editNaam">
+                    <span class="naam text-content-semi" (click)="onBewerkTitelClick()">{{ sjabloonView.sjabloon.naam }}</span>
+                    @if (isEigenaar && !editNaam) {
+                        <i
+                            class="show-for-tablet-only"
+                            (click)="onBewerkTitelClick()"
+                            color="action-primary-normal"
+                            hmyIcon="bewerken"
+                            size="medium"></i>
+                    }
+                </div>
+                <dt-inline-edit
+                    [class.hidden]="!editNaam"
+                    [value]="sjabloonView.sjabloon.naam"
+                    [maxLength]="255"
+                    (saveClick)="saveSjabloon(sjabloonView.sjabloon, $event)"
+                    (cancelClick)="editNaam = false">
+                </dt-inline-edit>
+            </div>
+            @if (!editNaam) {
+                <div class="buttons">
+                    @if (isEigenaar && (uitMethodeToegestaan$ | async)) {
+                        <div
+                            class="button importeren show-for-tablet"
+                            #importeren
+                            (click)="openMethodeSidebar()"
+                            data-gtm="importeer-uit-methode">
+                            <i color="action-primary-normal" hmyIcon="methode" size="medium"></i>
+                            <span class="show-for-desktop text-content-semi">Uit methode</span>
+                        </div>
+                    }
+                    <div
+                        class="button jaarbijlagen"
+                        (click)="openJaarbijlagen(sjabloonView.sjabloon.id)"
+                        dtTooltip="Jaarbijlagen"
+                        position="bottom"
+                        data-gtm="jaarbijlagen">
+                        <i class="bijlage" color="action-primary-normal" hmyIcon="bijlage" size="medium"></i>
+                        @if (sjabloonView.sjabloon.aantalBijlagen > 0) {
+                            <span class="counter">{{ sjabloonView.sjabloon.aantalBijlagen }}</span>
+                        }
+                        <span class="show-for-desktop text-content-semi">Jaarbijlagen</span>
+                    </div>
+                    @if (isEigenaar) {
+                        <div class="more-options hide-for-tablet" #moreOptionsMobile (click)="onMoreOptionsClick(sjabloonView.sjabloon)">
+                            <i color="action-primary-normal" hmyIcon="opties" size="small"></i>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        @if (jaarbijlagenSidebar$ | async; as data) {
+            <dt-jaarbijlagen-sidebar
+                [@allowLeaveAnimation]
+                [abstractSwId]="data.abstractSwId!"
+                [isSjabloon]="data.isSjabloon!"
+                [isEditable]="isEigenaar">
+            </dt-jaarbijlagen-sidebar>
+        }
+        @if (studiewijzeritemSidebar$ | async; as swiSidebarData) {
+            <dt-studiewijzeritem-sidebar
+                [@allowLeaveAnimation]
+                [toekenning]="swiSidebarData.toekenning!"
+                [heeftToegangTotElo]="!!(heeftToegangTotElo$ | async)"
+                [openInEditMode]="swiSidebarData.openInEditMode!"
+                [isEditable]="isEigenaar"
+                [isSjabloon]="true"
+                [sjabloon]="sjabloonView.sjabloon"
+                [conceptInleveropdrachtWeekOpties]="(conceptInleveropdrachtWeekOpties$ | async)!"
+                [toonDatepicker]="false"
+                [openWithDirtyForm]="swiSidebarData.openWithDirtyForm!"
+                (onVerwijder)="onVerwijderToekenning($event, sjabloonView.sjabloon)"
+                (onSaveToekenning)="saveToekenning($event, sjabloonView.sjabloon.id)">
+            </dt-studiewijzeritem-sidebar>
+        }
+        <div class="sjabloon" cdkDropListGroup>
+            @for (sjabloonWeek of sjabloonView.weken; track trackByWeeknummer($index, sjabloonWeek); let last = $last; let first = $first) {
+                <dt-sjabloon-week
+                    [sjabloonWeek]="sjabloonWeek"
+                    [isEigenaar]="isEigenaar"
+                    [disableDragDrop]="!!(disableDragAndDrop$ | async)"
+                    [class.last]="last"
+                    [heeftToegangTotElo]="!!(heeftToegangTotElo$ | async)"
+                    [verschuifOmhoogWarningVanaf]="(verschuifOmhoogWarningVanaf$ | async)!"
+                    [verschuifOmlaagWarningVanaf]="(verschuifOmlaagWarningVanaf$ | async)!"
+                    [toonBulkacties]="toonBulkacties"
+                    [synctSchooljaar]="(gesynctSchooljaar$ | async)!"
+                    [first]="first"
+                    [showVerschuifOmhoog]="!first"
+                    [showVerschuifOmlaag]="!last"
+                    (addLabel)="addLabelToWeek(sjabloonView.sjabloon.id, sjabloonWeek, $event)"
+                    (removeLabel)="removeLabelFromWeek(sjabloonView.sjabloon.id, sjabloonWeek)"
+                    (onVerwijder)="onVerwijderToekenning($event, sjabloonView.sjabloon)"
+                    (onDupliceer)="onDupliceerToekenning($event)"
+                    (verschuifPlanningOmhoog)="verschuifPlanningOmhoog(sjabloonView.sjabloon.id, sjabloonWeek.weeknummer, $event)"
+                    (verschuifPlanningOmlaag)="verschuifPlanningOmlaag(sjabloonView.sjabloon.id, sjabloonWeek.weeknummer, $event)"
+                    (onUpdateLesitemType)="updateLesitemType($event.huiswerkType, $event.toekenning, sjabloonView.sjabloon.id)">
+                </dt-sjabloon-week>
+            }
+            @if (methodeSidebar$ | async; as methodeContainer) {
+                <dt-methode-sidebar
+                    [createToekenningFn]="methodeContainer.createToekenningFn!"
+                    (onSaveToekenning)="saveToekenning($event, sjabloonView.sjabloon.id, true)">
+                </dt-methode-sidebar>
+            }
+        </div>
+        @if (sjabloonSelectieSidebar$ | async; as sjabloonSelectie) {
+            <dt-sjabloon-selectie-sidebar
+                [@allowLeaveAnimation]
+                [bronSjabloon]="sjabloonView.sjabloon"
+                (onSubmit)="exporteerToekenningen($event, sjabloonSelectie.toekenningIds!)"
+                buttonText="Kopiëren"
+                sidebarTitle="Kopiëren naar sjabloon"
+                sidebarIcon="kopierenNaar">
+                @if (sjabloonSelectie.studiewijzerItems?.length! > 0) {
+                    <dt-selected-lesitems
+                        [selectedStudiewijzeritems]="sjabloonSelectie.studiewijzerItems!"
+                        tooltip="Kopieën komen in dezelfde week te staan als het origineel.">
+                    </dt-selected-lesitems>
+                }
+            </dt-sjabloon-selectie-sidebar>
+        }
+        @if (selecteerStudiewijzerContentSidebar$ | async; as data) {
+            <dt-selecteer-studiewijzer-content-sidebar
+                [@allowLeaveAnimation]
+                [weeknummer]="data.weeknummer!"
+                [sjabloonId]="sjabloonView.sjabloon.id">
+            </dt-selecteer-studiewijzer-content-sidebar>
+        }
+        @if (!toonBulkacties && studiewijzerBulkLength === 0) {
+            <dt-floating-action-bar [actions]="floatingActions"> </dt-floating-action-bar>
+        }
+        @if (studiewijzerSynchronisatieSelectieSidebar$ | async) {
+            <dt-studiewijzer-synchronisatie-selectie-sidebar
+                [@allowLeaveAnimation]
+                [gesynchroniseerdeStudiewijzers]="sjabloonView.sjabloon.gesynchroniseerdeStudiewijzers"
+                [synchronisatieStartweek]="sjabloonView.sjabloon.synchronisatieStartweek!"
+                (onShowToevoegenMessage)="onSynchroniseren($event)">
+            </dt-studiewijzer-synchronisatie-selectie-sidebar>
+        }
+    </div>
+} @else {
+    <div class="toolbar">
+        <div class="terug" [routerLink]="['/studiewijzers/sjablonen']" queryParamsHandling="merge">
+            <i hmyIcon="pijlLinks" size="large"></i>
+            <span class="text-content-semi show-for-tablet">Terug</span>
+        </div>
+        <hmy-spinner [isWhite]="deviceService.isPhoneOrTabletPortrait()" />
+    </div>
+}
+@if (showMessage) {
+    <dt-message
+        class="message text-content-semi"
+        [@slideInUpOnEnter]
+        [@slideOutDownOnLeave]
+        [text]="message"
+        [duration]="3000"
+        [isToast]="true"
+        (onClose)="showMessage = false"
+        soort="ok"></dt-message>
+}
+@if (toonBulkacties || studiewijzerBulkLength > 0) {
+    <dt-bulkacties
+        [@slideInUpOnEnter]
+        [@slideOutDownOnLeave]
+        [bulkactiesLength]="studiewijzerBulkLength"
+        [showVerwijderButton]="isEigenaar"
+        [showZichtbaarheidButton]="isEigenaar"
+        [showVerplaatsButton]="false"
+        [magVerslepen]="isEigenaar"
+        (closeBulkacties)="setBulkacties(false)"
+        (bulkVerwijderen)="bulkVerwijderen()"
+        (bulkZichtbaarheid)="bulkZichtbaarheid($event)"
+        (kopieerClicked)="bulkKopieer()"
+        context="sjabloon-detail"></dt-bulkacties>
+}

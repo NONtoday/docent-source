@@ -1,0 +1,93 @@
+<div class="header" [class.in-formulier]="page === 2">
+    @if (page === 2) {
+        <i class="chevron-links-icon" [sizeInPx]="28" (click)="previousPage()" hmyIcon="chevronLinks"></i>
+    }
+    @if (page !== 2) {
+        <i class="somtoday-icon" [sizeInPx]="36" hmyIcon="somtoday"></i>
+    }
+    <span class="titel text-head">{{ page === 2 ? 'Lesitem toevoegen' : 'somtoday' }}</span>
+    @if (medewerker$ | async; as medewerker) {
+        <dt-avatar
+            class="avatar"
+            [initialen]="medewerker.initialen"
+            [src]="medewerker.pasfoto"
+            [bordersize]="2"
+            [size]="40"
+            altTag="Ingelogde gebruiker - {{ medewerker | volledigeNaam }}"></dt-avatar>
+    }
+</div>
+<div class="content" [class.toont-toekenning-formulier]="page === 2">
+    @if (page === 1) {
+        <div class="page" [formGroup]="form">
+            <div class="control">
+                <span class="label text-moderate text-content-semi">Titel</span>
+                <input type="text" formControlName="titel" placeholder="Wat is de titel van je stof?" />
+            </div>
+            <div class="control">
+                <span class="label text-moderate text-content-semi">Inplannen voor</span>
+                <dt-form-dropdown
+                    #formDropdown
+                    [opties]="(lesgroepenDropDownOptions$ | async) ?? []"
+                    [formControl]="lesgroepControl"
+                    placeholder="Kies lesgroep"></dt-form-dropdown>
+                @for (lesgroep of geselecteerdeGroepen$.value; track lesgroep) {
+                    <div class="geslecteerde-lesgroep">
+                        <dt-background-icon [color]="$any(lesgroep.color)" icon="groep" size="small"> </dt-background-icon>
+                        <span class="text-content-semi">{{ lesgroep.naam }}</span>
+                        <dt-icon (click)="removeLesgroep(lesgroep)" icon="verwijderen" color="negative"></dt-icon>
+                    </div>
+                }
+            </div>
+            @if (heeftLesgroep) {
+                <div class="control">
+                    <span class="label text-moderate text-content-semi">Type lesitem</span>
+                    @for (radioOption of radioOptions; track radioOption) {
+                        <dt-share-content-radio-option
+                            [radioOption]="radioOption"
+                            [checked]="checkedOption === radioOption.value"
+                            (click)="onLesitemTypeClick(radioOption)">
+                        </dt-share-content-radio-option>
+                    }
+                </div>
+            }
+        </div>
+    }
+    @if (page === 2) {
+        <div>
+            @if (toekomendeAfsprakenVanLesgroepen$ | async; as toekomendeAfspraken) {
+                @if (medewerker$ | async; as medewerker) {
+                    <dt-toekenning-formulier
+                        [heeftToegangTotElo]="
+                            medewerker.settings.vestigingRechten[0] && medewerker.settings.vestigingRechten[0].heeftToegangTotElo
+                        "
+                        [heeftToegangTotSw]="
+                            medewerker.settings.vestigingRechten[0] && medewerker.settings.vestigingRechten[0].heeftToegangTotStudiewijzer
+                        "
+                        [toekenning]="toekenningFormulierInputToekenning"
+                        [toonDatepicker]="!toekenningFormulierInputToekenning.studiewijzeritem.inleverperiode"
+                        [toekomendeAfspraken]="toekomendeAfspraken"
+                        [lesgroepen]="geselecteerdeGroepen$.value"
+                        [inShareContent]="true"
+                        (onCancel)="onAnnuleren()"
+                        (onSaveToekenning)="saveToekenning($event)">
+                    </dt-toekenning-formulier>
+                }
+            }
+        </div>
+    }
+    @if (page === 3) {
+        <div class="succes-page">
+            <dt-message [closable]="false" soort="ok" text="Succesvol gedeeld in Somtoday 👍"></dt-message>
+        </div>
+    }
+</div>
+@if (page !== 2) {
+    <div class="footer">
+        @if (page === 1) {
+            <dt-outline-button class="annuleren" (click)="onAnnuleren()">Annuleren</dt-outline-button>
+            <dt-button class="volgende" [disabled]="!heeftLesgroepEnTitel" (click)="nextPage()">Volgende</dt-button>
+        } @else {
+            <dt-outline-button class="annuleren" (click)="terugNaarSomtoday()">Naar Somtoday</dt-outline-button>
+        }
+    </div>
+}

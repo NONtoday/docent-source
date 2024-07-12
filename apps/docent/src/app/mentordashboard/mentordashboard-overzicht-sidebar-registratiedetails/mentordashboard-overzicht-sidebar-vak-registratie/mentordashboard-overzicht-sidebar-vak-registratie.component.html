@@ -1,0 +1,52 @@
+@if (notificationColor) {
+    <hmy-notification-solid [color]="notificationColor" [size]="8" />
+}
+
+<span class="vaknaam">{{ vakRegistratie.vakOfTitel }}</span>
+
+<div class="toetsen">
+    @if (aantalGroteToetsen > 0) {
+        <hmy-icon-pill
+            [text]="aantalGroteToetsen.toString()"
+            [hmyTooltip]="tooltipGroteToetsen"
+            mode="negative"
+            color="negative"
+            icon="toetsGroot" />
+    }
+    @if (aantalReguliereToetsen > 0) {
+        <hmy-icon-pill
+            [text]="aantalReguliereToetsen.toString()"
+            [hmyTooltip]="tooltipReguliereToetsen"
+            color="warning"
+            mode="warning"
+            icon="toets" />
+    }
+</div>
+
+@if (totaalMinuten) {
+    <span class="lesmomenten" [onTouchAllowed]="true" hmyTooltip="Aantal uren afwezig">
+        {{ totaalMinuten | urenDuration }}
+    </span>
+} @else if (vakRegistratie.aantalLesmomenten) {
+    <span
+        class="lesmomenten"
+        [hmyTooltip]="isAfwezigheidsCategorie ? 'Aantal gemiste lesmomenten' : 'Aantal lesmomenten'"
+        [onTouchAllowed]="true">
+        {{ vakRegistratie.registraties.length }}/{{ vakRegistratie.aantalLesmomenten }}
+    </span>
+} @else {
+    <span class="lesmomenten geen"> - </span>
+}
+
+<span class="aantal-registraties">
+    @if (trendindicatie !== null && trendindicatie !== undefined) {
+        <i
+            class="trendindicatie"
+            [class.geen-trend]="trendindicatie === 0"
+            [hmyIcon]="trendindicatie < 0 ? 'trendBeneden' : 'trendBoven'"
+            [color]="trendindicatie < 0 ? 'fg-positive-normal' : 'fg-negative-normal'"
+            [hmyTooltip]="trendindicatieTooltip"
+            [onTouchAllowed]="true"></i>
+    }
+    <span class="aantal-registraties-text">{{ vakRegistratie.registraties.length }}x</span>
+</span>

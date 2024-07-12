@@ -1,0 +1,104 @@
+@if (bulkactiesLength > 0) {
+    <hmy-pill class="counter" type="darker" text="{{ bulkactiesLength }}"></hmy-pill>
+    <span class="geselecteerd show-for-desktop">Geselecteerd</span>
+    <div class="deselect" (click)="closeBulkacties.emit()">
+        <i color="action-negative-normal" hmyIcon="sluiten" size="smallest"></i>
+    </div>
+    <div class="buttons">
+        @if (showDifferentierenButton) {
+            <dt-outline-button
+                class="differentieren"
+                #differentierenButton
+                [iconOnlyRangeEnd]="inSidebar ? 'desktop' : 'tablet'"
+                (click)="onDifferentierenClicked()"
+                icon="toevoegen"
+                iconColor="accent_positive_1"
+                color="accent_positive_1"
+                data-gtm="bulk-toekennen"
+                dtTooltip="Differentiëren">
+                <span>Differentiëren</span>
+            </dt-outline-button>
+        }
+        @if (showVerplaatsButton) {
+            <dt-outline-button
+                class="verplaats"
+                [ngClass]="{ 'hide-for-phone-only': showMoreOptionsButton }"
+                [iconOnlyRangeEnd]="inSidebar ? 'desktop' : 'tablet'"
+                (click)="verplaatsClicked.emit()"
+                icon="mapVerplaatsen"
+                dtTooltip="Verplaatsen naar map">
+            </dt-outline-button>
+        }
+        @if (showVerwijderButton) {
+            <dt-verwijder-button
+                class="inline-verwijderen show-tablet hide-in-sidebar"
+                [withBorder]="true"
+                (onDelete)="bulkVerwijderen.emit()"
+                data-gtm="bulk-verwijderen"
+                iconOnlyRangeEnd="tablet"
+                dtTooltip="Verwijderen">
+            </dt-verwijder-button>
+        }
+        @if (showVerwijderButton) {
+            <dt-outline-button
+                class="popup-verwijderen border verwijderen hide-tablet show-in-sidebar"
+                #verwijderButton
+                [iconOnlyRangeEnd]="inSidebar ? 'desktop' : 'tablet'"
+                (click)="openVerwijderPopup()"
+                color="accent_negative_1"
+                iconColor="accent_negative_1"
+                icon="verwijderen"
+                data-gtm="bulk-verwijderen"
+                dtTooltip="Verwijderen">
+            </dt-outline-button>
+        }
+        @if (showZichtbaarheidButton) {
+            <dt-outline-button
+                class="zichtbaarheid border"
+                #zichtbaarheid
+                [iconOnlyRangeEnd]="inSidebar ? 'desktop' : 'tablet'"
+                (click)="openZichtbaarheidPopup()"
+                icon="zichtbaarCheckbox"
+                data-gtm="bulk-zichtbaarheid"
+                dtTooltip="Zichtbaarheid">
+                <span>Zichtbaarheid</span>
+            </dt-outline-button>
+        }
+        @if (showKopieerButton) {
+            <dt-outline-button
+                class="kopieren border"
+                #kopieren
+                [iconOnlyRangeEnd]="inSidebar ? 'desktop' : 'tablet'"
+                [ngClass]="{ 'hide-for-phone-only': showMoreOptionsButton }"
+                (click)="kopieerClicked.emit()"
+                icon="kopierenNaar"
+                data-gtm="bulk-kopieren"
+                dtTooltip="Kopiëren naar studiewijzer">
+                <span>Kopiëren naar</span>
+            </dt-outline-button>
+        }
+        @if (showMoreOptionsButton) {
+            <dt-outline-button
+                class="border show-for-phone-only"
+                #moreOptionsButton
+                [iconOnlyRangeEnd]="inSidebar ? 'desktop' : 'tablet'"
+                (click)="openMoreOptionsPopup()"
+                icon="opties">
+                <span>Kopiëren naar</span>
+            </dt-outline-button>
+        }
+        <ng-content></ng-content>
+    </div>
+} @else {
+    <span class="selecteer text-moderate hide-for-desktop"
+        >Selecteer
+        @if (magVerslepen) {
+            <span>of verplaats</span>
+        }
+        {{ type }}</span
+    >
+    <span class="selecteer text-moderate show-for-desktop">Selecteer {{ type }}</span>
+    <div class="deselect" (click)="closeBulkacties.emit()" cy="sluit-bulkacties">
+        <i color="action-negative-normal" hmyIcon="sluiten" size="smallest"></i>
+    </div>
+}

@@ -1,0 +1,23 @@
+<dt-popup>
+    <div popup-content>
+        <div class="content">
+            <header>
+                <span class="titel text-content-semi">{{ kolom.titel }}</span>
+                <hmy-notification-counter
+                    [inverted]="true"
+                    [count]="leerlingenCijferOverzichtKolom.length"
+                    [color]="kolom.color"
+                    [size]="24"></hmy-notification-counter>
+                <span class="info text-content-small-semi">{{ kolom.info }}</span>
+            </header>
+            <div class="cijferkaarten">
+                @for (overzicht of leerlingenCijferOverzichtKolom; track trackByLeerlingId($index, overzicht)) {
+                    <dt-groepsoverzicht-leerling-cijfer-kaart
+                        [cijferOverzicht]="overzicht"
+                        [instellingen]="instellingen"
+                        (click)="onLeerlingClick(overzicht)" />
+                }
+            </div>
+        </div>
+    </div>
+</dt-popup>

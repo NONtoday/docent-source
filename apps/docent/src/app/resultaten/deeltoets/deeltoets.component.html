@@ -1,0 +1,7 @@
+<div class="deeltoets pointer">
+    <i class="fill-primary-1" hmyIcon="deeltoets"></i>
+    <span class="text-content-semi color-typography-2">{{ deeltoets.resultaatkolom.code }}</span>
+    @if (magBewerken || magLesgroepOmschrijvingWijzigen) {
+        <dt-icon #moreOptions (click)="onDeeltoetsMoreOptions($event)" icon="opties" size="medium" color="primary"> </dt-icon>
+    }
+</div>

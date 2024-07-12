@@ -1,0 +1,9 @@
+<div class="counter">
+    <button class="decrement-button" [disabled]="counterValue.value <= minValue" (mousedown)="decrement()" (mouseup)="stopDecrement()">
+        -
+    </button>
+    <input [formControl]="counterValue" (blur)="handleBlur()" type="number" numbersOnly selectOnFocus />
+    <button class="increment-button" [disabled]="counterValue.value >= maxValue" (mousedown)="increment()" (mouseup)="stopIncrement()">
+        +
+    </button>
+</div>

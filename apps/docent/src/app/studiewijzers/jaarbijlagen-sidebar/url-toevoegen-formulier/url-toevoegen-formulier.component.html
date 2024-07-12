@@ -1,0 +1,46 @@
+<ng-content></ng-content>
+<form id="ngForm" #formDir="ngForm" [formGroup]="urlToevoegenForm" (ngSubmit)="submit()" (keydown.enter)="preventSubmitOnEnter($event)">
+    <div class="titel-container">
+        <label>Titel<span class="required">*</span></label>
+        <input
+            #titel
+            [class.invalid]="formDir.submitted && naamControl.hasError('required')"
+            type="text"
+            maxlength="255"
+            placeholder="Wat is de titel?"
+            formControlName="naam" />
+        @if (formDir.submitted && naamControl.hasError('required')) {
+            <div class="validation-errors">
+                <div>Dit veld is verplicht</div>
+            </div>
+        }
+    </div>
+    <div class="link-container">
+        <label>Link<span class="required">*</span></label>
+        @if (displayUrlError) {
+            <i class="alert" color="fg-negative-normal" hmyIcon="waarschuwing" size="medium"></i>
+        }
+        <input
+            #url
+            [class.invalid]="formDir.submitted && (linkControl.hasError('required') || displayUrlError)"
+            type="text"
+            maxlength="2000"
+            placeholder="https://www.voorbeeld.nl"
+            formControlName="link" />
+        @if (displayUrlError) {
+            <div class="validation-errors">
+                <div>De link is niet valide</div>
+            </div>
+        }
+    </div>
+    <div class="zichtbaarheid" (click)="toggleZichtbaarheid()">
+        <dt-zichtbaarheidstoggle [isZichtbaar]="zichtbaarheid"> </dt-zichtbaarheidstoggle>
+        <span class="text-content-semi" [class.is-zichtbaar]="zichtbaarheid"
+            >{{ zichtbaarheid ? 'Zichtbaar' : 'Niet zichtbaar' }} voor leerlingen</span
+        >
+    </div>
+    <div class="buttons">
+        <dt-outline-button class="cancel" (click)="onCancelClick()" color="typography_3">Annuleren</dt-outline-button>
+        <hmy-button class="opslaan" [disabled]="!urlToevoegenForm.valid" type="submit" label="Toevoegen" />
+    </div>
+</form>

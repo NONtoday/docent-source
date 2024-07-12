@@ -1,0 +1,22 @@
+<dt-popup>
+    <div class="filter-popup" [attr.cy]="cyTag" popup-content>
+        @for (optie of filterOpties; track optie) {
+            <div
+                class="item-container"
+                [class.selected]="optie === selected"
+                [class.show-border]="!deleteable"
+                [attr.data-gtm]="dataGtm"
+                (click)="selecteerOptie(optie)">
+                <span class="filter-optie text-content-semi" [class.selected]="optie === selected">{{ optie }}</span>
+                @if (optie === selected) {
+                    <i class="check-icon" hmyIcon="check" size="smallest"></i>
+                }
+            </div>
+        }
+        @if (selected && deleteable) {
+            <div class="filter-verwijderen">
+                <span class="pointer text-content-semi" (click)="verwijderFilter()">Filter verwijderen</span>
+            </div>
+        }
+    </div>
+</dt-popup>

@@ -1,0 +1,212 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="search">
+            <dt-search [searchControl]="searchControl" [autofocus]="true" [showSpinner]="searchLoadingState.isLoading"> </dt-search>
+        </div>
+        <div class="scroll-container">
+            @if ({ results: (search$ | async) }; as search) {
+                @if (!(isSearching$ | async)) {
+                    @if (notitieboekMenu$ | async; as menu) {
+                        <div>
+                            @if (menu.ongelezen.length > 0) {
+                                <div class="groep ongelezen" (click)="toggleOngelezen()">
+                                    @if (showConfirmMarkerenGelezen) {
+                                        <div class="groep-header confirm">
+                                            <span class="confirm-text text-content-semi">Alles markeren als gelezen?</span>
+                                            <dt-button
+                                                class="confirm-button"
+                                                [iconOnly]="true"
+                                                (click)="markeerAllesGelezen($event)"
+                                                data-gtm="notitieboek-menu-markeer-alles-gelezen">
+                                                <i size="small" hmyIcon="check"></i>
+                                            </dt-button>
+                                            <dt-outline-button
+                                                class="confirm-cancel-button"
+                                                [iconSizes]="['small']"
+                                                (click)="showConfirmMarkerenGelezen = false; $event.stopPropagation()"
+                                                iconOnlyRangeEnd="desktop"
+                                                icon="sluiten"
+                                                iconColor="typography_4">
+                                            </dt-outline-button>
+                                        </div>
+                                    }
+                                    @if (!showConfirmMarkerenGelezen) {
+                                        <div class="groep-header">
+                                            <div class="notificatie-smallest-alt"></div>
+                                            <span class="groep-naam text-content-semi">Ongelezen notities</span>
+                                            <div class="actions">
+                                                <i
+                                                    class="markeren-gelezen"
+                                                    (click)="showConfirmMarkerenGelezen = true; $event.stopPropagation()"
+                                                    hmyIcon="allesMarkeren"
+                                                    dtTooltip="Alles markeren als gelezen"
+                                                    size="medium"></i>
+                                                <i
+                                                    class="chevron svg-open-close"
+                                                    [class.close]="!items.ongelezen.open"
+                                                    hmyIcon="chevronBoven"
+                                                    size="small"></i>
+                                            </div>
+                                        </div>
+                                    }
+                                    @if (items.ongelezen.open) {
+                                        <div class="leerlingen" [@collapseOnLeave] [@expandOnEnter]>
+                                            @for (result of menu.ongelezen; track result) {
+                                                @if (isLeerlingItem(result)) {
+                                                    <dt-notitieboek-menu-leerling-item
+                                                        [routerLink]="['/notitieboek']"
+                                                        [queryParams]="{ leerling: result.leerling.id }"
+                                                        [leerlingItem]="result"
+                                                        showGroepen="Lesgroepen"></dt-notitieboek-menu-leerling-item>
+                                                }
+                                                @if (isLesgroepItem(result)) {
+                                                    <dt-notitieboek-menu-lesgroep-item
+                                                        [routerLink]="['/notitieboek']"
+                                                        [queryParams]="{ lesgroep: result.lesgroep.id }"
+                                                        [lesgroepItem]="result"></dt-notitieboek-menu-lesgroep-item>
+                                                }
+                                                @if (isStamgroepItem(result)) {
+                                                    <dt-notitieboek-menu-stamgroep-item
+                                                        [routerLink]="['/notitieboek']"
+                                                        [queryParams]="{ stamgroep: result.stamgroep.id }"
+                                                        [stamgroepItem]="result"></dt-notitieboek-menu-stamgroep-item>
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            @for (item of menu.groepen; track item) {
+                                <div class="groep" (click)="toggleGroup(item)">
+                                    <div class="groep-header">
+                                        @if (item.ongelezenNotitieAanwezig) {
+                                            <div class="notificatie-smallest-alt"></div>
+                                        }
+                                        <span class="groep-naam text-content-semi">{{ item | notitieboekMenuItemNaam }}</span>
+                                        <i
+                                            class="chevron svg-open-close"
+                                            [class.close]="!items[item | notitieboekMenuItemId].open"
+                                            hmyIcon="chevronBoven"
+                                            size="small"></i>
+                                    </div>
+                                    @if (items[item | notitieboekMenuItemId].open) {
+                                        <div class="leerlingen" [@collapseOnLeave] [@expandOnEnter]>
+                                            @if (items[item | notitieboekMenuItemId].data$ | async; as menuGroep) {
+                                                @if (isStamgroepItem(item)) {
+                                                    <div
+                                                        class="groep-link stamgroep"
+                                                        [routerLink]="['/notitieboek']"
+                                                        [queryParams]="{ stamgroep: item.stamgroep.id }">
+                                                        @if (menuGroep.ongelezenGroepsnotitieAanwezig) {
+                                                            <div class="notificatie notificatie-smallest-alt"></div>
+                                                        }
+                                                        <dt-background-icon
+                                                            [color]="$any(item.stamgroep.color)"
+                                                            icon="onderwijs"></dt-background-icon>
+                                                        <span class="link text-content-semi">Groepsnotitieboek</span>
+                                                    </div>
+                                                }
+                                                @if (isLesgroepItem(item)) {
+                                                    <div
+                                                        class="groep-link lesgroep"
+                                                        [routerLink]="['/notitieboek']"
+                                                        [queryParams]="{ lesgroep: item.lesgroep.id }">
+                                                        @if (menuGroep.ongelezenGroepsnotitieAanwezig) {
+                                                            <div class="notificatie notificatie-smallest-alt"></div>
+                                                        }
+                                                        <dt-background-icon
+                                                            [color]="$any(item.lesgroep.color)"
+                                                            icon="groep"></dt-background-icon>
+                                                        <span class="link text-content-semi">Groepsnotitieboek</span>
+                                                    </div>
+                                                }
+                                                @for (leerling of menuGroep.leerlingMenuItems; track leerling) {
+                                                    <dt-notitieboek-menu-leerling-item
+                                                        [leerlingItem]="leerling"
+                                                        (click)="onLeerlingInGroepClick(leerling, item)">
+                                                    </dt-notitieboek-menu-leerling-item>
+                                                }
+                                            } @else {
+                                                <div class="spinner">
+                                                    <hmy-spinner />
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            @if (menu.individueleMentorLeerlingenAanwezig) {
+                                <div class="groep indiv-leerlingen" (click)="toggleIndividueel()">
+                                    <div class="groep-header">
+                                        @if (menu.mentorLeerlingOngelezenNotitieAanwezig) {
+                                            <div class="notificatie-smallest-alt"></div>
+                                        }
+                                        <span class="groep-naam text-content-semi">Individueel</span>
+                                        <i
+                                            class="chevron svg-open-close fill-typography-4"
+                                            [class.close]="!items.individueel.open"
+                                            hmyIcon="chevronBoven"
+                                            size="small"></i>
+                                    </div>
+                                    @if (items.individueel.open) {
+                                        <div class="leerlingen" [@collapseOnLeave] [@expandOnEnter]>
+                                            @if (items.individueel.data$ | async; as menuGroep) {
+                                                @for (leerling of menuGroep.leerlingMenuItems; track leerling) {
+                                                    <dt-notitieboek-menu-leerling-item
+                                                        [leerlingItem]="leerling"
+                                                        (click)="onIndividueleLeerlingClick(leerling)"
+                                                        showGroepen="Stamgroep"></dt-notitieboek-menu-leerling-item>
+                                                }
+                                            } @else {
+                                                <div class="spinner">
+                                                    <hmy-spinner />
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    } @else {
+                        <div class="search spinner">
+                            <hmy-spinner />
+                        </div>
+                    }
+                } @else {
+                    @if (search.results) {
+                        <div class="search-results">
+                            @for (result of search.results; track result) {
+                                @if (isLeerlingItem(result)) {
+                                    <dt-notitieboek-menu-leerling-item
+                                        [routerLink]="['/notitieboek']"
+                                        [queryParams]="{ leerling: result.leerling.id }"
+                                        [leerlingItem]="result"
+                                        showGroepen="Lesgroepen"></dt-notitieboek-menu-leerling-item>
+                                }
+                                @if (isLesgroepItem(result)) {
+                                    <dt-notitieboek-menu-lesgroep-item
+                                        [routerLink]="['/notitieboek']"
+                                        [queryParams]="{ lesgroep: result.lesgroep.id }"
+                                        [lesgroepItem]="result"></dt-notitieboek-menu-lesgroep-item>
+                                }
+                                @if (isStamgroepItem(result)) {
+                                    <dt-notitieboek-menu-stamgroep-item
+                                        [routerLink]="['/notitieboek']"
+                                        [queryParams]="{ stamgroep: result.stamgroep.id }"
+                                        [stamgroepItem]="result"></dt-notitieboek-menu-stamgroep-item>
+                                }
+                            }
+                            @if (search.results.length === 0) {
+                                <div class="geen-resultaten text-content-semi text-weakest">Geen resultaten gevonden</div>
+                            }
+                        </div>
+                    } @else {
+                        <div class="search spinner">
+                            <hmy-spinner />
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</dt-popup>

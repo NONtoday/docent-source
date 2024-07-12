@@ -1,0 +1,59 @@
+<dt-sidebar (onMaskClick)="sidebar.onMaskClick?.()" (onCloseClick)="sidebar.onCloseClick?.()" title="Indicaties">
+    <div class="content">
+        @if (heeftBijzonderheden) {
+            <div class="header text-content-semi">Bijzonderheden</div>
+        }
+        @for (beperking of beperkingenMetTooltip; track beperking) {
+            <div class="bijzonderheid item">
+                <i class="fill-primary-1" hmyIcon="zorgindicaties" size="medium"></i>
+                <span class="naam">{{ beperking.naam }}</span>
+                @if (beperking.tooltip) {
+                    <i
+                        class="informatie fill-typography-4"
+                        [dtTooltip]="beperking.tooltip"
+                        [alignCenter]="false"
+                        [onTouchAllowed]="true"
+                        [position]="'left'"
+                        hmyIcon="informatie"
+                        size="small"></i>
+                }
+            </div>
+        }
+        @if (heeftOoHulpmiddelen) {
+            <div class="header text-content-semi">OOHulpmiddelen</div>
+        }
+        @for (hulpmiddel of hulpmiddelenMetTooltip; track hulpmiddel) {
+            <div class="hulpmiddel item">
+                <i class="fill-accent-positive-1" hmyIcon="oOhulpmiddelen" size="medium"></i>
+                <span class="naam">{{ hulpmiddel.naam }}</span>
+                @if (hulpmiddel.tooltip) {
+                    <i
+                        class="informatie fill-typography-4"
+                        [dtTooltip]="hulpmiddel.tooltip"
+                        [alignCenter]="false"
+                        [onTouchAllowed]="true"
+                        [position]="'left'"
+                        hmyIcon="informatie"
+                        size="small"></i>
+                }
+            </div>
+        }
+        @if (heeftInterventies) {
+            <div class="header text-content-semi">NPO interventies</div>
+        }
+        @for (interventie of interventiesMetTooltip; track interventie) {
+            <div class="interventie item">
+                <i class="fill-accent-warning-1" hmyIcon="interventies" size="medium"></i>
+                <span class="naam">{{ interventie.naam }}</span>
+                <i
+                    class="informatie fill-typography-4"
+                    [dtTooltip]="interventie.tooltip"
+                    [alignCenter]="false"
+                    [onTouchAllowed]="true"
+                    [position]="'left'"
+                    hmyIcon="informatie"
+                    size="small"></i>
+            </div>
+        }
+    </div>
+</dt-sidebar>

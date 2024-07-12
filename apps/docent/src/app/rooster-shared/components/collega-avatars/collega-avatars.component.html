@@ -1,0 +1,15 @@
+@if (collegas) {
+    @for (collega of collegas; track trackById($index, collega)) {
+        <dt-avatar
+            [src]="collega.pasfoto"
+            [initialen]="collega.initialen"
+            [onTouchAllowed]="true"
+            [bordersize]="2"
+            [size]="24"
+            [fontsize]="12"
+            [allowPhotoPopup]="false"
+            dtTooltip="{{ collegas | personenNamen }}"
+            altTag="{{ avatarAltTag && avatarAltTag.length > 0 ? avatarAltTag + ' - ' + (collega | volledigeNaam) : '' }}">
+        </dt-avatar>
+    }
+}

@@ -1,0 +1,12 @@
+<dt-popup>
+    <div class="content" [class.with-title]="title" popup-content>
+        @if (title) {
+            <div class="title text-content-semi">{{ title }}</div>
+        }
+        <dt-actions
+            [actions]="customButtons"
+            [buttonsBeforeDivider]="buttonsBeforeDivider"
+            [alignLeft]="true"
+            (onActionClicked)="onActionClicked()"></dt-actions>
+    </div>
+</dt-popup>

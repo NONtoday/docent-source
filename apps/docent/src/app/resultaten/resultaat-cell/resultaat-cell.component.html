@@ -1,0 +1,148 @@
+@if (inEditState$ | async) {
+    <div class="resultaat-form">
+        <input
+            class="resultaat-input"
+            #resultaatInput
+            [formControl]="formControl"
+            [id]="cellId + ':input'"
+            [clickOutsideExclude]="'dt-popup'"
+            [clickOutsideEvents]="'click,touchend'"
+            [delayClickOutsideInit]="true"
+            (clickOutside)="clickOutside($event)"
+            (keypress)="onInput($event)"
+            (keyup)="onKeyUp($event)"
+            type="text"
+            autocomplete="off"
+            dtAutoSelect />
+        <div class="edit-actions show-for-desktop-only">
+            @if (cijferhistorieTonen) {
+                <i
+                    class="fill-typography-4"
+                    (click)="openCijferhistorie($event)"
+                    hmyIcon="klok"
+                    size="smallest"
+                    dtTooltip="Cijferhistorie"></i>
+            }
+            @if (heeftBestaandeOpmerking) {
+                <i
+                    class="fill-typography-4"
+                    (click)="opmerkingPopupOpenen($event)"
+                    hmyIcon="reacties"
+                    size="smallest"
+                    dtTooltip="Opmerking"></i>
+            }
+            @if (!heeftBestaandeOpmerking) {
+                <i
+                    class="fill-typography-4"
+                    (click)="opmerkingPopupOpenen($event)"
+                    hmyIcon="reactieToevoegen"
+                    size="smallest"
+                    dtTooltip="Opmerking toevoegen"></i>
+            }
+        </div>
+        <div class="options show-for-tablet-only" [class.show-left]="showLeft" [class.opmerking-toegestaan]="opmerkingToevoegenToegestaan">
+            @if (opmerkingToevoegenToegestaan && !heeftBestaandeOpmerking) {
+                <i
+                    class="fill-accent-positive-1 popout-option-icon"
+                    (click)="opmerkingPopupOpenen()"
+                    hmyIcon="reactieToevoegen"
+                    size="medium"></i>
+            }
+            @if (opmerkingToevoegenToegestaan && heeftBestaandeOpmerking) {
+                <i class="fill-primary-1 popout-option-icon" (click)="opmerkingPopupOpenen($event)" hmyIcon="reacties" size="medium"></i>
+            }
+            @if (cijferhistorieTonen) {
+                <i
+                    class="fill-primary-1 popout-option-icon"
+                    (click)="openCijferhistorie($event)"
+                    hmyIcon="klok"
+                    size="medium"
+                    data-gtm="cijferhistorie-bekijken"></i>
+            }
+        </div>
+    </div>
+} @else {
+    <div class="icons">
+        @if (invalid) {
+            <i
+                class="fill-accent-negative-1"
+                [hmyIcon]="errorIcon"
+                [dtTooltip]="errorMessage ?? 'Ongeldige waarde'"
+                [onTouchAllowed]="true"
+                size="smallest"></i>
+        }
+        @if (basisResultaat && toonMissendeToets && (resultaat?.toetsNietGemaakt || missendeToets)) {
+            <i
+                class="let-op-icon fill-typography-4"
+                [dtTooltip]="gemiddeldeTooltip(resultaatkolom, basisResultaat, alternatiefNiveau)"
+                [maxWidth]="230"
+                [onTouchAllowed]="true"
+                hmyIcon="letOp"
+                size="smallest"></i>
+        }
+        @if (overschrevenRapportcijfer) {
+            <i
+                class="fill-typography-4 overschreven-icon"
+                [dtTooltip]="gemiddeldeTooltip(resultaatkolom, basisResultaat, alternatiefNiveau)"
+                [maxWidth]="230"
+                [onTouchAllowed]="true"
+                [tooltipDisplayable]="!!basisResultaat"
+                hmyIcon="persoon"
+                size="smallest"></i>
+        }
+        @if (!basisResultaat && toonMissendeToets && (resultaat?.toetsNietGemaakt || missendeToets)) {
+            <i class="let-op-icon fill-typography-4" hmyIcon="letOp" size="smallest"></i>
+        }
+    </div>
+    <div class="icons right" [class.show-actions]="opmerkingPopupOpen || cijferHistoriePopupOpen">
+        @if (!heeftBestaandeOpmerking && opmerkingToevoegenToegestaan && !invalid) {
+            <i
+                class="action-positive show-on-hover show-for-desktop fill-typography-4"
+                [class.fill-accent-positive-1]="opmerkingPopupOpen"
+                [maxWidth]="230"
+                [onTouchAllowed]="true"
+                (click)="opmerkingPopupOpenen($event)"
+                hmyIcon="reactieToevoegen"
+                size="smallest"
+                dtTooltip="Opmerking"></i>
+        }
+        @if (heeftBestaandeOpmerking && !invalid) {
+            <i
+                class="action fill-typography-4"
+                [dtTooltip]="opmerkingTooltip(resultaat)"
+                [maxWidth]="230"
+                [onTouchAllowed]="true"
+                [class.fill-primary-1]="opmerkingPopupOpen"
+                (click)="opmerkingPopupOpenen($event)"
+                hmyIcon="reacties"
+                size="smallest"></i>
+        }
+        @if (!invalid && cijferhistorieTonen) {
+            <i
+                class="fill-typography-4 show-on-hover action show-for-desktop"
+                [class.fill-primary-1]="cijferHistoriePopupOpen"
+                (click)="openCijferhistorie($event)"
+                hmyIcon="klok"
+                size="smallest"
+                dtTooltip="Cijferhistorie"></i>
+        }
+    </div>
+    <span
+        class="resultaat text-content"
+        [class.onvoldoende]="resultaatkolom.type !== 'ADVIES' && (resultaat | onvoldoende: alternatiefNiveau : resultaatUpdated)"
+        [class.niet-opgeslagen]="!resultaat"
+        [class.niet-gemaakt]="resultaat?.toetsNietGemaakt"
+        [class.vrijstelling]="resultaat?.vrijstelling"
+        >{{ formControl.value ?? formattedResultaat }}</span
+    >
+}
+@if (!readOnly) {
+    <i
+        class="arrow-icon icon-arrow-open-close"
+        [class.cijfer-invoer]="!resultaatLabelLijst"
+        [class.active]="active"
+        [class.close]="!resultaatInvoerPopupOpen"
+        (click)="onChevronClick()"
+        size="smallest"
+        hmyIcon="chevronBoven"></i>
+}

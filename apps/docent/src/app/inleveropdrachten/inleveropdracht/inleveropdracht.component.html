@@ -1,0 +1,43 @@
+<div class="lesgroep">
+    @if (isDesktop()) {
+        <dt-background-icon [color]="$any(inleveropdracht.lesgroep?.color)" icon="groep" size="small"> </dt-background-icon>
+    }
+    <span class="lesgroep-naam text-content-small-semi">{{ inleveropdracht.lesgroep?.naam }}</span>
+</div>
+<div class="deadline">
+    @if (inleverperiodeIsOpen) {
+        <div class="inleverperiode-open" [onTouchAllowed]="true" dtTooltip="Inleverperiode geopend"></div>
+    }
+    <span class="datum text-small-content">{{ inleverperiode.eind | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}</span>
+</div>
+@if (
+    toonDifferentiatie &&
+    ((inleveropdracht.differentiatiegroepen && inleveropdracht.differentiatiegroepen.length > 0) ||
+        (inleveropdracht.differentiatieleerlingen && inleveropdracht.differentiatieleerlingen.length > 0))
+) {
+    <div class="kleuren-stack">
+        <dt-kleuren-stack
+            [kleuren]="kleuren"
+            [nummerKleur]="
+                inleveropdracht.differentiatiegroepen && inleveropdracht.differentiatiegroepen.length > 0
+                    ? 0
+                    : inleveropdracht.differentiatieleerlingen.length
+            ">
+        </dt-kleuren-stack>
+    </div>
+}
+<span class="titel text-small-content">{{ inleveropdracht.studiewijzeritem | studiewijzeritemTitel }}</span>
+<div class="inleveringen">
+    <hmy-icon-pill
+        class="pill"
+        #inleveringen
+        [color]="getInleveringenAantalColor(inleverperiode)"
+        [iconVisible]="isTabletOfDesktop()"
+        [metChevron]="true"
+        (click)="onInleveringenLabelClick($event)"
+        icon="inleveropdracht"
+        iconSize="smallest"
+        text="{{ inleverperiode.inleveringenAantal }}/{{ inleverperiode.inleveringenVerwacht }}">
+    </hmy-icon-pill>
+</div>
+<i #moreOptions (click)="onMoreOptions($event)" color="fg-primary-normal" hmyIcon="opties" size="medium"></i>

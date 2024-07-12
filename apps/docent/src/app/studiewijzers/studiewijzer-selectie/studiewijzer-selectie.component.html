@@ -1,0 +1,67 @@
+@if (schooljaar$ | async; as schooljaar) {
+    <div class="schooljaar-selectie">
+        <i
+            [class.hidden]="schooljaar <= huidigSchooljaar - 2"
+            (click)="schooljaar$.next(schooljaar - 1)"
+            color="action-primary-normal"
+            hmyIcon="chevronLinks"
+            size="medium"></i>
+        @if (loadingState.isLoading) {
+            <hmy-spinner />
+        }
+        @if (!loadingState.isLoading) {
+            <span class="schooljaar text-content-semi">{{ schooljaar }}-{{ schooljaar + 1 }}</span>
+        }
+        <i
+            [class.hidden]="huidigSchooljaar === schooljaar"
+            (click)="schooljaar$.next(schooljaar + 1)"
+            color="action-primary-normal"
+            hmyIcon="chevronRechts"
+            size="medium"></i>
+    </div>
+}
+@if (heeftStudiewijzers$ | async) {
+    <div>
+        @if (studiewijzerOverzichtView$ | async; as studiewijzerOverzichtView) {
+            @for (studiewijzer of studiewijzerOverzichtView.studiewijzers; track studiewijzer) {
+                <div class="studiewijzer" (click)="onSelect.emit(studiewijzer)">
+                    <dt-background-icon class="groep-icon" [color]="$any(studiewijzer.lesgroep.color)" [sizes]="['medium']" icon="groep">
+                    </dt-background-icon>
+                    <span class="naam text-content-semi">{{ studiewijzer.lesgroep.naam }}</span>
+                    @if (!geenDoorklik) {
+                        <i color="fg-neutral-normal" hmyIcon="chevronRechts" size="small"></i>
+                    }
+                    @if (geenDoorklik) {
+                        <dt-background-icon [sizes]="['small']" icon="toevoegen" color="accent_positive_1"> </dt-background-icon>
+                    }
+                </div>
+            }
+            @for (categorie of studiewijzerOverzichtView.categorieen; track categorie) {
+                @if (categorie.studiewijzers.length > 0) {
+                    <div>
+                        <dt-sidebar-categorie-divider [naam]="categorie.naam"> </dt-sidebar-categorie-divider>
+                        @for (studiewijzer of categorie.studiewijzers; track studiewijzer) {
+                            <div class="studiewijzer" (click)="onSelect.emit(studiewijzer)">
+                                <dt-background-icon
+                                    class="groep-icon"
+                                    [color]="$any(studiewijzer.lesgroep.color)"
+                                    [sizes]="['medium']"
+                                    icon="groep">
+                                </dt-background-icon>
+                                <span class="naam text-content-semi">{{ studiewijzer.lesgroep.naam }}</span>
+                                @if (!geenDoorklik) {
+                                    <i color="fg-neutral-normal" hmyIcon="chevronRechts" size="small"></i>
+                                }
+                                @if (geenDoorklik) {
+                                    <dt-background-icon [sizes]="['small']" icon="toevoegen" color="accent_positive_1"></dt-background-icon>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        }
+    </div>
+} @else {
+    <span class="geen-studiewijzers text-content-semi">Er zijn geen studiewijzers{{ alleenMetBijlagen ? ' met jaarbijlagen' : '' }}</span>
+}

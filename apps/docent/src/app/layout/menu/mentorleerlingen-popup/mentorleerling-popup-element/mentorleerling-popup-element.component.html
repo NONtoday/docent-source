@@ -1,0 +1,8 @@
+<dt-avatar [allowPhotoPopup]="false" [src]="leerling.pasfoto" [initialen]="leerling.initialen" [size]="32" [fontsize]="12"> </dt-avatar>
+<span class="leerling text-strong text-content-semi naam" [class.active]="isActive">{{ leerling | volledigeNaam }}</span>
+@if (!leerling.plaatsingDefinitief) {
+    <i class="voorlopig" [onTouchAllowed]="true" hmyIcon="informatie" dtTooltip="Voorlopige plaatsing"></i>
+}
+@if (stamgroep) {
+    <span class="stamgroep text-content-small-semi text-weak">{{ stamgroep.naam }}</span>
+}

@@ -1,0 +1,20 @@
+<div class="groep pointer">
+    <div class="groep-avatar">
+        <dt-background-icon
+            [color]="$any(ongelezenNotitieGroep.groep?.color)"
+            [dtTooltip]="tooltipMessage"
+            [tooltipDisplayable]="!ongelezenNotitieGroep.vastgeprikteNotitieAanwezig && !!ongelezenNotitieGroep.ongelezenNotitieAanwezig"
+            icon="groep"></dt-background-icon>
+        @if (ongelezenNotitieGroep.ongelezenNotitieAanwezig === 'STANDAARD') {
+            <div class="notificatie notificatie-small-alt"></div>
+        }
+        @if (ongelezenNotitieGroep.ongelezenNotitieAanwezig === 'MENTOR') {
+            <div class="notificatie notificatie-small-alt-3"></div>
+        }
+    </div>
+    <span class="naam text-content-semi text-ellipsis">{{ ongelezenNotitieGroep.groep?.naam }}</span>
+    <span class="pill text-content-small-semi">Groepsnotitie</span>
+    @if (ongelezenNotitieGroep.vastgeprikteNotitieAanwezig) {
+        <i class="vastgeprikt" dtTooltip="Groep heeft een vastgeprikte notitie" hmyIcon="pinned"></i>
+    }
+</div>

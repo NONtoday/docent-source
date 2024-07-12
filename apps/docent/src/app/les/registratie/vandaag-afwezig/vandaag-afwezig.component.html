@@ -1,0 +1,27 @@
+<dt-accordion
+    [expanded]="afwezigenInitieelTonen"
+    [lightBackground]="(isPhoneOrTablet$ | async)!"
+    [class.force-open]="isPhoneOrTablet$ | async"
+    [showChevron]="!(isPhoneOrTablet$ | async)"
+    [withShadow]="false">
+    <div class="title-content" title>
+        <span>Nu afwezig</span>
+        <span class="counter text-content-small-semi text-weak">{{ aantalAfwezig }}/{{ aantalTotaal }}</span>
+    </div>
+    @if (aantalAfwezig === 0) {
+        <div class="geen-afwezigheid text-weakest" body>
+            <span>Geen leerlingen afwezig</span>
+        </div>
+    }
+    @if (aantalAfwezig > 0) {
+        <div class="leerlingen-afwezig" @blockInitialRenderAnimation body>
+            @for (registratie of afwezigen; track trackById($index, registratie)) {
+                <dt-vandaag-afwezig-leerling
+                    class="leerling-afwezig pointer"
+                    [absentieMelding]="registratie.absent"
+                    [leerling]="registratie.leerling">
+                </dt-vandaag-afwezig-leerling>
+            }
+        </div>
+    }
+</dt-accordion>

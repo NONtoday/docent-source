@@ -1,0 +1,58 @@
+<dt-popup>
+    <div class="content" popup-content>
+        @if (synchroniseerbaar) {
+            <div class="info">
+                <span class="titel text-strong text-content-semi hide-for-tablet">{{ titel }}</span>
+                @if (synchroniseertMet) {
+                    <div class="subtitle">
+                        <dt-icon
+                            class="synchronisatie-icon"
+                            [onTouchAllowed]="true"
+                            icon="synchroniseren"
+                            color="positive"
+                            dtTooltip="Synchroniseert met"
+                            size="medium"></dt-icon>
+                        <span class="text-moderate text-content-small-semi">{{ synchroniseertMet }}</span>
+                    </div>
+                }
+                @if (!synchroniseertMet) {
+                    <dt-popup-button
+                        (click)="onSynchronisatie()"
+                        hideOutlineForBreakpointUp="tablet"
+                        color="primary_1"
+                        iconColor="primary_1"
+                        icon="synchroniseren"
+                        text="Synchroniseren met">
+                    </dt-popup-button>
+                }
+            </div>
+        }
+        @if (toonDifferentieren || toonVerwijderDifferentiaties) {
+            <div class="info differentieren">
+                @if (toonDifferentieren) {
+                    <dt-popup-button
+                        [attr.data-gtm]="differentierenGtmTag"
+                        (click)="onDifferentiatie()"
+                        hideOutlineForBreakpointUp="tablet"
+                        color="accent_positive_1"
+                        iconColor="accent_positive_1"
+                        icon="toevoegen"
+                        text="Differentiëren">
+                    </dt-popup-button>
+                }
+                @if (toonVerwijderDifferentiaties) {
+                    <dt-popup-button
+                        [attr.data-gtm]="differentierenGtmTag + '-verwijderen'"
+                        (click)="onVerwijderDifferentiaties()"
+                        hideOutlineForBreakpointUp="tablet"
+                        color="accent_negative_1"
+                        iconColor="accent_negative_1"
+                        icon="sluiten"
+                        text="Differentiatie verwijderen">
+                    </dt-popup-button>
+                }
+            </div>
+        }
+        <dt-actions [actions]="actions" (onActionClicked)="popup.onClose()"></dt-actions>
+    </div>
+</dt-popup>

@@ -1,0 +1,52 @@
+<dt-sidebar [title]="'Zwevende lesitems kiezen'" (onMaskClick)="closeSidebar()" (onCloseClick)="closeSidebar()" icon="zwevendItem">
+    @if (loadingState.isLoading) {
+        <hmy-spinner [centeredInParent]="true" />
+    }
+    @if (!loadingState.isLoading) {
+        <form [formGroup]="zwevendeItemsFormGroup">
+            <div class="lesitems">
+                @for (dag of $any(zwevendeLesitems) | keyvalue: sortByDateDesc; track dag) {
+                    <div>
+                        <div class="header">
+                            <span class="text-content-semi fg-primary-strongest">{{ dag.key }}</span>
+                            <span class="alles-selecteren" (click)="selectAll($any(dag), $event)">{{
+                                allItemsSelectedOnDay($any(dag)) ? 'Alles deselecteren' : 'Alles selecteren'
+                            }}</span>
+                        </div>
+                        @for (lesitem of $any(dag).value; track lesitem) {
+                            <div class="lesitem">
+                                <dt-selectable-item [toekenning]="lesitem" [group]="zwevendeItemsFormGroup"> </dt-selectable-item>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            @if (amountSelected <= 0) {
+                <div class="buttons">
+                    <button class="submit" [disabled]="true" type="submit">Selecteer een item</button>
+                </div>
+            }
+            @if (inBulkModus) {
+                <dt-bulkacties
+                    class="bulkacties"
+                    [bulkactiesLength]="amountSelected"
+                    [hideButtonLabels]="true"
+                    [inSidebar]="true"
+                    [showZichtbaarheidButton]="false"
+                    [showVerplaatsButton]="false"
+                    [showKopieerButton]="false"
+                    (bulkVerwijderen)="bulkVerwijderen()"
+                    (closeBulkacties)="closeBulkacties()">
+                    <button
+                        class="submit"
+                        [showLoaderOnClick]="true"
+                        (click)="toekenningenInplannen()"
+                        data-gtm="lesplanning-zwevend-huiswerk-toevoegen"
+                        type="submit">
+                        Inplannen
+                    </button>
+                </dt-bulkacties>
+            }
+        </form>
+    }
+</dt-sidebar>

@@ -1,0 +1,94 @@
+@if ({ height: tagsContainerHeight$ | async }; as tags) {
+    <div class="zoekveld pointer" [class.search-open]="showDropdown$ | async" [class.has-selection]="hasSelection" (click)="open()">
+        <div class="toevoegen-icon" (click)="onTouched()">
+            <dt-background-icon color="accent_positive_1" icon="toevoegen" size="smallest" iconSize="smallest"></dt-background-icon>
+        </div>
+        <div class="tags" #tagsRef>
+            @for (tag of betrokkenenView; track trackById($index, tag)) {
+                @if (tag.type === 'leerling') {
+                    <hmy-avatar-tag
+                        class="betrokkene"
+                        [label]="tag.naam"
+                        [src]="tag.pasfoto"
+                        [initialen]="tag.initialen || undefined"
+                        [actionIcon]="isBetrokkeneVerwijderbaar(tag) ? 'sluiten' : 'none'"
+                        (iconClick)="verwijderBetrokkene(tag.id)"
+                        size="big">
+                    </hmy-avatar-tag>
+                }
+                @if (tag.type === 'groep') {
+                    <hmy-icon-tag
+                        class="betrokkene"
+                        [label]="tag.naam"
+                        [actionIcon]="isBetrokkeneVerwijderbaar(tag) ? 'sluiten' : 'none'"
+                        (iconClick)="verwijderBetrokkene(tag.id)"
+                        size="big"
+                        icon="groep">
+                    </hmy-icon-tag>
+                }
+            }
+            <input #textInput [placeholder]="placeholder" [formControl]="search" cy="betrokkene-zoekveld" type="text" autocomplete="off" />
+        </div>
+        <i class="error-icon" hmyIcon="waarschuwing" color="action-negative-normal" size="medium"></i>
+    </div>
+    @if (searchResults$ | async; as searchResults) {
+        @if (showDropdown$ | async) {
+            <cdk-virtual-scroll-viewport
+                class="selection-box"
+                [clickOutsideEvents]="'click,touchend'"
+                [delayClickOutsideInit]="true"
+                [itemSize]="itemSize$ | async"
+                [style.top.px]="tags.height"
+                (clickOutside)="closeSearch()"
+                clickOutsideExclude="dt-betrokkene-selectie-mobile, dt-betrokkene-selectie">
+                @for (leerlingResult of searchResults.leerlingen; track leerlingResult) {
+                    <div class="optie" (click)="selectBetrokkene(leerlingResult.leerling)">
+                        <hmy-avatar [src]="leerlingResult.leerling.pasfoto" [initialen]="leerlingResult.leerling.initialen"></hmy-avatar>
+                        <span class="text-strong">{{ leerlingResult.leerling | volledigeNaam }}</span>
+                        @if (leerlingResult.deelnemerVanContextGroep) {
+                            <hmy-pill [text]="leerlingResult.deelnemerVanContextGroep"></hmy-pill>
+                        }
+                    </div>
+                }
+                @for (lesgroep of searchResults.lesgroepen; track lesgroep) {
+                    <div class="optie" (click)="selectBetrokkene(lesgroep)">
+                        <dt-background-icon
+                            [color]="$any(lesgroep.color)"
+                            icon="groep"
+                            size="small"
+                            iconSize="smallest"></dt-background-icon>
+                        <span class="text-strong">{{ lesgroep.naam }}</span>
+                        @if (lesgroep.vestiging) {
+                            <hmy-pill [text]="lesgroep.vestiging.naam"></hmy-pill>
+                        }
+                    </div>
+                }
+                @for (stamgroep of searchResults.stamgroepen; track stamgroep) {
+                    <div class="optie" (click)="selectBetrokkene(stamgroep)">
+                        <dt-background-icon
+                            [color]="$any(stamgroep.color)"
+                            icon="groep"
+                            size="small"
+                            iconSize="smallest"></dt-background-icon>
+                        <span class="text-strong">{{ stamgroep.naam }}</span>
+                        @if (stamgroep.vestiging) {
+                            <hmy-pill [text]="stamgroep.vestiging.naam"></hmy-pill>
+                        }
+                    </div>
+                }
+                @if (geenResultaten) {
+                    <div class="no-results-melding text-weak">Geen groep of personen gevonden</div>
+                }
+            </cdk-virtual-scroll-viewport>
+        }
+    }
+}
+@if (showDropdown$ | async) {
+    <dt-betrokkene-selectie-mobile
+        [searchControl]="search"
+        [contextId]="contextId"
+        [searchResults]="searchResults$ | async"
+        [geenResultaten]="geenResultaten"
+        (closeToevoegen)="closeSearch()"
+        (onToevoegen)="addMobileBetrokkenen($event)"></dt-betrokkene-selectie-mobile>
+}

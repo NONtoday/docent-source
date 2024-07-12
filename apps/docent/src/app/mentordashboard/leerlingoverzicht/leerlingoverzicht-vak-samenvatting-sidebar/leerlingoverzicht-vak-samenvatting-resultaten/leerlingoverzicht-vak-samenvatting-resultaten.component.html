@@ -1,0 +1,70 @@
+<div class="info-tiles" [class.is-examen]="isExamen">
+    @if (isExamen) {
+        @if (gemiddeldeSe) {
+            <dt-mentordashboard-sidebar-info-tile
+                class="se-resultaat"
+                #seCijferTile
+                [value]="gemiddeldeSe | commaResult"
+                valueColor="text-strong"
+                infoTooltip="Gemiddelde over alle behaalde SE resultaten"
+                data-gtm="leerlingoverzicht-se-resultaat-info-tile"
+                titel="SE resultaat" />
+        } @else {
+            <dt-mentordashboard-sidebar-info-tile
+                class="se-resultaat"
+                [valueSmallFont]="true"
+                value="Geen"
+                valueColor="text-weakest"
+                titel="SE resultaat" />
+        }
+    } @else {
+        @if (resultaten && resultaten.rapportCijferkolom) {
+            <dt-mentordashboard-sidebar-info-tile
+                class="rapportcijfer"
+                #rapportCijferTile
+                [value]="resultaten.rapportCijferkolom.formattedResultaat ?? '-'"
+                [showChevron]="true"
+                (click)="openRapportCijferPopup()"
+                valueColor="text-strong"
+                data-gtm="leerlingoverzicht-rapportcijfer-info-tile"
+                titel="Rapportcijfer (R)" />
+        } @else {
+            <dt-mentordashboard-sidebar-info-tile
+                class="rapportcijfer"
+                [valueSmallFont]="true"
+                value="Geen"
+                valueColor="text-weakest"
+                titel="Rapportcijfer (R)" />
+        }
+    }
+
+    @if (gemisteToetsen.length > 0) {
+        <dt-mentordashboard-sidebar-info-tile
+            class="gemiste-toetsen"
+            #gemisteToetsenTile
+            [value]="gemisteToetsen.length.toString()"
+            [showChevron]="true"
+            [infoTooltip]="gemisteToetsenInfoTooltip"
+            (click)="openGemisteToetsenPopup()"
+            data-gtm="leerlingoverzicht-vak-samenvatting-gemiste-toetsen-info-tile"
+            titel="Gemiste toetsen" />
+    } @else {
+        <dt-mentordashboard-sidebar-info-tile
+            class="gemiste-toetsen"
+            [valueSmallFont]="true"
+            [infoTooltip]="gemisteToetsenInfoTooltip"
+            value="Geen"
+            valueColor="text-weakest"
+            titel="Gemiste toetsen" />
+    }
+
+    @if (trend) {
+        <dt-mentordashboard-resultaat-trend-info-tile
+            [aantalResultatenVoorTrendindicatie]="trend.aantalResultatenVoorTrendindicatie"
+            [trendindicatie]="trend.trendindicatie"
+            (click)="showAlleResultaten.emit()"
+            data-gtm="leerlingoverzicht-trend-info-tile" />
+    } @else {
+        <dt-mentordashboard-resultaat-trend-info-tile (click)="showAlleResultaten.emit()" data-gtm="leerlingoverzicht-trend-info-tile" />
+    }
+</div>

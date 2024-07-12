@@ -1,0 +1,37 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="header">
+            <i
+                class="header-icon"
+                [hmyIcon]="direction === 'omlaag' ? 'pijlOnder' : 'pijlBoven'"
+                color="fg-on-primary-weak"
+                size="small"></i>
+            <span class="text-content-semi">Planning vanaf deze week verschuiven</span>
+        </div>
+        <div class="titel">
+            <span class="text-moderate text-content-small-semi">Selecteer aantal weken</span>
+            @if (showInfoIcon) {
+                <i [onTouchAllowed]="true" hmyIcon="informatie" size="small" dtTooltip="Lesitems worden om vakanties heen geplaatst"></i>
+            }
+        </div>
+        <div class="aantal-weken-opties">
+            <span class="optie" [class.selected]="selected === 1" (click)="selected = 1">1</span>
+            <span class="optie" [class.selected]="selected === 2" (click)="selected = 2">2</span>
+            <span class="optie" [class.selected]="selected === 3" (click)="selected = 3">3</span>
+            <span class="optie" [class.selected]="selected === 4" (click)="selected = 4">4</span>
+            <span class="optie" [class.selected]="selected === 5" (click)="selected = 5">5</span>
+        </div>
+        @if (selected >= showOmlaagWarningVanaf) {
+            <span class="text-small-content warning">Lesitems die buiten het schooljaar vallen worden gebundeld in de laatste week</span>
+        }
+        @if (selected >= showOmhoogWarningVanaf) {
+            <span class="text-small-content warning">Lesitems die voor het schooljaar vallen worden gebundeld in de eerste week</span>
+        }
+        <div class="buttons">
+            <dt-outline-button (click)="onAnnulerenClick()">Annuleren</dt-outline-button>
+            <dt-button [showLoaderOnClick]="true" (click)="onOpslaanClick(); $event.stopPropagation()" cy="verschuif-planning">
+                <span>Verschuiven</span>
+            </dt-button>
+        </div>
+    </div>
+</dt-popup>

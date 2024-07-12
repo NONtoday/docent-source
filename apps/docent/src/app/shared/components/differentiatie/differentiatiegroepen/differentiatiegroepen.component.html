@@ -1,0 +1,16 @@
+<div cdkDropListGroup>
+    @for (groep of differentiatiegroepen; track trackById($index, groep)) {
+        <dt-differentiatiegroep
+            [cdkDropListData]="groep"
+            [cdkDropListEnterPredicate]="bevatLeerlingNiet"
+            [differentiatiegroep]="groep"
+            (cdkDropListDropped)="leerlingVerplaatst($event)"
+            (saveDifferentiatiegroep)="saveDifferentiatiegroep.emit($event)"
+            (deleteDifferentiatiegroep)="deleteDifferentiatiegroep.emit($event)"
+            (onLeerlingenToevoegen)="onLeerlingenToevoegen.emit(groep)"
+            (onVerwijderLeerling)="onVerwijderLeerling.emit({ leerling: $event, differentiatiegroep: groep })"
+            cdkDropList
+            cdkDropListSortingDisabled>
+        </dt-differentiatiegroep>
+    }
+</div>

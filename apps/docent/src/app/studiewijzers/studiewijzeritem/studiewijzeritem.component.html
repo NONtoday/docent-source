@@ -1,0 +1,35 @@
+@if (!readOnly) {
+    <dt-checkbox class="checkbox" [checked]="isChecked" (click)="toggleChecked($event)"> </dt-checkbox>
+}
+@if (iconClass) {
+    <i class="hide-for-phone-only type-icon" [hmyIcon]="iconClass"></i>
+}
+<span class="omschrijving text-small-content" (click)="onOnderwerpClick()">{{ studiewijzeritem | studiewijzeritemTitel }}</span>
+@if (kleuren.length! > 0) {
+    <dt-kleuren-stack
+        class="kleuren-stack"
+        [displayTooltip]="kleuren.length! > 0"
+        [kleuren]="kleuren"
+        [nummerKleur]="differentiatiegroepen.length > 0 ? 0 : differentiatieleerlingen.length">
+    </dt-kleuren-stack>
+}
+@if (isEigenaar && !readOnly) {
+    <dt-zichtbaarheidstoggle
+        class="zichtbaarheidstoggle"
+        [class.popup-open]="isPopupOpen"
+        [isZichtbaar]="studiewijzeritem.zichtbaarVoorLeerling"
+        (click)="updateZichtbaarheid($event)"
+        data-gtm="studiewijzeritem-zichtbaarheidstoggle">
+    </dt-zichtbaarheidstoggle>
+}
+@if (!studiewijzeritem.zichtbaarVoorLeerling) {
+    <i [class.editable]="isEigenaar" color="fg-neutral-moderate" hmyIcon="nietZichtbaar" size="small"></i>
+}
+@if (!readOnly) {
+    <div class="more-options" #moreOptions [class.popup-open]="isPopupOpen" (click)="openMoreOptions($event)">
+        <i color="action-primary-normal" hmyIcon="opties" size="small"></i>
+    </div>
+}
+@if (isEigenaar && !readOnly) {
+    <i class="drag" color="action-neutral-normal" hmyIcon="draggable" size="small"></i>
+}

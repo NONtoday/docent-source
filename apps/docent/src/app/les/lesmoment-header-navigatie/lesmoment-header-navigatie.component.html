@@ -1,0 +1,32 @@
+<i class="terug pointer" (click)="onTerugClick()" hmyIcon="pijlLinks" dtTooltip="Terug naar rooster" size="medium" position="bottom"></i>
+@if (afspraak) {
+    <div class="afspraak">
+        @if (afspraak.lesuur) {
+            <dt-lesuur
+                [beginlesuur]="afspraak.lesuur"
+                [eindlesuur]="afspraak.eindLesuur"
+                [isKwt]="afspraak.isKwt"
+                [isRoosterToets]="afspraak.isRoosterToets"
+                [hmyTooltip]="lesuurTooltip"
+                [alignCenter]="false"
+                [maxWidth]="300"
+                [onTouchAllowed]="true"
+                position="bottom">
+            </dt-lesuur>
+        }
+        <span class="text-content-bold titel text-ellipsis">
+            {{ titel }}
+        </span>
+    </div>
+}
+<dt-header-navigatie-buttons
+    [heeftVolgende]="heeftVolgende"
+    [heeftVorige]="heeftVorige"
+    (meerOptiesClick)="onMeerOptiesClick($event)"
+    (vorigeClick)="onVorigeClick()"
+    (volgendeClick)="onVolgendeClick()"
+    volgendeTooltip="Volgende les"
+    vorigeTooltip="Vorige les"
+    gtmVolgendeButton="volgende-leerling-header-navigatie"
+    gtmVorigeButton="vorige-leerling-header-navigatie">
+</dt-header-navigatie-buttons>

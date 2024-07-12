@@ -1,0 +1,26 @@
+<dt-popup>
+    <div class="popup-content" #content popup-content>
+        <div class="links">
+            <dt-popup-button
+                (click)="onBerichtSturen()"
+                icon="bericht"
+                text="Bericht sturen (Somtoday)"
+                data-gtm="mentor-dashboard-bericht">
+            </dt-popup-button>
+            @if (mentorleerlingen$ | async; as mentorLeerlingen) {
+                <dt-popup-button
+                    (click)="onWerkdruk(mentorLeerlingen)"
+                    icon="werkdruk"
+                    text="Werkdruk"
+                    data-gtm="mentor-dashboard-werkdruk">
+                </dt-popup-button>
+            }
+            <dt-popup-button
+                (click)="onAfspraakMaken()"
+                icon="kalenderToevoegen"
+                text="Afspraak maken"
+                data-gtm="mentor-dashboard-afspraak-aanmaken">
+            </dt-popup-button>
+        </div>
+    </div>
+</dt-popup>

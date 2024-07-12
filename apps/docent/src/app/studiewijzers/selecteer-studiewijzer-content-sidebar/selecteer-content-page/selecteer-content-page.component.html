@@ -1,0 +1,48 @@
+@if (weken) {
+    @for (week of weken; track week) {
+        <div class="week">
+            <div
+                class="weekheader"
+                [class.clickable]="week.toekenningen.length > 0"
+                (click)="toggleToekenningenTonenVoorWeek(week.weeknummer)">
+                <span class="text-content-semi">Week {{ week.weeknummer }}</span>
+                @if (isEersteWeekVanPeriode(week)) {
+                    <div class="periode text-content-small-bold">P{{ week.periode.nummer }}</div>
+                }
+                @if (week.toekenningen.length > 0) {
+                    <i
+                        [class.expanded]="isWeekOpen(week.weeknummer)"
+                        color="action-neutral-normal"
+                        hmyIcon="chevronOnder"
+                        size="medium"></i>
+                }
+            </div>
+            <div class="items" [@collapse]="{ value: !isWeekOpen(week.weeknummer) }">
+                @for (toekenning of week.toekenningen; track toekenning) {
+                    <dt-selectable-item
+                        [toekenning]="toekenning"
+                        [group]="toekenningenFormGroup"
+                        (conceptOpdrachtAangevinkt)="openWeekBijhorendeToekenning($event)">
+                    </dt-selectable-item>
+                }
+            </div>
+        </div>
+    }
+    <div class="buttons">
+        <span class="aantal hide-for-phone-only text-content-small-semi" [class.hidden]="amountSelected <= 0">
+            {{ amountSelected }} geselecteerd
+        </span>
+        <dt-outline-button class="cancel" [class.verborgen]="amountSelected <= 0" (click)="deselectAll()">Deselecteren </dt-outline-button>
+        <button
+            class="submit"
+            [disabled]="amountSelected <= 0"
+            [class.full-width]="amountSelected <= 0"
+            [showLoaderOnClick]="true"
+            (click)="onFormSubmit()"
+            type="submit">
+            {{ amountSelected > 0 ? 'Toevoegen' : 'Selecteer een item' }}
+        </button>
+    </div>
+} @else {
+    <hmy-spinner [centeredInParent]="true" />
+}

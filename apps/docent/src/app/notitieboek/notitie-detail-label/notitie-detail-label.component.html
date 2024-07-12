@@ -1,0 +1,15 @@
+<span class="label text-small-content-semi">
+    @if (isVak) {
+        <div class="notificatie notificatie-small"></div>
+    }
+    @if (withMentorIcon) {
+        <i size="small" hmyIcon="onderwijs" color="fg-alternative-normal"></i>
+    }
+    @if (isPrivacygevoelig) {
+        <i size="smallest" hmyIcon="informatie"></i>
+    }
+    @if (isBelangrijk) {
+        <i size="smallest" hmyIcon="waarschuwing"></i>
+    }
+    {{ text }}
+</span>

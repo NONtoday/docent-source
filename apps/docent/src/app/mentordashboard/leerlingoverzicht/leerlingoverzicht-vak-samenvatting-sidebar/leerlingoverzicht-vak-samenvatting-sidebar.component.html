@@ -1,0 +1,62 @@
+<dt-sidebar [title]="data.vak.naam" (onMaskClick)="sidebarService.closeSidebar()" (onCloseClick)="sidebarService.closeSidebar()">
+    <div class="container">
+        <hmy-tab-row [tabs]="tabs" [activeTabLabel]="activeTab()" (activeTabChange)="changeTab(asTabLabel($event))" />
+        @if (activeTab() === 'Samenvatting') {
+            @if (vakSamenvatting().isPending) {
+                <hmy-spinner />
+            } @else if (vakSamenvatting().hasError) {
+                <span class="error"> {{ vakSamenvatting().error?.message }} </span>
+            } @else {
+                <div class="samenvatting" [class.is-examen]="data.isExamen">
+                    <div class="periode-navigatie with-padding">
+                        <div class="navigatie-arrows">
+                            <hmy-browse
+                                [backDisabled]="!heeftVorigePeriode()"
+                                [nextDisabled]="!heeftVolgendePeriode()"
+                                [backAdditionalAttributes]="{ cy: 'leerlingoverzicht-vak-samenvatting-vorige-periode' }"
+                                [nextAdditionalAttributes]="{ cy: 'leerlingoverzicht-vak-samenvatting-volgende-periode' }"
+                                (backClick)="vorigePeriode()"
+                                (nextClick)="volgendePeriode()" />
+                        </div>
+
+                        <div class="periode-info text-content-semi">
+                            <span class="text-strong">Periode {{ selectedPeriode() }}</span>
+                            <span class="text-weakest">{{ isActuelePeriode() ? '(actueel)' : '' }}</span>
+                        </div>
+                    </div>
+
+                    <dt-leerlingoverzicht-vak-samenvatting-resultaten
+                        class="resultaten with-padding"
+                        [gemisteToetsen]="data.gemisteToetsen"
+                        [resultaten]="resultaten()"
+                        [gemiddeldeSe]="data.isExamen ? data.seResultaat : null"
+                        [seResultaten]="[]"
+                        [trend]="data.trend"
+                        [isExamen]="data.isExamen"
+                        (showAlleResultaten)="data.isExamen ? changeTab('Alle SE resultaten') : changeTab('Alle resultaten')" />
+
+                    <dt-leerlingoverzicht-vak-samenvatting-registraties
+                        [registratieWrapper]="vakSamenvatting().data.registraties"
+                        [isExamen]="data.isExamen" />
+
+                    <div class="rapportvergadering-notities">
+                        @for (notitie of vakSamenvatting().data.notities.notities; track $index) {
+                            <dt-rapportvergadering-notitie [medewerker]="notitie.medewerker" [notitie]="notitie.opmerking" />
+                        } @empty {
+                            <span class="geen-notitie">
+                                Geen medewerker opmerking
+                                @if (vakSamenvatting().data.notities.docentNamen) {
+                                    door {{ vakSamenvatting().data.notities.docentNamen }}
+                                }
+                            </span>
+                        }
+                    </div>
+                </div>
+            }
+        } @else if (activeTab() === 'Alle resultaten') {
+            <dt-leerlingoverzicht-vak-alle-resultaten [vakToetsTrend]="data.trend" [vak]="data.vak" />
+        } @else if (activeTab() === 'Alle SE resultaten') {
+            <dt-leerlingoverzicht-vak-alle-se-resultaten [vakToetsTrend]="data.trend" [vak]="data.vak" />
+        }
+    </div>
+</dt-sidebar>

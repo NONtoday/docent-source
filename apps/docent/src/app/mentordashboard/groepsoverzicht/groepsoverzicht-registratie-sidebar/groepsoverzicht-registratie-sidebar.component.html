@@ -1,0 +1,27 @@
+<dt-sidebar
+    #sidebar
+    [title]="(leerlingRegistratie.leerling | volledigeNaam) ?? 'Sidebar'"
+    (onMaskClick)="sidebarService.closeSidebar()"
+    (onCloseClick)="sidebarService.closeSidebar()">
+    <div class="container">
+        @if (tabs$ | async; as tabs) {
+            <hmy-tab-row class="sidebar-tabs" [tabs]="tabs" (activeTabChange)="onActiveTabChange($event)"></hmy-tab-row>
+        }
+        <div class="sidebar-content">
+            @if (activeTab === 'Registraties') {
+                <div class="registratie-details">
+                    <dt-mentordashboard-overzicht-sidebar-registratiedetails [leerlingRegistratie]="leerlingRegistratie" />
+                </div>
+            }
+            @if (activeTab === 'Maatregelen') {
+                <div class="maatregelen details">
+                    @if (maatregelToekenningen$ | async; as maatregelToekenningen) {
+                        <dt-maatregelen-lijst [maatregelToekenningen]="maatregelToekenningen" [editMode]="false" />
+                    } @else {
+                        <hmy-spinner class="loader" />
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</dt-sidebar>

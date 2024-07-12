@@ -1,0 +1,58 @@
+<span class="omschrijving text-content-semi">{{ toekenning.studiewijzeritem | studiewijzeritemTitel }}</span>
+<div class="pills">
+    @if (toonLesgroep) {
+        <hmy-pill class="lesgroepnaam" [text]="toekenning.lesgroep!.naam" color="primary"></hmy-pill>
+    }
+    <hmy-icon-pill
+        [onTouchAllowed]="true"
+        [text]="toekenning.studiewijzeritem.inleverperiode!.eind | dtDate: 'dag_kort_dagnummer_maand_kort_tijd'"
+        hmyTooltip="Deadline inleverperiode"
+        color="primary"
+        icon="tijd">
+    </hmy-icon-pill>
+    <hmy-icon-pill
+        #inleveringen
+        [metChevron]="true"
+        (click)="openInleveringenPopup(); $event.stopPropagation()"
+        hmyTooltip="Aantal inleveringen"
+        data-gtm="inleveropdracht-overzicht-item-aantal"
+        color="primary"
+        icon="inleveropdracht"
+        text="{{ toekenning.studiewijzeritem.inleverperiode!.inleveringenAantal }}/{{
+            toekenning.studiewijzeritem.inleverperiode!.inleveringenVerwacht
+        }}">
+    </hmy-icon-pill>
+    <dt-kleuren-stack [kleuren]="kleuren"></dt-kleuren-stack>
+</div>
+<div class="icons">
+    <i [class.hidden]="toekenning.studiewijzeritem.zichtbaarVoorLeerling" hmyIcon="nietZichtbaar" size="large"></i>
+    <div class="actions">
+        <dt-icon class="show-for-tablet bewerken" (click)="onEdit.emit()" icon="bewerken" color="primary" size="medium"> </dt-icon>
+        <dt-icon
+            class="more-options hide-for-tablet"
+            #moreOptions
+            (click)="openOptiesPopup($event)"
+            icon="opties"
+            color="primary"
+            size="medium"></dt-icon>
+        <dt-zichtbaarheidstoggle
+            class="toggle show-for-tablet"
+            [isZichtbaar]="toekenning.studiewijzeritem.zichtbaarVoorLeerling"
+            (click)="toggleZichtbaarheid($event)"></dt-zichtbaarheidstoggle>
+        <dt-icon
+            class="show-for-tablet verwijderen"
+            #verwijderButton
+            (click)="showVerwijderPopup($event)"
+            icon="verwijderen"
+            color="negative"
+            size="medium"
+            data-gtm="inleveropdracht-overzicht-verwijderen"></dt-icon>
+        <dt-icon
+            class="detail show-for-tablet"
+            (click)="navigeerNaarInleveringen($event)"
+            hmyTooltip="Inleveringen bekijken"
+            icon="inleveropdracht"
+            color="primary"
+            size="medium"></dt-icon>
+    </div>
+</div>

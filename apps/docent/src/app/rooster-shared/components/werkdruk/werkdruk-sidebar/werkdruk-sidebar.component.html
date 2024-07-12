@@ -1,0 +1,183 @@
+<dt-sidebar
+    #sidebar
+    [title]="sidebarTitle"
+    (onMaskClick)="sidebarService.closeSidebar()"
+    (onCloseClick)="sidebarService.closeSidebar()"
+    icon="werkdruk">
+    @if ({ data: werkdrukLesgroepen$ | async }; as lesgroepen) {
+        <div class="werkdruk-content" #werkdrukContent [class.disable-scrolling]="roosterOpen">
+            <div class="werkdruk-header">
+                <div class="filter text-content-semi">
+                    <i
+                        class="pointer"
+                        #filter
+                        (click)="openFilterPopup(lesgroepen.data!)"
+                        hmyIcon="filter"
+                        size="large"
+                        data-gtm="werkdruk-filter-openen"></i>
+                    @if (this.filteredLesgroepen$.value.length === 0 && this.filteredLeerlingen$.value.length === 0) {
+                        <span
+                            class="filteren pointer action-primary-normal"
+                            (click)="openFilterPopup(lesgroepen.data!)"
+                            data-gtm="werkdruk-filter-openen"
+                            >Filteren</span
+                        >
+                    }
+                    @if ((filteredLesgroepen$ | async)!.length > 0) {
+                        <hmy-tag
+                            class="lesgroepen-tag"
+                            [dtTooltip]="filterTagTooltipTekst"
+                            [preventClickOnTouch]="false"
+                            [onTouchAllowed]="true"
+                            [textEllipsis]="true"
+                            [label]="(lesgroepTagTekst$ | async) || ''"
+                            (iconClick)="clearLesgroepFilter()"
+                            position="bottom">
+                        </hmy-tag>
+                    }
+                    @if ((filteredLeerlingen$ | async)!.length > 0) {
+                        <hmy-tag
+                            class="leerlingen-tag"
+                            [dtTooltip]="filterTagTooltipTekst"
+                            [preventClickOnTouch]="false"
+                            [onTouchAllowed]="true"
+                            [textEllipsis]="true"
+                            [label]="(leerlingTagTekst$ | async) || ''"
+                            (iconClick)="clearLeerlingFilter()"
+                            position="bottom">
+                        </hmy-tag>
+                    }
+                </div>
+                <div class="navigation">
+                    @if ((weeknummer$ | async) !== eersteWeek) {
+                        <dt-background-icon
+                            class="vorige-week"
+                            (click)="weekTerug()"
+                            icon="chevronLinks"
+                            color="primary_1"
+                            dtTooltip="Vorige week"
+                            size="small"
+                            data-gtm="werkdruk-week-terug">
+                        </dt-background-icon>
+                    }
+                    @if (isHuidigeWeek$ | async) {
+                        <span class="huidige-week notificatie-smallest-alt-2"></span>
+                    }
+                    <span class="label-week text-content-semi show-for-tablet">Week {{ weeknummer$ | async }}</span>
+                    <span class="label-week text-content-semi hide-for-tablet">Wk {{ weeknummer$ | async }}</span>
+                    @if ((weeknummer$ | async) !== laatsteWeek) {
+                        <dt-background-icon
+                            class="volgende-week"
+                            (click)="weekVooruit()"
+                            icon="chevronRechts"
+                            color="primary_1"
+                            dtTooltip="Volgende week"
+                            size="small"
+                            data-gtm="werkdruk-week-vooruit">
+                        </dt-background-icon>
+                    }
+                </div>
+            </div>
+            @if (
+                {
+                    metrics: werkdrukMetrics$ | async,
+                    leerlingen: werkdrukLeerlingen$ | async,
+                    filteredLeerlingen: filteredLeerlingen$ | async,
+                    filteredLesgroepen: filteredLesgroepen$ | async,
+                    peildatum: peildatum$ | async,
+                    metricSelectie: selectedMetric$ | async,
+                    lesmomentenDagen: lesmomentDagen$ | async
+                };
+                as data
+            ) {
+                <div class="werkdruk-week">
+                    <dt-werkdruk-metric
+                        [metric]="data.metrics![0]"
+                        [isWeek]="true"
+                        [weeknummer]="(weeknummer$ | async)!"
+                        [showUitSjabloonOptie]="showUitSjabloonOptie"
+                        [metricSelectie]="data.metricSelectie!"
+                        [leerlingen]="data.leerlingen ?? []"
+                        [filteredLeerlingen]="data.filteredLeerlingen ?? []"
+                        [filteredGroepen]="data.filteredLesgroepen ?? []"
+                        [showAddItem]="showAddItem"
+                        [showInleveropdrachtOptie]="showInleveropdrachtOptie"
+                        [peildatum]="data.peildatum!"
+                        [exacteLesgroepenMatch]="exacteLesgroepenMatch"
+                        (typeSelected)="selectedMetric$.next($event)">
+                    </dt-werkdruk-metric>
+                    <div class="divider-line show-for-tablet"></div>
+                    @for (metric of data.metrics | slice: 1; track metric; let i = $index) {
+                        <dt-werkdruk-metric
+                            [lesmomentDag]="data.lesmomentenDagen![i]"
+                            [metric]="metric"
+                            [metricSelectie]="data.metricSelectie"
+                            [showUitSjabloonOptie]="showUitSjabloonOptie"
+                            [leerlingen]="data.leerlingen ?? []"
+                            [filteredLeerlingen]="data.filteredLeerlingen ?? []"
+                            [filteredGroepen]="data.filteredLesgroepen ?? []"
+                            [showAddItem]="showAddItem"
+                            [peildatum]="data.peildatum!"
+                            [exacteLesgroepenMatch]="exacteLesgroepenMatch"
+                            [showInleveropdrachtOptie]="showInleveropdrachtOptie"
+                            (typeSelected)="selectedMetric$.next($event)">
+                        </dt-werkdruk-metric>
+                    }
+                </div>
+            }
+            @if (selectedMetric$ | async; as selectedMetric) {
+                <div class="details">
+                    <div class="detail-header text-content-semi fg-primary-strongest">
+                        {{ selectedMetric.type }}
+                        @if (selectedMetric.metric.datum) {
+                            <span class="datum"
+                                >, {{ selectedMetric.metric.datum | dtDate: 'dag_kort_dagnummer_maand_kort_lowercase' }}</span
+                            >
+                        }
+                        <div class="sluiten pointer action-primary-normal" (click)="selectedMetric$.next(null)">Sluiten</div>
+                    </div>
+                    @for (item of selectedMetricItems$ | async; track item) {
+                        <dt-werkdruk-detail-item [werkdrukStudiewijzeritem]="item" [leerlingen]="(leerlingen$ | async)!">
+                        </dt-werkdruk-detail-item>
+                    }
+                </div>
+            } @else {
+                @if (showRooster && (filteredLesgroepen$ | async)?.length === 0) {
+                    <div class="no-selection text-content text-weak">
+                        <div class="text-content-semi kies-groep">
+                            Kies lesgroep(en) onder filteren <i color="text-weak" hmyIcon="pijlKleinOnder" size="medium"></i>
+                        </div>
+                    </div>
+                } @else {
+                    <div class="no-selection text-content text-weak">
+                        <div class="text-content-semi kies-blok">
+                            Selecteer blok in overzicht voor details<i color="text-weak" hmyIcon="pijlKleinOnder" size="medium"></i>
+                        </div>
+                        Het overzicht toont het gemiddelde aantal opgegeven items over alle vakken van alle leerlingen in deze groep.
+                    </div>
+                }
+            }
+            @if (showRooster && (filteredLesgroepen$ | async)!.length > 0) {
+                <div class="rooster">
+                    <dt-werkdruk-rooster
+                        [lesmomentDagen]="(lesmomentDagen$ | async)!"
+                        [lesgroepen]="(lesgroepen$ | async)!"
+                        [isOpen]="roosterOpen"
+                        (onToggleRooster)="toggleRooster($event)">
+                    </dt-werkdruk-rooster>
+                </div>
+            }
+        </div>
+    }
+    @if (showOpgeslagenMessage) {
+        <dt-message
+            class="message text-content-semi"
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [duration]="3000"
+            [isToast]="true"
+            (onClose)="closeOpgeslagenMessage()"
+            soort="ok"
+            text="Lesitem toegevoegd"></dt-message>
+    }
+</dt-sidebar>

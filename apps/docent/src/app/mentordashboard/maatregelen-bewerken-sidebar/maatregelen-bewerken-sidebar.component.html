@@ -1,0 +1,51 @@
+<dt-sidebar #sidebar (onMaskClick)="closeSidebar()" (onCloseClick)="closeSidebar()" title="Maatregelen bewerken">
+    <div class="formulier-container">
+        <form class="form" id="ngForm" [formGroup]="maatregelForm" (ngSubmit)="onSubmitClick()">
+            <div class="control">
+                <label>Maatregel<span class="color-accent-warning-1">*</span></label>
+                <dt-form-dropdown
+                    [scrollIntoView]="false"
+                    [chevronColor]="background_1"
+                    [opties]="maatregelenOptions"
+                    placeholder="Kies een maatregel"
+                    formControlName="maatregel"
+                    cy="maatregel-maatregel-field">
+                </dt-form-dropdown>
+                @if (maatregelInactiefMessage) {
+                    <dt-message [closable]="false" [text]="maatregelInactiefMessage" soort="info"> </dt-message>
+                }
+            </div>
+
+            <div class="control">
+                <label>Datum<span class="color-accent-warning-1">*</span></label>
+                <dt-datepicker [schooljaar]="schooljaar" placeholder="" formControlName="datum" cy="maatregel-datum-field"> </dt-datepicker>
+            </div>
+
+            <div class="control">
+                <label>Opmerking</label>
+                <textarea
+                    autosize
+                    formControlName="opmerking"
+                    placeholder="Schrijf een korte opmerking"
+                    cy="maatregel-opmerking-field"></textarea>
+            </div>
+
+            <div class="checkbox-control">
+                <dt-form-checkbox formControlName="afgehandeld" cy="maatregel-afgehandeld-field"> </dt-form-checkbox>
+                <label>Maatregel afgehandeld</label>
+            </div>
+        </form>
+
+        <div class="buttons">
+            <dt-outline-button class="cancel" (click)="closeSidebar()" color="typography_3">Annuleren</dt-outline-button>
+            <button
+                class="opslaan"
+                [disabled]="maatregelForm.valid && maatregelForm.dirty ? null : true"
+                (click)="onSubmitClick()"
+                type="submit"
+                data-gtm="maatregeltoekenning-opslaan">
+                Opslaan
+            </button>
+        </div>
+    </div>
+</dt-sidebar>

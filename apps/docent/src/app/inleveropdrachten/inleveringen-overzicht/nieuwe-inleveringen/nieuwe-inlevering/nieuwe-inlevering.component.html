@@ -1,0 +1,20 @@
+<div class="inleveraar">
+    @if (isLeerling) {
+        <dt-leerling [leerling]="$any(inleveraar)" [avatarsize]="32" [avatarfontsize]="12"> </dt-leerling>
+    } @else {
+        <dt-projectgroep-naam [projectgroep]="$any(inleveraar)"></dt-projectgroep-naam>
+    }
+    <i class="hide-for-desktop" color="fg-neutral-normal" hmyIcon="chevronRechts"></i>
+</div>
+<span class="inleveringen-aantal text-content-small-semi">{{
+    inleveringen.length > 1 ? inleveringen.length + ' inleveringen' : 1 + ' inlevering'
+}}</span>
+<div class="inlevering-moment">
+    @if (isTeLaat) {
+        <i [dtTooltip]="teLaatTooltipValue" [onTouchAllowed]="true" color="fg-warning-normal" hmyIcon="tijd" size="medium"></i>
+    }
+    <span class="text-content-small-semi">{{ laatsteInlevering | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}</span>
+</div>
+<ng-template #projectgroep>
+    <dt-projectgroep-naam [projectgroep]="$any(inleveraar)"></dt-projectgroep-naam>
+</ng-template>

@@ -1,0 +1,16 @@
+{
+    "apiEndpointStorageKey": "somtoday_api_url",
+    "clientId": "08CEC570-2D71-4A1C-B93C-DF3CE2F9C1CD",
+    "connectEnvironment": null,
+    "googleClientId": "102141238823-j6rij217tpa9f4t14jas1664tl1lk7o1.apps.googleusercontent.com",
+    "graphQLUri": "/graphql",
+    "gtmAuthId": "sTllm94tRZDZ3Y8UHkeOYQ",
+    "gtmEnv": "env-10",
+    "msGraphClientId": "d59c82a8-f471-489b-afc1-bfbc469b5af2",
+    "production": true,
+    "skipIssuerCheck": true,
+    "tagManagerId": "GTM-KHZGQXK",
+    "transloaditUrl": "https://api2-eu-west-1.transloadit.com/assemblies",
+    "useAuthenticator": true,
+    "useServiceWorkers": true
+}

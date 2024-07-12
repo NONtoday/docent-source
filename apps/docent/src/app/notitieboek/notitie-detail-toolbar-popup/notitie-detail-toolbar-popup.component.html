@@ -1,0 +1,52 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <ng-container *dtHeeftRecht="['heeftBerichtenWijzigenRecht']">
+            <dt-popup-button
+                class="button button-bericht-leerling"
+                (click)="onBerichtNaarLeerling()"
+                hideOutlineForBreakpointUp="tabletPortrait"
+                data-gtm="notitie-detail-toolbar-popup-button-bericht-naar-betrokkenen"
+                icon="bericht"
+                text="Bericht naar betrokkenen"></dt-popup-button>
+            @if (showBerichtNaarAanmaker) {
+                <dt-popup-button
+                    class="button button-bericht-aanmaker"
+                    (click)="onBerichtNaarAanmaker()"
+                    hideOutlineForBreakpointUp="tabletPortrait"
+                    data-gtm="notitie-detail-toolbar-popup-button-bericht-naar-aanmaker"
+                    icon="bericht"
+                    text="Bericht naar aanmaker"></dt-popup-button>
+            }
+            <div class="divider hide-for-phone-only"></div>
+        </ng-container>
+        <dt-popup-button
+            class="button button-afspraak"
+            (click)="addAfspraak()"
+            hideOutlineForBreakpointUp="tabletPortrait"
+            data-gtm="notitie-detail-toolbar-popup-button-afspraak"
+            icon="kalenderToevoegen"
+            text="Afspraak maken"></dt-popup-button>
+        <div class="divider hide-for-phone-only"></div>
+        <ng-container *dtHeeftRecht="[contactmomentenRecht]">
+            <dt-popup-button
+                class="button button-contact"
+                (click)="onContactmoment()"
+                hideOutlineForBreakpointUp="tabletPortrait"
+                data-gtm="notitie-detail-toolbar-popup-button-contactmoment"
+                icon="gepland"
+                text="Contactmoment aanmaken"></dt-popup-button>
+            <div class="divider"></div>
+        </ng-container>
+        <dt-popup-button
+            class="button button-nieuw"
+            [routerLink]="['./']"
+            [queryParams]="{ notitie: 'nieuw', leerlingBetrokkenenIds: leerlingBetrokkenenIds, direct: null, edit: true }"
+            hideOutlineForBreakpointUp="tabletPortrait"
+            data-gtm="notitie-detail-toolbar-popup-button-nieuwe-notitie"
+            color="accent_positive_1"
+            icon="toevoegen"
+            queryParamsHandling="merge"
+            iconColor="accent_positive_1"
+            text="Nieuwe notitie"></dt-popup-button>
+    </div>
+</dt-popup>

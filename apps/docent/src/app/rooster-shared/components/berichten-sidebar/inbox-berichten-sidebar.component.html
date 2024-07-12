@@ -1,0 +1,70 @@
+@if ({ value: aantalOngelezenBerichten$ | async }; as aantalOngelezenBerichten) {
+    <dt-sidebar
+        (onMaskClick)="closeSidebar()"
+        (onCloseClick)="closeSidebar()"
+        title="{{
+            'Berichten ' +
+                (aantalOngelezenBerichten.value && aantalOngelezenBerichten.value > 0 ? '(' + aantalOngelezenBerichten.value + ')' : '')
+        }}"
+        icon="bericht">
+        <div class="berichten-container">
+            @for (bericht of berichten$ | async; track bericht) {
+                <dt-inbox-bericht [bericht]="bericht" (click)="onBerichtClick(bericht)" data-gtm="berichten-open-detail"></dt-inbox-bericht>
+            }
+            @if (!alleBerichtenGeladen && toonMeerBerichtenKnop) {
+                <div class="meer-berichten-container">
+                    @if (loading) {
+                        <hmy-spinner />
+                    }
+                    @if (!loading && toonMeerBerichtenKnop) {
+                        <span
+                            class="meer-berichten action-primary-normal text-content-semi"
+                            (click)="toonMeerBerichten()"
+                            data-gtm="berichten-toon-meer"
+                            >Toon meer berichten</span
+                        >
+                    }
+                </div>
+            }
+        </div>
+        @if (showMessage) {
+            <dt-message
+                class="message"
+                [@slideInUpOnEnter]
+                [@slideOutDownOnLeave]
+                [duration]="3000"
+                [isToast]="true"
+                (onClose)="showMessage = false"
+                soort="ok"
+                text="Alle berichten gemarkeerd als gelezen"></dt-message>
+        }
+        <div class="buttons">
+            <dt-outline-button class="show-for-tablet" (click)="allesGelezen()" data-gtm="berichten-alles-gelezen-markeren" icon="check"
+                >Markeren als gelezen</dt-outline-button
+            >
+            @if (heeftBerichtenWijzigenRecht$ | async) {
+                <dt-outline-button
+                    class="show-for-tablet"
+                    (click)="onNieuwBericht()"
+                    icon="toevoegen"
+                    iconColor="accent_positive_1"
+                    color="accent_positive_1"
+                    data-gtm="berichten-nieuw-bericht">
+                    Nieuw bericht</dt-outline-button
+                >
+            }
+            <dt-outline-button class="hide-for-tablet" (click)="allesGelezen()" data-gtm="berichten-alles-gelezen-markeren"
+                >Markeren
+            </dt-outline-button>
+            @if (heeftBerichtenWijzigenRecht$ | async) {
+                <dt-outline-button
+                    class="hide-for-tablet"
+                    (click)="onNieuwBericht()"
+                    color="accent_positive_1"
+                    data-gtm="berichten-nieuw-bericht"
+                    >Nieuw
+                </dt-outline-button>
+            }
+        </div>
+    </dt-sidebar>
+}

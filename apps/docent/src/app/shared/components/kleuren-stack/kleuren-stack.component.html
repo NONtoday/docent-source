@@ -1,0 +1,30 @@
+<div
+    class="container"
+    [dtTooltip]="tooltip"
+    [tooltipDisplayable]="displayTooltip"
+    [onTouchAllowed]="true"
+    [alignCenter]="false"
+    [maxWidth]="300"
+    [elementOffset]="20"
+    [class.with-border]="showBorder"
+    [class.with-background]="showBackground"
+    [style.width.px]="width"
+    [position]="tooltipPosition"
+    position="left">
+    @if (nummerKleur) {
+        <div class="kleur overig fg-on-primary-weak text-content-smallest-semi" [style.right.px]="5">
+            <p>{{ nummerKleur }}</p>
+        </div>
+    } @else {
+        @if (kleuren && kleuren.length > maxGetoondeKleuren) {
+            <i
+                class="kleur overig toevoegen-icon fg-on-neutral-weak"
+                [style.right.px]="maxGetoondeKleuren | kleurenStackOverigeRight"
+                hmyIcon="toevoegen"
+                size="smallest"></i>
+        }
+        @for (kleurContent of kleuren | slice: 0 : maxGetoondeKleuren; track kleurContent; let i = $index) {
+            <div class="kleur" [ngStyle]="kleurContent | kleurenStackNgstyle: i"></div>
+        }
+    }
+</div>

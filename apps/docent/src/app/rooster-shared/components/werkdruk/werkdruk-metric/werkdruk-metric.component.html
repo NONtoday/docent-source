@@ -1,0 +1,100 @@
+<div class="metrics-container">
+    @if (inleveropdrachtenMetrics.length > 0) {
+        <div
+            class="metric inleveropdracht"
+            [@fadeInUpOnEnter]
+            [class.is-selected]="metricSelectie?.metric === metric && metricSelectie?.type === 'Inleveropdracht'"
+            [dtTooltip]="tooltipContent('Inleveropdracht', inleveropdrachtenMetrics, leerlingen)"
+            [onTouchAllowed]="true"
+            [tooltipDisplayable]="!isLoading"
+            [preventClickOnTouch]="false"
+            [alignCenter]="false"
+            [maxWidth]="350"
+            [style.height.px]="inleveropdrachtenMetrics | werkdrukMetricHeight"
+            (click)="select('Inleveropdracht')">
+            <span class="aantal text-content-small-semi">{{ inleveropdrachtenMetrics.length }}</span>
+        </div>
+    }
+    @if (groteToetsMetrics.length > 0) {
+        <div
+            class="metric grote-toets"
+            [@fadeInUpOnEnter]
+            [dtTooltip]="tooltipContent('Grote toets', groteToetsMetrics, leerlingen)"
+            [class.is-selected]="metricSelectie?.metric === metric && metricSelectie?.type === 'Grote toets'"
+            [onTouchAllowed]="true"
+            [preventClickOnTouch]="false"
+            [alignCenter]="false"
+            [maxWidth]="350"
+            [tooltipDisplayable]="!isLoading"
+            [style.height.px]="groteToetsMetrics | werkdrukMetricHeight"
+            (click)="select('Grote toets')">
+            <span class="aantal text-content-small-semi">{{ groteToetsMetrics.length }}</span>
+        </div>
+    }
+    @if (toetsMetrics.length > 0) {
+        <div
+            class="metric toets"
+            [@fadeInUpOnEnter]
+            [dtTooltip]="tooltipContent('Toets', toetsMetrics, leerlingen)"
+            [class.is-selected]="metricSelectie?.metric === metric && metricSelectie?.type === 'Toets'"
+            [onTouchAllowed]="true"
+            [preventClickOnTouch]="false"
+            [alignCenter]="false"
+            [maxWidth]="350"
+            [tooltipDisplayable]="!isLoading"
+            [style.height.px]="toetsMetrics | werkdrukMetricHeight"
+            (click)="select('Toets')">
+            <span class="aantal text-content-small-semi">{{ toetsMetrics.length }}</span>
+        </div>
+    }
+    @if (huiswerkMetrics.length > 0) {
+        <div
+            class="metric huiswerk"
+            [@fadeInUpOnEnter]
+            [dtTooltip]="tooltipContent('Huiswerk', huiswerkMetrics, leerlingen)"
+            [class.is-selected]="metricSelectie?.metric === metric && metricSelectie?.type === 'Huiswerk'"
+            [onTouchAllowed]="true"
+            [preventClickOnTouch]="false"
+            [alignCenter]="false"
+            [maxWidth]="350"
+            [tooltipDisplayable]="!isLoading"
+            [style.height.px]="huiswerkMetrics | werkdrukMetricHeight"
+            (click)="select('Huiswerk')">
+            <span class="aantal text-content-small-semi">{{ huiswerkMetrics.length }}</span>
+        </div>
+    }
+</div>
+@if (showAddItem) {
+    <div
+        class="add-item"
+        #itemToevoegen
+        [class.active]="addItemPopupOpen"
+        [class.disabled]="addItemDisabled"
+        [onTouchAllowed]="true"
+        [tooltipDisplayable]="addItemDisabled"
+        (click)="addLesmoment()"
+        data-gtm="werkdruk-lesitem-toevoegen"
+        dtTooltip="Toevoegen in het verleden is niet mogelijk">
+        @if (!addItemDisabled) {
+            <dt-background-icon size="smallest" icon="toevoegen" color="accent_positive_1"> </dt-background-icon>
+        }
+        @if (addItemDisabled) {
+            <i color="disabled-fg" hmyIcon="toevoegen" size="smallest"></i>
+        }
+    </div>
+}
+@if (isWeek) {
+    <span class="dag text-content-semi text-moderate" [innerHTML]="metric.label"></span>
+}
+<span class="datum text-content-semi text-moderate">{{ metric.datum | dtDate: 'dag_kort_dagnummer' }} </span>
+<div class="notificaties" [dtTooltip]="notificatiesTooltip" [onTouchAllowed]="true">
+    @if (isVandaag) {
+        <span class="vandaag notificatie-smallest-alt-2"></span>
+    }
+    @if (heeftLesmoment && !heeftRoosterToets) {
+        <span class="lesmoment notificatie-smallest"></span>
+    }
+    @if (heeftRoosterToets) {
+        <span class="roostertoets notificatie-smallest-alt"></span>
+    }
+</div>

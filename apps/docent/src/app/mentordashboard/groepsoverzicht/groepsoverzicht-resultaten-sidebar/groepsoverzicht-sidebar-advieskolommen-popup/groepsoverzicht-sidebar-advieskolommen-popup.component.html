@@ -1,0 +1,18 @@
+<dt-popup>
+    <div class="popup-content" popup-content>
+        <div class="content">
+            <span class="popup-titel show-for-phone-only">Advieskolommen • {{ vaknaam }}</span>
+            @for (kolom of kolommen; track kolom) {
+                <div class="advieskolom">
+                    <div class="titel-resultaat">
+                        <span class="titel">{{ kolom.adviesKolomAfkorting }}</span>
+                        <span class="resultaat">{{ kolom.geldendResultaat.formattedResultaat }}</span>
+                    </div>
+                    <div class="subtitle">
+                        <span>{{ kolom.adviesCategorieNaam }} • {{ kolom.adviesKolomNaam }}</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</dt-popup>

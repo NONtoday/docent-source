@@ -1,0 +1,76 @@
+<dt-popup>
+    <div class="popup-content" popup-content>
+        @if (inEditState$ | async) {
+            <ng-container [formGroup]="formGroup">
+                <div class="header">
+                    @if (opmerkingInELOTonenToegestaan) {
+                        <dt-zichtbaarheids-toggle-form-control
+                            [label]="zichtbaarheidLabel"
+                            [tooltipFn]="tooltipFn"
+                            formControlName="zichtbaarheid">
+                        </dt-zichtbaarheids-toggle-form-control>
+                    }
+                </div>
+                <textarea
+                    class="opmerking"
+                    formControlName="opmerkingen"
+                    placeholder="Typ een opmerking"
+                    maxlength="4000"
+                    dtAutofocus></textarea>
+                <div class="buttons">
+                    <dt-outline-button class="annuleren" (click)="popup.onClose()" color="typography_3">Annuleren</dt-outline-button>
+                    <button class="submit" [disabled]="!formGroup.dirty || !formGroup.valid" (click)="onSubmit()" type="submit">
+                        Opslaan
+                    </button>
+                </div>
+            </ng-container>
+        } @else {
+            <div class="header">
+                <i class="fill-primary-1" hmyIcon="reacties" size="large"></i>
+                <span class="text-content-semi">Opmerking bekijken</span>
+            </div>
+            <div class="content">
+                <div class="opmerking">{{ opmerkingen }}</div>
+                <div class="opmerking-zichtbaarheid color-typography-3 text-small-content-semi">
+                    @if (isZichtbaar) {
+                        <i class="fill-typography-3" hmyIcon="zichtbaar" size="medium"></i>
+                    }
+                    @if (!isZichtbaar) {
+                        <i class="fill-typography-3" hmyIcon="nietZichtbaar" size="medium"></i>
+                    }
+                    <span>Opmerking {{ isZichtbaar ? '' : ' niet' }} zichtbaar</span>
+                </div>
+            </div>
+            <div class="buttons">
+                <dt-verwijder-button [withBorder]="true" [hideIconForMobile]="true" (onDelete)="onVerwijderen()"> </dt-verwijder-button>
+                <dt-outline-button class="bewerken" [hideIconForMobile]="true" (click)="onBewerkenClick($event)" icon="bewerken"
+                    >Bewerken
+                </dt-outline-button>
+            </div>
+        }
+        <ng-template #bekijken>
+            <div class="header">
+                <i class="fill-primary-1" hmyIcon="reacties" size="large"></i>
+                <span class="text-content-semi">Opmerking bekijken</span>
+            </div>
+            <div class="content">
+                <div class="opmerking">{{ opmerkingen }}</div>
+                <div class="opmerking-zichtbaarheid color-typography-3 text-small-content-semi">
+                    @if (isZichtbaar) {
+                        <i class="fill-typography-3" hmyIcon="zichtbaar" size="medium"></i>
+                    }
+                    @if (!isZichtbaar) {
+                        <i class="fill-typography-3" hmyIcon="nietZichtbaar" size="medium"></i>
+                    }
+                    <span>Opmerking {{ isZichtbaar ? '' : ' niet' }} zichtbaar</span>
+                </div>
+            </div>
+            <div class="buttons">
+                <dt-verwijder-button [withBorder]="true" [hideIconForMobile]="true" (onDelete)="onVerwijderen()"> </dt-verwijder-button>
+                <dt-outline-button class="bewerken" [hideIconForMobile]="true" (click)="onBewerkenClick($event)" icon="bewerken"
+                    >Bewerken
+                </dt-outline-button>
+            </div>
+        </ng-template>
+    </div>
+</dt-popup>

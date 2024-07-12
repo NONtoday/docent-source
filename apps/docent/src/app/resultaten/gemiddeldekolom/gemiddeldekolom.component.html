@@ -1,0 +1,40 @@
+@if (kolom) {
+    <dt-toetskolom
+        [kolom]="kolom"
+        [leerlingen]="leerlingen"
+        [leerlingMissendeToetsen]="leerlingMissendeToetsen"
+        [pinned]="pinned"
+        [lesgroepId]="lesgroepId"
+        [alternatiefNiveau]="alternatiefNiveau"
+        (click)="onKolomClick.emit()">
+    </dt-toetskolom>
+} @else {
+    <div
+        class="kolom-header"
+        [class.with-color-bg]="kolomHeaderBackground"
+        [class.dark-background]="darkBackground"
+        [dtTooltip]="tooltip"
+        [alignCenter]="false"
+        [maxWidth]="356"
+        [onTouchAllowed]="false">
+        <div class="header-row show-for-tablet" [class.center-letter]="true">
+            @if (headerLetter) {
+                <div class="letter" [class]="headerLetterClass">{{ headerLetter }}</div>
+            }
+        </div>
+    </div>
+    @if (headerLetter) {
+        <div class="letter hide-for-tablet" [class]="headerLetterClass">{{ headerLetter }}</div>
+    }
+    <div class="omschrijving text-small-content-semi color-typography-3 hide-for-tablet">
+        {{ omschrijving }}
+    </div>
+    <div class="klasgemiddelde" [class.dark-background]="darkBackground">
+        <span class="text-content-semi" [class.hidden]="hideGemiddelde">-</span>
+    </div>
+    @if (deviceService.isTabletOrDesktop$ | async) {
+        @for (leerling of leerlingen; track trackByLeerlingId(i, leerling); let i = $index) {
+            <div class="resultaat-cell" [class.pinned]="pinned === i" [style.background-color]="backgroundColor"></div>
+        }
+    }
+}

@@ -1,0 +1,69 @@
+@if (sidebarService.currentPage$ | async; as page) {
+    <dt-sidebar
+        [icon]="page.icon"
+        [title]="page.titel"
+        [iconClickable]="page.iconClickable!"
+        (onMaskClick)="sidebarService.closeSidebar()"
+        (onCloseClick)="sidebarService.closeSidebar()"
+        (onIconClick)="sidebarService.previousPage()">
+        <div class="container" [class.hide-header]="hideHeader(page.pagenumber!)" [class.selectie-view]="page.pagenumber === 2">
+            @if (page.pagenumber === 2) {
+                <dt-sjabloon-selectie
+                    [selectedSjablonen]="checkedSjablonen"
+                    [displayCheckbox]="true"
+                    [heeftVerdieping]="false"
+                    [negeerSjablonen]="genegeerdeSjablonen"
+                    (onSelect)="selecteerSjabloon($event)"
+                    sjabloonOverzichtFetchPolicy="cache-and-network">
+                </dt-sjabloon-selectie>
+            } @else {
+                @if (!hideHeader(page.pagenumber!)) {
+                    <div class="toevoegen-header">
+                        <span class="text-content-semi">Geselecteerde sjablonen</span>
+                    </div>
+                }
+                <div class="sjablonen">
+                    @for (selectie of geselecteerdeSjablonen; track selectie; let last = $last) {
+                        <dt-sjabloon-weergave
+                            [sjabloon]="selectie.sjabloon"
+                            [weeknummer]="selectie.weeknummer"
+                            [last]="last"
+                            [cijferPeriodeWeken]="(cijferPeriodeWeken$ | async)!"
+                            [schooljaar]="schooljaar"
+                            [isEigenaar]="isEigenaar(selectie.sjabloon)"
+                            (onSelectSjabloonWeek)="selecteerWeekVoorSjabloon($event.sjabloon, $event.weeknummer)"
+                            (onVerwijderSjabloon)="verwijderSjabloonUitSelectie($event)">
+                        </dt-sjabloon-weergave>
+                    }
+                </div>
+                <dt-outline-button
+                    class="sjabloon-toevoegen"
+                    [dashed]="true"
+                    [class.heeft-selectie]="geselecteerdeSjablonen.length > 0"
+                    (click)="onKiesSjabloonClick()"
+                    icon="sjabloon"
+                    >Sjabloon kiezen</dt-outline-button
+                >
+            }
+            <div class="buttons">
+                <dt-outline-button class="annuleren" (click)="onCancelClick(page.pagenumber!)" color="typography_3">
+                    Annuleren
+                </dt-outline-button>
+                @if (page.pagenumber === 1) {
+                    <button
+                        [disabled]="geselecteerdeSjablonen.length === 0"
+                        [showLoaderOnClick]="true"
+                        (click)="onImporterenClick()"
+                        type="submit">
+                        Importeren
+                    </button>
+                }
+                @if (page.pagenumber === 2) {
+                    <button class="importeer-button" [disabled]="checkedSjablonen.length === 0" (click)="onToevoegenClick()" type="submit">
+                        {{ checkedSjablonen.length === 0 ? 'Toevoegen' : '(' + checkedSjablonen.length + ') Toevoegen' }}
+                    </button>
+                }
+            </div>
+        </div>
+    </dt-sidebar>
+}

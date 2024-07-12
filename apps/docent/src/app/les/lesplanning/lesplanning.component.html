@@ -1,0 +1,127 @@
+@if ({ afspraak: afspraak$ | async }; as data) {
+    <div class="navigatie-container hide-for-tablet">
+        <dt-lesplan-navigatie-picker></dt-lesplan-navigatie-picker>
+    </div>
+    <div class="lesplan-navigatie-container show-for-tablet">
+        <dt-lesplan-navigatie class="lesplan-navigatie">
+            <dt-outline-button
+                class="werkdruk-button hide-for-phone"
+                #werkdrukButton
+                [disabled]="data.afspraak?.lesgroepen?.length === 0"
+                [onTouchAllowed]="true"
+                [tooltipDisplayable]="data.afspraak?.lesgroepen?.length === 0"
+                (click)="openWerkdrukSidebar(data.afspraak!)"
+                icon="werkdruk"
+                dtTooltip="Werkdruk is niet inzichtelijk voor de bovenbouw of clusterlesgroepen."
+                data-gtm="lesplan-navigatie-werkdruk"
+                >Werkdruk
+            </dt-outline-button>
+        </dt-lesplan-navigatie>
+    </div>
+    <div class="lesplanning-container">
+        <ng-progress #progressBar [fixed]="false"></ng-progress>
+        @if (lesplanning) {
+            <div class="content">
+                @if (showGeenItemsLabel) {
+                    <div class="geen-items">
+                        Geen lesitems gepland voor deze
+                        @if (!isWeek) {
+                            <span>les</span>
+                        }
+                        @if (isWeek) {
+                            <span>week</span>
+                        }
+                    </div>
+                }
+                <div class="lesitem">
+                    @for (item of lesplanning.items; track item) {
+                        <dt-lesitem
+                            [toekenning]="item"
+                            [afspraak]="$any(data.afspraak)"
+                            [heeftToegangTotDifferentiatie]="heeftToegangTotDifferentiatie"
+                            (verwijderToekenning)="onVerwijderToekenning($event, data.afspraak!)"
+                            (ontkoppelToekenning)="onOntkoppelToekenning(item)"
+                            (verwijderAlleDiffLeerlingen)="verwijderAlleDiffLeerlingen(item, data.afspraak!)"
+                            (verwijderDiffGroep)="verwijderDiffGroep($event, item, data.afspraak!)"
+                            (verwijderDiffLeerling)="verwijderDiffLeerling($event, item, data.afspraak!)"
+                            (onDifferentiatieToekenning)="onDifferentiatieToekennenClick(item)">
+                        </dt-lesitem>
+                    }
+                    @for (toekomendItem of lesplanning.toekomendeItems; track toekomendItem) {
+                        <dt-lesitem
+                            [toekenning]="toekomendItem"
+                            [afspraak]="data.afspraak!"
+                            [isToekomend]="true"
+                            [heeftToegangTotDifferentiatie]="heeftToegangTotDifferentiatie"
+                            (verwijderToekenning)="onVerwijderToekenning($event, data.afspraak!)"
+                            (ontkoppelToekenning)="onOntkoppelToekenning(toekomendItem)"
+                            (verwijderAlleDiffLeerlingen)="verwijderAlleDiffLeerlingen(toekomendItem, data.afspraak!)"
+                            (verwijderDiffGroep)="verwijderDiffGroep($event, toekomendItem, data.afspraak!)"
+                            (verwijderDiffLeerling)="verwijderDiffLeerling($event, toekomendItem, data.afspraak!)"
+                            (onDifferentiatieToekenning)="onDifferentiatieToekennenClick(toekomendItem)">
+                        </dt-lesitem>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    @if (lesplanning && moetButtonBarTonen && !isEditing) {
+        <div class="buttons">
+            <dt-outline-button
+                class="hide-for-tablet icon-only-stretch"
+                #werkdrukButton
+                [disabled]="(data.afspraak?.lesgroepen)!.length === 0"
+                [onTouchAllowed]="true"
+                [tooltipDisplayable]="(data.afspraak?.lesgroepen)!.length === 0"
+                (click)="openWerkdrukSidebar(data.afspraak!)"
+                icon="werkdruk"
+                iconOnlyRangeEnd="tablet-portrait"
+                dtTooltip="Afspraak heeft geen lesgroepen."
+                data-gtm="lesplan-navigatie-werkdruk">
+            </dt-outline-button>
+            <dt-outline-button
+                class="icon-only-stretch add-lesitem-button"
+                #addIcon
+                (click)="showNewItemPopup(data.afspraak!)"
+                cy="lesplanning-nieuw-item"
+                icon="toevoegen"
+                color="accent_positive_1"
+                iconColor="accent_positive_1"
+                iconOnlyRangeEnd="tablet-portrait">
+                Nieuw lesitem toevoegen
+            </dt-outline-button>
+            @if (moetZwevendeItemsKnopTonen) {
+                <dt-outline-button
+                    class="icon-only-stretch zwevende-items-button"
+                    (click)="openZwevendeLesitemsSidebar()"
+                    icon="zwevendItem"
+                    iconColor="accent_warning_1"
+                    iconOnlyRangeEnd="tablet-portrait">
+                    Zwevend lesitem toevoegen ({{ aantalZwevendeItems }})
+                </dt-outline-button>
+            }
+        </div>
+    }
+    @if (showZwevendeItemsSidebar$ | async) {
+        <dt-zwevende-lesitems-sidebar [@allowLeaveAnimation]> </dt-zwevende-lesitems-sidebar>
+    }
+    @if (toekomendeAfspraken$ | async; as toekomendeAfspraken) {
+        @if (studiewijzeritemSidebar$ | async; as swisidebarData) {
+            <dt-studiewijzeritem-sidebar
+                [@allowLeaveAnimation]
+                [toekenning]="swisidebarData.toekenning!"
+                [afspraak]="$any(swisidebarData.afspraak)"
+                [heeftToegangTotElo]="heeftToegangTotElo"
+                [heeftToegangTotSw]="heeftToegangTotSw"
+                [openInEditMode]="!!swisidebarData.openInEditMode"
+                [isEditable]="true"
+                [toekomendeAfspraken]="toekomendeAfspraken"
+                [toonDatepicker]="!$any(swisidebarData.toekenning)['startWeek']"
+                [openWithDirtyForm]="!!swisidebarData.openWithDirtyForm"
+                [heeftToegangTotDifferentiatie]="heeftToegangTotDifferentiatie"
+                (onSaveToekenning)="saveToekenning($event, swisidebarData.toekenning!, data.afspraak!)"
+                (onVerwijder)="onVerwijderToekenning($event, data.afspraak!)">
+            </dt-studiewijzeritem-sidebar>
+        }
+    }
+}

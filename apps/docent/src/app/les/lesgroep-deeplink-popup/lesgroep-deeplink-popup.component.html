@@ -1,0 +1,84 @@
+<dt-popup>
+    <div class="popup-content" #content popup-content>
+        @if (!loading) {
+            @for (lesgroep of lesgroepen; track lesgroep) {
+                <div class="lesgroep-container">
+                    @if (toonLesgroep) {
+                        <div class="lesgroep">
+                            <dt-background-icon [color]="$any(lesgroep.color)" icon="groep" size="small"></dt-background-icon>
+                            <span class="text-content-small-semi text-moderate">{{ lesgroep.naam }}</span>
+                        </div>
+                    }
+                    <div class="links">
+                        @if (vestigingenMetNotitieboek.has(lesgroep.vestigingId) && toonNieuweNotitie) {
+                            <dt-popup-button
+                                class="add-notitie"
+                                (click)="onNieuweNotitie(lesgroep)"
+                                icon="reactieToevoegen"
+                                iconColor="accent_positive_1"
+                                iconHoverColor="accent_positive_1"
+                                color="accent_positive_1"
+                                data-gtm="leerling-deeplink-nieuwe-notitie"
+                                text="Nieuwe notitie">
+                            </dt-popup-button>
+                        }
+                        @if (vestigingenMetNotitieboek.has(lesgroep.vestigingId)) {
+                            <dt-popup-button
+                                [routerLink]="['/notitieboek']"
+                                [queryParams]="{ lesgroep: lesgroep.id }"
+                                icon="notitieboek"
+                                data-gtm="lesgroep-nav-notitieboek"
+                                text="Notitieboek">
+                            </dt-popup-button>
+                        }
+                        <dt-popup-button
+                            (click)="onKlassenboek(lesgroep)"
+                            icon="groepAlt"
+                            text="Klassenboek"
+                            data-gtm="lesgroep-nav-klassenboek"></dt-popup-button>
+                        <ng-container *dtHeeftRecht="['heeftVoortgangsdossierInzienRecht']">
+                            @if (metVoortgangsdossierLink && lesgroepenMetVoorgangsdossiersIds.indexOf(lesgroep.id) > -1) {
+                                <dt-popup-button
+                                    [routerLink]="['/resultaten', 'voortgangsdossier', lesgroep.id]"
+                                    icon="voortgangsdossier"
+                                    text="Voortgangsdossier"
+                                    data-gtm="lesgroep-nav-voortgangsdossier">
+                                </dt-popup-button>
+                            }
+                        </ng-container>
+                        <ng-container *dtHeeftRecht="['heeftExamendossierInzienRecht']">
+                            @if (lesgroep.examendossierOndersteund) {
+                                <dt-popup-button
+                                    (click)="onExamendossier(lesgroep)"
+                                    icon="examendossier"
+                                    data-gtm="lesgroep-nav-examendossier"
+                                    text="Examendossier">
+                                </dt-popup-button>
+                            }
+                        </ng-container>
+                        @if (lesgroepStudiewijzers.has(lesgroep.id)) {
+                            <dt-popup-button
+                                [routerLink]="['/studiewijzers', lesgroepStudiewijzers.get(lesgroep.id)!.id]"
+                                icon="studiewijzer"
+                                data-gtm="lesgroep-nav-studiewijzer"
+                                text="Studiewijzer">
+                            </dt-popup-button>
+                        }
+                        @if (toonCustomButtons) {
+                            @for (customButton of customButtons; track customButton) {
+                                <dt-popup-button
+                                    [icon]="customButton.icon!"
+                                    [text]="customButton.text"
+                                    [attr.data-gtm]="customButton.gtmTag"
+                                    (click)="onCustomButtonClick(customButton, lesgroep)">
+                                </dt-popup-button>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        } @else {
+            <hmy-spinner [centeredInParent]="true" />
+        }
+    </div>
+</dt-popup>

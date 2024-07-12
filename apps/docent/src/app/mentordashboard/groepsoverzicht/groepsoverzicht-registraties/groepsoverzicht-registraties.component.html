@@ -1,0 +1,87 @@
+@if (groepsoverzichtView$ | async; as viewModel) {
+    <div class="header-buttons">
+        <div class="header-left">
+            <dt-outline-button
+                class="tijdspan-button"
+                #filter
+                [iconRight]="true"
+                [iconSizes]="['smallest']"
+                (click)="openTijdspanPopup(viewModel.tijdspan)"
+                data-gtm="groepsoverzicht-tijdspan-selectie"
+                cy="tijdspan-button"
+                icon="chevronOnder"
+                iconColor="typography_4"
+                color="typography_1">
+                {{ viewModel.tijdspan }}
+            </dt-outline-button>
+            <div class="show-for-tablet periode-text">
+                {{ viewModel.periodeText }}
+            </div>
+        </div>
+        <dt-outline-button
+            class="categorie-button"
+            #weergave
+            (click)="openWeergavePopup(viewModel.registraties, viewModel.weergaves)"
+            data-gtm="groepsoverzicht-weergave-selectie"
+            cy="weergave-button"
+            icon="blokken"
+            iconColor="primary_1"
+            iconOnlyRangeEnd="tablet-portrait">
+            Weergave
+        </dt-outline-button>
+    </div>
+    <div class="hide-for-tablet periode-text">
+        {{ viewModel.periodeText }}
+    </div>
+    @if (!(showLoader$ | async) && viewModel.filteredRegistraties; as registraties) {
+        <div class="registraties">
+            @for (registratie of registraties; track trackById($index, registratie)) {
+                <dt-groepsoverzicht-categorie-box [registratie]="registratie" [tijdspan]="viewModel.tijdspan" />
+            }
+            @if (viewModel.showEmptyCategoriesToggle) {
+                <span
+                    class="hide-for-tablet category-toggle text-content-semi color-primary-2"
+                    (click)="toggleEmptyCategories()"
+                    cy="lege-categorie-toggle"
+                    data-gtm="groepsoverzicht-lege-categorie-toggle">
+                    {{ viewModel.showEmptyCategories ? 'Verberg lege categorieën' : 'Toon lege categorieën' }}
+                </span>
+            }
+        </div>
+    }
+    @if (viewModel.weergaves.length === 0) {
+        <div class="geen-registraties text-content-semi">
+            <span class="color-typography-3">Geen categorieën geselecteerd</span>
+            <span
+                class="weergave-wijzigen color-primary-1 pointer"
+                (click)="openWeergavePopup(viewModel.registraties, viewModel.weergaves)">
+                <i class="fill-primary-1" hmyIcon="settings"> </i>Weergave wijzigen
+            </span>
+        </div>
+    }
+    @if (viewModel.geenCijferperiode && viewModel.weergaves.length > 0) {
+        <div class="geen-registraties text-content-semi">
+            <span class="color-typography-3">Er zijn geen periodes beschikbaar.</span>
+            <span class="geen-periodes-alternatieven color-typography-3">
+                Bekijk <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Laatste 7 dagen')">de laatste 7 dagen</a>,
+                <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Laatste 30 dagen')">de laatste 30 dagen</a>,
+                <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Huidig schooljaar')">dit schooljaar</a>
+            </span>
+        </div>
+    }
+    @if (showWeergaveOpgeslagenMessage) {
+        <dt-message
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [duration]="3000"
+            [isToast]="true"
+            (onClose)="showWeergaveOpgeslagenMessage = false"
+            cy="weergave-opgeslagen-bericht"
+            text="Weergave opgeslagen"
+            soort="ok" />
+    }
+}
+
+@if (showLoader$ | async) {
+    <hmy-spinner [centeredInParent]="true" />
+}

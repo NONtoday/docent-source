@@ -1,0 +1,29 @@
+<dt-popup>
+    <div (click)="$event.stopPropagation()" popup-content>
+        <div class="text fg-negative-normal text-content-semi">Verwijderen?</div>
+        <div class="icons hide-for-phone-only">
+            <i
+                class="verwijderen-icon"
+                [attr.data-gtm]="gtmTag"
+                (click)="delete()"
+                hmyIcon="verwijderen"
+                size="medium"
+                cy="delete-confirm-check"></i>
+            <i class="sluiten-icon" (click)="cancel()" hmyIcon="sluiten" size="medium"></i>
+        </div>
+        <div class="buttons show-for-phone-only">
+            <dt-outline-button
+                [attr.data-gtm]="gtmTag"
+                (click)="delete()"
+                cy="delete-confirm-check"
+                icon="verwijderen"
+                color="accent_negative_1"
+                iconColor="accent_negative_1"
+                >Definitief verwijderen
+            </dt-outline-button>
+            <dt-outline-button class="cancel" (click)="cancel()" icon="sluiten" color="typography_3" iconColor="typography_3">
+                Annuleren
+            </dt-outline-button>
+        </div>
+    </div>
+</dt-popup>

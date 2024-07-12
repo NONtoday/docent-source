@@ -1,0 +1,39 @@
+@for (toets of orderedToetsenView; track toets) {
+    <div class="gemiste-toets">
+        <div class="row-1">
+            <div class="vak-info">
+                <span class="text-content-semi text-strong ellipsis">{{ toets.vakNaam }}</span>
+                @if (toets.resultaat.bijzonderheid === 'Vrijstelling') {
+                    <hmy-pill text="VR" color="positive"></hmy-pill>
+                }
+            </div>
+            <span class="periode-info text-content-smallest-semi text-weak">{{ toets.periodeText }}</span>
+        </div>
+        <div class="row-2">
+            <div class="toets-info text-content-small-semi text-weak">
+                @if (toets.omschrijvingSamengesteldeToets) {
+                    <i class="deeltoets-icon" [hmyTooltip]="toets.tooltipDeeltoets" hmyIcon="deeltoets" size="smallest"></i>
+                }
+                <span class="toets-omschrijving text-ellipsis">{{ toets.resultaat.toetssoort }}</span>
+                <div class="weging">
+                    <i hmyIcon="weging" size="smallest" color="text-weak"></i>
+                    <span>{{ toets.resultaat.weging }}x</span>
+                </div>
+            </div>
+            @if (toets.tooltipOpmerking) {
+                <i
+                    class="opmerking-icon"
+                    [hmyTooltip]="toets.tooltipOpmerking"
+                    [onTouchAllowed]="true"
+                    position="left"
+                    hmyIcon="reacties"
+                    size="small"></i>
+            }
+        </div>
+    </div>
+}
+@if (orderedToetsenView.length === 0) {
+    <div class="geen-toetsen">
+        <span class="text-weakest text-content-semi">Geen toetsen gevonden</span>
+    </div>
+}

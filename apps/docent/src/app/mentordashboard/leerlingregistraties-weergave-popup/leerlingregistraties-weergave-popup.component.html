@@ -1,0 +1,24 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="header">
+            <span class="text-content-semi show-for-tablet">Weergave</span>
+            <span class="text-content-semi hide-for-tablet">Filters</span>
+            <span class="text-small-content-semi text-weak">Toon registraties in overzicht</span>
+        </div>
+        <span class="alles-selecteren text-content-semi action-primary-normal pointer" (click)="toggleSelectAll()">
+            Alles {{ allSelected ? 'deselecteren' : 'selecteren' }}
+        </span>
+        <div class="form-group" [formGroup]="selectedColumnsForm">
+            @for (columnFilter of columns; track columnFilter) {
+                <div class="control pointer">
+                    <dt-form-checkbox [formControlName]="columnFilter.id"> </dt-form-checkbox>
+                    <span class="name text-ellipsis" (click)="toggleControl(columnFilter.id)">{{ columnFilter.display }}</span>
+                </div>
+            }
+        </div>
+        <div class="buttons">
+            <hmy-button class="cancel" (click)="popup.onClose()" type="button" mode="tertiary" color="" label="Annuleren" />
+            <hmy-button class="submit" [attr.data-gtm]="gtmTag" (click)="onSubmit()" type="submit" label="Opslaan" />
+        </div>
+    </div>
+</dt-popup>

@@ -1,0 +1,17 @@
+@if (hideOutline) {
+    <dt-link
+        [icon]="icon"
+        [iconColor]="iconColor"
+        [iconHoverColor]="iconHoverColor"
+        [color]="color"
+        [hoverColor]="hoverColor"
+        [showChevron]="showChevron"
+        [tooltipIfEllipsed]="text">
+        {{ text }}
+    </dt-link>
+}
+@if (!hideOutline) {
+    <dt-outline-button [icon]="icon" [iconColor]="iconColor" [color]="color" [tooltipIfEllipsed]="text" [disabled]="disabled">
+        {{ text }}
+    </dt-outline-button>
+}

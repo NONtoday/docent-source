@@ -1,0 +1,11 @@
+<dt-popup>
+    <div class="content" popup-content>
+        @for (kleurKeuze of kleurKeuzes | keyvalue; track kleurKeuze) {
+            <dt-kleur-keuze
+                [kleur]="kleurKeuze.value"
+                [size]="keuzeGrootte$ | async"
+                [attr.cy]="'kleurkeuze-' + kleurKeuze.value.toLowerCase()"
+                (click)="onKeuzeClick(kleurKeuze.value)"></dt-kleur-keuze>
+        }
+    </div>
+</dt-popup>

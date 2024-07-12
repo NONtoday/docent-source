@@ -1,0 +1,97 @@
+<dt-header titel="Sjablonen" icon="sjabloon"></dt-header>
+<div class="toolbar">
+    <hmy-switch-group>
+        <hmy-switch routerLink="/studiewijzers" cy="studiewijzer-tab" label="Studiewijzers" icon="studiewijzer" />
+        <hmy-switch [active]="true" routerLink="/studiewijzers/sjablonen" cy="sjablonen-tab" label="Sjablonen" icon="sjabloon" />
+    </hmy-switch-group>
+    @if (vaksecties$ | async; as vaksecties) {
+        @if (vaksecties.length > 1) {
+            <dt-keuze-opties
+                class="vaksecties"
+                [opties]="vaksecties"
+                [selectedOptie]="selectedVaksectie$ | async"
+                (onselect)="onVaksectieSelect($event!)"
+                textproperty="naam">
+            </dt-keuze-opties>
+        }
+    }
+</div>
+@if (loadingState.isLoading) {
+    <hmy-spinner />
+}
+@if ({ view: sjabloonOverzichtView$ | async }; as $data) {
+    <div class="overzicht-content">
+        @if ($data.view) {
+            @if ($data.view.vaksectie) {
+                <div class="sjablonen-content" cdkDropListGroup>
+                    @if (selectedVaksectie$.value?.uuid === '#overig') {
+                        <div class="geen-vaksecties">
+                            <dt-message
+                                [closable]="false"
+                                soort="waarschuwing"
+                                text="Let op: sjablonen onder <b>overig</b> zijn gekoppeld aan een vaksectie waar je geen toegang meer tot hebt.<br>
+                Klik op <b>Bewerken</b> bij het sjabloon om de juiste vaksectie te kiezen en het sjabloon daarheen te verplaatsen,
+              zodat het sjabloon weer gedeeld kan worden met docenten binnen de juiste vaksectie."></dt-message>
+                        </div>
+                    }
+                    <div class="sjablonen eigen" (cdkDropListDropped)="verplaats($event)" cdkDropList cdkDropListSortingDisabled>
+                        @if (selectedVaksectie$.value?.uuid !== '#overig') {
+                            <div class="add-tile" #addTile (click)="addSjabloon()" data-gtm="nieuw-sjabloon">
+                                <div class="toevoegen-background">
+                                    <i class="toevoegen-icon" color="action-positive-normal" hmyIcon="toevoegen" size="medium"></i>
+                                </div>
+                                <span class="text-content-semi">Nieuw sjabloon</span>
+                            </div>
+                        }
+                        @for (sjabloon of $data.view.sjablonen; track trackById($index, sjabloon)) {
+                            <dt-sjabloon-overzicht-item
+                                [cdkDragData]="sjabloon"
+                                [sjabloon]="sjabloon"
+                                [routerLink]="['/studiewijzers/sjablonen', sjabloon.id]"
+                                [queryParams]="{ vaksectie: selectedVaksectie$.value?.id }"
+                                [notDraggable]="$data.view.categorieen.length === 0"
+                                [toonZichtbaarheidEnDupliceren]="selectedVaksectie$.value?.uuid !== '#overig'"
+                                (cdkDragStarted)="closePopup()"
+                                cdkDrag>
+                                <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                                <i color="action-neutral-normal" hmyIcon="draggable" size="medium" cdkDragHandle></i>
+                            </dt-sjabloon-overzicht-item>
+                        }
+                    </div>
+                    @if (selectedVaksectie$.value?.uuid !== '#overig') {
+                        <div class="categorieen">
+                            <dt-add-categorie (addCategorie)="addCategorie()" data-gtm="sjabloon-categorie-toevoegen"> </dt-add-categorie>
+                            @for (categorie of $data.view.categorieen; track trackById(i, categorie); let i = $index) {
+                                <dt-abstract-studiewijzer-categorie
+                                    class="categorie"
+                                    [categorie]="categorie"
+                                    [showOrderDown]="i + 1 !== $data.view.categorieen.length"
+                                    [showOrderUp]="i !== 0"
+                                    (setEditMode)="setEditMode(categorie.id, $event)"
+                                    (saveCategorie)="saveCategorie($event)"
+                                    (deleteCategorie)="openDeletePopup(categorie, $event)"
+                                    (moveCategorie)="moveCategorie(categorie, $event)"
+                                    (removeEmptyCategories)="removeEmptyCategories()"
+                                    (moreActionsClick)="openMoreActionsPopup(categorie, $event)"
+                                    (onItemDrop)="verplaats($event)">
+                                </dt-abstract-studiewijzer-categorie>
+                            }
+                        </div>
+                    }
+                </div>
+            } @else {
+                <div class="geen-vaksecties">
+                    <dt-message
+                        [closable]="false"
+                        soort="waarschuwing"
+                        text="Je kunt sjablonen niet gebruiken, omdat je
+          niet bent toegevoegd aan een vaksectie. Vraag de applicatiebeheerder om dit in te stellen."></dt-message>
+                </div>
+            }
+        }
+    </div>
+}
+@if (editSjabloonSidebar$ | async; as sidebarData) {
+    <dt-edit-sjabloon-sidebar [@allowLeaveAnimation] [sjabloon]="sidebarData.sjabloon!" [vaksectie]="(selectedVaksectie$ | async)!">
+    </dt-edit-sjabloon-sidebar>
+}

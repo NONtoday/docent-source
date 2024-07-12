@@ -1,0 +1,201 @@
+<form
+    id="ngForm"
+    #formElement
+    #formDir="ngForm"
+    [ngClass]="formDir.submitted ? 'validate' : ''"
+    [formGroup]="editAfspraakForm"
+    (ngSubmit)="onSubmit()">
+    <div class="titel">
+        <label>Titel<span class="required">*</span></label>
+        <div class="titel-input">
+            <input
+                cy="afspraak-titel-input"
+                type="text"
+                maxlength="100"
+                placeholder="Wat ga je doen?"
+                formControlName="titel"
+                dtAutofocus />
+        </div>
+    </div>
+    <div class="deelnemers">
+        <label class="deelnemers">Deelnemers</label>
+        <dt-deelnemer-selectie
+            class="deelnemer-selectie"
+            [formControl]="deelnemers"
+            [afspraakId]="afspraak.id"
+            placeholder="Zoek persoon of groep">
+        </dt-deelnemer-selectie>
+    </div>
+    <div class="locatie">
+        <label>Locatie</label>
+        <div class="locatie-input">
+            <input cy="afspraak-locatie-input" type="text" maxlength="20" placeholder="Waar vindt dit plaats?" formControlName="locatie" />
+        </div>
+    </div>
+    <div class="datum-tijd-input">
+        <dt-datepicker-start-eind dateControlName="datum" startControlName="begin" eindControlName="eind"> </dt-datepicker-start-eind>
+    </div>
+    @if (!showHerhaling$.value) {
+        <div class="maak-herhaling pointer" (click)="maakHerhalendeAfspraak()" data-gtm="afspraak-herhaling-toevoegen">
+            <i class="verversen-icoon" color="action-primary-normal" size="medium" hmyIcon="verversen"></i>
+            <span class="action-primary-normal text-content-semi">Herhaling toevoegen</span>
+        </div>
+    }
+    @if (showHerhaling$.value) {
+        <div class="herhaling" formGroupName="herhalendeAfspraak">
+            <div class="verwijder-herhaling pointer" (click)="verwijderHerhaling()" data-gtm="afspraak-herhaling-verwijderen">
+                <i class="verwijderen-icon" color="action-negative-normal" size="medium" hmyIcon="verwijderen"></i>
+                <span class="text-content-semi action-negative-normal">
+                    Herhaling verwijderen
+                    @if (afspraak.id && aantalToekomstigeHerhalingen && aantalToekomstigeHerhalingen > 0) {
+                        <span> ({{ aantalToekomstigeHerhalingen }} resterend) </span>
+                    }
+                </span>
+            </div>
+            <dt-form-dropdown
+                class="herhaling-type"
+                [scrollIntoView]="false"
+                [chevronColor]="background_1"
+                [opties]="herhalingTypeOptions"
+                [formControl]="type">
+            </dt-form-dropdown>
+            <div class="herhaal-elke">
+                <label>Herhaal elke</label>
+                <div class="herhaal-elke-opties">
+                    <!-- Skip letter 'e' als input -->
+                    <input
+                        [class.invalid]="herhalingForm.errors?.herhalendeAfspraakSchooljaarValidator"
+                        type="number"
+                        min="1"
+                        max="365"
+                        onkeydown="return event.keyCode !== 69"
+                        formControlName="cyclus" />
+                    @if (!showHerhaalOpOpties) {
+                        <dt-form-dropdown
+                            class="dag-werkdag-opties"
+                            [scrollIntoView]="false"
+                            [chevronColor]="background_1"
+                            [opties]="dagWerkdagOptions"
+                            [formControl]="afspraakHerhalingDagen">
+                        </dt-form-dropdown>
+                    }
+                    @if (showWeekOpties) {
+                        <span class="text-moderate text-content-semi">Weken</span>
+                    }
+                    @if (showMaandOpties) {
+                        <span class="text-moderate text-content-semi">Maanden</span>
+                    }
+                </div>
+            </div>
+            @if (showHerhaalOpOpties) {
+                <div class="herhaal-op">
+                    <label>Op<span class="required">*</span></label>
+                    <div class="herhaal-op-opties">
+                        @if (showMaandOpties) {
+                            <div class="herhaal-maand">
+                                <dt-form-dropdown
+                                    [scrollIntoView]="false"
+                                    [chevronColor]="background_1"
+                                    [opties]="maandXsteOptions"
+                                    formControlName="skip">
+                                </dt-form-dropdown>
+                                <dt-form-dropdown
+                                    [scrollIntoView]="false"
+                                    [chevronColor]="background_1"
+                                    [opties]="herhalingDagOptions"
+                                    [formControl]="afspraakHerhalingDagen">
+                                </dt-form-dropdown>
+                            </div>
+                        }
+                        @if (showWeekOpties) {
+                            <dt-dagen-selectie class="herhaal-week" [formControl]="afspraakHerhalingDagen"> </dt-dagen-selectie>
+                        }
+                    </div>
+                </div>
+            }
+            <div class="herhaal-vanaf">
+                <label>Vanaf</label>
+                <div class="herhaal-vanaf-opties">
+                    <dt-datepicker class="herhaal-vanaf-picker" [schooljaar]="schooljaar$ | async" formControlName="beginDatum">
+                    </dt-datepicker>
+                </div>
+            </div>
+            <div class="eind-herhaling">
+                <label>Tot<span class="required">*</span></label>
+                <div class="eind-herhaling-opties">
+                    <dt-form-dropdown
+                        class="herhaling-eind-type"
+                        [scrollIntoView]="false"
+                        [chevronColor]="background_1"
+                        [opties]="afspraakHerhalingEindeOptions"
+                        [formControl]="herhalingEindeType">
+                    </dt-form-dropdown>
+                    <!-- Skip letter 'e' als input -->
+                    @if (showMaxHerhalingen) {
+                        <input
+                            class="max-herhalingen"
+                            [class.invalid]="herhalingForm.errors?.herhalendeAfspraakSchooljaarValidator"
+                            min="1"
+                            max="365"
+                            type="number"
+                            formControlName="maxHerhalingen"
+                            onkeydown="return event.keyCode !== 69" />
+                    }
+                    @if (showHerhalingEinddatum) {
+                        <div class="herhaling-einddatum">
+                            <dt-datepicker
+                                class="herhaling-einddatum-picker"
+                                [min]="minEindDatePicker$ | async"
+                                [max]="maxDatepicker$ | async"
+                                formControlName="eindDatum"
+                                placeholder="Kies einddatum">
+                            </dt-datepicker>
+                        </div>
+                    }
+                </div>
+            </div>
+            @if (herhalingForm.errors?.herhalendeAfspraakSchooljaarValidator) {
+                <div class="max-aantal-error text-content-small-semi fg-negative-normal">
+                    De totaal aantal herhalingen moeten in hetzelfde schooljaar vallen.
+                </div>
+            }
+        </div>
+    }
+    <div class="presentieregistratie-input">
+        <dt-form-checkbox
+            class="text-content"
+            label="Presentieregistratie"
+            formControlName="presentieregistratie"
+            disabledTooltip="Er is een opgeslagen presentieregistratie voor deze afspraak">
+        </dt-form-checkbox>
+    </div>
+    <div class="omschrijving">
+        <label>Omschrijving</label>
+        <dt-omschrijving-en-bijlage
+            [formGroup]="editAfspraakForm"
+            [omschrijvingPlaceholder]="'Wat is belangrijk om te weten?'"
+            [bijlagen]="afspraak.bijlagen"
+            [heeftBijlagen]="true"
+            [toonBestandUploaden]="true"
+            [toonUitMethode]="false"
+            [alleenBestanden]="true"
+            [toonZichtbaarheidToggle]="false"
+            [heeftToegangTotElo]="true"
+            [conferenceDateRange]="conferenceDateRange"
+            (saveBijlage)="onBijlageSave($event)"
+            (fileUploaded)="fileUploaded($event)"
+            (verwijderBijlage)="removeBijlage($event)">
+        </dt-omschrijving-en-bijlage>
+    </div>
+</form>
+<div class="buttons">
+    <dt-outline-button class="annuleren" (click)="onCancel.emit()" color="typography_3">Annuleren </dt-outline-button>
+    <button
+        class="opslaan"
+        [disabled]="(editAfspraakForm.valid && editAfspraakForm.dirty ? null : true) || isUploading ? true : null"
+        cy="eigen-afspraak-opslaan"
+        type="submit"
+        form="ngForm">
+        {{ afspraak.id ? 'Opslaan' : 'Toevoegen' }}
+    </button>
+</div>

@@ -1,0 +1,21 @@
+<dt-popup>
+    <div popup-content>
+        <div class="lesgroepen-docent">
+            <div class="header">
+                <span class="fg-primary-strongest text-content-semi">Kies lesgroep</span>
+            </div>
+            @if (lesgroepenVanDocent$ | async; as lesgroepen) {
+                <ng-container class="lesgroepen">
+                    @for (lesgroep of lesgroepen; track lesgroep) {
+                        <div class="lesgroep" (click)="onLesgroep(lesgroep, lesgroepen)">
+                            <dt-background-icon [color]="$any(lesgroep.color)" icon="groep" size="small"> </dt-background-icon>
+                            <span class="text-moderate text-content-semi lesgroep-naam">{{ lesgroep.naam }}</span>
+                        </div>
+                    }
+                </ng-container>
+            } @else {
+                <hmy-spinner [centeredInParent]="true" />
+            }
+        </div>
+    </div>
+</dt-popup>

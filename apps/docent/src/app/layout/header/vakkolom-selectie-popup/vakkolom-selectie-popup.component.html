@@ -1,0 +1,16 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="item-container">
+            @for (kolom of kolommen; track kolom; let i = $index) {
+                <div
+                    class="item text-strong text-content-semi"
+                    #item
+                    [class.active]="i.toString() === currentItemId"
+                    [id]="'header-item-' + i"
+                    (click)="onKolomSelectie(i)">
+                    {{ kolom.naam }}
+                </div>
+            }
+        </div>
+    </div>
+</dt-popup>

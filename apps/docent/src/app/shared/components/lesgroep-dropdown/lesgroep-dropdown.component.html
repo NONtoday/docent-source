@@ -1,0 +1,31 @@
+<div
+    class="value-box"
+    [class.selection-open]="showDropdown"
+    [class.invalid]="invalid"
+    [class.disabled]="!enabled"
+    [class.has-selection]="selectedLesgroep"
+    (click)="onTouched(); toggleDropdown()">
+    @if (!selectedLesgroep) {
+        <div class="placeholder">{{ placeholder }}</div>
+    }
+    <div class="selected-value">{{ selectedLesgroep?.naam }}</div>
+    <i class="icon" hmyIcon="chevronOnder" size="medium"></i>
+</div>
+@if (showDropdown) {
+    <div class="selection-box">
+        @for (lesgroep of lesgroepen; track lesgroep) {
+            <div class="optie" [class.is-selected]="lesgroep === selectedLesgroep" (click)="writeValue(lesgroep)">
+                <dt-background-icon [color]="$any(lesgroep.color)" [sizes]="['small']" icon="groep"> </dt-background-icon>
+                <span class="groep-naam text-content-semi">{{ lesgroep.naam }}</span>
+            </div>
+        }
+        @if (lesgroepen.length === 0) {
+            <div class="optie geen-lesgroepen">
+                <div class="icon-background">
+                    <i class="icon" hmyIcon="informatie" size="medium"></i>
+                </div>
+                <span class="groep-naam">Geen lesgroepen beschikbaar</span>
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,37 @@
+<dt-accordion
+    [withShadow]="false"
+    [lightBackground]="(isPhoneOrTablet$ | async)!"
+    [class.force-open]="isPhoneOrTablet$ | async"
+    [showChevron]="!(isPhoneOrTablet$ | async)">
+    <div class="title-content" title>
+        @if (hasOngelezenNotitie) {
+            <div class="notificatie notificatie-small-alt"></div>
+        }
+        <span>Notities {{ aantalActueleNotities | aantalNotitiesCounter }}</span>
+    </div>
+    @if (actueleNotities) {
+        <div class="notities" body>
+            @if (aantalActueleNotities === 0) {
+                <div class="geen-notities text-weakest">
+                    <span>Geen ongelezen notities</span>
+                </div>
+            }
+            @if (aantalActueleNotities > 0) {
+                <div class="notitie-betrokkenen">
+                    @for (notitie of ongelezenNotitiesGroepen; track notitie) {
+                        <dt-ongelezen-notitie-groep
+                            class="ongelezen-notitie"
+                            [ongelezenNotitieGroep]="notitie"
+                            (click)="openGroepActueleNotitiesSidebar(notitie.groep)"></dt-ongelezen-notitie-groep>
+                    }
+                    @for (notitie of ongelezenNotitiesLeerlingen; track notitie) {
+                        <dt-ongelezen-notitie-leerling
+                            class="ongelezen-notitie"
+                            [ongelezenNotitieLeerling]="notitie"
+                            (click)="openLeerlingActueleNotitiesSidebar(notitie.leerling)"></dt-ongelezen-notitie-leerling>
+                    }
+                </div>
+            }
+        </div>
+    }
+</dt-accordion>

@@ -1,0 +1,24 @@
+<dt-popup>
+    <div class="profile-menu" popup-content>
+        @if (isUpdateBeschikbaar) {
+            <div class="oude-versie">
+                <div class="container">
+                    <div class="title text-content-semi color-accent-warning-1">
+                        <i class="fill-accent-warning-1" hmyIcon="synchroniseren" size="small"></i>Verouderde versie
+                    </div>
+                    <div class="content">
+                        <div class="text-small-content color-accent-warning-1">
+                            Je gebruikt een verouderde versie van Somtoday Docent. Klik op <b>verversen</b> om de laatste versie te
+                            gebruiken, dit duurt <i>enkele seconden.</i>
+                        </div>
+                        <dt-button (click)="ververs()" data-gtm="docent-verversen-profile-menu">Verversen</dt-button>
+                    </div>
+                </div>
+            </div>
+        }
+        <dt-gebruikers-instellingen></dt-gebruikers-instellingen>
+        <a class="uitlog-button" (click)="logoff()" icon="uitloggen" iconColor="accent_negative_1">
+            <span class="text-content-semi">Uitloggen</span>
+        </a>
+    </div>
+</dt-popup>

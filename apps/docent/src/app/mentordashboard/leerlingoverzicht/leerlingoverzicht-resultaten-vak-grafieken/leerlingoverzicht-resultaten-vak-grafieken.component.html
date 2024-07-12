@@ -1,0 +1,22 @@
+<div class="schaal show-for-tablet-portrait">
+    <div class="schaal-cijfers">
+        @for (i of schaal; track $index) {
+            <span class="schaal-item">{{ i }}</span>
+        }
+    </div>
+</div>
+<div class="vakken" [style.--vak-min-width.px]="toonEindcijfer() ? 104 : 48">
+    @for (grafiek of vakgrafieken(); track grafiek.vak.id) {
+        <dt-leerlingoverzicht-resultaten-vak-grafiek
+            [vak]="grafiek.vak"
+            [cijferbalken]="grafiek.cijferbalken"
+            [trend]="grafiek.trend"
+            [tooltip]="grafiek.tooltip"
+            [toonAlternatieveNormering]="toonAlternatieveNormering()"
+            [alternatieveNormering]="grafiek.isAlternatieveNormering ?? false"
+            [anderNiveau]="grafiek.anderNiveau"
+            [vrijstelling]="grafiek.vrijstelling ?? false"
+            [ontheffing]="grafiek.ontheffing ?? false"
+            (click)="openVakResultatenSidebar.emit(grafiek)" />
+    }
+</div>

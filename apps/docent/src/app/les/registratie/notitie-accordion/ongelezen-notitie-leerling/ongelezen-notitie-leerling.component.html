@@ -1,0 +1,25 @@
+<div class="leerling pointer">
+    <div class="leerling-avatar">
+        <dt-avatar
+            [src]="ongelezenNotitieLeerling.leerling?.pasfoto"
+            [initialen]="ongelezenNotitieLeerling.leerling?.initialen!!"
+            [size]="32"
+            [fontsize]="12"
+            [allowPhotoPopup]="false"
+            [dtTooltip]="tooltipMessage"
+            [tooltipDisplayable]="
+                !ongelezenNotitieLeerling.vastgeprikteNotitieAanwezig && !!ongelezenNotitieLeerling.ongelezenNotitieAanwezig
+            ">
+        </dt-avatar>
+        @if (ongelezenNotitieLeerling.ongelezenNotitieAanwezig === 'STANDAARD') {
+            <div class="notificatie notificatie-small-alt"></div>
+        }
+        @if (ongelezenNotitieLeerling.ongelezenNotitieAanwezig === 'MENTOR') {
+            <div class="notificatie notificatie-small-alt-3"></div>
+        }
+    </div>
+    <span class="naam text-content-semi text-ellipsis">{{ ongelezenNotitieLeerling.leerling | volledigeNaam }}</span>
+    @if (ongelezenNotitieLeerling.vastgeprikteNotitieAanwezig) {
+        <i class="vastgeprikt" dtTooltip="Leerling heeft een vastgeprikte notitie" hmyIcon="pinned"></i>
+    }
+</div>

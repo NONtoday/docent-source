@@ -1,0 +1,34 @@
+<dt-rooster-dag-header [vandaag]="vandaag" [datum]="dag.datum"></dt-rooster-dag-header>
+
+<div class="dag-afspraken-container">
+    @if (heeftGeenRoosteritems) {
+        <div class="no-afspraken">Geen afspraken</div>
+    }
+    @for (roosterItem of dag.roosterItems; track trackById(i, roosterItem); let i = $index; let first = $first; let last = $last) {
+        @if ($any(roosterItem)['titel']) {
+            @if ($any(roosterItem)['isRoosterAfspraak']) {
+                <dt-lesuur-afspraak
+                    [volgendeRoosterItem]="dag.roosterItems[i + 1]"
+                    [toonVrijUren]="toonVrijeUren"
+                    [afspraak]="$any(roosterItem)"
+                    [last]="last"
+                    [attr.cy]="$any(roosterItem).presentieRegistratieVerwerkt ? 'registratie-verwerkt' : 'registratie-niet-verwerkt'">
+                </dt-lesuur-afspraak>
+            }
+            @if (!$any(roosterItem)['isRoosterAfspraak']) {
+                <dt-eigen-afspraak
+                    [volgendeRoosterItem]="dag.roosterItems[i + 1]"
+                    [toonVrijUren]="toonVrijeUren"
+                    [afspraak]="$any(roosterItem)"
+                    [last]="last"></dt-eigen-afspraak>
+            }
+        }
+        @if (toonVrijeUren && !$any(roosterItem)['titel']) {
+            <dt-vrij-uur [ngClass]="{ first: first }" [vrijUur]="$any(roosterItem)"> </dt-vrij-uur>
+        }
+    }
+    <div class="toevoegen show-for-desktop" [class.popup-open]="isPopupOpen" data-gtm="afspraak-toevoegen-bottom">
+        <i #addIcon (click)="addAfspraak()" hmyIcon="toevoegen" size="medium"></i>
+        <span class="text text-content-semi" (click)="addAfspraak()">Afspraak toevoegen</span>
+    </div>
+</div>

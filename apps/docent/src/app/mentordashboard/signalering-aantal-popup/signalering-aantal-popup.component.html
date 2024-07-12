@@ -1,0 +1,69 @@
+<dt-popup>
+    <div class="content" #content popup-content>
+        <div class="header">
+            <span class="text-content-semi color-typography-1">Signaleren</span>
+            <span class="text-small-content-semi color-typography-3">Markeer tellingen vanaf een waarde</span>
+        </div>
+
+        <div class="switch text-content-semi">
+            <div class="option" [class.active]="(activeTab$ | async) === 'leerling'" (click)="switchTab('leerling')">Deze leerling</div>
+            <div class="option" [class.active]="(activeTab$ | async) === 'iedereen'" (click)="switchTab('iedereen')">Voor iedereen</div>
+        </div>
+
+        <div class="alle-kolommen text-content-semi">
+            <div class="color-primary-3">Alle kolommen</div>
+            @if (!alleKolommenInEdit) {
+                <div class="instellen color-primary-1" (click)="setAlleKolommenInEdit(true); $event.stopPropagation()">Instellen</div>
+            }
+            @if (alleKolommenInEdit) {
+                <div class="edit color-primary-1">
+                    <dt-inline-edit
+                        [validators]="inlineEditValidators"
+                        [maxLength]="3"
+                        (saveClick)="setAlleKolommen($event)"
+                        (cancelClick)="setAlleKolommenInEdit(false)"
+                        placeholder="-"
+                        inputTextAlign="center"></dt-inline-edit>
+                </div>
+            }
+        </div>
+
+        @if (activeTab$ | async; as activeTab) {
+            <div class="setting-wrapper" [formGroup]="filterForm">
+                @for (filter of activeFilters$ | async; track filter) {
+                    <div class="setting">
+                        <span class="text-ellipsis">{{ filter.column }}</span>
+                        @if (activeTab === 'leerling' && filterForm.get(activeTab + '-' + filter.column)!.value) {
+                            <i
+                                class="fill-typography-4 pointer reset"
+                                (click)="resetValue(filter, activeTab, $event)"
+                                hmyIcon="noRadio"
+                                size="large"
+                                dtTooltip="Terug naar waarde 'Voor iedereen'"></i>
+                        }
+                        <input
+                            class="value"
+                            [placeholder]="filter.placeholder"
+                            [formControlName]="activeTab + '-' + filter.column"
+                            [class.invalid]="filterForm.get(activeTab + '-' + filter.column)!.invalid"
+                            [maxLength]="3"
+                            [additionalAllowedKeys]="['.', ',']"
+                            numbersOnly
+                            type="text" />
+                    </div>
+                }
+            </div>
+        }
+        <div class="buttons">
+            <dt-outline-button class="annuleren" (click)="annuleer()" color="typography_3"> Annuleren </dt-outline-button>
+            <dt-button
+                class="submit"
+                [showLoaderOnClick]="true"
+                [class.disabled]="!filterForm.dirty || !filterForm.valid"
+                (click)="opslaan()"
+                data-gtm="mentordashboard-signaleringen-aantal-opslaan"
+                >Opslaan</dt-button
+            >
+        </div>
+    </div>
+</dt-popup>

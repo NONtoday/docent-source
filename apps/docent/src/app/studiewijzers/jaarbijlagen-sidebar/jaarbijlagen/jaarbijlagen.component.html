@@ -1,0 +1,328 @@
+@if ({ value: urlEditBijlage$ | async }; as urlEditBijlage) {
+    @if ((showPage$ | async) === 'URL') {
+        <dt-url-toevoegen-formulier
+            class="url-toevoegen"
+            [bijlage]="urlEditBijlage.value"
+            [class.synchronisaties]="!isSjabloon && heeftSynchronisaties()"
+            (onAnnuleren)="cancelBijlageToevoegen()"
+            (onSubmit)="saveBijlage($event)">
+            @if (!isSjabloon && heeftSynchronisaties()) {
+                <div class="synchroniseren">
+                    @if (!geselecteerdeMap || (geselecteerdeMap && geselecteerdeMapHeeftSynchronisatie)) {
+                        <dt-synchroniseer-item-met-sjabloon
+                            [synchroniseertMet]="urlEditBijlage.value?.synchroniseertMet || gesynchroniseerdSjabloon?.naam"
+                            [gesynchroniseerdeSjablonen]="gesynchroniseerdeSjablonen"
+                            [canUnlink]="!!urlEditBijlage.value?.synchroniseertMet"
+                            (onUnlink)="unlinkSjabloon()"
+                            (onSynchroniseren)="onSjabloonSynchroniserenClick($event)"></dt-synchroniseer-item-met-sjabloon>
+                    }
+                </div>
+            }
+        </dt-url-toevoegen-formulier>
+    }
+}
+@if ((showPage$ | async) === 'MAP') {
+    @if (geselecteerdeMap) {
+        <div class="map-weergave">
+            @if (geselecteerdeMap.synchroniseertMet) {
+                <div class="header">
+                    <i color="fg-positive-normal" hmyIcon="synchroniseren" size="medium"></i>
+                    <span class="text-content-semi">{{ geselecteerdeMap.synchroniseertMet }}</span>
+                </div>
+            }
+            @if (geselecteerdeMap.bijlagen.length > 0) {
+                <div class="map-bijlagen" (cdkDropListDropped)="sorteerBijlage($event)" cdkDropList>
+                    @for (bijlage of geselecteerdeMap.bijlagen; track trackById($index, bijlage)) {
+                        <dt-jaarbijlage
+                            [synchroniseerbaar]="synchroniseerbaar && !!geselecteerdeMap.synchroniseertMet"
+                            [bijlage]="bijlage"
+                            [isReadOnly]="!isEditable"
+                            [inBulkMode]="inBulkModus"
+                            [studiewijzer]="$any(abstractStudiewijzer)"
+                            [kanVerplaatsen]="true"
+                            [differentieerbaar]="false"
+                            [bijlageMap]="geselecteerdeMap"
+                            (onEditBijlage)="saveBijlage($event)"
+                            (editUrl)="editUrl($event)"
+                            (zichtbaarheidEmitter)="updateZichtbaarheid(bijlage)"
+                            (verwijderEmitter)="verwijderBijlage($event)"
+                            (toggleSelection)="toggleBijlageSelection($event)"
+                            (verplaatsEmitter)="openBijlageMapSelectie([$event])"
+                            (kopieerBijlage)="kopieerBijlage($event)"
+                            (openDifferentiatie)="openDifferentiatie.emit($event)"
+                            (verwijderDifferentiaties)="verwijderDifferentiaties($event)"
+                            (synchroniseerBijlageEmitter)="synchroniseerBijlage($event, bijlage, geselecteerdeMap.id)"
+                            (removeDifferentiatiegroep)="removeDifferentiatiegroep($event.bijlage, $event.groep)"
+                            (removeDifferentiatieleerling)="removeDifferentiatieleerling($event.bijlage, $event.leerling)"
+                            cdkDrag>
+                            <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                            @if (isNotDesktop$ | async) {
+                                <i color="fg-neutral-moderate" hmyIcon="draggable" size="small" cdkDragHandle></i>
+                            }
+                        </dt-jaarbijlage>
+                    }
+                </div>
+            } @else {
+                <div class="geen-bijlagen-message text-content-semi"><span>Map bevat geen bijlagen</span></div>
+            }
+            <dt-bijlage-upload-lijst
+                [uploadingFiles]="uploadingFiles"
+                (fileUploaded)="fileUploaded($event.uploadContextId!, $event.file)"></dt-bijlage-upload-lijst>
+        </div>
+    }
+    @if (showMessage) {
+        <dt-message
+            class="message"
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [text]="messageText"
+            [duration]="3000"
+            [isToast]="true"
+            (onClose)="showMessage = false"
+            soort="ok">
+        </dt-message>
+    }
+    @if (isEditable && !inBulkModus) {
+        <div class="buttons">
+            @if (geselecteerdeMap!.bijlagen.length > 0) {
+                <dt-outline-button
+                    class="border edit-button hide-for-desktop icon-only-stretch"
+                    (click)="onEditButtonClick()"
+                    icon="bewerken"
+                    iconOnlyRangeEnd="desktop">
+                </dt-outline-button>
+            }
+            <dt-outline-button
+                class="border icon-only-stretch"
+                #bijlageToevoegen
+                (click)="openJaarbijlageToevoegenPopup($event)"
+                color="accent_positive_1"
+                icon="bijlageToevoegen"
+                iconColor="accent_positive_1"
+                iconOnlyRangeEnd="tablet"
+                >Bijlage toevoegen
+            </dt-outline-button>
+        </div>
+    }
+}
+@if ((showPage$ | async) === 'MAPSELECTIE') {
+    <div class="map-selectie">
+        @for (map of jaarbijlagen.mappen; track trackById($index, map)) {
+            <dt-jaarbijlage-map
+                [isEditable]="false"
+                [bijlageMap]="map"
+                [synchroniseerbaar]="synchroniseerbaar"
+                [toonVerdiepingIcoon]="false"
+                [readonly]="true"
+                [inBulkMode]="true"
+                (click)="verplaatsBijlagenNaarMap(map)">
+            </dt-jaarbijlage-map>
+        }
+        @if (toonJaarbijlagenoverzicht) {
+            <div class="jaarbijlagenoverzicht text-content-semi fill-typography-2" (click)="verplaatsBijlagenNaarMap()">
+                <i color="action-primary-normal" hmyIcon="bijlage" size="medium"></i>Jaarbijlagenoverzicht
+            </div>
+        }
+    </div>
+}
+@if ((showPage$ | async) === 'BIJLAGEN') {
+    @if (heeftBijlagen || isUploading()) {
+        <div class="bijlagen">
+            @if (jaarbijlagen.mappen.length > 0) {
+                <div class="header text-content-semi">Mappen</div>
+                <div class="mappen" (cdkDropListDropped)="sorteerMap($event)" cdkDropList>
+                    @for (map of jaarbijlagen.mappen; track trackById($index, map)) {
+                        <dt-jaarbijlage-map
+                            class="jaarbijlage-map"
+                            [bijlageMap]="map"
+                            [isEditable]="isEditable"
+                            [inBulkMode]="inBulkModus"
+                            [studiewijzer]="$any(abstractStudiewijzer)"
+                            [synchroniseerbaar]="synchroniseerbaar"
+                            [differentieerbaar]="!isSjabloon && heeftToegangTotDifferentiatie"
+                            [toonSyncInfo]="!!map.synchroniseertMet"
+                            [cdkDragDisabled]="!map.id"
+                            (cdkDragStarted)="cancelMapToevoegen()"
+                            (click)="selecteerMap(map)"
+                            (toggleSelection)="toggleBijlageMapSelection($event)"
+                            (saveBijlageMap)="saveJaarbijlageMap($event)"
+                            (verwijderBijlageMap)="verwijderBijlageMap($event)"
+                            (kopieerBijlageMap)="kopieerBijlage($event)"
+                            (cancelToevoegen)="cancelMapToevoegen()"
+                            (synchroniseerBijlageMapEmitter)="synchroniseerBijlageMap($event, map)"
+                            (openDifferentiatie)="openDifferentiatie.emit($event)"
+                            (verwijderDifferentiaties)="verwijderDifferentiaties($event)"
+                            (removeDifferentiatiegroep)="removeDifferentiatiegroep($event.map, $event.groep)"
+                            (removeDifferentiatieleerling)="removeDifferentiatieleerling($event.map, $event.leerling)"
+                            cdkDrag>
+                            <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                            @if (isNotDesktop$ | async) {
+                                <i color="fg-neutral-moderate" hmyIcon="draggable" size="small" cdkDragHandle></i>
+                            }
+                        </dt-jaarbijlage-map>
+                    }
+                </div>
+            }
+            @if (jaarbijlagen.bijlagen.length > 0) {
+                <div class="header losse-bijlagen text-content-semi">
+                    <i color="text-moderate" hmyIcon="bijlage" size="medium"></i>Bijlagen
+                </div>
+            }
+            <div class="losse-bijlagen" (cdkDropListDropped)="sorteerBijlage($event)" cdkDropList>
+                @for (bijlage of jaarbijlagen.bijlagen; track trackById($index, bijlage)) {
+                    <dt-jaarbijlage
+                        [synchroniseerbaar]="synchroniseerbaar"
+                        [bijlage]="bijlage"
+                        [isReadOnly]="!isEditable"
+                        [inBulkMode]="inBulkModus"
+                        [studiewijzer]="$any(abstractStudiewijzer)"
+                        [kanVerplaatsen]="heeftMappen"
+                        [differentieerbaar]="!isSjabloon && heeftToegangTotDifferentiatie"
+                        (editUrl)="editUrl($event)"
+                        (onEditBijlage)="saveBijlage($event)"
+                        (zichtbaarheidEmitter)="updateZichtbaarheid(bijlage)"
+                        (verwijderEmitter)="verwijderBijlage($event)"
+                        (toggleSelection)="toggleBijlageSelection($event)"
+                        (verplaatsEmitter)="openBijlageMapSelectie([$event])"
+                        (kopieerBijlage)="kopieerBijlage($event)"
+                        (openDifferentiatie)="openDifferentiatie.emit($event)"
+                        (verwijderDifferentiaties)="verwijderDifferentiaties($event)"
+                        (synchroniseerBijlageEmitter)="synchroniseerBijlage($event, bijlage)"
+                        (removeDifferentiatiegroep)="removeDifferentiatiegroep($event.bijlage, $event.groep)"
+                        (removeDifferentiatieleerling)="removeDifferentiatieleerling($event.bijlage, $event.leerling)"
+                        cdkDrag>
+                        <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                        @if (isNotDesktop$ | async) {
+                            <i color="fg-neutral-moderate" hmyIcon="draggable" cdkDragHandle></i>
+                        }
+                    </dt-jaarbijlage>
+                }
+            </div>
+        </div>
+    } @else {
+        <div class="geen-bijlagen-message"><span class="text-content-small-semi">Er zijn nog geen jaarbijlagen toegevoegd</span></div>
+    }
+    <dt-bijlage-upload-lijst
+        [uploadingFiles]="uploadingFiles"
+        (fileUploaded)="fileUploaded($event.uploadContextId!, $event.file)"></dt-bijlage-upload-lijst>
+    @if (showMessage) {
+        <dt-message
+            class="message"
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [text]="messageText"
+            [duration]="3000"
+            [isToast]="true"
+            (onClose)="showMessage = false"
+            soort="ok">
+        </dt-message>
+    }
+    @if (isEditable && !inBulkModus) {
+        <div class="buttons">
+            @if (jaarbijlagen.bijlagen.length > 0 || jaarbijlagen.mappen.length > 0) {
+                <dt-outline-button
+                    class="border edit-button hide-for-desktop icon-only-stretch"
+                    (click)="onEditButtonClick()"
+                    icon="bewerken"
+                    iconOnlyRangeEnd="tablet"
+                    cy="jaarbijlagen-bewerken">
+                    Bewerken
+                </dt-outline-button>
+            }
+            @if (isEditable) {
+                <dt-outline-button
+                    class="border map-toevoegen icon-only-stretch"
+                    (click)="voegMapToe()"
+                    color="accent_positive_1"
+                    icon="mapToevoegen"
+                    iconColor="accent_positive_1"
+                    iconOnlyRangeEnd="tablet"
+                    data-gtm="jaarbijlagemap-toevoegen"
+                    >Map toevoegen
+                </dt-outline-button>
+            }
+            @if (isEditable) {
+                <dt-outline-button
+                    class="border bijlage-toevoegen icon-only-stretch"
+                    #bijlageToevoegen
+                    (click)="openJaarbijlageToevoegenPopup($event)"
+                    color="accent_positive_1"
+                    icon="bijlageToevoegen"
+                    iconColor="accent_positive_1"
+                    iconOnlyRangeEnd="tablet"
+                    cy="jaarbijlage-toevoegen"
+                    >Bijlage toevoegen
+                </dt-outline-button>
+            }
+        </div>
+    }
+}
+@if ((showPage$ | async) === 'SWSELECTIE') {
+    <div class="selectie container">
+        <div class="schooljaar">
+            <span>{{ schooljaar }}-{{ schooljaar + 1 }}</span>
+        </div>
+        <ng-content></ng-content>
+        <dt-studiewijzer-multiselect [studiewijzer]="$any(abstractStudiewijzer)" (selectie)="geselecteerdeAbstractSWs = $event">
+        </dt-studiewijzer-multiselect>
+    </div>
+    <div class="selectie buttons">
+        <dt-outline-button class="annuleren" (click)="sluitAbstractSWSelectie()" color="typography_3">Annuleren </dt-outline-button>
+        <hmy-button
+            class="submit"
+            [disabled]="geselecteerdeAbstractSWs.length === 0"
+            (click)="kopieerNaarAbstractSW()"
+            label="Kopiëren"
+            type="submit" />
+    </div>
+}
+@if ((showPage$ | async) === 'SJABLOONSELECTIE') {
+    <dt-sjabloon-selectie
+        [heeftVerdieping]="false"
+        [selectedSjablonen]="$any(geselecteerdeAbstractSWs)"
+        [displayCheckbox]="true"
+        [alleenEigenSjablonen]="true"
+        [negeerSjablonen]="$any([this.abstractStudiewijzer])"
+        (onSelect)="selecteerSjabloon($event)">
+        <ng-content></ng-content>
+    </dt-sjabloon-selectie>
+    <div class="selectie buttons">
+        <dt-outline-button class="annuleren" (click)="sluitAbstractSWSelectie()" color="typography_3">Annuleren </dt-outline-button>
+        <hmy-button
+            class="submit"
+            [label]="geselecteerdeAbstractSWs.length === 0 ? 'Kopiëren' : '(' + geselecteerdeAbstractSWs.length + ') Kopiëren'"
+            [disabled]="geselecteerdeAbstractSWs.length === 0"
+            (click)="kopieerNaarAbstractSW()"
+            type="submit" />
+    </div>
+}
+<form #uploadForm [formGroup]="uploadFormGroup">
+    <input class="filepicker" #fileInput (change)="selectFiles($event)" type="file" cy="upload-bijlage" multiple formControlName="files" />
+</form>
+@if (inBulkModus && ['URL', 'MAP', 'BIJLAGEN'].includes((showPage$ | async)!)) {
+    <dt-bulkacties
+        class="bulkacties"
+        [bulkactiesLength]="aantalItemsGeselecteerd"
+        [hideButtonLabels]="true"
+        [inSidebar]="true"
+        [showVerplaatsButton]="
+            !bulkMapGeselecteerd &&
+            isEditable &&
+            !heeftGesynchroniseerdeBijlagenGeselecteerd &&
+            heeftMappen &&
+            !heeftBijlageMetDifferentiatie
+        "
+        [showVerwijderButton]="!bulkMapGeselecteerd && isEditable && !heeftGesynchroniseerdeBijlagenGeselecteerd"
+        [showDifferentierenButton]="isEditable && !isSjabloon && !geselecteerdeMap && heeftToegangTotDifferentiatie"
+        [showZichtbaarheidButton]="isEditable"
+        [showMoreOptionsButton]="!bulkMapGeselecteerd && isEditable"
+        [smallerColumnGap]="true"
+        (verplaatsClicked)="bulkVerplaats()"
+        (bulkZichtbaarheid)="bulkEditZichtbaarheid($event)"
+        (bulkVerwijderen)="bulkVerwijderen()"
+        (kopieerClicked)="kopieerBijlage()"
+        (closeBulkacties)="closeBulkacties()"
+        (onToekennen)="onBulkDifferentiatieToekennen($event)"
+        type="bijlagen">
+    </dt-bulkacties>
+}

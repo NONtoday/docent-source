@@ -1,0 +1,13 @@
+<dt-leerlingregistraties-table (onSignaleringenSave)="showIngesteldMessage = true"> </dt-leerlingregistraties-table>
+
+@if (showIngesteldMessage) {
+    <dt-message
+        [@slideInUpOnEnter]
+        [@slideOutDownOnLeave]
+        [duration]="2000"
+        [isToast]="true"
+        (onClose)="showIngesteldMessage = false"
+        soort="ok"
+        text="Signaleringen ingesteld">
+    </dt-message>
+}

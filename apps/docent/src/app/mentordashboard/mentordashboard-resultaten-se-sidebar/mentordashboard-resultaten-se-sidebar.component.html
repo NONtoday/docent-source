@@ -1,0 +1,56 @@
+<dt-sidebar class="sidebar" #sidebar [title]="vak.naam + ' · SE'" (onMaskClick)="closeSidebar()" (onCloseClick)="closeSidebar()">
+    @if (seResultaten$ | async; as seResultaten) {
+        <div class="resultaten">
+            @if (seResultaten.toetskolommen.length > 0 || seResultaten.toetsSoortGemiddeldeKolommen.length > 0) {
+                @for (toetsKolom of seResultaten.toetskolommen; track toetsKolom) {
+                    <dt-mentordashboard-resultaat
+                        class="resultaat"
+                        [toetsKolom]="toetsKolom"
+                        [resultaat]="toetsKolom.formattedHerkansing1 ? toetsKolom.formattedEerstePoging : toetsKolom.formattedResultaat"
+                        [voldoende]="toetsKolom.isVoldoende"
+                        [herkansingsNummer]="toetsKolom.formattedHerkansing1 ? 0 : null">
+                    </dt-mentordashboard-resultaat>
+                    @if (toetsKolom.formattedHerkansing1) {
+                        <dt-mentordashboard-resultaat
+                            class="eersteHer"
+                            [toetsKolom]="toetsKolom"
+                            [resultaat]="toetsKolom.formattedHerkansing1"
+                            [voldoende]="toetsKolom.isVoldoende"
+                            [herkansingsNummer]="1">
+                        </dt-mentordashboard-resultaat>
+                    }
+                    @if (toetsKolom.formattedHerkansing2) {
+                        <dt-mentordashboard-resultaat
+                            class="tweedeHer"
+                            [toetsKolom]="toetsKolom"
+                            [resultaat]="toetsKolom.formattedHerkansing2"
+                            [voldoende]="toetsKolom.isVoldoende"
+                            [herkansingsNummer]="2">
+                        </dt-mentordashboard-resultaat>
+                    }
+                }
+                @for (toetssoortGemiddelde of seResultaten.toetsSoortGemiddeldeKolommen; track toetssoortGemiddelde) {
+                    <div class="toetssoortgemiddelde-resultaat">
+                        <div class="text-label-bold toetssoort-afkorting">{{ toetssoortGemiddelde.toetssoortAfkorting }}</div>
+                        <span class="text-small-content-semi">{{ toetssoortGemiddelde.toetssoortNaam }}</span>
+                        @if (toetssoortGemiddelde.geldendResultaat.bijzonderheid === resultaatBijzonderheid.NietGemaakt) {
+                            <i
+                                class="fill-typography-4 info-icon"
+                                [onTouchAllowed]="true"
+                                hmyIcon="waarschuwing"
+                                size="small"
+                                dtTooltip="Gemiddelde waarbij toetsen missen"></i>
+                        }
+                        <span class="text-content-semi resultaat" [class.onvoldoende]="!toetssoortGemiddelde.geldendResultaat.isVoldoende">
+                            {{ toetssoortGemiddelde.geldendResultaat.formattedResultaat }}
+                        </span>
+                    </div>
+                }
+            } @else {
+                <span class="text-content-semi geen-resultaten color-typography-4">Geen resultaten</span>
+            }
+        </div>
+    } @else {
+        <hmy-spinner [centeredInParent]="true" />
+    }
+</dt-sidebar>

@@ -1,0 +1,9 @@
+<dt-avatar-naam [avatarUrl]="leerling.pasfoto" [initialen]="leerling.initialen ?? '-'" [naam]="leerling | volledigeNaam"> </dt-avatar-naam>
+<dt-icon
+    #verwijderIcon
+    [attr.data-gtm]="gtmTag"
+    (click)="showVerwijderPopup($event)"
+    icon="verwijderen"
+    size="medium"
+    color="negative"></dt-icon>
+<ng-content #dragHandle></ng-content>

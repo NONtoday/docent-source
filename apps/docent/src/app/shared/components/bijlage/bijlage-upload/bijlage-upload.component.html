@@ -1,0 +1,25 @@
+@if (file) {
+    @if (!file.error && file.progress) {
+        <img class="spinner" src="/assets/img/spinner-docent.svg" />
+    }
+    @if (file.error) {
+        <i class="icon waarschuwing-icon" color="fg-negative-normal" hmyIcon="waarschuwing" size="medium"></i>
+    }
+    <span class="filename text-content-semi">{{ file.file.name }}</span>
+    @if (!file.retry && file.progress) {
+        <dt-progressbar [progress]="file.progress"></dt-progressbar>
+    }
+    @if (file.retry) {
+        <span class="retry" (click)="retryUpload()">
+            <i class="verversen-icon" color="action-primary-normal" hmyIcon="verversen" size="medium"></i>
+            <span class="show-for-tablet text-content-semi">Opnieuw</span>
+        </span>
+    }
+    <span class="size">{{ file.file.size | bytesToHumanReadable }}</span>
+    <div class="cancel-container" (click)="haltUpload()">
+        <i class="sluiten-icon" [sizes]="['small', 'small', 'small', 'medium']" color="action-negative-normal" hmyIcon="sluiten"></i>
+    </div>
+    @if (file.error) {
+        <div class="upload-error">{{ file.error }}</div>
+    }
+}

@@ -1,0 +1,68 @@
+<div #eventhandler [formGroup]="formGroup">
+    <quill-editor
+        [class.heeft-bijlagen]="heeftBijlagen"
+        [class.show-border]="showBorder"
+        [class.show-border-bottom]="showBorderBottom"
+        [class.min-sidebar-width]="minSidebarDesktopWidth$ | async"
+        [class.use-min-height]="useMinHeight"
+        [class.in-sidebar]="useSidebarWidth || inSidebar"
+        [formControlName]="controlName"
+        [bounds]="quillBounds"
+        (onEditorCreated)="onEditorCreated($event)"
+        (onContentChanged)="onContentChanged()"
+        (onEditorChanged)="triggerChangeDetection.emit()"
+        cy="quill-editor"
+        name="editorControl"
+        ngDefaultControl
+        data-placeholder="{{ placeholder }}">
+        <div class="editor-toolbar" quill-editor-toolbar>
+            <span class="ql-formats">
+                <button class="ql-bold"></button>
+                <button class="ql-italic"></button>
+                <button class="ql-underline"></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-list" value="bullet"></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-script" value="sub"></button>
+                <button class="ql-script" value="super"></button>
+            </span>
+            <span class="ql-formats">
+                <button class="ql-link"></button>
+            </span>
+            @if (conferenceDateRange) {
+                @if ((meetAllowed$ | async) && (teamsAllowed$ | async)) {
+                    <span class="ql-formats show-for-phone-only" #morePopout>
+                        <i
+                            class="ql-link pointer"
+                            (click)="$event.preventDefault(); popoutConferences()"
+                            hmyIcon="opties"
+                            size="small"
+                            dtTooltip="Meer opties tonen"></i>
+                    </span>
+                }
+                @if (teamsAllowed$ | async) {
+                    <span class="ql-formats" #morePopoutNonMobile [class.hide-for-phone-only]="meetAllowed$ | async">
+                        <i
+                            class="pointer"
+                            (click)="$event.preventDefault(); openTeamsWindow()"
+                            hmyIcon="msTeams"
+                            size="small"
+                            dtTooltip="Microsoft Teams link toevoegen"></i>
+                    </span>
+                }
+                @if (meetAllowed$ | async) {
+                    <span class="ql-formats" [class.hide-for-phone-only]="teamsAllowed$ | async">
+                        <i
+                            class="pointer"
+                            (click)="$event.preventDefault(); startGoogleMeetFlow()"
+                            hmyIcon="googleMeet"
+                            size="small"
+                            dtTooltip="Google Meet afspraak aanmaken"></i>
+                    </span>
+                }
+            }
+        </div>
+    </quill-editor>
+</div>

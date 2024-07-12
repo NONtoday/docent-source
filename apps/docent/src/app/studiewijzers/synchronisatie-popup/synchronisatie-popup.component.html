@@ -1,0 +1,51 @@
+<dt-popup>
+    <div popup-content>
+        @if (toonStudiewijzers) {
+            <div class="header text-content-semi text-strong">Synchroniseert naar</div>
+            <div class="studiewijzers-container">
+                @for (studiewijzer of studiewijzers; track studiewijzer) {
+                    <div class="studiewijzer" [routerLink]="['/studiewijzers', studiewijzer.id]" data-gtm="studiewijzer-quick-link">
+                        <dt-background-icon [color]="$any(studiewijzer.lesgroep.color)" [size]="'small'" icon="groep"> </dt-background-icon>
+                        <span class="text-content-small-semi">{{ studiewijzer.lesgroep.naam }}</span>
+                        <i class="show-for-tablet" color="action-neutral-normal" hmyIcon="chevronRechts"></i>
+                    </div>
+                }
+            </div>
+        } @else {
+            <div class="header text-content-semi text-strong">Synchroniseert met</div>
+            <div class="sjablonen">
+                @for (sjabloon of studiewijzer.gesynchroniseerdeSjablonen; track sjabloon) {
+                    <div class="sjabloon-studiewijzers-container">
+                        <div class="sjabloon" [routerLink]="['/studiewijzers/sjablonen', sjabloon.id]" data-gtm="sjabloon-quick-link">
+                            <span class="text-content-semi">{{ sjabloon.naam }}</span>
+                            <i color="action-neutral-normal" hmyIcon="chevronRechts"></i>
+                        </div>
+                        @for (syncedStudiewijzer of sjabloon.gesynchroniseerdeStudiewijzers; track syncedStudiewijzer) {
+                            @if (syncedStudiewijzer.id !== studiewijzer.id) {
+                                <div
+                                    class="studiewijzer gesynchroniseerd"
+                                    [routerLink]="['/studiewijzers', syncedStudiewijzer.id]"
+                                    data-gtm="studiewijzer-gesynchroniseerd-quick-link">
+                                    <dt-background-icon [color]="$any(syncedStudiewijzer.lesgroep.color)" [size]="'small'" icon="groep">
+                                    </dt-background-icon>
+                                    <span class="text-content-semi">{{ syncedStudiewijzer.lesgroep.naam }}</span>
+                                    <i color="action-neutral-normal" hmyIcon="chevronRechts"></i>
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        }
+        <div class="link">
+            <dt-popup-button
+                (click)="openSynchronisatieSidebar($event)"
+                data-gtm="synchronisaties-bewerken"
+                hideOutlineForBreakpointUp="tabletPortrait"
+                icon="bewerken"
+                text="Bewerk synchronisaties"
+                hoverColor="primary_2">
+            </dt-popup-button>
+        </div>
+    </div>
+</dt-popup>

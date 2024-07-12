@@ -1,0 +1,101 @@
+<div class="header" [class.is-eigenaar]="isEigenaar">
+    @if (!sjabloonWeek.gekoppeldWeeknummer) {
+        <span class="weeknummer text-content-bold" [class.popup-open]="isPopupOpen">{{ sjabloonWeek.weeknummer }}e week</span>
+    }
+    @if (sjabloonWeek.gekoppeldWeeknummer) {
+        <hmy-pill
+            class="gekoppeld"
+            [color]="isHuidigeWeek ? 'warning' : 'primary'"
+            [text]="sjabloonWeek | sjabloonGekoppeldWeeknummer: synctSchooljaar"></hmy-pill>
+    }
+    <div class="verschuif-icons" [class.popup-open]="isPopupOpen">
+        @if (isEigenaar && showVerschuifOmhoog) {
+            <i
+                class="verschuif"
+                #verschuifUp
+                (click)="openPlanningVerschuifPopup('omhoog')"
+                hmyIcon="pijlBoven"
+                size="smallest"
+                cy="sjabloon-verschuif-planning-omhoog"
+                dtTooltip="Planning omhoog verschuiven"></i>
+        }
+        @if (isEigenaar && showVerschuifOmlaag) {
+            <i
+                class="verschuif"
+                #verschuifDown
+                (click)="openPlanningVerschuifPopup('omlaag')"
+                hmyIcon="pijlOnder"
+                size="smallest"
+                cy="sjabloon-verschuif-planning-omlaag"
+                dtTooltip="Planning omlaag verschuiven"></i>
+        }
+    </div>
+    @if (sjabloonWeek.label) {
+        <hmy-tag
+            class="label"
+            [onTouchAllowed]="true"
+            [preventClickOnTouch]="false"
+            [label]="sjabloonWeek.label"
+            [icon]="isEigenaar ? 'sluiten' : 'none'"
+            [textEllipsis]="true"
+            (iconClick)="removeLabel.emit()"
+            dtTooltip="{{ sjabloonWeek.label }}"
+            data-gtm="sjabloon-label-verwijderen"></hmy-tag>
+    }
+    @if (isEigenaar && !sjabloonWeek.label) {
+        <i
+            class="label-toevoegen"
+            #labelToevoegen
+            [class.popup-open]="isPopupOpen"
+            (click)="openLabelToevoegenPopup()"
+            hmyIcon="labelToevoegen"
+            size="medium"
+            dtTooltip="Label toevoegen"
+            cy="sjabloon-label-toevoegen"></i>
+    }
+    @if (isEerstePeriodeWeek || (first && sjabloonWeek.periode)) {
+        <div class="periode label-block">P{{ sjabloonWeek.periode?.nummer }}</div>
+    }
+    @if (isEigenaar) {
+        <dt-background-icon
+            class="toevoegen"
+            #toevoegen
+            [class.popup-open]="isPopupOpen"
+            [sizes]="['small']"
+            (click)="openToevoegenPopup()"
+            cy="sjabloon-week-item-toevoegen"
+            color="accent_positive_1"
+            icon="toevoegen">
+        </dt-background-icon>
+    }
+</div>
+<div
+    class="studiewijzeritems"
+    [cdkDropListData]="sjabloonWeek"
+    [cdkDropListDisabled]="disableDragDrop || !isEigenaar"
+    (cdkDropListDropped)="verplaatsNaarWeek($event)"
+    cdkDropList>
+    @if (sjabloonWeek.vakanties.length > 0) {
+        <div class="vakanties">
+            @for (vakantie of sjabloonWeek.vakanties; track vakantie) {
+                <dt-vakantie [vakantieNaam]="vakantie.naam"></dt-vakantie>
+            }
+        </div>
+    }
+    @for (toekenning of sjabloonWeek.toekenningen; track trackById($index, toekenning)) {
+        <dt-studiewijzeritem
+            [cdkDragData]="toekenning"
+            [studiewijzeritem]="$any(toekenning.studiewijzeritem)"
+            [inleverstart]="!!toekenning.isStartInleverperiode"
+            [isEigenaar]="isEigenaar"
+            [toekenningId]="toekenning.id"
+            (onStudiewijzeritemClick)="openSidebar(toekenning)"
+            (verwijder)="onVerwijder.emit(toekenning)"
+            (bewerken)="openSidebar(toekenning, true)"
+            (dupliceer)="onDupliceer.emit(toekenning)"
+            (onUpdateLesitemType)="onUpdateLesitemType.emit({ huiswerkType: $event, toekenning: toekenning })"
+            cdkDrag>
+            <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+        </dt-studiewijzeritem>
+    }
+</div>

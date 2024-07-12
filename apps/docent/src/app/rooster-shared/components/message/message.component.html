@@ -1,0 +1,22 @@
+@if (soort === 'waarschuwing') {
+    <i hmyIcon="waarschuwing" size="large"></i>
+}
+@if (soort === 'info') {
+    <i hmyIcon="informatie" size="large"></i>
+}
+@if (soort === 'error') {
+    <i hmyIcon="noRadio" size="large"></i>
+}
+@if (soort === 'ok') {
+    <i hmyIcon="yesRadio" size="large"></i>
+}
+@if (soort === 'confirm') {
+    <i hmyIcon="synchroniseren" size="large"></i>
+}
+<span class="text" [innerHTML]="text"></span>
+@if (soort === 'confirm') {
+    <button [attr.data-gtm]="gtmTag" (click)="onButtonClick.emit()">{{ buttonText }}</button>
+}
+@if (closable) {
+    <i class="exit-icon" (click)="onClose.emit()" hmyIcon="sluiten" size="medium"></i>
+}

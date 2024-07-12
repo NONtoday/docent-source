@@ -1,0 +1,37 @@
+@if (!inEditMode) {
+    <div class="groep">
+        <dt-kleur-keuze [kleur]="kleur" [content]="projectgroep.leerlingen.length"> </dt-kleur-keuze>
+        <span class="text-ellipsis fg-primary-strongest text-content-semi">{{ projectgroep.naam }}</span>
+        <dt-icon
+            class="show-for-tablet icon-hoverable"
+            [attr.data-gtm]="gtmTag"
+            (click)="onEdit()"
+            icon="bewerken"
+            size="medium"
+            color="primary"></dt-icon>
+        @if (lockedVerwijderButton) {
+            <i
+                class="show-for-tablet icon-hoverable fill-accent-negative-1"
+                [onTouchAllowed]="true"
+                hmyIcon="slot"
+                size="medium"
+                dtTooltip="Deze groep heeft inleveringen en kan niet worden verwijderd.">
+            </i>
+        }
+        @if (!lockedVerwijderButton) {
+            <dt-icon
+                class="show-for-tablet icon-hoverable delete-icon"
+                #verwijderButton
+                (click)="onDelete()"
+                icon="verwijderen"
+                size="medium"
+                color="negative"></dt-icon>
+        }
+        <dt-icon class="hide-for-tablet" #moreOptions (click)="onMoreOptions()" icon="opties" size="medium" color="primary"></dt-icon>
+    </div>
+} @else {
+    <div class="edit">
+        <dt-kleur-keuze [kleur]="kleur" [content]="projectgroep.leerlingen.length"> </dt-kleur-keuze>
+        <dt-inline-edit [value]="projectgroep.naam" (saveClick)="onSave($event)" (cancelClick)="cancelEdit()"> </dt-inline-edit>
+    </div>
+}

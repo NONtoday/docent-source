@@ -1,0 +1,33 @@
+@if (stamgroepenEnResultatenMatrix$ | async; as data) {
+    <div class="container">
+        <!-- Navigatie -->
+        <dt-onderwijssoort-navigatie
+            class="navigatie"
+            [contexten]="data.contexten"
+            [isAlternatieveNormering]="(alternatieveNormeringParam$ | async)?.value"
+            [stamgroepId]="data.resultaten.voortgangsResultaten?.stamgroepId"
+            [plaatsingId]="(plaatsingParam$ | async)?.id"
+            [lichtingId]="(lichtingParam$ | async)?.id">
+        </dt-onderwijssoort-navigatie>
+
+        @if (data.resultaten.examenResultaten; as resultaten) {
+            <dt-examendossier
+                [resultaten]="resultaten"
+                [plaatsingId]="(plaatsingParam$ | async)?.id"
+                [lichtingId]="(lichtingParam$ | async)?.id"
+                [vestigingId]="vestigingId$ | async">
+            </dt-examendossier>
+        }
+
+        @if (data.resultaten.voortgangsResultaten; as resultaten) {
+            <dt-voortgangsdossier
+                [resultaten]="resultaten"
+                [alternatieveNormering]="(alternatieveNormeringParam$ | async)?.value ?? false"
+                [showAs]="showResultatenAs$ | async"
+                [vestigingId]="vestigingId$ | async">
+            </dt-voortgangsdossier>
+        }
+    </div>
+} @else {
+    <hmy-spinner />
+}

@@ -1,0 +1,116 @@
+<dt-popup>
+    <div class="container" popup-content>
+        <form [formGroup]="formGroup">
+            <div class="header top">
+                Filteren
+                @if (formGroup.dirty) {
+                    <span class="opslaan" (click)="emitSelection()" data-gtm="werkdruk-filter-opslaan">Opslaan</span>
+                }
+                @if (!formGroup.dirty && filterExists) {
+                    <span class="verwijderen" (click)="verwijderFilter($event)">Filter verwijderen</span>
+                }
+            </div>
+            @if (sortedGroepen.length > 1 && !mentorLeerlingen) {
+                @for (groep of sortedGroepen; track groep) {
+                    <div class="item lesgroep">
+                        <dt-form-checkbox [formControlName]="groep.id"> </dt-form-checkbox>
+                        <dt-background-icon [color]="$any(groep.color)" icon="groep" size="small"> </dt-background-icon>
+                        <span class="text-content-semi">{{ groep.naam }}</span>
+                    </div>
+                }
+            }
+            @if (!toonAlleenLesgroepen) {
+                @for (selectedLeerling of selectedLeerlingen; track selectedLeerling) {
+                    <div class="item indiv-mentorleerling leerling" [class.checked]="formState[selectedLeerling.leerling.id].selected">
+                        <dt-form-checkbox [formControlName]="selectedLeerling.leerling.id"> </dt-form-checkbox>
+                        <dt-avatar
+                            [src]="selectedLeerling.leerling.pasfoto"
+                            [initialen]="selectedLeerling.leerling.initialen"
+                            [size]="32"
+                            [fontsize]="12"
+                            [allowPhotoPopup]="false">
+                        </dt-avatar>
+                        <span class="text-ellipsis text-content-semi text-moderate">{{ selectedLeerling.leerling | volledigeNaam }}</span>
+                        @if (selectedLeerling.stamgroep) {
+                            <span class="text-content-small-semi text-weak">{{ selectedLeerling.stamgroep.naam }}</span>
+                        }
+                    </div>
+                }
+                @for (groep of sortedGroepen; track groep) {
+                    <div>
+                        @if (!formState[groep.id].selected) {
+                            @if (
+                                sortedGroepen.length > 0 ||
+                                (!!mentorLeerlingen?.individueleMentorleerlingen?.length &&
+                                    mentorLeerlingen!.individueleMentorleerlingen!.length > 0)
+                            ) {
+                                <div class="header lesgroep">
+                                    {{ groep.naam }}
+                                    <span
+                                        class="select-all action-primary-normal"
+                                        (click)="selectAllOrNone(groep.id, groep.leerlingen, groep.differentiatieGroepen)"
+                                        >Alles {{ formState[groep.id].allSelected ? 'de' : '' }}selecteren</span
+                                    >
+                                </div>
+                            }
+                            @for (differentiatiegroep of groep.differentiatieGroepen; track differentiatiegroep) {
+                                <div class="item differentiatiegroep" [class.checked]="formState[differentiatiegroep.id].selected">
+                                    <dt-form-checkbox [formControlName]="differentiatiegroep.id"> </dt-form-checkbox>
+                                    <dt-kleur-keuze
+                                        [kleur]="differentiatiegroep.kleur"
+                                        [content]="differentiatiegroep.leerlingen?.length"
+                                        [dtTooltip]="differentiatiegroep.leerlingen ?? [] | personenNamen"
+                                        [onTouchAllowed]="true">
+                                    </dt-kleur-keuze>
+                                    <span class="text-ellipsis text-content-semi action-primary-normal">{{
+                                        differentiatiegroep.naam
+                                    }}</span>
+                                </div>
+                            }
+                            @for (leerling of groep.leerlingen; track leerling) {
+                                @if (!selectedDiffGroepLeerlingIds.includes(leerling.id)) {
+                                    <div class="item leerling" [class.checked]="$any(formGroup)[leerling.id]">
+                                        <dt-form-checkbox [formControlName]="leerling.id"> </dt-form-checkbox>
+                                        <dt-avatar
+                                            [src]="leerling.pasfoto"
+                                            [initialen]="leerling.initialen"
+                                            [size]="32"
+                                            [fontsize]="12"
+                                            [allowPhotoPopup]="false">
+                                        </dt-avatar>
+                                        <span class="text-ellipsis text-content-semi text-moderate">{{ leerling | volledigeNaam }}</span>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                }
+                @if (mentorLeerlingen && unselectedIndividueleLeerlingen.length > 0) {
+                    <div class="individuele-mentorleerlingen">
+                        <div class="header lesgroep">Individueel</div>
+                        @for (individueleMentorleerling of unselectedIndividueleLeerlingen; track individueleMentorleerling) {
+                            <div
+                                class="item indiv-mentorleerling leerling"
+                                [class.checked]="formState[individueleMentorleerling.leerling.id].selected">
+                                <dt-form-checkbox [formControlName]="individueleMentorleerling.leerling.id"> </dt-form-checkbox>
+                                <dt-avatar
+                                    [src]="individueleMentorleerling.leerling.pasfoto"
+                                    [initialen]="individueleMentorleerling.leerling.initialen"
+                                    [size]="32"
+                                    [fontsize]="12"
+                                    [allowPhotoPopup]="false">
+                                </dt-avatar>
+                                <span class="text-ellipsis text-content-semi text-moderate">{{
+                                    individueleMentorleerling.leerling | volledigeNaam
+                                }}</span>
+                                @if (individueleMentorleerling.stamgroep) {
+                                    <span class="text-content-small-semi text-weak">{{ individueleMentorleerling.stamgroep.naam }}</span>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </form>
+    </div>
+</dt-popup>

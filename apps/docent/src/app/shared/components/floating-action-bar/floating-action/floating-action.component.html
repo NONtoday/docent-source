@@ -1,0 +1,26 @@
+<div
+    class="floating-action"
+    [class.disabled]="action.disabled"
+    [dtTooltip]="action.tooltip"
+    [onTouchAllowed]="action.disabled"
+    [maxWidth]="300"
+    [attr.data-gtm]="action.gtmTag"
+    [attr.cy]="action.cyTag"
+    (click)="onOptionClicked()">
+    <div class="icon-notificatie" [class.with-notificatie]="notificatie$ | async">
+        <i
+            class="action"
+            [hmyIcon]="action.icon"
+            [color]="isHover ? action.hoverColor : action.color"
+            [sizes]="['large', 'large', 'large', 'medium']"></i>
+        @if (notificatie$ | async) {
+            <div class="notificatie notificatie-small-alt"></div>
+        }
+    </div>
+    @if (action.checked) {
+        <i class="checked"></i>
+    }
+    @if (action.name) {
+        <span class="text-small-content-semi action-primary-normal">{{ action.name }}</span>
+    }
+</div>

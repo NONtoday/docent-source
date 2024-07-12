@@ -1,0 +1,81 @@
+@if (sidebarService.currentPage$ | async; as page) {
+    <dt-sidebar
+        #sidebar
+        [title]="page.titel"
+        [icon]="page.icon"
+        [iconClickable]="!!page.iconClickable"
+        (onMaskClick)="closeSidebar()"
+        (onCloseClick)="closeSidebar()"
+        (onIconClick)="onSidebarIconClick(page)">
+        @if (studiewijzerJaarbijlagen$ | async; as studiewijzerJaarbijlagen) {
+            @if (page.pagenumber === 0 || page.pagenumber === 3) {
+                <dt-jaarbijlagen
+                    [abstractStudiewijzer]="studiewijzerJaarbijlagen.abstractStudiewijzer"
+                    [jaarbijlagen]="studiewijzerJaarbijlagen.jaarbijlagen"
+                    [isEditable]="isEditable"
+                    [isSjabloon]="isSjabloon"
+                    [geselecteerdeMap]="selectedMap$ | async"
+                    [heeftVaksecties]="heeftVaksecties"
+                    [heeftToegangTotDifferentiatie]="heeftToegangTotDifferentiatie"
+                    (selectStudiewijzer)="toSelectStudiewijzerPage()"
+                    (selectSjabloon)="toSelectSjabloonPage()"
+                    (selectMap)="onSelectMap($event)"
+                    (openDifferentiatie)="openDifferentiatieSidebar($event)"
+                    (openBulkDifferentiatie)="openDifferentiatieSidebarBulk($event)">
+                </dt-jaarbijlagen>
+            }
+            @if (page.pagenumber === 1) {
+                @if (isSjabloon) {
+                    <dt-studiewijzer-selectie [alleenMetBijlagen]="true" (onSelect)="onStudiewijzerSelect($event)">
+                    </dt-studiewijzer-selectie>
+                }
+                @if (!isSjabloon) {
+                    <dt-sjabloon-selectie [alleenMetBijlagen]="true" (onSelect)="onSjabloonSelect($event)"> </dt-sjabloon-selectie>
+                }
+            }
+            @if (page.pagenumber === 2) {
+                @if (selectedJaarbijlagen$ | async; as selectedJaarbijlagen) {
+                    <dt-bijlagen-selectie
+                        [bijlagen]="selectedJaarbijlagen.bijlagen"
+                        [bijlageMappen]="selectedJaarbijlagen.mappen"
+                        [disableMappenSelectie]="(selectedMap$ | async) !== null"
+                        (annuleren)="sidebarService.previousPage()"
+                        (bijlagenAdded)="bijlagenAdded($event)">
+                    </dt-bijlagen-selectie>
+                } @else {
+                    <hmy-spinner [centeredInParent]="true" />
+                }
+            }
+            @if (showDifferentiatiePage$ | async) {
+                @if (leerlingenVanLesgroep$ | async; as leerlingenVanLesgroep) {
+                    @if (differentiatie$ | async; as leerlingenEnGroepen) {
+                        <dt-differentiatie-selectie
+                            [leerlingen]="leerlingenEnGroepen[0]"
+                            [differentiatiegroepen]="leerlingenEnGroepen[1]"
+                            (onAnnuleren)="closeDifferentiatie()"
+                            (onToevoegen)="voegDifferentiatieToe($event.leerlingen, $event.groepen, leerlingenVanLesgroep)">
+                        </dt-differentiatie-selectie>
+                    } @else {
+                        <hmy-spinner [centeredInParent]="true" />
+                    }
+                } @else {
+                    <hmy-spinner [centeredInParent]="true" />
+                }
+            }
+        } @else {
+            <hmy-spinner [centeredInParent]="true" />
+        }
+        @if (showToevoegenGelukt) {
+            <dt-message
+                class="toevoegen-message"
+                [@slideInUpOnEnter]
+                [@slideOutDownOnLeave]
+                [duration]="3000"
+                [isToast]="true"
+                (onClose)="showToevoegenGelukt = false"
+                soort="ok"
+                text="Toevoegen gelukt!">
+            </dt-message>
+        }
+    </dt-sidebar>
+}

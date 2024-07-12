@@ -1,0 +1,45 @@
+<div class="header">
+    <span class="text-content-semi color-primary-3">Contactpersonen</span>
+</div>
+<div class="contactpersonen">
+    @for (contactpersoon of contactpersonen; track contactpersoon; let i = $index) {
+        <div class="contactpersoon">
+            <dt-avatar
+                class="avatar"
+                [src]="contactpersoon.pasfoto"
+                [initialen]="contactpersoon.initialen"
+                [size]="32"
+                [fontsize]="12"
+                [lazyLoaded]="false">
+            </dt-avatar>
+            <span class="titel text-content-semi">
+                {{ contactpersoon.relatieSoort | relatieGeslachtSoortPipe: contactpersoon.geslacht ?? null }}
+            </span>
+            <span class="naam text-content color-typography-3">{{ contactpersoon | volledigeNaam }}</span>
+            @if (contactpersoon.email || heeftBerichtenRecht) {
+                <div
+                    class="contact-optie bericht"
+                    #bericht
+                    [class.popup-open]="openPopupRefId === 'bericht-' + i"
+                    [id]="'bericht-' + i"
+                    (click)="onBerichtClick(i, contactpersoon)"
+                    cy="leerling-contactpersoon-bericht">
+                    <i class="fill-primary-1" hmyIcon="bericht" size="medium"></i>
+                    <i class="fill-background-1" hmyIcon="chevronOnder" size="smallest"></i>
+                </div>
+            }
+            @if (contactpersoon.mobielNummer || contactpersoon.mobielWerkNummer || contactpersoon.telefoonnummer) {
+                <div
+                    class="contact-optie telefoon"
+                    #telefoon
+                    [class.popup-open]="openPopupRefId === 'telefoon-' + i"
+                    [id]="'telefoon-' + i"
+                    (click)="onPhoneNumberClick(i, contactpersoon)"
+                    cy="leerling-contactpersoon-telefoon">
+                    <i class="fill-primary-1" hmyIcon="telefoon" size="medium"></i>
+                    <i class="fill-background-1" hmyIcon="chevronOnder" size="smallest"></i>
+                </div>
+            }
+        </div>
+    }
+</div>

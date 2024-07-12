@@ -1,0 +1,39 @@
+<dt-popup>
+    <div class="content" (click)="$event.stopPropagation()" popup-content>
+        <div class="header text-content-semi color-primary-3">
+            <span>Kies lesmoment</span>
+        </div>
+        @if (showHeleDagOptie) {
+            <span class="hele-dag pointer text-content-semi" (click)="selectHeleDag(dag)">Hele dag</span>
+        }
+        @for (afspraak of afspraken; track afspraak) {
+            <div class="afspraak pointer" (click)="select(afspraak)">
+                <dt-lesuur
+                    [beginlesuur]="afspraak.lesuur"
+                    [eindlesuur]="afspraak.eindLesuur"
+                    [isKwt]="afspraak.isKwt"
+                    [isRoosterToets]="afspraak.isRoosterToets"
+                    [hmyTooltip]="afspraak | roosterToets"
+                    [alignCenter]="false"
+                    [maxWidth]="300"
+                    [onTouchAllowed]="true">
+                </dt-lesuur>
+                <span class="datum text-content-semi">
+                    {{ afspraak.begin | dtDate: 'tijd' }} - {{ afspraak.eind | dtDate: 'tijd' }}
+                    @if (afspraak.locatie) {
+                        <span>,</span>
+                    }
+                </span>
+                @if (afspraak.locatie) {
+                    <span class="text-content-semi locatie"> {{ afspraak.locatie }}</span>
+                }
+                <dt-collega-avatars
+                    class="collegas"
+                    [aantalTeTonenMedewerkers]="1"
+                    [medewerkers]="afspraak.medewerkers"
+                    avatarAltTag="Les van collega">
+                </dt-collega-avatars>
+            </div>
+        }
+    </div>
+</dt-popup>

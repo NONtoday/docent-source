@@ -1,0 +1,16 @@
+<div class="trend">
+    <i
+        [hmyIcon]="trendindicatie | mentordashboardResultaatTrendIcon"
+        [color]="trendindicatie | mentordashboardResultaatTrendColor"
+        size="smallest"></i>
+    <span class="text-content-semi" [style.color]="trendindicatie | mentordashboardResultaatTrendColor | cssVar">
+        {{ trendindicatie | mentordashboardResultaatTrendText }}
+    </span>
+    <i
+        class="info-icon"
+        [hmyTooltip]="trendindicatie | mentordashboardResultaatTrendTooltip: aantalVoorTrendindicatie"
+        [onTouchAllowed]="true"
+        hmyIcon="informatie"
+        size="small"
+        position="left"></i>
+</div>

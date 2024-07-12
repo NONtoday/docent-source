@@ -1,0 +1,33 @@
+@if (vakResultaatPeriodes().isPending) {
+    <hmy-spinner />
+} @else if (vakResultaatPeriodes().hasError) {
+    <span class="error text-content-semi text-weakest">{{ vakResultaatPeriodes().error?.message }}</span>
+} @else {
+    @for (resPeriode of vakResultaatPeriodes().data; track resPeriode) {
+        <div class="periode-header">
+            <div class="periode text-content-semi">
+                <span class="text-strong">Periode {{ resPeriode.cijferperiode }}</span>
+                @if (resPeriode.isHuidig) {
+                    <span class="is-huidig text-weakest">(huidig)</span>
+                }
+            </div>
+            @if (vakToetsTrend(); as trend) {
+                @if (resPeriode.isHuidig) {
+                    <dt-mentordashboard-trend-met-info
+                        [aantalVoorTrendindicatie]="trend.aantalResultatenVoorTrendindicatie"
+                        [trendindicatie]="trend.trendindicatie" />
+                }
+            }
+        </div>
+        @for (resultaat of resPeriode.toetsresultaten; track resultaat) {
+            <dt-leerlingoverzicht-vak-toets-resultaat
+                [instellingen]="instellingen()"
+                [resultaat]="resultaat.resultaat"
+                [isAlternatieveNormering]="resultaat.isAlternatieveNormering"
+                [omschrijvingSamengesteldeToets]="resultaat.omschrijvingSamengesteldeToets"
+                [toetscodeSamengesteldeToets]="resultaat.toetscodeSamengesteldeToets" />
+        } @empty {
+            <span class="geen-resultaten text-content-semi text-weakest">Geen toetsresultaten</span>
+        }
+    }
+}

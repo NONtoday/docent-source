@@ -1,0 +1,55 @@
+<div class="weeknavigatie-container">
+    <div class="week-navigatie">
+        @if (!verbergVorigeWeek) {
+            <dt-background-icon
+                class="pointer"
+                (click)="weekTerug($event)"
+                icon="chevronLinks"
+                size="small"
+                data-gtm="lesplan-navigatie-week-terug">
+            </dt-background-icon>
+        }
+        <div class="week">
+            @if (loadingState.isLoading) {
+                <hmy-spinner />
+            }
+            @if (isHuidigeWeek) {
+                <div class="notificatie-small-alt-2"></div>
+            }
+            @if (!loadingState.isLoading) {
+                <span class="week-text text-content-semi">Week {{ jaarWeek.week }}</span>
+            }
+        </div>
+        @if (!verbergVolgendeWeek) {
+            <dt-background-icon
+                class="pointer"
+                (click)="weekVooruit($event)"
+                icon="chevronRechts"
+                size="small"
+                data-gtm="lesplan-navigatie-week-vooruit">
+            </dt-background-icon>
+        }
+    </div>
+    <ng-content></ng-content>
+</div>
+<div
+    class="week-items text-content-small-semi"
+    [class.selected]="weekItemsSelected"
+    (click)="selecteerWeekitems()"
+    data-gtm="lesplan-navigatie-weekitems">
+    <span class="weekitems-link text-content-semi" cy="lesplanning-weekitems">Weekitems</span>
+</div>
+<div class="navigatie-items">
+    @for (keuze of navigatiekeuzes$ | async; track trackById($index, keuze)) {
+        <dt-lesplan-navigatie-item
+            class="navigatie-item"
+            [keuze]="keuze"
+            [baseAfspraakId]="rootAfspraakId"
+            [selectedAfspraakId]="selectedAfspraakId"
+            [selectedDag]="selectedDag"
+            [selectedWeek]="selectedWeek"
+            (click)="selecteerKeuze(keuze)"
+            data-gtm="lesplan-navigatie-item">
+        </dt-lesplan-navigatie-item>
+    }
+</div>

@@ -1,0 +1,22 @@
+<div class="mobile-detail-header hide-for-tablet">
+    <i class="pointer" [routerLink]="[]" [queryParams]="{}" color="bg-neutral-none" hmyIcon="pijlLinks" size="medium"></i>
+    <span class="text-content-semi titel">Nieuwe inleveringen</span>
+</div>
+<div class="nieuwe-inleveringen">
+    <div class="nieuwe-inlevering text-head show-for-tablet">Nieuwe inleveringen</div>
+    @if (ongelezenInleveringen.length > 0) {
+        <div class="inleveringen">
+            @for (ongelezenInlevering of ongelezenInleveringen; track ongelezenInlevering) {
+                <dt-nieuwe-inlevering
+                    [routerLink]="[]"
+                    [queryParams]="{ detail: ongelezenInlevering.inleveraar.id }"
+                    [inleveraar]="ongelezenInlevering.inleveraar"
+                    [inleveringen]="ongelezenInlevering.inleveringen"
+                    [inleverperiode]="inleverperiode">
+                </dt-nieuwe-inlevering>
+            }
+        </div>
+    } @else {
+        <span class="geen-nieuwe-inleveringen text-content-semi">Geen nieuwe inleveringen</span>
+    }
+</div>

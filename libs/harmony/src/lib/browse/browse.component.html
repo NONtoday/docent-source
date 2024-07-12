@@ -1,0 +1,19 @@
+<div
+    class="arrow-button back"
+    #back
+    [class.disabled]="backDisabled"
+    [hmyTooltip]="backDisabled ? '' : backTooltip"
+    [position]="tooltipPosition"
+    (click)="backDisabled ? null : backClick.emit()">
+    <i [color]="backDisabled ? 'disabled-fg' : 'fg-on-primary-weak'" [hmyIcon]="backIcon" size="small"></i>
+</div>
+<span *ngIf="text">{{ text }}</span>
+<div
+    class="arrow-button next"
+    #next
+    [class.disabled]="nextDisabled"
+    [hmyTooltip]="nextDisabled ? '' : nextTooltip"
+    [position]="tooltipPosition"
+    (click)="nextDisabled ? null : nextClick.emit()">
+    <i [color]="nextDisabled ? 'disabled-fg' : 'fg-on-primary-weak'" [hmyIcon]="nextIcon" size="small"></i>
+</div>

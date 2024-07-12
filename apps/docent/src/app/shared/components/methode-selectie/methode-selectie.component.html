@@ -1,0 +1,55 @@
+@if (methoden$ | async; as methoden) {
+    <div>
+        @if (activeTab$ | async; as activeTab) {
+            <div class="tabs text-content-semi" [class.in-share-content]="inShareContent">
+                <div class="tab laatst-bekeken" [class.selected]="activeTab === 'recent'" (click)="setTab('recent')">
+                    <span class="text-ellipsis">Laatst bekeken</span>
+                </div>
+                <div class="tab mijn-vakken" [class.selected]="activeTab === 'mijnVakken'" (click)="setTab('mijnVakken')">
+                    <span class="text-ellipsis">Mijn vakken</span>
+                </div>
+                <div class="tab alle-methoden" [class.selected]="activeTab === 'alleMethoden'" (click)="setTab('alleMethoden')">
+                    <span class="text-ellipsis">Alle methoden</span>
+                </div>
+            </div>
+        }
+        @if ((activeTab$ | async) !== 'recent') {
+            <div class="zoekveld-container" [class.in-share-content]="inShareContent">
+                <div class="zoekveld" [formGroup]="searchForm">
+                    <input #textInput [autoFocus]="isDesktop" type="text" formControlName="search" placeholder="Zoek methode" dtAutofocus />
+                    <i class="icon" hmyIcon="zoeken" size="medium"></i>
+                </div>
+            </div>
+            @if (loadingState.isLoading) {
+                <div class="center">
+                    <hmy-spinner />
+                </div>
+            }
+            @if (methoden.length === 0 && !loadingState.isLoading) {
+                <div class="geen-methoden text-content-semi text-weak">
+                    Geen methode gevonden{{ (activeTab$ | async) === 'mijnVakken' && (filter$ | async) === '' ? ' voor je vakken' : '' }}
+                </div>
+            }
+            <div class="methoden">
+                @for (methode of methoden; track methode) {
+                    <dt-methode [methode]="$any(methode)" (click)="methodeClick(methode)"> </dt-methode>
+                }
+            </div>
+        } @else {
+            @if (methoden.length === 0) {
+                <div class="geen-methoden padding text-content-semi text-weak">Je hebt nog geen methode bekeken</div>
+            }
+            @if (methoden.length > 0) {
+                <div class="methoden padding">
+                    @for (methode of methoden; track methode) {
+                        <dt-methode [methode]="$any(methode)" (click)="methodeClick(methode)"> </dt-methode>
+                    }
+                </div>
+            }
+        }
+    </div>
+} @else {
+    <div class="center">
+        <hmy-spinner />
+    </div>
+}

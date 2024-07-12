@@ -1,0 +1,41 @@
+<dt-popup>
+    <div class="popup-content" #content popup-content>
+        <hmy-switch-group class="voortgangsdossier-examendossier">
+            <hmy-switch
+                class="voortgangsdossier"
+                *dtHeeftRecht="['heeftVoortgangsdossierInzienRecht']"
+                [active]="(dossier$ | async) === 'voortgangsdossier'"
+                (click)="dossier$.next('voortgangsdossier')"
+                icon="voortgangsdossier"
+                label="Voortgangsdossier"></hmy-switch>
+            <hmy-switch
+                class="examendossier"
+                *dtHeeftRecht="['heeftExamendossierInzienRecht']"
+                [active]="(dossier$ | async) === 'examendossier'"
+                (click)="dossier$.next('examendossier')"
+                icon="examendossier"
+                label="Examendossier"></hmy-switch>
+        </hmy-switch-group>
+        @if (vakken$ | async; as vakken) {
+            <div class="vakken">
+                @if (vakken.length > 0) {
+                    @for (vak of vakken; track vak) {
+                        <div class="vak">
+                            <span class="vak-naam text-content-semi">{{ vak.naam }}</span>
+                            @for (lesgroep of vak.lesgroepen; track lesgroep) {
+                                <div class="lesgroep" [attr.data-gtm]="'deeplink-' + dossier$.value" (click)="navigateTo(lesgroep.id)">
+                                    <dt-background-icon [color]="$any(lesgroep.color)" icon="groep"></dt-background-icon>
+                                    <span class="lesgroep-naam text-content-semi">{{ lesgroep.naam }}</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                } @else {
+                    <div class="geen-lesgroepen text-content-semi text-weak">Geen lesgroepen</div>
+                }
+            </div>
+        } @else {
+            <hmy-spinner class="loader" />
+        }
+    </div>
+</dt-popup>

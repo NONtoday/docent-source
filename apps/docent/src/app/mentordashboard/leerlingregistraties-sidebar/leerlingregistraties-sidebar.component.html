@@ -1,0 +1,61 @@
+<dt-sidebar
+    [title]="sidebar.title"
+    [avatar]="sidebarAvatar"
+    (onMaskClick)="sidebar.onMaskClick?.()"
+    (onCloseClick)="sidebar.onCloseClick?.()">
+    <div class="container">
+        @if (selectedPeriode$ | async; as selectedPeriode) {
+            <div class="periodes">
+                @for (periode of periodes; track trackByNummer($index, periode)) {
+                    <div class="periode" [class.is-selected]="selectedPeriode === periode" (click)="selectedPeriode$.next(periode)">
+                        <span class="nummer text-small-content-semi show-for-tablet">Periode {{ periode.nummer }}</span>
+                        <span class="nummer text-small-content-semi hide-for-tablet">P{{ periode.nummer }}</span>
+                    </div>
+                }
+            </div>
+        }
+        @if (registratieDetail$ | async; as registratieDetail) {
+            <div class="registratie-totalen">
+                <div class="totalen-row">
+                    <div class="totalen-block">
+                        <span class="totalen-label">Totaal</span>
+                        <span class="totalen-value">{{ registratieDetail.aantal }}x</span>
+                    </div>
+                    @if (vakId) {
+                        <div class="totalen-block">
+                            <span class="totalen-label">Lesmomenten</span>
+                            <div class="lesuren">
+                                <span class="totalen-value">
+                                    {{ formatPercentageAfwezig(registratieDetail.aantal, registratieDetail.aantalLessen) }}%
+                                </span>
+                                <span class="aantal-afwezig">{{ registratieDetail.aantal }}/{{ registratieDetail.aantalLessen }}</span>
+                            </div>
+                        </div>
+                    }
+                    @if (isAfwezigKolom) {
+                        <div class="totalen-block">
+                            <span class="totalen-label">Uren</span>
+                            <span class="totalen-value">{{ registratieDetail.totaalMinuten | urenDuration }}</span>
+                        </div>
+                    }
+                </div>
+                @if (vakId) {
+                    <div class="totalen-row">
+                        <div class="totalen-block">
+                            <span class="totalen-label">Toetsmomenten</span>
+                            <span class="totalen-value">{{ registratieDetail.aantalToetsmomenten }}x</span>
+                        </div>
+                        <div class="totalen-block">
+                            <span class="totalen-label">Rapportcijfer</span>
+                            <span class="totalen-value">{{ registratieDetail.rapportCijfer }}</span>
+                        </div>
+                    </div>
+                }
+            </div>
+            <dt-leerlingregistraties-detail-lijst [registraties]="registratieDetail.registraties" [isAfwezigKolom]="isAfwezigKolom">
+            </dt-leerlingregistraties-detail-lijst>
+        } @else {
+            <hmy-spinner />
+        }
+    </div>
+</dt-sidebar>

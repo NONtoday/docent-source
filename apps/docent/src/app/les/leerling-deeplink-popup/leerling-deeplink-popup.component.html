@@ -1,0 +1,71 @@
+<dt-popup>
+    <div class="popup-content" #content popup-content>
+        @if (!loading) {
+            <div class="links">
+                @if (notitieboekToegankelijk && toonNieuweNotitie) {
+                    <dt-popup-button
+                        class="add-notitie"
+                        (click)="onNieuweNotitie()"
+                        icon="reactieToevoegen"
+                        iconColor="accent_positive_1"
+                        iconHoverColor="accent_positive_1"
+                        color="accent_positive_1"
+                        data-gtm="leerling-deeplink-nieuwe-notitie"
+                        text="Nieuwe notitie">
+                    </dt-popup-button>
+                }
+                @if (notitieboekToegankelijk) {
+                    <dt-popup-button
+                        class="notitieboek"
+                        [routerLink]="['/notitieboek']"
+                        [queryParams]="{ leerling: leerling.id }"
+                        icon="notitieboek"
+                        data-gtm="leerling-nav-notitieboek"
+                        text="Notitieboek">
+                    </dt-popup-button>
+                }
+                <dt-popup-button (click)="onLeerlingkaart()" icon="smiley" text="Leerlingkaart" data-gtm="leerling-nav-leerlingkaart">
+                </dt-popup-button>
+                <dt-popup-button
+                    (click)="onVoortgangsdossier()"
+                    icon="resultaten"
+                    text="Resultaten alle vakken"
+                    data-gtm="leerling-nav-voortgangsdossier">
+                </dt-popup-button>
+                @if (heeftExamendossier) {
+                    <dt-popup-button
+                        class="examendossier"
+                        (click)="onExamendossier()"
+                        icon="examendossier"
+                        data-gtm="leerling-nav-examendossier"
+                        text="Examendossier">
+                    </dt-popup-button>
+                }
+                <dt-popup-button
+                    (click)="onZorgvierkant()"
+                    icon="archief"
+                    data-gtm="leerling-nav-zorgvierkant"
+                    text="Zorgvierkant"></dt-popup-button>
+                @if (toonWerkdruk) {
+                    <dt-popup-button
+                        class="werkdruk"
+                        (click)="onWerkdruk()"
+                        icon="werkdruk"
+                        text="Werkdruk"
+                        data-gtm="leerling-nav-werkdruk">
+                    </dt-popup-button>
+                }
+                @if (heeftToegangTotEloEnSw$ | async) {
+                    <dt-popup-button
+                        class="inleveringen"
+                        (click)="onInleveringen()"
+                        icon="inleveropdracht"
+                        data-gtm="leerling-nav-inleveringen"
+                        text="Inleveringen"></dt-popup-button>
+                }
+            </div>
+        } @else {
+            <hmy-spinner [centeredInParent]="true" />
+        }
+    </div>
+</dt-popup>

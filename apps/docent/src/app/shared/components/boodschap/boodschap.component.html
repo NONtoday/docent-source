@@ -1,0 +1,24 @@
+<dt-avatar
+    #avatar
+    [initialen]="boodschap.verzender!.initialen"
+    [src]="boodschap.verzender!.pasfoto"
+    [size]="32"
+    [fontsize]="12"></dt-avatar>
+<div class="naam text-content-small-semi text-moderate">{{ boodschap.verzender | volledigeNaam }}</div>
+<div class="datum text-content-smallest-semi text-weak">
+    {{ boodschap.verzendDatum | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}
+</div>
+<div class="tekst" [innerHTML]="boodschap.inhoud"></div>
+@if (boodschap.bijlagen.length > 0) {
+    <div class="bijlagen">
+        @for (bijlage of boodschap.bijlagen; track bijlage) {
+            <a
+                class="text-content-small"
+                [disabled]="!bijlage.url"
+                [hoverColor]="!!bijlage.url ? 'primary_2' : null"
+                (click)="openBijlage(bijlage.url!)"
+                >{{ bijlage.titel }}</a
+            >
+        }
+    </div>
+}

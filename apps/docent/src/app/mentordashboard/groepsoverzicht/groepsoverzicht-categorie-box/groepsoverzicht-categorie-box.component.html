@@ -1,0 +1,38 @@
+<div class="title">
+    <hmy-notification-solid class="show-for-tablet" [color]="registratie.categorieContent.kleur" [size]="12"></hmy-notification-solid>
+    <hmy-notification-solid class="hide-for-tablet" [color]="registratie.categorieContent.kleur" [size]="8"></hmy-notification-solid>
+    <div class="title-text text-ellipsis text-weakest">
+        <span class="text-content-semi text-strong" data-cy="groepsoverzicht-categorie-box-naam">
+            {{ registratieNaam }}
+        </span>
+        @if (keuzeLijstWaarde) {
+            <span data-cy="groepsoverzicht-categorie-box-keuzewaarde"> • {{ keuzeLijstWaarde }}</span>
+        }
+    </div>
+</div>
+<div class="box-content">
+    @if (leerlingen.length > 0) {
+        <dt-avatar-stack
+            class="hide-for-tablet"
+            #avatarStack
+            [leerlingen]="leerlingen"
+            [maxshown]="5"
+            [size]="32"
+            [spacing]="4"
+            (click)="onAvatarStackClick(registratie)"
+            data-gtm="groepsoverzicht-categoriebox-avatar-stack"></dt-avatar-stack>
+    }
+    @for (registratieLeerling of registratie.leerlingRegistratieTellingen; track registratieLeerling) {
+        <dt-groepsoverzicht-leerling
+            class="show-for-tablet"
+            [registratieLeerling]="registratieLeerling"
+            [tijdspan]="tijdspan"
+            (click)="onLeerlingClick(registratieLeerling)"
+            data-gtm="groepsoverzicht-categoriebox-leerling"></dt-groepsoverzicht-leerling>
+    }
+    @if (registratie.leerlingRegistratieTellingen.length === 0) {
+        <div class="geen-leerlingen">
+            <span class="text-content-semi text-weakest">Geen leerlingen</span>
+        </div>
+    }
+</div>

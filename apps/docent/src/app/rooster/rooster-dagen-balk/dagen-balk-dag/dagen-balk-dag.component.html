@@ -1,0 +1,14 @@
+<div class="daglink pointer" [class.is-active]="geselecteerdeDag" (click)="navigateOrScroll()" cy="rooster-daglink">
+    <span class="hide-for-desktop-only daglink-content">
+        <div class="text-content-smallest-semi">{{ dag | dtDate: 'dag_letter' }}</div>
+        <div class="dag-nummer" [class.dagnummer-vandaag]="vandaag">{{ dag | dtDate: 'dag_nummer' }}</div>
+    </span>
+    <span class="show-for-desktop">
+        <div class="daglink-content">
+            <div class="text-content-semi">{{ dag | dtDate: 'dag_kort' }}</div>
+            <div class="text-content-semi dag-nummer" [class.dagnummer-vandaag]="vandaag">
+                {{ dag | dtDate: 'dag_nummer' }}
+            </div>
+        </div>
+    </span>
+</div>

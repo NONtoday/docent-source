@@ -1,0 +1,68 @@
+<header class="header">
+    <div class="tabs">
+        <div class="tab active" cy="registraties-totaal"><span class="name">Totalen</span></div>
+        <div class="tab pointer" [routerLink]="['vakken']" cy="registraties-per-vak"><span class="name">Per vak</span></div>
+    </div>
+    @if (weergaveInstellingen$ | async; as zichtbareCategorieen) {
+        @if (totaaloverzichtRegistraties$ | async; as totaalRegistraties) {
+            <div
+                class="filter hide-for-phone-only"
+                #filterButton
+                (click)="openFilterPopup(totaalRegistraties, zichtbareCategorieen)"
+                cy="filter-button">
+                <i class="fill-primary-1" hmyIcon="blokken" size="medium"></i>
+                <span class="text-content-semi color-primary-1">Weergave</span>
+                @if (aantalZichtbareCategorieen) {
+                    <hmy-pill class="show-for-tablet aantal-kolommen" [text]="aantalZichtbareCategorieen"></hmy-pill>
+                }
+            </div>
+        }
+    }
+</header>
+<div class="content">
+    <div class="schooljaar">
+        <span class="text-content-semi schooljaar-text">{{ schooljaarString }}</span>
+        <i
+            class="fill-typography-4"
+            [onTouchAllowed]="true"
+            hmyIcon="informatie"
+            size="small"
+            dtTooltip="Alle registraties (vak en vakloos) binnen het huidig schooljaar. Klik op een tegel voor meer details."></i>
+    </div>
+    @if (filteredTotaaloverzichtRegistraties$ | async; as totaalOverzichtRegistraties) {
+        <div class="registraties">
+            @for (totaalRegistratie of totaalOverzichtRegistraties.totaalRegistraties; track totaalRegistratie) {
+                <dt-leerlingregistratie-categorie
+                    [naam]="totaalRegistratie | totaalRegistratieCategorieNaam"
+                    [kolom]="totaalRegistratie.kolom"
+                    [aantalLessen]="totaalOverzichtRegistraties.aantalLessen"
+                    [aantalRegistraties]="totaalRegistratie.aantalRegistraties"
+                    [aantalRegistratiesTijdensLes]="totaalRegistratie.aantalRegistraties"
+                    [totaalMinuten]="totaalRegistratie.totaalMinuten"
+                    (click)="openTotaalSidebar(totaalRegistratie, totaalOverzichtRegistraties.aantalLessen)"
+                    data-gtm="totaal-leerlingregistratie-details" />
+            }
+            @if (showWeergaveOpgeslagenMessage()) {
+                <dt-message
+                    [@slideInUpOnEnter]
+                    [@slideOutDownOnLeave]
+                    [duration]="3000"
+                    [isToast]="true"
+                    (onClose)="showWeergaveOpgeslagenMessage.set(false)"
+                    cy="weergave-opgeslagen-bericht"
+                    text="Weergave opgeslagen"
+                    soort="ok" />
+            }
+        </div>
+    } @else {
+        <div class="spinner-container">
+            <hmy-spinner />
+        </div>
+    }
+    @if (alleRegistratiesVerborgen) {
+        <div class="geen-registraties">
+            <span class="text-content-semi color-typography-3">Geen registraties geselecteerd</span>
+            <span class="color-typography-3">Selecteer een registratie via het filter om de aantallen van dit schooljaar te bekijken.</span>
+        </div>
+    }
+</div>

@@ -1,0 +1,33 @@
+<div class="datepickers">
+    <i class="uitklappen-rechts-icon" color="action-primary-normal" hmyIcon="uitklappenRechts" size="small"></i>
+    <i class="tijd-icon" color="action-primary-normal" hmyIcon="tijd" size="small"></i>
+    <i class="start-vandaag" (click)="rangepicker.open()" color="action-primary-normal" hmyIcon="kalenderDag" size="small"></i>
+    <i class="eind-vandaag" (click)="rangepicker.open()" color="action-primary-normal" hmyIcon="kalenderDag" size="small"></i>
+    <mat-date-range-input [formGroup]="rangeGroup" [rangePicker]="rangepicker" [dateFilter]="dateFilter" [min]="min" [max]="max">
+        <input
+            class="text-content pointer datepicker-input"
+            #inputstart
+            [formControlName]="beginFormControlName"
+            [placeholder]="beginPlaceholder"
+            (click)="rangepicker.open()"
+            (focus)="rangepicker.open()"
+            (dateInput)="startChange($event.value)"
+            readonly
+            matStartDate />
+        <input
+            class="text-content pointer"
+            #inputend
+            [formControlName]="eindFormControlName"
+            [placeholder]="eindPlaceholder"
+            (click)="rangepicker.open()"
+            (focus)="rangepicker.open()"
+            (dateInput)="eindChange($event.value)"
+            readonly
+            matEndDate />
+    </mat-date-range-input>
+    <mat-date-range-picker #rangepicker [touchUi]="isTouch$ | async" (closed)="inputstart.blur(); inputend.blur()"> </mat-date-range-picker>
+</div>
+<div class="time-inputs">
+    <input class="starttijd" #time [formControl]="beginTijdControl" type="time" dtTimeInputHelper required="required" size="6" />
+    <input class="eindtijd" #time [formControl]="eindTijdControl" type="time" dtTimeInputHelper required="required" size="6" />
+</div>

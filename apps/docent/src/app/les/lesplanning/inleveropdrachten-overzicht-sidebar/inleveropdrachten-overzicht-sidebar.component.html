@@ -1,0 +1,143 @@
+@if ({ detail: detailToekenning$ | async }; as data) {
+    <dt-sidebar
+        [@.disabled]="!!disableSidebarAnimation"
+        [title]="sidebarTitle$ | async"
+        [icon]="data.detail ? 'pijlLinks' : 'inleveropdracht'"
+        [iconClickable]="!!data.detail"
+        (onIconClick)="onTerugClick()"
+        (onMaskClick)="closeSidebar()"
+        (onCloseClick)="closeSidebar()">
+        @if (inleveropdrachten$ | async; as inleveropdrachten) {
+            @if (editToekenning$ | async; as editToekenning) {
+                <dt-toekenning-formulier
+                    [toekenning]="editToekenning"
+                    [afspraak]="afspraak"
+                    [lesgroepen]="editToekenning.id ? [editToekenning.lesgroep!] : afspraak.lesgroepen"
+                    [toonDatepicker]="false"
+                    [heeftToegangTotElo]="heeftToegangTotElo$ | async"
+                    [heeftToegangTotSw]="heeftToegangTotSw$ | async"
+                    [magDifferentiatieBewerken]="!!(differentiatieToegestaan$ | async)"
+                    (onCancel)="editToekenning$.next(null)"
+                    (onSaveToekenning)="onSaveToekenning($event)"
+                    (closeSidebar)="closeSidebar()">
+                </dt-toekenning-formulier>
+            } @else {
+                @if (studiewijzeritem$ | async; as studiewijzeritem) {
+                    <div class="inleveropdracht-detail-container" [class.toon-projectgroepen]="toonProjectgroepen$ | async">
+                        @if (toonProjectgroepen$ | async) {
+                            <dt-projectgroepen
+                                [lesgroepId]="data.detail!.lesgroep!.id"
+                                [studiewijzeritemId]="studiewijzeritem.id"
+                                [toekenningId]="data.detail!.id"
+                                [differentiatiegroepen]="data.detail!.differentiatiegroepen"
+                                [differentiatieleerlingen]="data.detail!.differentiatieleerlingen"
+                                (terug)="closeProjectgroepen()"
+                                (onSaveProjectgroep)="scrollSidebarToBottom()">
+                            </dt-projectgroepen>
+                        } @else {
+                            <div class="detail">
+                                <dt-inleveropdracht-inhoud
+                                    [studiewijzeritem]="$any(studiewijzeritem)"
+                                    [lesgroep]="data.detail!.lesgroep!"
+                                    [isProjectgroepenEditable]="true"
+                                    [toonLesgroep]="afspraak.lesgroepen.length > 1"
+                                    [toekenningId]="data.detail!.id"
+                                    (openProjectgroepen)="openProjectgroepen()">
+                                    @if (data.detail!.synchroniseertMet) {
+                                        <dt-synchroniseer-item-met-sjabloon
+                                            [synchroniseertMet]="data.detail!.synchroniseertMet"
+                                            [canUnlink]="true"
+                                            (onUnlink)="unlinkToekenning(data.detail!.id)">
+                                        </dt-synchroniseer-item-met-sjabloon>
+                                    }
+                                </dt-inleveropdracht-inhoud>
+                                <dt-studiewijzeritem-inhoud
+                                    [studiewijzeritem]="$any(studiewijzeritem)"
+                                    [sidebar]="true"
+                                    [differentiatiegroepen]="data.detail!.differentiatiegroepen"
+                                    [differentiatieleerlingen]="data.detail!.differentiatieleerlingen"
+                                    (verwijderAlleDiffLeerlingen)="verwijderAlleDiffLeerlingen()"
+                                    (verwijderDiffGroep)="verwijderDiffGroep($event)"
+                                    (verwijderDiffLeerling)="verwijderDiffLeerling($event)"
+                                    (onDifferentiatieToekenning)="onDifferentiatieToekenning.emit(data.detail!)">
+                                </dt-studiewijzeritem-inhoud>
+                            </div>
+                            <div class="buttonrow detail-buttons">
+                                <dt-verwijder-button [withBorder]="true" (onDelete)="onDeleteClick(data.detail!)"> </dt-verwijder-button>
+                                <dt-outline-button
+                                    class="edit-button"
+                                    (click)="onEditClick(data.detail!)"
+                                    icon="bewerken"
+                                    disableIconOnMobile="true">
+                                    Bewerken</dt-outline-button
+                                >
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <div class="inleveropdrachten-container">
+                        @if (geenItems) {
+                            <div class="melding">
+                                <span>Er zijn nog geen inleveropdrachten aangemaakt</span>
+                            </div>
+                        }
+                        @if (inleveropdrachten.toekomend.length > 0) {
+                            <div class="header">
+                                <span>Aankomende deadlines</span>
+                            </div>
+                        }
+                        @for (toekenning of inleveropdrachten.toekomend; track trackById($index, toekenning); let last = $last) {
+                            <dt-inleveropdracht-overzicht-item
+                                [toekenning]="toekenning"
+                                [toonLesgroep]="afspraak.lesgroepen.length > 1"
+                                [class.last]="last"
+                                (click)="toonDetailInleveropdracht(toekenning)"
+                                (onVerwijder)="onDeleteClick(toekenning)"
+                                (onToggleZichtbaarheid)="toggleZichtbaarheid(toekenning)"
+                                (onEdit)="editToekenning$.next(toekenning)">
+                            </dt-inleveropdracht-overzicht-item>
+                        }
+                        @if (inleveropdrachten.verlopen.length > 0) {
+                            <div class="header">
+                                <span>Verlopen deadlines</span>
+                            </div>
+                        }
+                        @for (toekenning of inleveropdrachten.verlopen; track trackById($index, toekenning); let last = $last) {
+                            <dt-inleveropdracht-overzicht-item
+                                [class.last-verlopen]="last"
+                                [toekenning]="toekenning"
+                                [toonLesgroep]="afspraak.lesgroepen.length > 1"
+                                (click)="toonDetailInleveropdracht(toekenning)"
+                                (onVerwijder)="onDeleteClick(toekenning)"
+                                (onToggleZichtbaarheid)="toggleZichtbaarheid(toekenning)"
+                                (onEdit)="editToekenning$.next(toekenning)">
+                            </dt-inleveropdracht-overzicht-item>
+                        }
+                    </div>
+                    <div class="buttonrow overzicht-buttons">
+                        @if ({ namen: nietGekoppeldeLesgroepNamen$ | async }; as data) {
+                            <dt-outline-button
+                                class="toevoegen-button"
+                                [onTouchAllowed]="true"
+                                [disabled]="!!data.namen"
+                                [tooltipDisplayable]="!!data.namen"
+                                (click)="onInleveropdrachtToevoegenClick()"
+                                dtTooltip="Je bent niet gekoppeld aan {{ data.namen }}"
+                                icon="toevoegen"
+                                color="accent_positive_1"
+                                iconColor="accent_positive_1"
+                                cy="inleveropdracht-toevoegen">
+                                Inleveropdracht toevoegen
+                            </dt-outline-button>
+                        }
+                    </div>
+                    @if (loadingState.isLoading) {
+                        <hmy-spinner [centeredInParent]="true" />
+                    }
+                }
+            }
+        } @else {
+            <hmy-spinner [centeredInParent]="true" />
+        }
+    </dt-sidebar>
+}

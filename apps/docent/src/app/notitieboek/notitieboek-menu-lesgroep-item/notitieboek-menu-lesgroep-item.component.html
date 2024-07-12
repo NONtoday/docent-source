@@ -1,0 +1,20 @@
+<div class="groep" [routerLink]="['/notitieboek']" [queryParams]="{ lesgroep: lesgroepItem.lesgroep.id }">
+    @if (lesgroepItem.ongelezenNotitieAanwezig === 'STANDAARD') {
+        <div class="notificatie notificatie-smallest-alt"></div>
+    }
+    <dt-background-icon [color]="$any(lesgroepItem.lesgroep.color)" icon="groep"></dt-background-icon>
+    <span class="naam text-content-semi text-ellipsis text-strong">{{ lesgroepItem.lesgroep.naam }}</span>
+    <i
+        class="action add-notitie pointer"
+        [routerLink]="['/notitieboek']"
+        [queryParams]="{
+            lesgroep: lesgroepItem.lesgroep.id,
+            notitie: 'nieuw',
+            contextToevoegen: true,
+            edit: true
+        }"
+        data-gtm="notitieboek-menu-notitie-toevoegen"
+        hmyIcon="reactieToevoegen"
+        dtTooltip="Notitie toevoegen"
+        size="medium"></i>
+</div>

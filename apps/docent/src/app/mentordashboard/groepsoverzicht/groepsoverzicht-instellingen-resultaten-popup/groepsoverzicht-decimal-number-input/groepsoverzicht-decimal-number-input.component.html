@@ -1,0 +1,9 @@
+<input
+    [class.has-error]="hasError"
+    [formControl]="inputControl"
+    [additionalAllowedKeys]="['.', ',']"
+    (blur)="handleBlur()"
+    maxlength="3"
+    numbersOnly
+    selectOnFocus
+    type="text" />

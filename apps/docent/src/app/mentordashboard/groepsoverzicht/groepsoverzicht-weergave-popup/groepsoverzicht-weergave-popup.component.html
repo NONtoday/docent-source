@@ -1,0 +1,58 @@
+<dt-popup>
+    <div popup-content>
+        <div class="content">
+            <header>
+                <span class="text-content-semi text-strong">Weergave</span>
+                <span class="text-small-content-semi text-weak">Toon of verberg categorieën en stel een signaleerwaarde in.</span>
+            </header>
+            <div class="form" [formGroup]="form">
+                <div class="form-header">
+                    <span class="text-content-semi text-moderate">Registraties</span>
+                    <span class="text-content-semi text-moderate">Tonen na</span>
+                </div>
+                @for (rcat of categorieen; track rcat) {
+                    <div class="optie" [formGroupName]="rcat.categorie.id">
+                        <dt-form-checkbox [label]="rcat.categorie | registratieCategorieNaam" formControlName="selected" />
+                        <i
+                            class="pointer reset"
+                            [class.hidden]="
+                                !form.get(rcat.categorie.id)?.get('selected')?.value ||
+                                !form.get(rcat.categorie.id)?.get('grenswaarde')?.value ||
+                                form.get(rcat.categorie.id)?.get('grenswaarde')?.value === 1 ||
+                                form.get(rcat.categorie.id)?.get('grenswaarde')?.value === '1'
+                            "
+                            (click)="resetValue(rcat.categorie.id)"
+                            color="action-neutral-normal"
+                            hmyIcon="noRadio"
+                            size="large"></i>
+                        <input
+                            class="grenswaarde"
+                            [attr.cy]="rcat.categorie | registratieCategorieNaam | slugify"
+                            [class.hidden]="!form.get(rcat.categorie.id)?.get('selected')?.value"
+                            [class.has-value]="
+                                form.get(rcat.categorie.id)?.get('grenswaarde')?.value !== 1 &&
+                                form.get(rcat.categorie.id)?.get('grenswaarde')?.value !== '1'
+                            "
+                            [maxLength]="3"
+                            [additionalAllowedKeys]="['.', ',']"
+                            numbersOnly
+                            formControlName="grenswaarde"
+                            placeholder="1"
+                            type="text" />
+                    </div>
+                }
+            </div>
+            <div class="buttons">
+                <dt-outline-button class="annuleren" (click)="annuleer()" color="typography_3"> Annuleren </dt-outline-button>
+                <hmy-button
+                    class="submit"
+                    [class.disabled]="!form.valid"
+                    (click)="opslaan()"
+                    cy="weergave-opslaan"
+                    data-gtm="groepsoverzicht-weergave-opslaan"
+                    label="Opslaan">
+                </hmy-button>
+            </div>
+        </div>
+    </div>
+</dt-popup>

@@ -1,0 +1,35 @@
+<header>
+    <span class="titel">{{ kolom.titel }}</span>
+    <hmy-notification-counter [inverted]="true" [color]="kolom.color" [size]="20" [count]="leerlingenCijferOverzicht.length" />
+    <div class="header-icon">
+        <i
+            class="show-for-tablet sorteer-icon pointer"
+            [hmyIcon]="sorteerIcon"
+            [dtTooltip]="sorteerTooltipTekst"
+            (click)="sortIconClick()"
+            data-gtm="groepsoverzicht-resultaten-kolom-sorteren"
+            size="small"></i>
+    </div>
+    <i
+        class="show-for-tablet header-icon pointer"
+        [dtTooltip]="kolom.tooltip"
+        [alignCenter]="false"
+        [maxWidth]="216"
+        size="small"
+        hmyIcon="informatie"></i>
+</header>
+@if (leerlingen.length > 0) {
+    <dt-avatar-stack class="hide-for-tablet" #avatarStack [leerlingen]="leerlingen" [maxshown]="5" [size]="32" [spacing]="4" />
+}
+@if (leerlingenCijferOverzicht.length === 0) {
+    <span class="geen-leerlingen">Geen leerlingen</span>
+}
+<div class="show-for-tablet leerlingkaarten">
+    @for (overzicht of leerlingenCijferOverzicht; track trackByLeerlingId($index, overzicht)) {
+        <dt-groepsoverzicht-leerling-cijfer-kaart
+            [cijferOverzicht]="overzicht"
+            [instellingen]="instellingen"
+            (click)="onLeerlingClick(overzicht)"
+            data-gtm="groepsoverzicht-resultaten-kolom-leerling" />
+    }
+</div>

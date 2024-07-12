@@ -1,0 +1,36 @@
+<dt-popup>
+    <div class="popup-content" popup-content>
+        @for (
+            afspraakLesgroepToekenningen of afspraakToekenningenVoorLesgroepen$ | async;
+            track afspraakLesgroepToekenningen;
+            let first = $first
+        ) {
+            <div class="lesgroep-toekenningen">
+                <div
+                    class="lesgroep"
+                    [class.first]="first"
+                    [class.clickable]="afspraakLesgroepToekenningen.studiewijzerId"
+                    [tooltipDisplayable]="!!afspraakLesgroepToekenningen.studiewijzerId"
+                    (click)="navigeerNaarStudiewijzer(afspraakLesgroepToekenningen.studiewijzerId)"
+                    dtTooltip="Naar studiewijzer"
+                    data-gtm="navigeer-naar-studiewijzer-andere-lesgroep">
+                    <dt-background-icon [color]="$any(afspraakLesgroepToekenningen.lesgroep.color)" icon="groep" size="small">
+                    </dt-background-icon>
+                    <span class="lesgroep-naam text-content-small-semi">{{ afspraakLesgroepToekenningen.lesgroep.naam }}</span>
+                    @if (afspraakLesgroepToekenningen.studiewijzerId) {
+                        <i color="action-neutral-normal" hmyIcon="chevronRechts" size="smallest"></i>
+                    }
+                </div>
+                @if (afspraakLesgroepToekenningen.afspraakToekenningen.length > 0) {
+                    <div class="toekenningen">
+                        @for (toekenning of afspraakLesgroepToekenningen.afspraakToekenningen; track toekenning) {
+                            <dt-studiewijzeritem
+                                [studiewijzeritem]="$any(toekenning.studiewijzeritem)"
+                                [readOnly]="true"></dt-studiewijzeritem>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</dt-popup>

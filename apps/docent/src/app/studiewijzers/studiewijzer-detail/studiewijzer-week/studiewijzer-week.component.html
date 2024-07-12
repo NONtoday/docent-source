@@ -1,0 +1,66 @@
+<div class="week-header-items-container" [class.popup-open]="isPopupOpen">
+    <div class="week">
+        <span class="weeknummer show-for-desktop text-content-bold">W{{ studiewijzerWeek.weeknummer }}</span>
+        <span class="weeknummer hide-for-desktop text-content-bold">Week {{ studiewijzerWeek.weeknummer }}</span>
+        <hmy-browse
+            class="verschuif"
+            #verschuif
+            [backDisabled]="!showVerschuifOmhoog"
+            [nextDisabled]="!showVerschuifOmlaag"
+            (backClick)="openPlanningVerschuifOmhoogPopup()"
+            (nextClick)="openPlanningVerschuifOmlaagPopup()"
+            backIcon="pijlBoven"
+            nextIcon="pijlOnder"
+            backTooltip="Planning omhoog verschuiven"
+            nextTooltip="Planning omlaag verschuiven" />
+        @if (isEerstePeriodeWeek) {
+            <div class="periode label-block">P{{ studiewijzerWeek.periode?.nummer }}</div>
+        }
+        <dt-background-icon
+            class="toevoegen"
+            #toevoegen
+            [sizes]="['small']"
+            (click)="openToevoegenPopup()"
+            color="accent_positive_1"
+            icon="toevoegen"></dt-background-icon>
+    </div>
+    <div
+        class="weekitem-container items"
+        [cdkDropListEnterPredicate]="isGeenInleverPeriode"
+        [cdkDropListData]="studiewijzerWeek"
+        [cdkDropListDisabled]="disableDragDrop"
+        [class.geen-items]="studiewijzerWeek.toekenningen.length === 0"
+        (cdkDropListDropped)="verplaatsNaarWeek($event)"
+        cdkDropList>
+        @for (toekenning of studiewijzerWeek.toekenningen; track trackById($index, toekenning)) {
+            <dt-studiewijzeritem
+                [cdkDragData]="toekenning"
+                [studiewijzeritem]="toekenning.studiewijzeritem"
+                [inleverstart]="!!toekenning.isStartInleverperiode"
+                [toekenningId]="toekenning.id"
+                [differentiatiegroepen]="toekenning.differentiatiegroepen"
+                [differentiatieleerlingen]="toekenning.differentiatieleerlingen"
+                (onStudiewijzeritemClick)="openSidebar(toekenning, false)"
+                (bewerken)="openSidebar(toekenning, true)"
+                (verwijder)="onVerwijder.emit(toekenning)"
+                (dupliceer)="onDupliceer.emit(toekenning)"
+                (onUpdateLesitemType)="onUpdateLesitemType.emit({ huiswerkType: $event, toekenning: toekenning })"
+                (cdkDragStarted)="isDragging = true"
+                (cdkDragEnded)="isDragging = true"
+                cdkDrag>
+                <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+            </dt-studiewijzeritem>
+        }
+    </div>
+</div>
+@for (studiewijzerDag of studiewijzerWeek.dagen; track trackByDag($index, studiewijzerDag)) {
+    <dt-studiewijzer-dag
+        [studiewijzerDag]="studiewijzerDag"
+        [lesgroep]="lesgroep"
+        [disableDragDrop]="disableDragDrop"
+        [heeftVaksecties]="heeftVaksecties"
+        (onVerwijder)="onVerwijder.emit($event)"
+        (onDupliceer)="onDupliceer.emit($event)"
+        (onUpdateLesitemType)="onUpdateLesitemType.emit($event)">
+    </dt-studiewijzer-dag>
+}

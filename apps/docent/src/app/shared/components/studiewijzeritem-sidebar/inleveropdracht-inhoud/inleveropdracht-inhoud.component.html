@@ -1,0 +1,104 @@
+<div class="wrapper">
+    <ng-content></ng-content>
+</div>
+<div class="header">
+    <span class="onderwerp text-content-bold">{{ studiewijzeritem.onderwerp }}</span>
+    <i
+        class="niet-zichtbaar-icon"
+        [class.hidden]="studiewijzeritem.zichtbaarVoorLeerling"
+        [onTouchAllowed]="true"
+        hmyIcon="nietZichtbaar"
+        size="large"
+        hmyTooltip="Niet zichtbaar voor leerling"></i>
+    @if (toonLesgroep && lesgroep) {
+        <hmy-pill class="lesgroep" [text]="lesgroep.naam" color="primary"></hmy-pill>
+    }
+    <hmy-icon-pill
+        #inleveringen
+        [metChevron]="true"
+        (click)="openInleveringenPopup()"
+        hmyTooltip="Aantal inleveringen"
+        data-gtm="inleveropdracht-inhoud-aantal"
+        color="primary"
+        icon="inleveropdracht"
+        iconSize="smallest"
+        text="{{ studiewijzeritem.inleverperiode!.inleveringenAantal }}/{{ studiewijzeritem.inleverperiode!.inleveringenVerwacht }}">
+    </hmy-icon-pill>
+</div>
+<div class="content">
+    <div class="tijd-container">
+        <div class="begin-container">
+            <i class="uitklappen-rechts-icon" hmyIcon="uitklappenRechts" size="medium"></i>
+            <span class="begin">{{ studiewijzeritem.inleverperiode!.begin | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}</span>
+        </div>
+        <div class="eind-container">
+            <i class="tijd-icon" hmyIcon="tijd" size="medium"></i>
+            <span class="eind">{{ studiewijzeritem.inleverperiode!.eind | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}</span>
+        </div>
+    </div>
+    <div class="notificatie-container">
+        <i class="notificatie-icon" hmyIcon="notificatie" size="medium"></i>
+        @if (studiewijzeritem.inleverperiode!.herinnering === 0) {
+            <span class="notificatie">Geen herinnering</span>
+        }
+        @if (studiewijzeritem.inleverperiode!.herinnering > 0) {
+            <span class="notificatie">{{ studiewijzeritem.inleverperiode!.herinnering | dagenDuration }} voor de deadline</span>
+        }
+    </div>
+    <div class="plagiaat-bericht">
+        @if (studiewijzeritem.inleverperiode!.plagiaatDetectie) {
+            <div class="plagiaat">
+                <i class="check-icon" hmyIcon="check" size="medium"></i>
+                <span class="plagiaat-label">Plagiaat automatisch controleren</span>
+            </div>
+        }
+        @if (studiewijzeritem.inleverperiode!.stuurBerichtBijInlevering) {
+            <div class="bericht">
+                <i class="check-icon" hmyIcon="check" size="medium"></i>
+                <span class="bericht-label">Ontvang berichten van inlevering</span>
+            </div>
+        }
+    </div>
+</div>
+<div class="projectgroepen-container">
+    @if (!isProjectgroepenEditable) {
+        @if (studiewijzeritem.projectgroepen.length > 0) {
+            <dt-outline-button class="projectgroep-button" [disabled]="true" icon="groep">
+                {{ studiewijzeritem.projectgroepen.length }} projectgroep(en)</dt-outline-button
+            >
+        }
+    } @else {
+        @if (studiewijzeritem.projectgroepen.length > 0) {
+            <dt-outline-button class="projectgroep-button" (click)="openProjectgroepen.emit()" icon="groep">
+                {{ studiewijzeritem.projectgroepen.length }} projectgroep(en)</dt-outline-button
+            >
+        } @else {
+            @if (!heeftInleveringen) {
+                <dt-outline-button class="projectgroep-toevoegen" [dashed]="true" (click)="openProjectgroepen.emit()" icon="groep"
+                    >Projectgroep toevoegen</dt-outline-button
+                >
+            }
+            @if (heeftInleveringen) {
+                <dt-outline-button
+                    class="projectgroep-toevoegen met-inleveringen"
+                    [onTouchAllowed]="true"
+                    (click)="onOpenProjectgroepenClick()"
+                    color="typography_3"
+                    iconColor="typography_3"
+                    icon="slot"
+                    hmyTooltip="Je kunt projectgroepen niet bewerken, omdat de opdracht inleveringen bevat."
+                    >Projectgroep toevoegen</dt-outline-button
+                >
+            }
+        }
+    }
+</div>
+@if (studiewijzeritem.tijdsindicatie) {
+    <hmy-icon-pill
+        class="tijdsindicatie"
+        [text]="studiewijzeritem.tijdsindicatie"
+        icon="klok"
+        iconSize="smallest"
+        color="primary"
+        hmyTooltip="Tijdsindicatie"></hmy-icon-pill>
+}

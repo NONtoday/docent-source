@@ -1,0 +1,11 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <span class="text-content-semi text-moderate">Titel wijzigen</span>
+        <dt-inline-edit
+            [value]="sjabloonTitel"
+            [maxLength]="255"
+            [autofocus]="true"
+            (saveClick)="saveTitel($event)"
+            (cancelClick)="popup.onClose()"></dt-inline-edit>
+    </div>
+</dt-popup>

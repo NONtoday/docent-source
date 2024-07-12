@@ -1,0 +1,45 @@
+@if (vm().heeftResultaten) {
+    <div class="overzicht">
+        @if (vm().zwaarOnvoldoendes.visible) {
+            <div
+                class="bar zwaar-onvoldoendes fg-on-negative-weak bg-negative-weak"
+                [class.left-br]="vm().zwaarOnvoldoendes.leftRadius"
+                [class.right-br]="vm().zwaarOnvoldoendes.rightRadius"
+                [dtTooltip]="vm().zwaarOnvoldoendes.tooltip"
+                [alignCenter]="false"
+                [onTouchAllowed]="false">
+                <span class="aantal z-onvoldoende" cy="aantal-zwaar-onvoldoende">{{ vm().zwaarOnvoldoendes.cijfers.length }}</span>
+            </div>
+        }
+        @if (vm().onvoldoendes.visible) {
+            <div
+                class="bar onvoldoendes fg-on-accent-weak bg-accent-weak"
+                [class.left-br]="vm().onvoldoendes.leftRadius"
+                [class.right-br]="vm().onvoldoendes.rightRadius"
+                [dtTooltip]="vm().onvoldoendes.tooltip"
+                [alignCenter]="false"
+                [onTouchAllowed]="false">
+                <span class="aantal onvoldoende" cy="aantal-onvoldoende">{{ vm().onvoldoendes.cijfers.length }}</span>
+            </div>
+        }
+        @if (vm().voldoendes.visible) {
+            <div
+                class="bar voldoendes fg-on-positive-weak bg-positive-weak"
+                [class.left-br]="vm().voldoendes.leftRadius"
+                [class.right-br]="vm().voldoendes.rightRadius"
+                [dtTooltip]="vm().voldoendes.tooltip"
+                [alignCenter]="false"
+                [onTouchAllowed]="false">
+                <span class="aantal voldoende" cy="aantal-voldoende">{{ vm().voldoendes.cijfers.length }}</span>
+            </div>
+        }
+    </div>
+}
+@if (!vm().heeftResultaten) {
+    <div class="geen-resultaten bg-elevated-strong">
+        <span class="fg-on-neutral-strong text-content-smallest-semi">Geen resultaten</span>
+    </div>
+}
+@if (label) {
+    <span class="label text-content-smallest-semi text-weak">{{ label }}</span>
+}

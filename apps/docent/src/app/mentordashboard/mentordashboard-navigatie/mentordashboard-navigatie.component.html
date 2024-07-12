@@ -1,0 +1,7 @@
+@if (navigatieItems$ | async; as items) {
+    <div class="mentordashboard-header" [hideScrollbar]="true" [allowNormalHorizontalScroll]="true" hmyHorizontalScroll>
+        @for (navigatieItem of items; track navigatieItem) {
+            <dt-mentordashboard-navigatie-item class="item" [class.is-deeplink]="navigatieItem.deeplink" [navigatieItem]="navigatieItem" />
+        }
+    </div>
+}

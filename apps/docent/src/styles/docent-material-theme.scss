@@ -1,0 +1,128 @@
+@use '@angular/material' as mat;
+@import 'global-variables';
+
+/* stylelint-disable-next-line scss/at-mixin-argumentless-call-parentheses */
+@include mat.core();
+
+$docent-primary-pallette: (
+    50: #e5edfa,
+    100: #bfd3f3,
+    200: #94b5eb,
+    300: #6997e3,
+    400: #4981dd,
+    500: $primary-1,
+    600: #2463d3,
+    700: #1f58cd,
+    800: #194ec7,
+    900: #0f3cbe,
+    A100: #ebf0ff,
+    A200: #b8c8ff,
+    A400: #85a0ff,
+    A700: #6c8cff,
+    contrast: (
+        50: #fff,
+        100: #fff,
+        200: #000,
+        300: #000,
+        400: #fff,
+        500: #fff,
+        600: #fff,
+        700: #fff,
+        800: #fff,
+        900: #fff,
+        A100: #000,
+        A200: #000,
+        A400: #000,
+        A700: #000
+    )
+);
+
+$docent-secondary-pallette: (
+    50: #fcf5e9,
+    100: #f8e6c9,
+    200: #f3d5a5,
+    300: #eec480,
+    400: #eab865,
+    500: $secondary-1,
+    600: #e3a443,
+    700: #df9a3a,
+    800: #db9132,
+    900: #d58022,
+    A100: #fff,
+    A200: #ffeddb,
+    A400: #ffd4a8,
+    A700: #ffc78f,
+    contrast: (
+        50: #000,
+        100: #000,
+        200: #000,
+        300: #000,
+        400: #000,
+        500: #000,
+        600: #000,
+        700: #000,
+        800: #000,
+        900: #000,
+        A100: #000,
+        A200: #000,
+        A400: #000,
+        A700: #000
+    )
+);
+
+$docent-warning-pallette: (
+    50: #fbede2,
+    100: #f4d1b7,
+    200: #edb388,
+    300: #e59558,
+    400: #e07e34,
+    500: $accent-warning-1,
+    600: #d65f0e,
+    700: #d0540c,
+    800: #cb4a09,
+    900: #c23905,
+    A100: #fff0ec,
+    A200: #ffc8b9,
+    A400: #ffa086,
+    A700: #ff8c6c,
+    contrast: (
+        50: #000,
+        100: #000,
+        200: #000,
+        300: #000,
+        400: #000,
+        500: #fff,
+        600: #fff,
+        700: #fff,
+        800: #fff,
+        900: #fff,
+        A100: #000,
+        A200: #000,
+        A400: #000,
+        A700: #000
+    )
+);
+
+$docent-material-primary: mat.m2-define-palette($docent-primary-pallette);
+$docent-material-accent: mat.m2-define-palette($docent-secondary-pallette);
+$docent-material-warning: mat.m2-define-palette($docent-warning-pallette);
+$docent-material-typography: mat.m2-define-typography-config(
+    $font-family: 'Open Sans'
+);
+
+$docent-material-theme: mat.m2-define-light-theme(
+    (
+        color: (
+            primary: $docent-material-primary,
+            accent: $docent-material-accent,
+            warn: $docent-material-warning
+        ),
+        typography: $docent-material-typography
+    )
+);
+
+@include mat.core-theme($docent-material-theme);
+@include mat.button-theme($docent-material-theme);
+@include mat.fab-theme($docent-material-theme);
+@include mat.icon-button-theme($docent-material-theme);
+@include mat.datepicker-theme($docent-material-theme);

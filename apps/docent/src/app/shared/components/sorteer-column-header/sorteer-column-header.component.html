@@ -1,0 +1,10 @@
+<span class="label text-content-semi">{{ label | ucfirst }} </span>
+@if (activeSortHeader === label && activeOrder === 'asc') {
+    <i hmyIcon="aZ" size="smallest"></i>
+}
+@if (activeSortHeader === label && activeOrder === 'desc') {
+    <i hmyIcon="zA" size="smallest"></i>
+}
+@if (activeSortHeader !== label) {
+    <i hmyIcon="pijlKleinOnder" size="smallest"></i>
+}

@@ -1,0 +1,27 @@
+<dt-popup>
+    <div class="container" popup-content>
+        <span class="text-content-small-semi text-moderate">Label toevoegen</span>
+        <form class="form">
+            <input
+                class="label"
+                #focusfield
+                [formControl]="label"
+                (keyup.enter)="onSubmit()"
+                type="text"
+                cy="sjabloon-label-input"
+                maxlength="50"
+                placeholder="Label"
+                autofocus />
+            <dt-button class="submit" [disabled]="!label.valid" [iconOnly]="true" (click)="onSubmit()" data-gtm="sjabloon-label-toevoegen">
+                <i [sizes]="['large', 'medium']" hmyIcon="check"></i>
+            </dt-button>
+            <dt-outline-button
+                class="show-for-phone-only"
+                (click)="popup.onClose()"
+                iconColor="background_1"
+                icon="sluiten"
+                iconOnlyRangeEnd="desktop">
+            </dt-outline-button>
+        </form>
+    </div>
+</dt-popup>

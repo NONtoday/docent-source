@@ -1,0 +1,26 @@
+@if (studiewijzerOverzichtView$ | async; as studiewijzerOverzichtView) {
+    @for (sw of studiewijzerOverzichtView.studiewijzers; track sw) {
+        <div class="studiewijzer">
+            <dt-checkbox (click)="onSelect(sw, $event)"></dt-checkbox>
+            <dt-background-icon class="groep-icon" [color]="$any(sw.lesgroep.color)" [sizes]="['medium']" icon="groep">
+            </dt-background-icon>
+            <span class="naam text-content-semi">{{ sw.lesgroep.naam }}</span>
+        </div>
+    }
+    @for (categorie of studiewijzerOverzichtView.categorieen; track categorie) {
+        @if (categorie.studiewijzers.length > 0) {
+            <dt-sidebar-categorie-divider [naam]="categorie.naam"> </dt-sidebar-categorie-divider>
+        }
+        @for (sw of categorie.studiewijzers; track sw) {
+            <div class="studiewijzer">
+                <dt-checkbox (click)="onSelect(sw, $event)"></dt-checkbox>
+                <dt-background-icon class="groep-icon" [color]="$any(sw.lesgroep.color)" [sizes]="['medium']" icon="groep">
+                </dt-background-icon>
+                <span class="naam text-content-semi">{{ sw.lesgroep.naam }}</span>
+            </div>
+        }
+        @if (geenStudiewijzers) {
+            <span class="geen-studiewijzers text-content-semi">Er zijn geen beschikbare studiewijzers</span>
+        }
+    }
+}

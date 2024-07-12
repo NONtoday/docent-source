@@ -1,0 +1,93 @@
+<dt-accordion
+    [class.force-open]="isPhoneOrTablet$ | async"
+    [expanded]="false"
+    [lightBackground]="(isPhoneOrTablet$ | async)!"
+    [withShadow]="false"
+    [showChevron]="!(isPhoneOrTablet$ | async)"
+    (onToggle)="accordionToggled($event)"
+    data-gtm="open-accordion-voor-signaleringen-lespagina">
+    <div class="title-content" title>
+        <span class="show-for-desktop" cy="signaleringen">Signaleringen</span>
+        @if (periode?.naam) {
+            <span
+                class="periode text-small-content-semi text-weak"
+                [onTouchAllowed]="true"
+                dtTooltip="{{ periode?.begin | dtDate: 'dagnummer_maand_kort' }}
+        t/m
+        {{ periode?.eind | dtDate: 'dagnummer_maand_kort' }}"
+                >{{ periode?.naam }}
+            </span>
+        }
+        <div class="settings" (click)="onSettingsClicked($event)">
+            <dt-icon #settings icon="settings" cy="signaleringen-settings" size="medium"></dt-icon>
+            <span class="text-settings hide-for-desktop">Instellingen</span>
+        </div>
+    </div>
+    <div
+        @blockInitialRenderAnimation
+        [class.signaleringen]="signaleringen?.vrijVeldSignaleringen && signaleringen!.vrijVeldSignaleringen.length === 0"
+        body>
+        @if (!(signaleringen?.vrijVeldSignaleringen && signaleringen!.vrijVeldSignaleringen.length === 0)) {
+            @for (signalering of signaleringen?.vrijVeldSignaleringen; track signalering) {
+                <dt-accordion [isSubAccordion]="true" [expanded]="true" [withShadow]="false" data-testid="subAccordion">
+                    <div class="title-content" title>
+                        <span data-testid="vrijveldNaam">
+                            {{ signalering.vrijVeld.naam }}
+                        </span>
+                    </div>
+                    <div class="signaleringen" [class.no-borders]="!(signalering.keuzelijstWaardeSignaleringen.length === 0)" body>
+                        @if (signalering.keuzelijstWaardeSignaleringen.length === 0) {
+                            @if (signalering.leerlingSignaleringen.length > 0) {
+                                @for (
+                                    leerlingSignalering of signalering.leerlingSignaleringen;
+                                    track trackById($index, leerlingSignalering)
+                                ) {
+                                    <dt-signalering
+                                        class="signalering"
+                                        [signalering]="leerlingSignalering"
+                                        [typeSignalering]="signalering.vrijVeld.naam"
+                                        [attr.cy]="signalering.vrijVeld.naam | toCyTag">
+                                    </dt-signalering>
+                                }
+                            } @else {
+                                <div class="geen-signaleringen text-weakest">
+                                    <span>Geen signaleringen</span>
+                                </div>
+                            }
+                        } @else {
+                            @for (
+                                keuzelijstWaardeSignalering of signalering.keuzelijstWaardeSignaleringen;
+                                track keuzelijstWaardeSignalering
+                            ) {
+                                <div class="subtitle-content">
+                                    <span class="text-content-semi"> {{ keuzelijstWaardeSignalering.keuzelijstWaarde.waarde }} </span>
+                                </div>
+                                @if (keuzelijstWaardeSignalering.leerlingSignaleringen.length > 0) {
+                                    @for (
+                                        leerlingSignalering of keuzelijstWaardeSignalering.leerlingSignaleringen;
+                                        track trackById($index, leerlingSignalering)
+                                    ) {
+                                        <dt-signalering
+                                            class="signalering"
+                                            [signalering]="leerlingSignalering"
+                                            [typeSignalering]="keuzelijstWaardeSignalering.keuzelijstWaarde.waarde"
+                                            [attr.cy]="keuzelijstWaardeSignalering.keuzelijstWaarde.waarde | toCyTag">
+                                        </dt-signalering>
+                                    }
+                                } @else {
+                                    <div class="geen-signaleringen text-weakest">
+                                        <span>Geen signaleringen</span>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </dt-accordion>
+            }
+        } @else {
+            <div class="geen-signaleringen text-weakest">
+                <span>Geen signaleringen</span>
+            </div>
+        }
+    </div>
+</dt-accordion>

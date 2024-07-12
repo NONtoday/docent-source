@@ -1,0 +1,185 @@
+/**
+ * Do not edit directly
+ * Generated on Fri, 28 Jun 2024 09:18:46 GMT
+ */
+
+:root {
+    --bg-mask-normal: rgba(24, 28, 32, 0.25);
+    --shadow-right-strong: 3px 0 8px 0 rgba(24, 28, 32, 0.25); /* Sidebars */
+    --shadow-left-strong: -4px 0 8px 0 rgba(24, 28, 32, 0.25); /* Sidebars */
+    --shadow-centred-normal: 0 0 8px 0 rgba(24, 28, 32, 0.25); /* Active inputs */
+    --shadow-centred-weak: 0 0 4px 0 rgba(24, 28, 32, 0.25); /* Containers */
+    --shadow-downed-max: 0 -4px 16px 0 rgba(24, 28, 32, 0.25); /* Roll-ups */
+    --shadow-downed-strong: 0 -2px 8px 0 rgba(24, 28, 32, 0.25); /* Toolbars */
+    --shadow-downed-weak: 0 -1px 3px 0 rgba(24, 28, 32, 0.25);
+    --shadow-raised-max: 0 4px 16px 0 rgba(24, 28, 32, 0.25); /* Pop-up & floaters */
+    --shadow-raised-strongest: 0 2px 8px 0 rgba(24, 28, 32, 0.25); /* Tooltips */
+    --shadow-raised-strong: 0 2px 8px 0 rgba(24, 28, 32, 0.25); /* Headers & pop-outs */
+    --shadow-raised-normal: 0 1px 3px 0 rgba(24, 28, 32, 0.25); /* Buttons & cards */
+    --shadow-raised-weak: 0 1px 1px 0 rgba(24, 28, 32, 0.25); /* Pages & containers */
+    --disabled-border: var(--grey-50);
+    --disabled-fg: var(--grey-60);
+    --disabled-bg: var(--grey-20);
+    --action-accent-strong: var(--yellow-80);
+    --action-accent-normal: var(--yellow-60);
+    --action-neutral-strong: var(--grey-80);
+    --action-neutral-normal: var(--grey-70);
+    --action-neutral-weak: var(--grey-60);
+    --action-positive-strong: var(--green-90);
+    --action-positive-normal: var(--green-80);
+    --action-alternative-strong: var(--purple-80);
+    --action-alternative-normal: var(--purple-50);
+    --action-warning-strong: var(--orange-80);
+    --action-warning-normal: var(--orange-60);
+    --action-negative-strong: var(--red-80);
+    --action-negative-normal: var(--red-60);
+    --action-primary-strong: var(--blue-80);
+    --action-primary-normal: var(--blue-60);
+    --text-white: var(--grey-0);
+    --text-inverted: var(--grey-0);
+    --text-weakest: var(--grey-60);
+    --text-weak: var(--grey-70);
+    --text-moderate: var(--grey-80);
+    --text-strong: var(--grey-150);
+    --border-accent-strong: var(--yellow-80);
+    --border-accent-normal: var(--yellow-60);
+    --border-alternative-strong: var(--purple-80);
+    --border-alternative-normal: var(--purple-50);
+    --border-positive-strong: var(--green-90);
+    --border-positive-normal: var(--green-80);
+    --border-negative-strong: var(--red-80);
+    --border-negative-normal: var(--red-60);
+    --border-warning-strong: var(--orange-80);
+    --border-warning-normal: var(--orange-60);
+    --border-primary-strong: var(--blue-70);
+    --border-primary-normal: var(--blue-60);
+    --border-primary-weak: var(--blue-0);
+    --border-neutral-strongest: var(--grey-70); /* Checkbox, radio */
+    --border-neutral-strong: var(--grey-60);
+    --border-neutral-normal: var(--grey-40);
+    --border-neutral-weak: var(--grey-30);
+    --border-neutral-inverted: var(--grey-0);
+    --fg-neutral-strong: var(--grey-80);
+    --fg-neutral-moderate: var(--grey-60);
+    --fg-neutral-normal: var(--grey-50);
+    --fg-neutral-weak: var(--grey-30);
+    --fg-neutral-inverted: var(--grey-0);
+    --fg-alternative-normal: var(--purple-50);
+    --fg-positive-normal: var(--green-80);
+    --fg-negative-normal: var(--red-60);
+    --fg-warning-normal: var(--orange-60);
+    --fg-accent-normal: var(--yellow-60);
+    --fg-primary-strongest: var(--blue-90);
+    --fg-primary-normal: var(--blue-60);
+    --fg-on-alternative-max: var(--purple-0);
+    --fg-on-alternative-strong: var(--purple-0);
+    --fg-on-alternative-normal: var(--purple-0);
+    --fg-on-alternative-weak: var(--purple-80);
+    --fg-on-positive-max: var(--green-0);
+    --fg-on-positive-strong: var(--green-0);
+    --fg-on-positive-normal: var(--green-0);
+    --fg-on-positive-weak: var(--green-90);
+    --fg-on-negative-max: var(--red-0);
+    --fg-on-negative-strong: var(--red-0);
+    --fg-on-negative-normal: var(--red-0);
+    --fg-on-negative-weak: var(--red-80);
+    --fg-on-warning-max: var(--orange-0);
+    --fg-on-warning-strong: var(--orange-0);
+    --fg-on-warning-normal: var(--orange-0);
+    --fg-on-warning-weak: var(--orange-80);
+    --fg-on-accent-max: var(--yellow-0);
+    --fg-on-accent-strong: var(--yellow-0);
+    --fg-on-accent-normal: var(--yellow-0);
+    --fg-on-accent-weak: var(--yellow-90);
+    --fg-on-primary-max: var(--grey-0);
+    --fg-on-primary-strongest: var(--blue-0);
+    --fg-on-primary-strong: var(--blue-0);
+    --fg-on-primary-normal: var(--blue-0);
+    --fg-on-primary-weak: var(--blue-70);
+    --fg-on-neutral-max: var(--grey-20);
+    --fg-on-neutral-strongest: var(--grey-20);
+    --fg-on-neutral-strong: var(--grey-80);
+    --fg-on-neutral-moderate: var(--grey-80);
+    --fg-on-neutral-weak: var(--grey-80);
+    --fg-on-neutral-weakest: var(--grey-80);
+    --fg-on-neutral-none: var(--grey-80);
+    --bg-alternative-max: var(--purple-90);
+    --bg-alternative-strong: var(--purple-80);
+    --bg-alternative-normal: var(--purple-50);
+    --bg-alternative-weak: var(--purple-0);
+    --bg-positive-max: var(--green-90);
+    --bg-positive-strong: var(--green-90);
+    --bg-positive-normal: var(--green-80);
+    --bg-positive-weak: var(--green-0);
+    --bg-negative-max: var(--red-90);
+    --bg-negative-strong: var(--red-80);
+    --bg-negative-normal: var(--red-60);
+    --bg-negative-weak: var(--red-0);
+    --bg-warning-max: var(--orange-90);
+    --bg-warning-strong: var(--orange-80);
+    --bg-warning-normal: var(--orange-60);
+    --bg-warning-weak: var(--orange-0);
+    --bg-accent-max: var(--yellow-90);
+    --bg-accent-strong: var(--yellow-80);
+    --bg-accent-normal: var(--yellow-60);
+    --bg-accent-weak: var(--yellow-0);
+    --bg-primary-strongest: var(--blue-90);
+    --bg-primary-strong: var(--blue-80);
+    --bg-primary-normal: var(--blue-70);
+    --bg-primary-weak: var(--blue-0);
+    --bg-elevated-strong: var(--grey-30);
+    --bg-elevated-weak: var(--grey-20);
+    --bg-elevated-weakest: var(--grey-10);
+    --bg-elevated-none: var(--grey-0);
+    --bg-neutral-max: var(--grey-80);
+    --bg-neutral-strongest: var(--grey-70);
+    --bg-neutral-strong: var(--grey-60);
+    --bg-neutral-moderate: var(--grey-40);
+    --bg-neutral-weak: var(--grey-20);
+    --bg-neutral-weakest: var(--grey-10);
+    --bg-neutral-none: var(--grey-0);
+    --thin-solid-primary-strong: var(--b-thin) solid var(--border-primary-strong);
+    --thin-solid-primary-normal: var(--b-thin) solid var(--border-primary-normal);
+    --thin-solid-accent-strong: var(--b-thin) solid var(--border-accent-strong);
+    --thin-solid-accent-normal: var(--b-thin) solid var(--border-accent-normal);
+    --thin-solid-neutral-strongest: var(--b-thin) solid var(--border-neutral-strongest);
+    --thin-solid-neutral-strong: var(--b-thin) solid var(--border-neutral-strong);
+    --thin-solid-neutral-normal: var(--b-thin) solid var(--border-neutral-normal);
+    --thin-solid-neutral-weak: var(--b-thin) solid var(--border-neutral-weak);
+    --thin-solid-neutral-inverted: var(--b-thin) solid var(--border-neutral-inverted);
+    --thinnest-dashed-alternative-strong: var(--b-thinnest) dashed var(--border-alternative-strong);
+    --thinnest-dashed-alternative-normal: var(--b-thinnest) dashed var(--border-alternative-normal);
+    --thinnest-dashed-positive-strong: var(--b-thinnest) dashed var(--border-positive-strong);
+    --thinnest-dashed-positive-normal: var(--b-thinnest) dashed var(--border-positive-normal);
+    --thinnest-dashed-negative-strong: var(--b-thinnest) dashed var(--border-negative-strong);
+    --thinnest-dashed-negative-normal: var(--b-thinnest) dashed var(--border-negative-normal);
+    --thinnest-dashed-warning-strong: var(--b-thinnest) dashed var(--border-warning-strong);
+    --thinnest-dashed-warning-normal: var(--b-thinnest) dashed var(--border-warning-normal);
+    --thinnest-dashed-accent-strong: var(--b-thinnest) dashed var(--border-accent-strong);
+    --thinnest-dashed-accent-normal: var(--b-thinnest) dashed var(--border-accent-normal);
+    --thinnest-dashed-primary-strong: var(--b-thinnest) dashed var(--border-primary-strong);
+    --thinnest-dashed-primary-normal: var(--b-thinnest) dashed var(--border-primary-normal);
+    --thinnest-dashed-neutral-strong: var(--b-thinnest) dashed var(--border-neutral-strong);
+    --thinnest-dashed-neutral-normal: var(--b-thinnest) dashed var(--border-neutral-normal);
+    --thinnest-dashed-neutral-weak: var(--b-thinnest) dashed var(--border-neutral-weak);
+    --thinnest-dashed-neutral-inverted: var(--b-thinnest) dashed var(--border-neutral-inverted);
+    --thinnest-solid-disabled-normal: var(--b-thinnest) solid var(--disabled-border);
+    --thinnest-solid-alternative-strong: var(--b-thinnest) solid var(--border-alternative-strong);
+    --thinnest-solid-alternative-normal: var(--b-thinnest) solid var(--border-alternative-normal);
+    --thinnest-solid-positive-strong: var(--b-thinnest) solid var(--border-positive-strong);
+    --thinnest-solid-positive-normal: var(--b-thinnest) solid var(--border-positive-normal);
+    --thinnest-solid-negative-strong: var(--b-thinnest) solid var(--border-negative-strong);
+    --thinnest-solid-negative-normal: var(--b-thinnest) solid var(--border-negative-normal);
+    --thinnest-solid-warning-strong: var(--b-thinnest) solid var(--border-warning-strong);
+    --thinnest-solid-warning-normal: var(--b-thinnest) solid var(--border-warning-normal);
+    --thinnest-solid-accent-strong: var(--b-thinnest) solid var(--border-accent-strong);
+    --thinnest-solid-accent-normal: var(--b-thinnest) solid var(--border-accent-normal);
+    --thinnest-solid-primary-strong: var(--b-thinnest) solid var(--border-primary-strong);
+    --thinnest-solid-primary-normal: var(--b-thinnest) solid var(--border-primary-normal);
+    --thinnest-solid-primary-weak: var(--b-thinnest) solid var(--border-primary-weak);
+    --thinnest-solid-neutral-strongest: var(--b-thinnest) solid var(--border-neutral-strongest);
+    --thinnest-solid-neutral-strong: var(--b-thinnest) solid var(--border-neutral-strong);
+    --thinnest-solid-neutral-normal: var(--b-thinnest) solid var(--border-neutral-normal);
+    --thinnest-solid-neutral-weak: var(--b-thinnest) solid var(--border-neutral-weak);
+    --thinnest-solid-neutral-inverted: var(--b-thinnest) solid var(--border-neutral-inverted);
+}

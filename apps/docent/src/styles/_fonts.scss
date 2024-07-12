@@ -1,0 +1,42 @@
+@import 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
+@import 'mixins';
+
+.text-head {
+    @include text-head;
+}
+
+.text-content-bold {
+    @include text-content-bold;
+}
+
+.text-content-semi {
+    @include text-content-semi;
+}
+
+.text-content {
+    @include text-content;
+}
+
+.text-small-content-bold {
+    @include text-small-content-bold;
+}
+
+.text-small-content-semi {
+    @include text-small-content-semi;
+}
+
+.text-small-content {
+    @include text-small-content;
+}
+
+.text-label-bold {
+    @include text-label-bold;
+}
+
+.text-label-semi {
+    @include text-label-semi;
+}
+
+.text-label {
+    @include text-label;
+}

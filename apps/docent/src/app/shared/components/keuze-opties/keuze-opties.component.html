@@ -1,0 +1,19 @@
+<div
+    class="toggle"
+    [class.show-for-tablet]="!verbergDropdownVanafAantalItems"
+    [class.hide]="verbergDropdownVanafAantalItems && verbergDropdown"
+    [class.hoofdnavigatie]="isHoofdNavigatie">
+    @for (optie of opties; track optie) {
+        <hmy-switch-group>
+            <hmy-switch [label]="$any(optie)[textproperty]" [active]="isSelected(optie)" (click)="onClick(optie)" />
+        </hmy-switch-group>
+    }
+</div>
+<dt-form-dropdown
+    [class.hide-for-tablet]="!verbergDropdownVanafAantalItems"
+    [class.hide]="verbergDropdownVanafAantalItems && !verbergDropdown"
+    [opties]="dropdownOpties"
+    [selectedOptie]="dropdownOpties[0]"
+    [selectBoxHeight]="selectBoxHeight"
+    (onOptieClicked)="onClick($event)">
+</dt-form-dropdown>

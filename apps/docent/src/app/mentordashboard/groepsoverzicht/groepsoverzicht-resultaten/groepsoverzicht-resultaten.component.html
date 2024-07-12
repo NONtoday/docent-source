@@ -1,0 +1,84 @@
+@if (groepsoverzichtResultatenView$ | async; as viewModel) {
+    @if (viewModel.beschikbareTabs.length > 0) {
+        <header>
+            <div class="title">
+                @if (viewModel.beschikbareTabs.length === 1) {
+                    <h2>{{ viewModel.beschikbareTabs[0] | titlecase }}</h2>
+                }
+                @if (viewModel.beschikbareTabs.length > 1) {
+                    <hmy-switch-group class="tabs">
+                        @for (tab of viewModel.beschikbareTabs; track tab) {
+                            <hmy-switch
+                                [active]="viewModel.tab === tab"
+                                [label]="tab | titlecase"
+                                [attr.data-gtm]="getTabGtm(tab)"
+                                (click)="selectTab(tab)"></hmy-switch>
+                        }
+                    </hmy-switch-group>
+                }
+                @if (viewModel.tab === 'resultaten') {
+                    <i
+                        class="info-icon show-for-tablet"
+                        [alignCenter]="false"
+                        [maxWidth]="300"
+                        [onTouchAllowed]="true"
+                        hmyTooltip="Overzicht toont meest actuele rapportcijfer (R) per vak uit de periode van het laatst behaalde resultaat"
+                        position="right"
+                        hmyIcon="informatie"
+                        size="small"></i>
+                }
+            </div>
+            <dt-outline-button
+                class="instelling-button"
+                #instelling
+                (click)="openInstellingPopup(viewModel.instellingen)"
+                data-gtm="groepsoverzicht-instelling-button"
+                icon="settings"
+                iconColor="primary_1"
+                iconOnlyRangeEnd="tablet-portrait">
+                Instellingen
+            </dt-outline-button>
+        </header>
+        <div class="kolommen">
+            <dt-groepsoverzicht-resultaten-kolom
+                class="extra-aandacht"
+                [leerlingenCijferOverzicht]="viewModel.cijferOverzicht.extraAandacht"
+                [instellingen]="viewModel.instellingen"
+                [tab]="viewModel.tab"
+                (sorteerRichtingSelected)="selectKolomSorteerRichting($event, 'extraAandacht')"
+                titel="Extra aandacht"
+                data-gtm="groepsoverzicht-resultaten-extra-aandacht"
+                naam="extraAandacht" />
+            <dt-groepsoverzicht-resultaten-kolom
+                class="aandacht"
+                [leerlingenCijferOverzicht]="viewModel.cijferOverzicht.aandacht"
+                [instellingen]="viewModel.instellingen"
+                [tab]="viewModel.tab"
+                (sorteerRichtingSelected)="selectKolomSorteerRichting($event, 'aandacht')"
+                titel="Aandacht"
+                data-gtm="groepsoverzicht-resultaten-aandacht"
+                naam="aandacht" />
+            <dt-groepsoverzicht-resultaten-kolom
+                class="op-niveau"
+                [leerlingenCijferOverzicht]="viewModel.cijferOverzicht.opNiveau"
+                [instellingen]="viewModel.instellingen"
+                [tab]="viewModel.tab"
+                (sorteerRichtingSelected)="selectKolomSorteerRichting($event, 'opNiveau')"
+                titel="Op niveau"
+                data-gtm="groepsoverzicht-resultaten-op-niveau"
+                naam="opNiveau" />
+        </div>
+        @if (showInstellingOpgeslagenMessage()) {
+            <dt-message
+                [@slideInUpOnEnter]
+                [@slideOutDownOnLeave]
+                [duration]="3000"
+                [isToast]="true"
+                (onClose)="showInstellingOpgeslagenMessage.set(false)"
+                cy="instelling-opgeslagen-bericht"
+                text="Instelling opgeslagen"
+                soort="ok">
+            </dt-message>
+        }
+    }
+}

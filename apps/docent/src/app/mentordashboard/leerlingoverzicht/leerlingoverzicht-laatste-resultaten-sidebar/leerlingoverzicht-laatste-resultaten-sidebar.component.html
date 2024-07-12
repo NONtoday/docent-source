@@ -1,0 +1,13 @@
+<dt-sidebar #sidebar [title]="title()" (onMaskClick)="sidebarService.closeSidebar()" (onCloseClick)="sidebarService.closeSidebar()">
+    <div class="container">
+        <div class="sidebar-content">
+            <dt-mentordashboard-laatste-resultaten-list
+                [trendindicatie]="trendindicatie"
+                [aantalVoorTrendindicatie]="aantalVoorTrendindicatie"
+                [instellingen]="instellingen"
+                [laatsteResultaten]="laatsteResultaten"
+                [resultatenSoort]="resultatenSoort"
+                [leerlingId]="leerlingId" />
+        </div>
+    </div>
+</dt-sidebar>

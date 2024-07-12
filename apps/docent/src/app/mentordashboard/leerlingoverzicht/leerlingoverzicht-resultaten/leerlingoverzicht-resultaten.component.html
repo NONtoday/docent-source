@@ -1,0 +1,84 @@
+<hmy-switch-group class="tab-switch">
+    @for (tab of tabs(); track tab) {
+        <hmy-switch [active]="tab === selectedTab()" [label]="tab | titlecase" [attr.data-gtm]="tabGtm[tab]" (click)="selectTab(tab)" />
+    }
+</hmy-switch-group>
+<div class="resultaten">
+    @if (grafiekLoading()) {
+        <div class="resultaten-grafiek-skeleton">
+            <hmy-spinner></hmy-spinner>
+        </div>
+    } @else if (activeQuery().hasError) {
+        <div class="resultaten-grafiek-skeleton">
+            <span class="error-message geen-rechten">{{ activeQuery().error?.message }}</span>
+        </div>
+    } @else if (vakgrafieken().length === 0) {
+        <div class="resultaten-grafiek-skeleton">
+            <span class="error-message geen-vakken">Geen vakken</span>
+        </div>
+    } @else {
+        <dt-leerlingoverzicht-resultaten-grafiek
+            [selectedTab]="selectedTab()"
+            [selectedPeriode]="selectedPeriode()"
+            [heeftVorigePeriode]="selectedPeriode() > 1"
+            [heeftVolgendePeriode]="selectedPeriode() < periodes().length"
+            [vergelijkingLoading]="!!vergelijkingQuery()?.isPending"
+            [vakgrafieken]="vakgrafieken()"
+            [headers]="grafiekHeaders()"
+            [vergelijking]="vergelijking()"
+            [vergelijkingTooltip]="vergelijkingTooltip()"
+            (onVergelijkOptie)="vergelijking.set($event)"
+            (onVorigePeriode)="selectPeriode(selectedPeriode() - 1)"
+            (onVolgendePeriode)="selectPeriode(selectedPeriode() + 1)"
+            (openVakResultatenSidebar)="openVakResultatenSidebar($event)" />
+    }
+    @if (gemisteToetsen().hasError || laatsteResultatenMetTrend().hasError) {
+        <div class="resultaten-aanvullend"></div>
+    } @else {
+        <div class="resultaten-aanvullend">
+            @if (gemisteToetsen().isPending || this.laatsteResultatenMetTrend().isPending) {
+                <hmy-spinner></hmy-spinner>
+            } @else {
+                <hmy-stackitem-group>
+                    <hmy-stackitem
+                        [titel]="selectedTab() === 'resultaten' ? 'Gemiste toetsen' : 'Gemiste SE toetsen'"
+                        (click)="openSidebarGemisteToetsen()"
+                        icon="tijd"
+                        data-gtm="leerlingoverzicht-gemiste-toetsen">
+                        @if (gemisteToetsen().data.length > 0) {
+                            <hmy-notification-counter [count]="gemisteToetsen().data.length" color="warning" />
+                        } @else {
+                            <span class="text-content-semi text-weakest">-</span>
+                        }
+                    </hmy-stackitem>
+                    <hmy-stackitem
+                        [titel]="selectedTab() === 'resultaten' ? 'Laatste resultaten' : 'Laatste SE resultaten'"
+                        (click)="openSidebarLaatsteResultaten()"
+                        icon="trend"
+                        data-gtm="leerlingoverzicht-laatste-resultaten">
+                        @if (laatsteResultatenMetTrend().data.aantalResultatenVoorTrendindicatie >= 2) {
+                            <div
+                                class="trend"
+                                [hmyTooltip]="
+                                    laatsteResultatenMetTrend().data.trendindicatie
+                                        | mentordashboardResultaatTrendTooltip
+                                            : laatsteResultatenMetTrend().data.aantalResultatenVoorTrendindicatie
+                                ">
+                                <i
+                                    [hmyIcon]="laatsteResultatenMetTrend().data.trendindicatie | mentordashboardResultaatTrendIcon"
+                                    [color]="laatsteResultatenMetTrend().data.trendindicatie | mentordashboardResultaatTrendColor"></i>
+                                <span
+                                    class="text-content-semi"
+                                    [style.color]="
+                                        laatsteResultatenMetTrend().data.trendindicatie | mentordashboardResultaatTrendColor | cssVar
+                                    ">
+                                    {{ laatsteResultatenMetTrend().data.trendindicatie | mentordashboardResultaatTrendText }}
+                                </span>
+                            </div>
+                        }
+                    </hmy-stackitem>
+                </hmy-stackitem-group>
+            }
+        </div>
+    }
+</div>

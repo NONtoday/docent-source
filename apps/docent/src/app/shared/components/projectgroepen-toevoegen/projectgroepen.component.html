@@ -1,0 +1,87 @@
+@if (showLeerlingSelectie$ | async; as projectgroep) {
+    <div class="leerlingen">
+        @for (leerling of teKiezenLeerlingen$ | async; track leerling) {
+            <dt-leerling-groep-form-control [leerling]="leerling" [formGroup]="formGroup" [controlName]="leerling.id">
+            </dt-leerling-groep-form-control>
+        }
+    </div>
+    @if (teKiezenLeerlingen$ | async; as leerlingen) {
+        <div class="buttons">
+            <dt-outline-button class="terug" (click)="sluitLeerlingSelectie()" color="typography_3">Terug </dt-outline-button>
+            @if ({ value: aantalGeselecteerdeLeerlingen$ | async }; as aantal) {
+                <dt-button
+                    [disabled]="aantal.value! < 1"
+                    (click)="onLeerlingenSelected(projectgroep, leerlingen)"
+                    data-gtm="projectgroep-leerlingen-toevoegen"
+                    >{{ (aantal.value! > 0 ? '(' + aantal.value + ') ' : '') + 'Toevoegen' }}
+                </dt-button>
+            }
+        </div>
+    }
+} @else {
+    @if (projectgroepen$ | async; as projectgroepen) {
+        @if (projectgroepen.length > 0) {
+            <div class="projectgroepen" cdkDropListGroup>
+                @if (teKiezenLeerlingen$ | async; as leerlingenZonderGroep) {
+                    @if (leerlingenZonderGroep.length > 0) {
+                        <div class="message">
+                            <span class="hide-for-phone-only"
+                                ><b
+                                    [dtTooltip]="leerlingenZonderGroepTooltip(leerlingenZonderGroep)"
+                                    [onTouchAllowed]="true"
+                                    position="bottom"
+                                    >{{ leerlingenZonderGroep.length }} leerling{{ leerlingenZonderGroep.length > 1 ? 'en' : '' }}</b
+                                >
+                                zonder projectgroep</span
+                            >
+                            <span class="show-for-phone-only"
+                                ><b
+                                    [dtTooltip]="leerlingenZonderGroepTooltip(leerlingenZonderGroep)"
+                                    [onTouchAllowed]="true"
+                                    position="bottom"
+                                    >{{ leerlingenZonderGroep.length }} leerling{{ leerlingenZonderGroep.length > 1 ? 'en' : '' }}</b
+                                >
+                                zonder groep</span
+                            >
+                        </div>
+                    }
+                }
+                @for (projectgroep of projectgroepen; track trackById($index, projectgroep)) {
+                    <dt-projectgroep
+                        class="projectgroep"
+                        [projectgroep]="projectgroep"
+                        [toonToevoegenKnop]="(leerlingAantalZonderProjectgroep$ | async)! > 0"
+                        [cdkDropListData]="projectgroep"
+                        [cdkDropListEnterPredicate]="bevatLeerlingNiet"
+                        (saveProjectgroep)="saveProjectgroep($event)"
+                        (openLeerlingSelectie)="openLeerlingSelectie(projectgroep)"
+                        (deleteProjectgroep)="deleteProjectgroep($event, projectgroepen.length === 1)"
+                        (cdkDropListDropped)="leerlingVerplaatst($event)"
+                        cdkDropList
+                        cdkDropListSortingDisabled>
+                    </dt-projectgroep>
+                }
+            </div>
+        } @else {
+            <div class="geen-projectgroepen">
+                <div class="empty text-content-semi text-weak">
+                    Klik op Toevoegen om te beginnen
+                    <i color="text-weak" hmyIcon="pijlKleinOnder" size="small"></i>
+                </div>
+            </div>
+        }
+        <div class="buttons">
+            <dt-outline-button class="terug" (click)="terug.emit()" color="typography_3"> Terug</dt-outline-button>
+            <dt-outline-button
+                class="add"
+                [hideIconForMobile]="true"
+                (click)="nieuweProjectgroep(projectgroepen.length + 1)"
+                color="accent_positive_1"
+                icon="toevoegen"
+                iconColor="accent_positive_1"
+                data-gtm="projectgroep-toevoegen">
+                Toevoegen
+            </dt-outline-button>
+        </div>
+    }
+}

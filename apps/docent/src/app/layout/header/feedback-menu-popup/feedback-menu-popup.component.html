@@ -1,0 +1,18 @@
+<dt-popup>
+    <div class="container" popup-content>
+        <div class="optie productboard hide-for-phone-only" (click)="openProductboard()" data-gtm="productboard">
+            <i color="action-primary-normal" hmyIcon="ideeenbord" size="large"></i>
+            <span class="titel text-content-semi">Ideeënbord</span>
+            <span class="ondertitel text-content-small">Stem op nieuwe functionaliteiten</span>
+        </div>
+        <div class="optie surveymonkey hide-for-phone-only" (click)="onFeedbackClick()">
+            <i color="action-primary-normal" hmyIcon="smiley" size="large"></i>
+            <span class="titel text-content-semi">Feedback</span>
+            <span class="ondertitel text-content-small">Wat is je ervaring?</span>
+        </div>
+        <dt-outline-button class="show-for-phone-only" (click)="openProductboard()" data-gtm="productboard" icon="ideeenbord"
+            >Ideeënbord</dt-outline-button
+        >
+        <dt-outline-button class="show-for-phone-only" (click)="onFeedbackClick()" icon="smiley">Feedback</dt-outline-button>
+    </div>
+</dt-popup>

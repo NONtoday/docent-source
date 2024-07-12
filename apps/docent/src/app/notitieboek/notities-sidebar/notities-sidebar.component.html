@@ -1,0 +1,43 @@
+<dt-sidebar
+    #sidebar
+    [title]="titel ?? 'Notities'"
+    (onMaskClick)="sidebarService.closeSidebar()"
+    (onCloseClick)="sidebarService.closeSidebar()">
+    <div class="notities" id="notities-sidebar-stream">
+        @if (notities$ | async; as notities) {
+            @for (notitie of notities; track notitie) {
+                <dt-notitie-kaart
+                    [notitie]="notitie"
+                    [context]="context"
+                    [huidigeSchooljaarSelected]="true"
+                    [class.is-active]="notitie.id === (activeNotitieId$ | async)"
+                    [expandOnActive]="true"
+                    [roundedCornersMobile]="true"
+                    [showEditOptions]="showEditOptions"
+                    [showOpenInNotitieboekOption]="!!openInNotitieboekCallback"
+                    (openInNotitieboek)="openInNotiteboek($event)"
+                    (click)="onNotitieClick(notitie.id)"
+                    meerOptiesPopupChildSelector="#notities-sidebar-stream">
+                </dt-notitie-kaart>
+            }
+        } @else {
+            <hmy-spinner [centeredInParent]="true" />
+        }
+    </div>
+    <div class="buttons">
+        <dt-outline-button
+            (click)="onNotitieToevoegenClick?.()"
+            icon="toevoegen"
+            iconColor="accent_positive_1"
+            color="accent_positive_1"
+            data-gtm="notitieboek-notitie-toevoegen-mentordashboard">
+            Notitie toevoegen
+        </dt-outline-button>
+        <dt-outline-button
+            (click)="onNavigeerNotitieboekClick?.()"
+            icon="naarNotitieboek"
+            data-gtm="notitieboek-navigatie-van-mentordashboard">
+            Open notitieboek
+        </dt-outline-button>
+    </div>
+</dt-sidebar>

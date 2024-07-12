@@ -1,0 +1,31 @@
+@for (stamgroepnormering of contexten.stamgroepen; track stamgroepnormering) {
+    <div
+        class="soort text-content-semi color-typography-2"
+        #soort
+        [class.active]="stamgroepnormering.stamgroep!.id === stamgroepId && !isAlternatieveNormering"
+        (click)="onStamgroepSelected(stamgroepnormering.stamgroep!.id, null, null, false)"
+        data-gtm="mentordashboard-resultaten-stamgroep-switch">
+        {{ stamgroepnormering.stamgroep!.naam }}
+    </div>
+    @if (stamgroepnormering.voortgangsDossiersHeeftAlternatieveNormering) {
+        <div
+            class="soort text-content-semi color-typography-2"
+            #soort
+            [class.active]="stamgroepnormering.stamgroep!.id === stamgroepId && isAlternatieveNormering"
+            (click)="onStamgroepSelected(stamgroepnormering.stamgroep!.id, null, null, true)"
+            data-gtm="mentordashboard-resultaten-alternatief-stamgroep-switch">
+            {{ stamgroepnormering.stamgroep!.naam }}
+            (alt. norm)
+        </div>
+    }
+}
+@for (examencontext of contexten.examendossierContexten; track examencontext) {
+    <div
+        class="soort text-content-semi color-typography-2"
+        #soort
+        [class.active]="examencontext.plaatsingId === plaatsingId && examencontext.lichtingId === lichtingId"
+        (click)="onStamgroepSelected(null, examencontext.plaatsingId, examencontext.lichtingId, null)"
+        data-gtm="mentordashboard-resultaten-alternatief-stamgroep-switch">
+        Examen {{ examencontext.onderwijssoort }} {{ examencontext.examenjaar }}
+    </div>
+}

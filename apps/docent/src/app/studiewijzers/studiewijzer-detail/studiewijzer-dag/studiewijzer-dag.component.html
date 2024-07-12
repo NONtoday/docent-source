@@ -1,0 +1,67 @@
+<div class="dag-header">
+    <span
+        class="dag text-content-small-semi"
+        [class.vandaag]="isVandaag"
+        [class.zonder-items]="geenItems"
+        [class.zonder-dagitems]="geenDagItems"
+        [class.popup-open]="isPopupOpen"
+        >{{ studiewijzerDag.dag | dtDate: 'dag_kort_dagnummer_maand_kort' }}</span
+    >
+    <dt-background-icon
+        class="toevoegen"
+        #toevoegen
+        [sizes]="['small']"
+        [dtPopupOpen]="[toevoegenRef]"
+        (click)="openToevoegenPopup()"
+        color="accent_positive_1"
+        icon="toevoegen"></dt-background-icon>
+</div>
+@if (studiewijzerDag.vakanties.length > 0) {
+    <div class="vakantie-container">
+        @for (vakantie of studiewijzerDag.vakanties; track vakantie) {
+            <dt-vakantie [vakantieNaam]="vakantie.naam"></dt-vakantie>
+        }
+    </div>
+}
+<div
+    class="dagitem-container"
+    [cdkDropListData]="studiewijzerDag"
+    [cdkDropListDisabled]="disableDragDrop"
+    [class.geen-afspraken]="studiewijzerDag.afspraken.length === 0"
+    [class.met-afspraken]="studiewijzerDag.afspraken.length > 0"
+    [class.met-toekenningen]="studiewijzerDag.toekenningen.length > 0"
+    [class.zonder-toekenningen]="studiewijzerDag.toekenningen.length === 0"
+    (cdkDropListDropped)="verplaatsNaarDag($event)"
+    cdkDropList>
+    @for (dagtoekenning of studiewijzerDag.toekenningen; track trackById($index, dagtoekenning)) {
+        <dt-studiewijzeritem
+            [cdkDragData]="dagtoekenning"
+            [studiewijzeritem]="dagtoekenning.studiewijzeritem"
+            [inleverstart]="!!dagtoekenning.isStartInleverperiode"
+            [toekenningId]="dagtoekenning.id"
+            [differentiatiegroepen]="dagtoekenning.differentiatiegroepen"
+            [differentiatieleerlingen]="dagtoekenning.differentiatieleerlingen"
+            (onStudiewijzeritemClick)="openSidebar(dagtoekenning, false)"
+            (verwijder)="onVerwijder.emit(dagtoekenning)"
+            (bewerken)="openSidebar(dagtoekenning, true)"
+            (dupliceer)="onDupliceer.emit(dagtoekenning)"
+            (onUpdateLesitemType)="onUpdateLesitemType.emit({ huiswerkType: $event, toekenning: dagtoekenning })"
+            (cdkDragStarted)="isDragging = true"
+            (cdkDragEnded)="isDragging = false"
+            cdkDrag>
+            <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+        </dt-studiewijzeritem>
+    }
+</div>
+@for (studiewijzerAfspraak of studiewijzerDag.afspraken; track trackByAfspraak($index, studiewijzerAfspraak)) {
+    <dt-studiewijzer-afspraak
+        [class.zonder-items]="studiewijzerAfspraak.toekenningen.length === 0"
+        [studiewijzerAfspraak]="studiewijzerAfspraak"
+        [disableDragDrop]="disableDragDrop"
+        [lesgroep]="lesgroep"
+        [heeftVaksecties]="heeftVaksecties"
+        (onVerwijder)="onVerwijder.emit($event)"
+        (onDupliceer)="onDupliceer.emit($event)"
+        (onUpdateLesitemType)="onUpdateLesitemType.emit($event)">
+    </dt-studiewijzer-afspraak>
+}

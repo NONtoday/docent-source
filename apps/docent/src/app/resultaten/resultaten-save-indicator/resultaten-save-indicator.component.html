@@ -1,0 +1,55 @@
+@if (resultaatService.laatstOpgeslagenOp$ | async; as opgeslagenOp) {
+    @if (resultaatService.opslaanGefaald$ | async) {
+        @if (opgeslagenOp !== 'saving') {
+            <hmy-icon-pill
+                class="opnieuw"
+                [hoverable]="true"
+                (click)="resultaatService.retry()"
+                data-gtm="resultaten-opnieuw-opslaan"
+                icon="verversen"
+                iconSize="smallest"
+                text="Opnieuw"></hmy-icon-pill>
+        }
+        @if (opgeslagenOp !== 'saving' && !withBackground) {
+            <i
+                class="fill-accent-negative-1"
+                [onTouchAllowed]="true"
+                hmyIcon="noRadio"
+                size="medium"
+                dtTooltip="Het automatisch opslaan is niet gelukt."></i>
+        }
+        @if (opgeslagenOp !== 'saving' && withBackground) {
+            <dt-background-icon
+                [onTouchAllowed]="true"
+                icon="noRadio"
+                size="small"
+                backgroundColor="blank"
+                color="accent_negative_1"
+                fontsize="24"
+                lineheight="26"
+                dtTooltip="Het automatisch opslaan is niet gelukt."
+                position="bottom">
+            </dt-background-icon>
+        }
+    } @else {
+        @if (opgeslagenOp !== 'saving' && withBackground) {
+            <dt-background-icon
+                [dtTooltip]="opgeslagenOp"
+                [onTouchAllowed]="true"
+                icon="yesRadio"
+                size="small"
+                backgroundColor="blank"
+                color="accent_positive_1"
+                fontsize="24"
+                lineheight="26"
+                position="bottom">
+            </dt-background-icon>
+        }
+        @if (opgeslagenOp !== 'saving' && !withBackground) {
+            <i class="fill-accent-positive-1" [dtTooltip]="opgeslagenOp" [onTouchAllowed]="true" hmyIcon="yesRadio" size="medium"></i>
+        }
+    }
+    @if (opgeslagenOp === 'saving') {
+        <hmy-spinner />
+    }
+}

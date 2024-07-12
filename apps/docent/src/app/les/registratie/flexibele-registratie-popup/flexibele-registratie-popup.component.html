@@ -1,0 +1,61 @@
+<dt-popup>
+    <div popup-content>
+        <div class="container" #container>
+            <div class="aankruisvakken">
+                <div class="header">
+                    <span class="text-content-semi">Extra registraties</span>
+                </div>
+                @if (toonHWenMT) {
+                    <div
+                        class="aankruisvak"
+                        [class.selected]="updatedHuiswerk"
+                        (click)="updateHuiswerk()"
+                        data-testid="huiswerk"
+                        cy="flexibele-registraties-huiswerk">
+                        <i class="checkbox" size="large" hmyIcon="noCheckbox"></i>
+                        <span class="aankruisvaknaam">Huiswerk niet in orde</span>
+                    </div>
+                }
+                @if (toonHWenMT) {
+                    <div
+                        class="aankruisvak"
+                        [class.selected]="updatedMateriaal"
+                        (click)="updateMateriaal()"
+                        data-testid="materiaal"
+                        cy="flexibele-registraties-materiaal">
+                        <i class="checkbox" size="large" hmyIcon="noCheckbox"></i>
+                        <span class="aankruisvaknaam">Materiaal niet in orde</span>
+                    </div>
+                }
+                @for (aankruisvak of aankruisvakken; track aankruisvak) {
+                    <div class="aankruisvak" [class.selected]="isAankruisvakSelected(aankruisvak)" (click)="updateAankruisvak(aankruisvak)">
+                        <i class="checkbox" size="large" hmyIcon="noCheckbox"></i>
+                        <span class="aankruisvaknaam">{{ aankruisvak.naam }}</span>
+                    </div>
+                }
+            </div>
+            @for (keuzelijst of keuzelijsten; track keuzelijst) {
+                <div class="keuzelijsten">
+                    <div class="header">
+                        <span class="text-content-semi">{{ keuzelijst.naam }}</span>
+                    </div>
+                    <div class="statussen">
+                        @for (optie of keuzelijst['keuzelijstWaardeMogelijkheden']; track optie) {
+                            <div
+                                class="status keuzelijst"
+                                [class.selected]="isKeuzelijstSelected(keuzelijst, optie)"
+                                (click)="updateKeuzelijst(keuzelijst, optie); $event.stopPropagation()">
+                                <i [hmyIcon]="isKeuzelijstSelected(keuzelijst, optie) ? 'radioSelect' : 'radio'" size="large"></i>
+                                <span class="text-small-content-semi">{{ optie.waarde }}</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="buttons" [class.shadow]="hasScrollbar">
+            <dt-outline-button (click)="annuleer()" color="typography_3">Annuleren</dt-outline-button>
+            <dt-button [attr.data-gtm]="saveButtonGtmTag" (click)="klaar()" cy="save-flexibele-registraties">Klaar</dt-button>
+        </div>
+    </div>
+</dt-popup>

@@ -1,0 +1,43 @@
+<div
+    class="input-container pointer datepicker"
+    [class.is-afspraak]="afspraak"
+    [class.is-blokuur]="afspraak?.isBlokuur"
+    [class.disabled]="disabled"
+    (click)="datepicker.open()">
+    @if (afspraak) {
+        <dt-lesuur
+            class="lesuur"
+            [beginlesuur]="afspraak.lesuur"
+            [eindlesuur]="afspraak.eindLesuur"
+            [isKwt]="afspraak.isKwt"
+            [isRoosterToets]="afspraak.isRoosterToets"
+            [hmyTooltip]="afspraak | roosterToets"
+            [alignCenter]="false"
+            [maxWidth]="300"
+            [onTouchAllowed]="true">
+        </dt-lesuur>
+    }
+    <input
+        class="text-content pointer datepicker-input"
+        #input
+        [formControl]="_formControl"
+        [matDatepicker]="datepicker"
+        [min]="min"
+        [max]="max"
+        [placeholder]="placeholder"
+        [matDatepickerFilter]="dateFilter"
+        [attr.cy-date]="_formControl.value | dtDate: 'dag_uitgeschreven_dagnummer_maand'"
+        (focus)="datepicker.open()"
+        (dateChange)="onDateChange($event)"
+        readonly
+        matInput />
+    @if (isResetable && _formControl.value) {
+        <i class="verwijderen-icon" (click)="reset($event)" color="action-negative-normal" hmyIcon="verwijderen" size="medium"></i>
+    } @else {
+        <i class="vandaag-icon" color="action-primary-normal" hmyIcon="kalenderDag" size="medium"></i>
+    }
+    <ng-template #vandaag>
+        <i class="vandaag-icon" color="action-primary-normal" hmyIcon="kalenderDag" size="medium"></i>
+    </ng-template>
+</div>
+<mat-datepicker #datepicker [touchUi]="isTouch$ | async" [dateClass]="dateHighlightClass" (closed)="input.blur()"> </mat-datepicker>

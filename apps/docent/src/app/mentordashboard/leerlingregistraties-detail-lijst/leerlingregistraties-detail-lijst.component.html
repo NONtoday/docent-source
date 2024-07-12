@@ -1,0 +1,7 @@
+@for (registratie of registraties; track registratie) {
+    <dt-leerlingregistraties-detail-regel [registratie]="registratie" [isAfwezigKolom]="isAfwezigKolom">
+    </dt-leerlingregistraties-detail-regel>
+}
+@if (registraties.length === 0) {
+    <div class="geen-registraties">Geen registraties</div>
+}

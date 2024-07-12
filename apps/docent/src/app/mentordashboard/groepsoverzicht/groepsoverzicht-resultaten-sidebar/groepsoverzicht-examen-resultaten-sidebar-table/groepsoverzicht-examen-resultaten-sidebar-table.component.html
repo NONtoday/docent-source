@@ -1,0 +1,88 @@
+@if (context$ | async; as contextTrend) {
+    @if (contextTrend.heeftTrendindicatie) {
+        <hmy-stackitem
+            class="trendindicatie"
+            [titel]="contextTrend.context.onderwijssoort + ' ' + contextTrend.context.examenjaar"
+            [isCategory]="true">
+            <hmy-table-header
+                [elevated]="true"
+                [isActive]="contextTrend.instellingen.actieveKolom === 'EXAMEN_SIDEBAR_TREND'"
+                [sortDirection]="contextTrend.instellingen.trendWaarde === 'ASC' ? 'asc' : 'desc'"
+                (click)="sorteerKolom(contextTrend.instellingen, 'EXAMEN_SIDEBAR_TREND', 'trendWaarde')"
+                label="Trend"
+                sortIcon="arrow" />
+            <hmy-table-header
+                class="cijfer-header"
+                [elevated]="true"
+                [isActive]="contextTrend.instellingen.actieveKolom === 'EXAMEN_SIDEBAR_SE'"
+                [sortDirection]="contextTrend.instellingen.SE === 'ASC' ? 'asc' : 'desc'"
+                (click)="sorteerKolom(contextTrend.instellingen, 'EXAMEN_SIDEBAR_SE', 'SE')"
+                label="SE"
+                sortIcon="arrow" />
+            <hmy-table-header
+                class="cijfer-header"
+                [elevated]="true"
+                [isActive]="contextTrend.instellingen.actieveKolom === 'EXAMEN_SIDEBAR_EIND'"
+                [sortDirection]="contextTrend.instellingen.EIND === 'ASC' ? 'asc' : 'desc'"
+                (click)="sorteerKolom(contextTrend.instellingen, 'EXAMEN_SIDEBAR_EIND', 'EIND')"
+                label="E"
+                sortIcon="arrow" />
+        </hmy-stackitem>
+    }
+    @if (!contextTrend.heeftTrendindicatie) {
+        <hmy-stackitem
+            class="examen-cijfers"
+            [titel]="contextTrend.context.onderwijssoort + ' ' + contextTrend.context.examenjaar"
+            [isCategory]="true">
+            <hmy-table-header
+                class="cijfer-header"
+                [elevated]="true"
+                [isActive]="contextTrend.instellingen.actieveKolom === 'EXAMEN_SIDEBAR_SE'"
+                [sortDirection]="contextTrend.instellingen.SE === 'ASC' ? 'asc' : 'desc'"
+                (click)="sorteerKolom(contextTrend.instellingen, 'EXAMEN_SIDEBAR_SE', 'SE')"
+                cy="sorteer-SE"
+                label="SE"
+                sortIcon="arrow" />
+            <hmy-table-header
+                class="cijfer-header"
+                [elevated]="true"
+                [isActive]="contextTrend.instellingen.actieveKolom === 'EXAMEN_SIDEBAR_CE'"
+                [sortDirection]="contextTrend.instellingen.CE === 'ASC' ? 'asc' : 'desc'"
+                (click)="sorteerKolom(contextTrend.instellingen, 'EXAMEN_SIDEBAR_CE', 'CE')"
+                label="CE"
+                sortIcon="arrow" />
+            <hmy-table-header
+                class="cijfer-header eind"
+                [elevated]="true"
+                [isActive]="contextTrend.instellingen.actieveKolom === 'EXAMEN_SIDEBAR_EIND'"
+                [sortDirection]="contextTrend.instellingen.EIND === 'ASC' ? 'asc' : 'desc'"
+                (click)="sorteerKolom(contextTrend.instellingen, 'EXAMEN_SIDEBAR_EIND', 'EIND')"
+                label="E"
+                sortIcon="arrow" />
+        </hmy-stackitem>
+    }
+    <div class="vakresultaten">
+        @for (trend of contextTrend.vakTrends; track trend) {
+            <dt-groepsoverzicht-sidebar-examen-vak-resultaat
+                [view]="contextTrend.heeftTrendindicatie ? 'trend' : 'examencijfers'"
+                [instellingen]="instellingen"
+                [trend]="trend" />
+        }
+        <div
+            class="deeplink-button"
+            (click)="navigateToLeerlingVakresultaten(contextTrend.context)"
+            data-gtm="groepsoverzicht-sidebar-examen-resultaten-navigeer-leerling-vakresultaten">
+            <span>Bekijk alle resultaten</span>
+            <i hmyIcon="chevronRechts" size="smallest" color="action-primary-normal"></i>
+        </div>
+        <div
+            class="deeplink-button"
+            (click)="navigateToLeerlingoverzicht()"
+            data-gtm="groepsoverzicht-sidebar-examen-resultaten-navigeer-leerling-leerlingoverzicht">
+            <span>Bekijk leerlingoverzicht</span>
+            <i hmyIcon="chevronRechts" size="smallest" color="action-primary-normal"></i>
+        </div>
+    </div>
+} @else {
+    <hmy-spinner [centeredInParent]="true" />
+}

@@ -1,0 +1,72 @@
+<div class="line"></div>
+@if (!categorie.inEditMode) {
+    <span class="divider-text text-content-semi">{{ categorie.naam }}</span>
+}
+<input
+    class="naam-input"
+    #naam
+    [class.hidden]="!categorie.inEditMode"
+    [class.invalid]="!naamInput.valid && naamInput.dirty"
+    [formControl]="naamInput"
+    placeholder="Wat is de titel?"
+    type="text"
+    maxlength="100"
+    dtAutofocus
+    cy="categorie-naam-input" />
+<div class="actions" [class.always-show]="alwaysShowIcons" [class.hide-buttons]="categorie.inEditMode">
+    <dt-icon class="bewerken-icon show-for-tablet" (click)="enableEditMode()" icon="bewerken" color="primary" size="medium"></dt-icon>
+    <dt-icon
+        class="verwijderen-icon show-for-tablet"
+        #delete
+        (click)="onDeleteClick()"
+        icon="verwijderen"
+        color="negative"
+        size="medium"></dt-icon>
+    @if (showOrderUp) {
+        <dt-icon class="order-up show-for-tablet" (click)="orderUp()" icon="pijlBoven" color="typography" size="medium"></dt-icon>
+    }
+    @if (showOrderDown) {
+        <dt-icon class="order-down show-for-tablet" (click)="orderDown()" icon="pijlOnder" color="typography" size="medium"> </dt-icon>
+    }
+    <dt-icon class="hide-for-tablet" #moreactions (click)="onMoreActionsClick()" icon="opties" size="medium"> </dt-icon>
+</div>
+@if ($any(categorie)['sjablonen']; as sjablonen) {
+    <div
+        class="sjablonen items"
+        [cdkDropListData]="categorie"
+        (cdkDropListDropped)="onItemDrop.emit($event)"
+        cdkDropList
+        cdkDropListSortingDisabled>
+        @for (sjabloon of sjablonen; track trackById($index, sjabloon)) {
+            <dt-sjabloon-overzicht-item
+                [cdkDragData]="sjabloon"
+                [sjabloon]="sjabloon"
+                [routerLink]="['/studiewijzers/sjablonen', sjabloon.id]"
+                (cdkDragStarted)="closePopup()"
+                cdkDrag>
+                <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                <i color="fg-neutral-moderate" hmyIcon="draggable" size="medium" cdkDragHandle></i>
+            </dt-sjabloon-overzicht-item>
+        }
+    </div>
+}
+@if ($any(categorie)['studiewijzers']; as studiewijzers) {
+    <div
+        class="studiewijzers items"
+        [cdkDropListData]="categorie"
+        (cdkDropListDropped)="onItemDrop.emit($event)"
+        cdkDropList
+        cdkDropListSortingDisabled>
+        @for (studiewijzer of studiewijzers; track trackById($index, studiewijzer)) {
+            <dt-studiewijzer-overzicht-item
+                [cdkDragData]="studiewijzer"
+                [studiewijzer]="studiewijzer"
+                [routerLink]="['/studiewijzers/', studiewijzer.id]"
+                (cdkDragStarted)="closePopup()"
+                cdkDrag>
+                <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                <i color="fg-neutral-moderate" hmyIcon="draggable" size="medium" cdkDragHandle></i>
+            </dt-studiewijzer-overzicht-item>
+        }
+    </div>
+}

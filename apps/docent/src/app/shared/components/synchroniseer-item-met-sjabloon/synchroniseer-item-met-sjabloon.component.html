@@ -1,0 +1,22 @@
+@if (synchroniseertMet) {
+    <div class="sync-container">
+        <i color="bg-positive-normal" hmyIcon="synchroniseren" size="medium"></i>
+        <span class="text-strong gesynchroniseerd-sjabloon">{{ synchroniseertMet }}</span>
+        @if (canUnlink && !ontkoppelenInProgress) {
+            <dt-icon #unlinkIcon (click)="unlink()" icon="ontkoppelen" color="negative" size="medium"> </dt-icon>
+        }
+        @if (ontkoppelenInProgress) {
+            <hmy-spinner />
+        }
+    </div>
+}
+@if (!synchroniseertMet) {
+    <dt-link
+        #synchroniserenLink
+        (click)="openSjabloonSynchronisatiePopup()"
+        icon="synchroniseren"
+        color="accent_positive_1"
+        iconColor="accent_positive_1">
+        Synchroniseer met sjabloon</dt-link
+    >
+}

@@ -1,0 +1,34 @@
+<dt-popup>
+    <div class="container" popup-content>
+        <span class="title text-content-semi">Maak geselecteerde items</span>
+        <div class="buttons show-for-phone-only">
+            <dt-outline-button
+                class="maak-zichtbaar-button"
+                (click)="onZichtbaarheidClick(true)"
+                cy="maak-zichtbaar"
+                icon="zichtbaarCheckbox"
+                >Zichtbaar voor leerling</dt-outline-button
+            >
+            <dt-outline-button
+                class="maak-onzichtbaar-button"
+                (click)="onZichtbaarheidClick(false)"
+                cy="maak-onzichtbaar"
+                icon="nietZichtbaarCheckbox"
+                iconColor="accent_negative_1"
+                color="accent_negative_1"
+                >Niet zichtbaar voor leerling
+            </dt-outline-button>
+        </div>
+
+        <div class="links hide-for-phone-only">
+            <div class="optie maak-zichtbaar" (click)="onZichtbaarheidClick(true)" cy="maak-zichtbaar">
+                <i color="action-primary-normal" hmyIcon="zichtbaarCheckbox" size="medium"></i>
+                <span>Zichtbaar voor leerling</span>
+            </div>
+            <div class="optie maak-onzichtbaar" (click)="onZichtbaarheidClick(false)" cy="maak-onzichtbaar">
+                <i color="action-negative-normal" hmyIcon="nietZichtbaarCheckbox" size="medium"></i>
+                <span>Niet zichtbaar voor leerling</span>
+            </div>
+        </div>
+    </div>
+</dt-popup>

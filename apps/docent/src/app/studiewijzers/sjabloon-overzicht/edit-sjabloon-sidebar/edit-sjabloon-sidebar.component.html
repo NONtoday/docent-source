@@ -1,0 +1,97 @@
+<dt-sidebar
+    #sidebar
+    [icon]="icon"
+    [title]="title"
+    [iconClickable]="selectingStudiewijzer"
+    (onIconClick)="stopSelecteren()"
+    (onMaskClick)="sidebarService.closeSidebar()"
+    (onCloseClick)="sidebarService.closeSidebar()">
+    @if (!selectingStudiewijzer) {
+        <div class="content">
+            <form id="ngForm" #formDir="ngForm" [formGroup]="editSjabloonForm" (ngSubmit)="submit()">
+                <!-- Titel -->
+                <label>Titel<span class="required">*</span></label>
+                <input
+                    class="titel-input"
+                    type="text"
+                    cy="sjabloon-titel-input"
+                    maxlength="255"
+                    placeholder="Wat is de titel?"
+                    formControlName="naam"
+                    dtAutofocus
+                    onkeydown="return event.key != 'Enter';" />
+                <!-- Vaksectie -->
+                <label class="vaksectie-label">Vaksectie<span class="required">*</span></label>
+                @if (vaksecties$ | async; as vaksecties) {
+                    @if (vaksecties.length > 1) {
+                        <dt-form-dropdown
+                            [opties]="vaksecties"
+                            [selectedOptie]="(selectedVaksectie$ | async)!"
+                            [selectBoxHeight]="200"
+                            (onOptieClicked)="vaksectie = $event">
+                        </dt-form-dropdown>
+                    }
+                    @if (vaksecties.length === 1) {
+                        <div class="vaksectie text-content-semi">
+                            {{ (selectedVaksectie$ | async)!.text }}
+                        </div>
+                    }
+                }
+                <!-- Studiewijzer -->
+                @if (!this.sjabloon.id) {
+                    <label class="studiewijzer-label">Studiewijzer gebruiken</label>
+                }
+                @if (!this.sjabloon.id && !selectedStudiewijzer) {
+                    <dt-outline-button
+                        class="studiewijzer-selecteren"
+                        [dashed]="true"
+                        (click)="toonStudiewijzerOverzicht()"
+                        icon="studiewijzer"
+                        data-gtm="studiewijzer-bij-sjabloon"
+                        >Studiewijzer kiezen
+                    </dt-outline-button>
+                }
+                @if (selectedStudiewijzer) {
+                    <div class="studiewijzer-list">
+                        <dt-background-icon size="medium" icon="groep"></dt-background-icon>
+                        <span class="text-content-semi">{{ selectedStudiewijzer.lesgroep.naam }}</span>
+                        <dt-icon
+                            class="delete"
+                            (click)="deselecteerStudiewijzer()"
+                            icon="verwijderen"
+                            size="medium"
+                            color="negative"></dt-icon>
+                    </div>
+                }
+                <!-- Zichtbaar voor collega's -->
+                <div class="zichtbaarheid" (click)="updateGedeeld()" data-gtm="sjabloon-zichtbaarheid-sidebar">
+                    <i
+                        [hmyIcon]="gedeeld ? 'zichtbaarCheckbox' : 'nietZichtbaarCheckbox'"
+                        [ngClass]="gedeeld ? 'check-zichtbaar' : 'check-onzichtbaar'"
+                        size="large"></i>
+                    <span class="text-content-semi" [ngClass]="gedeeld ? 'check-zichtbaar' : 'check-onzichtbaar'"
+                        >{{ gedeeld ? 'Zichtbaar' : 'Niet zichtbaar' }} voor collega's</span
+                    >
+                </div>
+            </form>
+            <div class="buttons">
+                <dt-outline-button class="annuleren" (click)="sidebarService.closeSidebar()" color="typography_3"
+                    >Annuleren
+                </dt-outline-button>
+                @if (!submitting) {
+                    <button class="opslaan" [disabled]="!editSjabloonForm.valid" cy="sjabloon-opslaan" type="submit" form="ngForm">
+                        {{ sjabloon.id ? 'Opslaan' : 'Toevoegen' }}
+                    </button>
+                }
+                @if (submitting) {
+                    <hmy-spinner [centeredInParent]="true" />
+                }
+            </div>
+        </div>
+    }
+    @if (selectingStudiewijzer) {
+        <div>
+            <dt-studiewijzer-selectie [geenDoorklik]="true" (onSelect)="selecteerStudiewijzer($event)"> </dt-studiewijzer-selectie>
+        </div>
+    }
+</dt-sidebar>

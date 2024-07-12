@@ -1,0 +1,29 @@
+@if (showLoader()) {
+    <hmy-spinner />
+} @else {
+    <i class="icon" [hmyIcon]="icon()" size="small"></i>
+}
+<span class="label">{{ selected() ?? label() }}</span>
+<i class="chevron" hmyIcon="chevronOnder" size="smallest"></i>
+
+<ng-template #buttons>
+    <div class="opties">
+        @for (optie of opties(); track $index) {
+            <span
+                class="optie"
+                [hmyAddAttribute]="additionalAttribute($index)?.attribute"
+                [attributeValue]="additionalAttribute($index)?.value"
+                [class.selected]="selected() === optie"
+                (click)="select(optie)">
+                {{ optie }}
+                @if (selected() === optie) {
+                    <i class="check" hmyIcon="check" size="smallest" color="text-strong"></i>
+                }
+            </span>
+        }
+        @if (initieleSelectie) {
+            <div class="line"></div>
+            <span class="optie verwijderen" (click)="select(undefined)"> {{ verwijderLabel() ?? label() }} verwijderen </span>
+        }
+    </div>
+</ng-template>

@@ -1,0 +1,26 @@
+@if (disabled) {
+    <div class="control">
+        <span class="text-weak">{{ lesgroep.naam }}</span>
+    </div>
+} @else {
+    @if (synchroniseert) {
+        <div class="control synchroniseert">
+            <i color="action-positive-normal" hmyIcon="synchroniseren" size="medium"></i>
+            <span class="fg-positive-normal">{{ lesgroep.naam }}</span>
+        </div>
+    } @else {
+        <div
+            class="control clickable"
+            [class.selected]="selected"
+            [dtTooltip]="selected ? 'Kopiëren naar' : 'Niet kopiëren naar'"
+            (click)="onControlClick(!selected)">
+            @if (selected) {
+                <i class="action-primary-normal" hmyIcon="kopieren" size="large"></i>
+            }
+            @if (!selected) {
+                <i class="action-negative-normal" hmyIcon="nietKopieren" size="large"></i>
+            }
+            <span>{{ lesgroep.naam }}</span>
+        </div>
+    }
+}

@@ -1,0 +1,1158 @@
+@if (methodeSelectie$ | async) {
+    @if ((methodeSubject$ | async) === null) {
+        <dt-methode-selectie [inShareContent]="inShareContent" [activeTab$]="activeMethodenTab$" (onMethodeSelectie)="nextMethode($event)">
+        </dt-methode-selectie>
+    }
+    @if ((methodeSubject$ | async) && methodeInhoud$ | async; as methode) {
+        <dt-methode-inhoud-selectie
+            [methode]="methode"
+            [keepSidebarOnSave]="true"
+            [controle]="false"
+            (onToevoegen)="onMethodeInhoudenToevoegen($event)"></dt-methode-inhoud-selectie>
+    } @else {
+        @if ((methodeSubject$ | async) !== null) {
+            <hmy-spinner [centeredInParent]="true" />
+        }
+    }
+} @else {
+    @if (showDifferentiatiePage$ | async) {
+        @if (differentiatie$ | async; as leerlingenEnGroepen) {
+            <dt-differentiatie-selectie
+                [differentiatiegroepen]="leerlingenEnGroepen[1]"
+                [leerlingen]="leerlingenEnGroepen[0]"
+                (onAnnuleren)="closeDifferentiatie()"
+                (onToevoegen)="voegDifferentiatieToe($event.leerlingen, $event.groepen, leerlingenEnGroepen[0])">
+            </dt-differentiatie-selectie>
+        }
+    } @else {
+        <form
+            id="ngForm"
+            [class.met-datepicker]="toonDatepicker"
+            [class.toont-synchroniseren-balk]="toonSychronisatieBalk"
+            [formGroup]="studiewijzeritemForm"
+            (ngSubmit)="saveToekenning()">
+            @if (gesynchroniseerdeSjablonen && toonSychronisatieBalk) {
+                <dt-synchroniseer-item-met-sjabloon
+                    [synchroniseertMet]="toekenning.synchroniseertMet || gesynchroniseerdSjabloon?.naam"
+                    [gesynchroniseerdeSjablonen]="gesynchroniseerdeSjablonen"
+                    [canUnlink]="!toekenning.id"
+                    (onSynchroniseren)="onSynchroniserenEdit($event)"
+                    (onUnlink)="onUnlink()">
+                </dt-synchroniseer-item-met-sjabloon>
+            }
+            @if (toonLesgroepenControls) {
+                <div class="datum">
+                    <dt-lesuur
+                        [beginlesuur]="afspraak.lesuur"
+                        [eindlesuur]="afspraak.eindLesuur"
+                        [isRoosterToets]="afspraak.isRoosterToets"
+                        [hmyTooltip]="afspraak | roosterToets"
+                        [alignCenter]="false"
+                        [maxWidth]="300"
+                        [onTouchAllowed]="true"></dt-lesuur>
+                    <span class="text-content-semi">{{ afspraak.begin | dtDate: 'tijd' }} - {{ afspraak.eind | dtDate: 'tijd' }}</span>
+                    <span>{{ toekenning | toekenningDatum: $any(afspraak) }}</span>
+                </div>
+            }
+            @if (toonLesgroepenControls) {
+                <div class="lesgroep-controls" formGroupName="lesgroepen">
+                    @for (control of lesgroepenControls$ | async; track control; let i = $index) {
+                        <dt-lesgroep-synchronisatie-toekenning-form-control
+                            [formControlName]="i"
+                            [lesgroep]="control.lesgroep"
+                            [synchroniseert]="control.synchroniseert">
+                        </dt-lesgroep-synchronisatie-toekenning-form-control>
+                    }
+                </div>
+            }
+            <div class="zichtbaarheid">
+                <dt-zichtbaarheids-toggle-form-control [label]="zichtbaarheidLabel" formControlName="zichtbaarheid">
+                </dt-zichtbaarheids-toggle-form-control>
+            </div>
+            @if (lesgroepen && lesgroepen.length > 1 && !toekenning.studiewijzeritem.id) {
+                <div class="toevoegen-voor">
+                    <label>Toevoegen voor</label>
+                    <div class="lesgroep-tags">
+                        @for (lesgroep of lesgroepen; track lesgroep) {
+                            <hmy-tag class="lesgroep-tag" [label]="lesgroep.naam" icon="none"></hmy-tag>
+                        }
+                    </div>
+                </div>
+            }
+            @if (!toekenning.studiewijzeritem.inleverperiode && !toekenning.studiewijzeritem.conceptInleveropdracht) {
+                <dt-form-dropdown class="type-selectie" [opties]="typeOpties" formControlName="huiswerkType"></dt-form-dropdown>
+            }
+            <div class="onderwerp-container">
+                <label>Titel</label>
+                <input
+                    #titel
+                    maxlength="150"
+                    type="text"
+                    formControlName="titel"
+                    placeholder="{{
+                        inleverperiodeOfConceptInleveropdracht ? 'Wat is de titel van de inleveropdracht?' : 'Wat is de titel?'
+                    }}"
+                    cy="toekenning-onderwerp-input" />
+                @if (studiewijzeritemForm.controls['titel'].invalid) {
+                    <div class="validation-errors">
+                        @if (studiewijzeritemForm.controls['titel'].hasError('maxlength')) {
+                            <div>Een titel kan maximaal uit 150 karakters bestaan</div>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="tijdsindicatie-container">
+                <label>Tijdsindicatie</label>
+                <input
+                    #titel
+                    maxlength="16"
+                    type="text"
+                    formControlName="tijdsindicatie"
+                    placeholder="Hoeveel tijd kost het?"
+                    cy="tijdsindicatie-input" />
+            </div>
+            @if (toekenning.studiewijzeritem.conceptInleveropdracht) {
+                <div class="concept-inleverperiode-container" formGroupName="conceptInleveropdracht">
+                    <div>
+                        <label>Inleverperiode</label>
+                        <div class="start-eind-tijden">
+                            <div class="start-tijd indicatie">
+                                <dt-form-dropdown
+                                    [iconColor]="primary_1"
+                                    [opties]="conceptInleveropdrachtWeekOpties"
+                                    [icon]="iconStart"
+                                    formControlName="startWeek">
+                                </dt-form-dropdown>
+                                <div class="dag-tijd">
+                                    <dt-form-dropdown
+                                        [iconColor]="background_1"
+                                        [opties]="dagenInWeek"
+                                        [icon]="iconVandaag"
+                                        formControlName="startDag">
+                                    </dt-form-dropdown>
+                                    <input
+                                        class="tijd-input"
+                                        #time
+                                        type="time"
+                                        formControlName="startTijd"
+                                        dtTimeInputHelper
+                                        required="required"
+                                        size="6" />
+                                </div>
+                            </div>
+                            <div class="eind-tijd indicatie">
+                                <dt-form-dropdown
+                                    [iconColor]="primary_1"
+                                    [opties]="conceptInleveropdrachtWeekOpties"
+                                    [icon]="iconDeadline"
+                                    formControlName="eindWeek">
+                                </dt-form-dropdown>
+                                <div class="dag-tijd">
+                                    <dt-form-dropdown
+                                        [iconColor]="background_1"
+                                        [opties]="dagenInWeek"
+                                        [icon]="iconVandaag"
+                                        formControlName="eindDag">
+                                    </dt-form-dropdown>
+                                    <input
+                                        class="tijd-input"
+                                        #time
+                                        type="time"
+                                        formControlName="eindTijd"
+                                        dtTimeInputHelper
+                                        required="required"
+                                        size="6" />
+                                </div>
+                            </div>
+                            @if (conceptInleveropdracht.invalid) {
+                                <div class="validation-errors">
+                                    @if (conceptInleveropdracht.hasError('startVoorEind')) {
+                                        <div>De startdatum moet voor de einddatum liggen</div>
+                                    }
+                                    @if (conceptInleveropdracht.hasError('ongeldigeTijd')) {
+                                        <div>Er is een ongeldige tijd ingevoerd</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="herinnering">
+                        <label>Herinnering instellen</label>
+                        <dt-form-dropdown
+                            [iconColor]="warning_1"
+                            [opties]="herinneringOptions"
+                            [icon]="iconNotificatie"
+                            formControlName="herinnering"
+                            placeholder="Stel een herinnering in voor de leerlingen">
+                        </dt-form-dropdown>
+                    </div>
+                    <div class="checkbox-options">
+                        <dt-form-checkbox
+                            class="stuur-bericht"
+                            label="Ontvang berichten van inlevering"
+                            formControlName="stuurBerichtBijInlevering">
+                        </dt-form-checkbox>
+                        @if (plagiaatControleerbaar$ | async) {
+                            <dt-form-checkbox
+                                class="plagiaat-detectie"
+                                label="Plagiaat automatisch controleren"
+                                formControlName="plagiaatDetectie">
+                            </dt-form-checkbox>
+                        }
+                    </div>
+                </div>
+            }
+            @if (toekenning.studiewijzeritem.inleverperiode) {
+                <div class="inleverperiode-container" [formGroup]="inleverperiodeFormGroup">
+                    <div class="inleverperiode-datums">
+                        <label>Inleverperiode</label>
+                        <dt-ranged-datepicker
+                            [rangeGroup]="inleverperiodeRangeGroup"
+                            [disableWeekends]="true"
+                            [schooljaar]="(schooljaar$ | async)!">
+                        </dt-ranged-datepicker>
+                        @if (inleverperiodeRangeGroup.invalid) {
+                            <div class="validation-errors">
+                                @if (inleverperiodeRangeGroup.hasError('startVoorEind')) {
+                                    <div>De startdatum moet voor de deadline liggen</div>
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div class="herinnering">
+                        <label>Herinnering instellen</label>
+                        <dt-form-dropdown
+                            [iconColor]="warning_1"
+                            [opties]="herinneringOptions"
+                            [icon]="iconNotificatie"
+                            formControlName="herinnering"
+                            placeholder="Stel een herinnering in voor de leerlingen">
+                        </dt-form-dropdown>
+                    </div>
+                    <div class="checkbox-options">
+                        <dt-form-checkbox
+                            class="stuur-bericht"
+                            label="Ontvang berichten van inlevering"
+                            formControlName="stuurBerichtBijInlevering">
+                        </dt-form-checkbox>
+                        @if (plagiaatControleerbaar$ | async) {
+                            <dt-form-checkbox
+                                class="plagiaat-detectie"
+                                label="Plagiaat automatisch controleren"
+                                formControlName="plagiaatDetectie">
+                            </dt-form-checkbox>
+                        }
+                    </div>
+                    @if (!toekenning.studiewijzeritem.inleverperiode.id) {
+                        <div class="projectgroepen-melding-container">
+                            <div class="groep-icon">
+                                <i color="fg-on-primary-weak" hmyIcon="groep" size="medium"></i>
+                            </div>
+                            <span>Projectgroepen kun je toevoegen na opslaan van de opdracht.</span>
+                        </div>
+                    }
+                </div>
+            }
+            @if (toonDatepicker) {
+                <div class="opgeven-voor-container">
+                    <label>Opgeven voor<span class="required"> *</span></label>
+                    <dt-datepicker
+                        #opgevenVoor
+                        [afspraak]="opgevenVoorAfspraak"
+                        [highlightDagen]="highlightDagen"
+                        [disableWeekends]="true"
+                        [schooljaar]="(schooljaar$ | async)!"
+                        [onlyFutureDatesAllowed]="true"
+                        formControlName="opgevenVoor">
+                    </dt-datepicker>
+                    @if (submitted) {
+                        <div class="validation-errors">Dit veld is verplicht</div>
+                    }
+                </div>
+            }
+            <div class="blocks">
+                <div class="block">
+                    @if (toonDifferentiatie$ | async) {
+                        <div class="differentiatie">
+                            <div class="tags">
+                                @if (toonIedereenTag$ | async) {
+                                    <hmy-tag icon="none" label="Iedereen" color="neutral"></hmy-tag>
+                                }
+                                @if (!(toonIedereenTag$ | async)) {
+                                    @for (groep of differentiatiegroepen$ | async; track groep) {
+                                        <hmy-counter-tag
+                                            [hmyTooltip]="groepTooltip(groep)"
+                                            [alignCenter]="false"
+                                            [label]="groep.naam"
+                                            [color]="groep.kleur | kleurToTagColor"
+                                            [count]="groep.leerlingen?.length ?? 0"
+                                            [icon]="magDifferentiatieBewerken ? 'sluiten' : 'none'"
+                                            (iconClick)="removeGroep(groep)"></hmy-counter-tag>
+                                    }
+                                    @for (leerling of differentiatieleerlingen$ | async; track leerling) {
+                                        <hmy-tag
+                                            [label]="leerling | volledigeNaam"
+                                            [icon]="magDifferentiatieBewerken ? 'sluiten' : 'none'"
+                                            (iconClick)="removeLeerling(leerling)">
+                                        </hmy-tag>
+                                    }
+                                }
+                            </div>
+                            @if (magDifferentiatieBewerken) {
+                                <dt-background-icon
+                                    class="add-differentiatie pointer"
+                                    (click)="openDifferentiatieSidebar()"
+                                    icon="toevoegen"
+                                    color="accent_positive_1"
+                                    size="small"
+                                    hmyTooltip="Differentiëren voor groep of leerling"
+                                    data-gtm="differentiatie-toekenning">
+                                </dt-background-icon>
+                            }
+                        </div>
+                    }
+                    <div
+                        class="content-header leerdoelen"
+                        [class.closed]="!isLeerdoelenOpen"
+                        (click)="isLeerdoelenOpen = !isLeerdoelenOpen">
+                        <i hmyIcon="leerdoel" size="medium"></i>
+                        <span class="text-content-semi">Leerdoelen</span>
+                        <div class="actions">
+                            <i class="icon-arrow-open-close" [class.close]="!isLeerdoelenOpen" hmyIcon="chevronBoven"></i>
+                        </div>
+                    </div>
+                    <div [@collapse]="!isLeerdoelenOpen">
+                        <dt-editor-form-control
+                            [formGroup]="studiewijzeritemForm"
+                            [inSidebar]="true"
+                            controlName="leerdoelen"
+                            placeholder="Wat zijn de leerdoelen?">
+                        </dt-editor-form-control>
+                    </div>
+                    <div
+                        class="content-header omschrijving"
+                        [class.bottom-radius]="!heeftToegangTotElo"
+                        [class.closed]="!isOmschrijvingOpen"
+                        (click)="isOmschrijvingOpen = !isOmschrijvingOpen">
+                        <i hmyIcon="lijst" size="medium"></i>
+                        <span class="text-content-semi">Omschrijving</span>
+                        <div class="actions">
+                            <i class="icon-arrow-open-close" [class.close]="!isOmschrijvingOpen" hmyIcon="chevronBoven"></i>
+                        </div>
+                    </div>
+                    <div [@collapse]="!isOmschrijvingOpen">
+                        <dt-omschrijving-en-bijlage
+                            [formGroup]="studiewijzeritemForm"
+                            [omschrijvingPlaceholder]="studiewijzerItem | omschrijvingPlaceholder"
+                            [bijlagen]="bijlagen"
+                            [heeftBijlagen]="heeftToegangTotElo"
+                            [conferenceDateRange]="conferenceDateRange"
+                            [heeftToegangTotElo]="heeftToegangTotElo"
+                            [toonBestandUploaden]="heeftToegangTotElo"
+                            [toonUitMethode]="(uitMethodeToegestaan$ | async) && toonUitMethode"
+                            [showBorder]="false"
+                            (verwijderBijlage)="removeBijlage($event)"
+                            (editUrl)="openUrlPopup($event)"
+                            (saveBijlage)="onBijlageSave($event)"
+                            (fileUploaded)="fileUploaded($event)"
+                            (openMethodeSelectie)="openMethodeSelectie()"
+                            (triggerChangeDetection)="triggerEditorChangeDetection()">
+                        </dt-omschrijving-en-bijlage>
+                    </div>
+                    @if (heeftToegangTotElo) {
+                        <div class="content-header notitie" [class.closed]="!isNotitieOpen" (click)="isNotitieOpen = !isNotitieOpen">
+                            <i hmyIcon="reacties" size="medium"></i>
+                            <span class="text-content-semi">Notitie</span>
+                            <div class="actions">
+                                <dt-zichtbaarheids-toggle-form-control formControlName="notitieZichtbaarVoorLeerling">
+                                </dt-zichtbaarheids-toggle-form-control>
+                                <i class="icon-arrow-open-close" [class.close]="!isNotitieOpen" hmyIcon="chevronBoven"></i>
+                            </div>
+                        </div>
+                        <div class="notitie" [@collapse]="!isNotitieOpen">
+                            <dt-editor-form-control
+                                [formGroup]="studiewijzeritemForm"
+                                [inSidebar]="true"
+                                controlName="notitie"
+                                placeholder="Wat moet je niet vergeten?"
+                                cy="toekenning-form-notitie">
+                            </dt-editor-form-control>
+                        </div>
+                    }
+                </div>
+            </div>
+        </form>
+        <div class="buttons">
+            <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="typography_3">{{
+                sidebarService.currentPage?.isVerdieping ? 'Terug' : 'Annuleren'
+            }}</dt-outline-button>
+            <button
+                class="submit"
+                [showAddButton]="toonDifferentiatie$ | async"
+                [attr.disabled]="studiewijzeritemForm.valid && isDirty && titelOfOmschrijving && !isUploading ? null : true"
+                [attr.data-gtm]="toekenning.id ? 'toekenning-formulier-opslaan' : 'toekenning-formulier-toevoegen'"
+                (addClick)="openOpslaanEnKopiePopup($event)"
+                type="submit"
+                form="ngForm"
+                cy="save-toekenning-formulier-button">
+                {{ toekenning.id ? 'Opslaan' : 'Toevoegen' }}
+            </button>
+        </div>
+    }
+}
+<ng-template #differentiatie>
+    @if (showDifferentiatiePage$ | async) {
+        @if (differentiatie$ | async; as leerlingenEnGroepen) {
+            <dt-differentiatie-selectie
+                [differentiatiegroepen]="leerlingenEnGroepen[1]"
+                [leerlingen]="leerlingenEnGroepen[0]"
+                (onAnnuleren)="closeDifferentiatie()"
+                (onToevoegen)="voegDifferentiatieToe($event.leerlingen, $event.groepen, leerlingenEnGroepen[0])">
+            </dt-differentiatie-selectie>
+        }
+    } @else {
+        <form
+            id="ngForm"
+            [class.met-datepicker]="toonDatepicker"
+            [class.toont-synchroniseren-balk]="toonSychronisatieBalk"
+            [formGroup]="studiewijzeritemForm"
+            (ngSubmit)="saveToekenning()">
+            @if (gesynchroniseerdeSjablonen && toonSychronisatieBalk) {
+                <dt-synchroniseer-item-met-sjabloon
+                    [synchroniseertMet]="toekenning.synchroniseertMet || gesynchroniseerdSjabloon?.naam"
+                    [gesynchroniseerdeSjablonen]="gesynchroniseerdeSjablonen"
+                    [canUnlink]="!toekenning.id"
+                    (onSynchroniseren)="onSynchroniserenEdit($event)"
+                    (onUnlink)="onUnlink()">
+                </dt-synchroniseer-item-met-sjabloon>
+            }
+            @if (toonLesgroepenControls) {
+                <div class="datum">
+                    <dt-lesuur
+                        [beginlesuur]="afspraak.lesuur"
+                        [eindlesuur]="afspraak.eindLesuur"
+                        [isRoosterToets]="afspraak.isRoosterToets"
+                        [hmyTooltip]="afspraak | roosterToets"
+                        [alignCenter]="false"
+                        [maxWidth]="300"
+                        [onTouchAllowed]="true"></dt-lesuur>
+                    <span class="text-content-semi">{{ afspraak.begin | dtDate: 'tijd' }} - {{ afspraak.eind | dtDate: 'tijd' }}</span>
+                    <span>{{ toekenning | toekenningDatum: $any(afspraak) }}</span>
+                </div>
+            }
+            @if (toonLesgroepenControls) {
+                <div class="lesgroep-controls" formGroupName="lesgroepen">
+                    @for (control of lesgroepenControls$ | async; track control; let i = $index) {
+                        <dt-lesgroep-synchronisatie-toekenning-form-control
+                            [formControlName]="i"
+                            [lesgroep]="control.lesgroep"
+                            [synchroniseert]="control.synchroniseert">
+                        </dt-lesgroep-synchronisatie-toekenning-form-control>
+                    }
+                </div>
+            }
+            <div class="zichtbaarheid">
+                <dt-zichtbaarheids-toggle-form-control [label]="zichtbaarheidLabel" formControlName="zichtbaarheid">
+                </dt-zichtbaarheids-toggle-form-control>
+            </div>
+            @if (lesgroepen && lesgroepen.length > 1 && !toekenning.studiewijzeritem.id) {
+                <div class="toevoegen-voor">
+                    <label>Toevoegen voor</label>
+                    <div class="lesgroep-tags">
+                        @for (lesgroep of lesgroepen; track lesgroep) {
+                            <hmy-tag class="lesgroep-tag" [label]="lesgroep.naam" icon="none"></hmy-tag>
+                        }
+                    </div>
+                </div>
+            }
+            @if (!toekenning.studiewijzeritem.inleverperiode && !toekenning.studiewijzeritem.conceptInleveropdracht) {
+                <dt-form-dropdown class="type-selectie" [opties]="typeOpties" formControlName="huiswerkType"></dt-form-dropdown>
+            }
+            <div class="onderwerp-container">
+                <label>Titel</label>
+                <input
+                    #titel
+                    maxlength="150"
+                    type="text"
+                    formControlName="titel"
+                    placeholder="{{
+                        inleverperiodeOfConceptInleveropdracht ? 'Wat is de titel van de inleveropdracht?' : 'Wat is de titel?'
+                    }}"
+                    cy="toekenning-onderwerp-input" />
+                @if (studiewijzeritemForm.controls['titel'].invalid) {
+                    <div class="validation-errors">
+                        @if (studiewijzeritemForm.controls['titel'].hasError('maxlength')) {
+                            <div>Een titel kan maximaal uit 150 karakters bestaan</div>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="tijdsindicatie-container">
+                <label>Tijdsindicatie</label>
+                <input
+                    #titel
+                    maxlength="16"
+                    type="text"
+                    formControlName="tijdsindicatie"
+                    placeholder="Hoeveel tijd kost het?"
+                    cy="tijdsindicatie-input" />
+            </div>
+            @if (toekenning.studiewijzeritem.conceptInleveropdracht) {
+                <div class="concept-inleverperiode-container" formGroupName="conceptInleveropdracht">
+                    <div>
+                        <label>Inleverperiode</label>
+                        <div class="start-eind-tijden">
+                            <div class="start-tijd indicatie">
+                                <dt-form-dropdown
+                                    [iconColor]="primary_1"
+                                    [opties]="conceptInleveropdrachtWeekOpties"
+                                    [icon]="iconStart"
+                                    formControlName="startWeek">
+                                </dt-form-dropdown>
+                                <div class="dag-tijd">
+                                    <dt-form-dropdown
+                                        [iconColor]="background_1"
+                                        [opties]="dagenInWeek"
+                                        [icon]="iconVandaag"
+                                        formControlName="startDag">
+                                    </dt-form-dropdown>
+                                    <input
+                                        class="tijd-input"
+                                        #time
+                                        type="time"
+                                        formControlName="startTijd"
+                                        dtTimeInputHelper
+                                        required="required"
+                                        size="6" />
+                                </div>
+                            </div>
+                            <div class="eind-tijd indicatie">
+                                <dt-form-dropdown
+                                    [iconColor]="primary_1"
+                                    [opties]="conceptInleveropdrachtWeekOpties"
+                                    [icon]="iconDeadline"
+                                    formControlName="eindWeek">
+                                </dt-form-dropdown>
+                                <div class="dag-tijd">
+                                    <dt-form-dropdown
+                                        [iconColor]="background_1"
+                                        [opties]="dagenInWeek"
+                                        [icon]="iconVandaag"
+                                        formControlName="eindDag">
+                                    </dt-form-dropdown>
+                                    <input
+                                        class="tijd-input"
+                                        #time
+                                        type="time"
+                                        formControlName="eindTijd"
+                                        dtTimeInputHelper
+                                        required="required"
+                                        size="6" />
+                                </div>
+                            </div>
+                            @if (conceptInleveropdracht.invalid) {
+                                <div class="validation-errors">
+                                    @if (conceptInleveropdracht.hasError('startVoorEind')) {
+                                        <div>De startdatum moet voor de einddatum liggen</div>
+                                    }
+                                    @if (conceptInleveropdracht.hasError('ongeldigeTijd')) {
+                                        <div>Er is een ongeldige tijd ingevoerd</div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="herinnering">
+                        <label>Herinnering instellen</label>
+                        <dt-form-dropdown
+                            [iconColor]="warning_1"
+                            [opties]="herinneringOptions"
+                            [icon]="iconNotificatie"
+                            formControlName="herinnering"
+                            placeholder="Stel een herinnering in voor de leerlingen">
+                        </dt-form-dropdown>
+                    </div>
+                    <div class="checkbox-options">
+                        <dt-form-checkbox
+                            class="stuur-bericht"
+                            label="Ontvang berichten van inlevering"
+                            formControlName="stuurBerichtBijInlevering">
+                        </dt-form-checkbox>
+                        @if (plagiaatControleerbaar$ | async) {
+                            <dt-form-checkbox
+                                class="plagiaat-detectie"
+                                label="Plagiaat automatisch controleren"
+                                formControlName="plagiaatDetectie">
+                            </dt-form-checkbox>
+                        }
+                    </div>
+                </div>
+            }
+            @if (toekenning.studiewijzeritem.inleverperiode) {
+                <div class="inleverperiode-container" [formGroup]="inleverperiodeFormGroup">
+                    <div class="inleverperiode-datums">
+                        <label>Inleverperiode</label>
+                        <dt-ranged-datepicker
+                            [rangeGroup]="inleverperiodeRangeGroup"
+                            [disableWeekends]="true"
+                            [schooljaar]="(schooljaar$ | async)!">
+                        </dt-ranged-datepicker>
+                        @if (inleverperiodeRangeGroup.invalid) {
+                            <div class="validation-errors">
+                                @if (inleverperiodeRangeGroup.hasError('startVoorEind')) {
+                                    <div>De startdatum moet voor de deadline liggen</div>
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div class="herinnering">
+                        <label>Herinnering instellen</label>
+                        <dt-form-dropdown
+                            [iconColor]="warning_1"
+                            [opties]="herinneringOptions"
+                            [icon]="iconNotificatie"
+                            formControlName="herinnering"
+                            placeholder="Stel een herinnering in voor de leerlingen">
+                        </dt-form-dropdown>
+                    </div>
+                    <div class="checkbox-options">
+                        <dt-form-checkbox
+                            class="stuur-bericht"
+                            label="Ontvang berichten van inlevering"
+                            formControlName="stuurBerichtBijInlevering">
+                        </dt-form-checkbox>
+                        @if (plagiaatControleerbaar$ | async) {
+                            <dt-form-checkbox
+                                class="plagiaat-detectie"
+                                label="Plagiaat automatisch controleren"
+                                formControlName="plagiaatDetectie">
+                            </dt-form-checkbox>
+                        }
+                    </div>
+                    @if (!toekenning.studiewijzeritem.inleverperiode.id) {
+                        <div class="projectgroepen-melding-container">
+                            <div class="groep-icon">
+                                <i class="fill-primary-1" hmyIcon="groep" size="medium"></i>
+                            </div>
+                            <span>Projectgroepen kun je toevoegen na opslaan van de opdracht.</span>
+                        </div>
+                    }
+                </div>
+            }
+            @if (toonDatepicker) {
+                <div class="opgeven-voor-container">
+                    <label>Opgeven voor<span class="required"> *</span></label>
+                    <dt-datepicker
+                        #opgevenVoor
+                        [afspraak]="opgevenVoorAfspraak"
+                        [highlightDagen]="highlightDagen"
+                        [disableWeekends]="true"
+                        [schooljaar]="(schooljaar$ | async)!"
+                        [onlyFutureDatesAllowed]="true"
+                        formControlName="opgevenVoor">
+                    </dt-datepicker>
+                    @if (submitted) {
+                        <div class="validation-errors">Dit veld is verplicht</div>
+                    }
+                </div>
+            }
+            <div class="blocks">
+                <div class="block">
+                    @if (toonDifferentiatie$ | async) {
+                        <div class="differentiatie">
+                            <div class="tags">
+                                @if (toonIedereenTag$ | async) {
+                                    <hmy-tag icon="none" label="Iedereen" color="neutral"></hmy-tag>
+                                }
+                                @if (!(toonIedereenTag$ | async)) {
+                                    @for (groep of differentiatiegroepen$ | async; track groep) {
+                                        <hmy-counter-tag
+                                            [hmyTooltip]="groepTooltip(groep)"
+                                            [alignCenter]="false"
+                                            [label]="groep.naam"
+                                            [color]="groep.kleur | kleurToTagColor"
+                                            [count]="groep.leerlingen?.length ?? 0"
+                                            [icon]="magDifferentiatieBewerken ? 'sluiten' : 'none'"
+                                            (iconClick)="removeGroep(groep)"></hmy-counter-tag>
+                                    }
+                                    @for (leerling of differentiatieleerlingen$ | async; track leerling) {
+                                        <hmy-tag
+                                            [label]="leerling | volledigeNaam"
+                                            [icon]="magDifferentiatieBewerken ? 'sluiten' : 'none'"
+                                            (iconClick)="removeLeerling(leerling)">
+                                        </hmy-tag>
+                                    }
+                                }
+                            </div>
+                            @if (magDifferentiatieBewerken) {
+                                <dt-background-icon
+                                    class="add-differentiatie pointer"
+                                    (click)="openDifferentiatieSidebar()"
+                                    icon="toevoegen"
+                                    color="accent_positive_1"
+                                    size="small"
+                                    hmyTooltip="Differentiëren voor groep of leerling"
+                                    data-gtm="differentiatie-toekenning">
+                                </dt-background-icon>
+                            }
+                        </div>
+                    }
+                    <div
+                        class="content-header leerdoelen"
+                        [class.closed]="!isLeerdoelenOpen"
+                        (click)="isLeerdoelenOpen = !isLeerdoelenOpen">
+                        <i hmyIcon="leerdoel" size="medium"></i>
+                        <span class="text-content-semi">Leerdoelen</span>
+                        <div class="actions">
+                            <i class="icon-arrow-open-close" [class.close]="!isLeerdoelenOpen" hmyIcon="chevronBoven"></i>
+                        </div>
+                    </div>
+                    <div [@collapse]="!isLeerdoelenOpen">
+                        <dt-editor-form-control
+                            [formGroup]="studiewijzeritemForm"
+                            [inSidebar]="true"
+                            controlName="leerdoelen"
+                            placeholder="Wat zijn de leerdoelen?">
+                        </dt-editor-form-control>
+                    </div>
+                    <div
+                        class="content-header omschrijving"
+                        [class.bottom-radius]="!heeftToegangTotElo"
+                        [class.closed]="!isOmschrijvingOpen"
+                        (click)="isOmschrijvingOpen = !isOmschrijvingOpen">
+                        <i hmyIcon="lijst" size="medium"></i>
+                        <span class="text-content-semi">Omschrijving</span>
+                        <div class="actions">
+                            <i class="icon-arrow-open-close" [class.close]="!isOmschrijvingOpen" hmyIcon="chevronBoven"></i>
+                        </div>
+                    </div>
+                    <div [@collapse]="!isOmschrijvingOpen">
+                        <dt-omschrijving-en-bijlage
+                            [formGroup]="studiewijzeritemForm"
+                            [omschrijvingPlaceholder]="studiewijzerItem | omschrijvingPlaceholder"
+                            [bijlagen]="bijlagen"
+                            [heeftBijlagen]="heeftToegangTotElo"
+                            [conferenceDateRange]="conferenceDateRange"
+                            [heeftToegangTotElo]="heeftToegangTotElo"
+                            [toonBestandUploaden]="heeftToegangTotElo"
+                            [toonUitMethode]="(uitMethodeToegestaan$ | async) && toonUitMethode"
+                            [showBorder]="false"
+                            (verwijderBijlage)="removeBijlage($event)"
+                            (editUrl)="openUrlPopup($event)"
+                            (saveBijlage)="onBijlageSave($event)"
+                            (fileUploaded)="fileUploaded($event)"
+                            (openMethodeSelectie)="openMethodeSelectie()"
+                            (triggerChangeDetection)="triggerEditorChangeDetection()">
+                        </dt-omschrijving-en-bijlage>
+                    </div>
+                    @if (heeftToegangTotElo) {
+                        <div class="content-header notitie" [class.closed]="!isNotitieOpen" (click)="isNotitieOpen = !isNotitieOpen">
+                            <i hmyIcon="reacties" size="medium"></i>
+                            <span class="text-content-semi">Notitie</span>
+                            <div class="actions">
+                                <dt-zichtbaarheids-toggle-form-control formControlName="notitieZichtbaarVoorLeerling">
+                                </dt-zichtbaarheids-toggle-form-control>
+                                <i class="icon-arrow-open-close" [class.close]="!isNotitieOpen" hmyIcon="chevronBoven"></i>
+                            </div>
+                        </div>
+                        <div class="notitie" [@collapse]="!isNotitieOpen">
+                            <dt-editor-form-control
+                                [formGroup]="studiewijzeritemForm"
+                                [inSidebar]="true"
+                                controlName="notitie"
+                                placeholder="Wat moet je niet vergeten?"
+                                cy="toekenning-form-notitie">
+                            </dt-editor-form-control>
+                        </div>
+                    }
+                </div>
+            </div>
+        </form>
+        <div class="buttons">
+            <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="typography_3">{{
+                sidebarService.currentPage?.isVerdieping ? 'Terug' : 'Annuleren'
+            }}</dt-outline-button>
+            <button
+                class="submit"
+                [showAddButton]="toonDifferentiatie$ | async"
+                [attr.disabled]="studiewijzeritemForm.valid && isDirty && titelOfOmschrijving && !isUploading ? null : true"
+                [attr.data-gtm]="toekenning.id ? 'toekenning-formulier-opslaan' : 'toekenning-formulier-toevoegen'"
+                (addClick)="openOpslaanEnKopiePopup($event)"
+                type="submit"
+                form="ngForm"
+                cy="save-toekenning-formulier-button">
+                {{ toekenning.id ? 'Opslaan' : 'Toevoegen' }}
+            </button>
+        </div>
+    }
+</ng-template>
+<ng-template #toekenningFormulier>
+    <form
+        id="ngForm"
+        [class.met-datepicker]="toonDatepicker"
+        [class.toont-synchroniseren-balk]="toonSychronisatieBalk"
+        [formGroup]="studiewijzeritemForm"
+        (ngSubmit)="saveToekenning()">
+        @if (gesynchroniseerdeSjablonen && toonSychronisatieBalk) {
+            <dt-synchroniseer-item-met-sjabloon
+                [synchroniseertMet]="toekenning.synchroniseertMet || gesynchroniseerdSjabloon?.naam"
+                [gesynchroniseerdeSjablonen]="gesynchroniseerdeSjablonen"
+                [canUnlink]="!toekenning.id"
+                (onSynchroniseren)="onSynchroniserenEdit($event)"
+                (onUnlink)="onUnlink()">
+            </dt-synchroniseer-item-met-sjabloon>
+        }
+        @if (toonLesgroepenControls) {
+            <div class="datum">
+                <dt-lesuur
+                    [beginlesuur]="afspraak.lesuur"
+                    [eindlesuur]="afspraak.eindLesuur"
+                    [isRoosterToets]="afspraak.isRoosterToets"
+                    [hmyTooltip]="afspraak | roosterToets"
+                    [alignCenter]="false"
+                    [maxWidth]="300"
+                    [onTouchAllowed]="true"></dt-lesuur>
+                <span class="text-content-semi">{{ afspraak.begin | dtDate: 'tijd' }} - {{ afspraak.eind | dtDate: 'tijd' }}</span>
+                <span>{{ toekenning | toekenningDatum: $any(afspraak) }}</span>
+            </div>
+        }
+        @if (toonLesgroepenControls) {
+            <div class="lesgroep-controls" formGroupName="lesgroepen">
+                @for (control of lesgroepenControls$ | async; track control; let i = $index) {
+                    <dt-lesgroep-synchronisatie-toekenning-form-control
+                        [formControlName]="i"
+                        [lesgroep]="control.lesgroep"
+                        [synchroniseert]="control.synchroniseert">
+                    </dt-lesgroep-synchronisatie-toekenning-form-control>
+                }
+            </div>
+        }
+        <div class="zichtbaarheid">
+            <dt-zichtbaarheids-toggle-form-control [label]="zichtbaarheidLabel" formControlName="zichtbaarheid">
+            </dt-zichtbaarheids-toggle-form-control>
+        </div>
+        @if (lesgroepen && lesgroepen.length > 1 && !toekenning.studiewijzeritem.id) {
+            <div class="toevoegen-voor">
+                <label>Toevoegen voor</label>
+                <div class="lesgroep-tags">
+                    @for (lesgroep of lesgroepen; track lesgroep) {
+                        <hmy-tag class="lesgroep-tag" [label]="lesgroep.naam" icon="none"></hmy-tag>
+                    }
+                </div>
+            </div>
+        }
+        @if (!toekenning.studiewijzeritem.inleverperiode && !toekenning.studiewijzeritem.conceptInleveropdracht) {
+            <dt-form-dropdown class="type-selectie" [opties]="typeOpties" formControlName="huiswerkType"></dt-form-dropdown>
+        }
+        <div class="onderwerp-container">
+            <label>Titel</label>
+            <input
+                #titel
+                maxlength="150"
+                type="text"
+                formControlName="titel"
+                placeholder="{{ inleverperiodeOfConceptInleveropdracht ? 'Wat is de titel van de inleveropdracht?' : 'Wat is de titel?' }}"
+                cy="toekenning-onderwerp-input" />
+            @if (studiewijzeritemForm.controls['titel'].invalid) {
+                <div class="validation-errors">
+                    @if (studiewijzeritemForm.controls['titel'].hasError('maxlength')) {
+                        <div>Een titel kan maximaal uit 150 karakters bestaan</div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="tijdsindicatie-container">
+            <label>Tijdsindicatie</label>
+            <input
+                #titel
+                maxlength="16"
+                type="text"
+                formControlName="tijdsindicatie"
+                placeholder="Hoeveel tijd kost het?"
+                cy="tijdsindicatie-input" />
+        </div>
+        @if (toekenning.studiewijzeritem.conceptInleveropdracht) {
+            <div class="concept-inleverperiode-container" formGroupName="conceptInleveropdracht">
+                <div>
+                    <label>Inleverperiode</label>
+                    <div class="start-eind-tijden">
+                        <div class="start-tijd indicatie">
+                            <dt-form-dropdown
+                                [iconColor]="primary_1"
+                                [opties]="conceptInleveropdrachtWeekOpties"
+                                [icon]="iconStart"
+                                formControlName="startWeek">
+                            </dt-form-dropdown>
+                            <div class="dag-tijd">
+                                <dt-form-dropdown
+                                    [iconColor]="background_1"
+                                    [opties]="dagenInWeek"
+                                    [icon]="iconVandaag"
+                                    formControlName="startDag">
+                                </dt-form-dropdown>
+                                <input
+                                    class="tijd-input"
+                                    #time
+                                    type="time"
+                                    formControlName="startTijd"
+                                    dtTimeInputHelper
+                                    required="required"
+                                    size="6" />
+                            </div>
+                        </div>
+                        <div class="eind-tijd indicatie">
+                            <dt-form-dropdown
+                                [iconColor]="primary_1"
+                                [opties]="conceptInleveropdrachtWeekOpties"
+                                [icon]="iconDeadline"
+                                formControlName="eindWeek">
+                            </dt-form-dropdown>
+                            <div class="dag-tijd">
+                                <dt-form-dropdown
+                                    [iconColor]="background_1"
+                                    [opties]="dagenInWeek"
+                                    [icon]="iconVandaag"
+                                    formControlName="eindDag">
+                                </dt-form-dropdown>
+                                <input
+                                    class="tijd-input"
+                                    #time
+                                    type="time"
+                                    formControlName="eindTijd"
+                                    dtTimeInputHelper
+                                    required="required"
+                                    size="6" />
+                            </div>
+                        </div>
+                        @if (conceptInleveropdracht.invalid) {
+                            <div class="validation-errors">
+                                @if (conceptInleveropdracht.hasError('startVoorEind')) {
+                                    <div>De startdatum moet voor de einddatum liggen</div>
+                                }
+                                @if (conceptInleveropdracht.hasError('ongeldigeTijd')) {
+                                    <div>Er is een ongeldige tijd ingevoerd</div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="herinnering">
+                    <label>Herinnering instellen</label>
+                    <dt-form-dropdown
+                        [iconColor]="warning_1"
+                        [opties]="herinneringOptions"
+                        [icon]="iconNotificatie"
+                        formControlName="herinnering"
+                        placeholder="Stel een herinnering in voor de leerlingen">
+                    </dt-form-dropdown>
+                </div>
+                <div class="checkbox-options">
+                    <dt-form-checkbox
+                        class="stuur-bericht"
+                        label="Ontvang berichten van inlevering"
+                        formControlName="stuurBerichtBijInlevering">
+                    </dt-form-checkbox>
+                    @if (plagiaatControleerbaar$ | async) {
+                        <dt-form-checkbox
+                            class="plagiaat-detectie"
+                            label="Plagiaat automatisch controleren"
+                            formControlName="plagiaatDetectie">
+                        </dt-form-checkbox>
+                    }
+                </div>
+            </div>
+        }
+        @if (toekenning.studiewijzeritem.inleverperiode) {
+            <div class="inleverperiode-container" [formGroup]="inleverperiodeFormGroup">
+                <div class="inleverperiode-datums">
+                    <label>Inleverperiode</label>
+                    <dt-ranged-datepicker
+                        [rangeGroup]="inleverperiodeRangeGroup"
+                        [disableWeekends]="true"
+                        [schooljaar]="(schooljaar$ | async)!">
+                    </dt-ranged-datepicker>
+                    @if (inleverperiodeRangeGroup.invalid) {
+                        <div class="validation-errors">
+                            @if (inleverperiodeRangeGroup.hasError('startVoorEind')) {
+                                <div>De startdatum moet voor de deadline liggen</div>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="herinnering">
+                    <label>Herinnering instellen</label>
+                    <dt-form-dropdown
+                        [iconColor]="warning_1"
+                        [opties]="herinneringOptions"
+                        [icon]="iconNotificatie"
+                        formControlName="herinnering"
+                        placeholder="Stel een herinnering in voor de leerlingen">
+                    </dt-form-dropdown>
+                </div>
+                <div class="checkbox-options">
+                    <dt-form-checkbox
+                        class="stuur-bericht"
+                        label="Ontvang berichten van inlevering"
+                        formControlName="stuurBerichtBijInlevering">
+                    </dt-form-checkbox>
+                    @if (plagiaatControleerbaar$ | async) {
+                        <dt-form-checkbox
+                            class="plagiaat-detectie"
+                            label="Plagiaat automatisch controleren"
+                            formControlName="plagiaatDetectie">
+                        </dt-form-checkbox>
+                    }
+                </div>
+                @if (!toekenning.studiewijzeritem.inleverperiode.id) {
+                    <div class="projectgroepen-melding-container">
+                        <div class="groep-icon">
+                            <i class="fill-primary-1" hmyIcon="groep" size="medium"></i>
+                        </div>
+                        <span>Projectgroepen kun je toevoegen na opslaan van de opdracht.</span>
+                    </div>
+                }
+            </div>
+        }
+        @if (toonDatepicker) {
+            <div class="opgeven-voor-container">
+                <label>Opgeven voor<span class="required"> *</span></label>
+                <dt-datepicker
+                    #opgevenVoor
+                    [afspraak]="opgevenVoorAfspraak"
+                    [highlightDagen]="highlightDagen"
+                    [disableWeekends]="true"
+                    [schooljaar]="(schooljaar$ | async)!"
+                    [onlyFutureDatesAllowed]="true"
+                    formControlName="opgevenVoor">
+                </dt-datepicker>
+                @if (submitted) {
+                    <div class="validation-errors">Dit veld is verplicht</div>
+                }
+            </div>
+        }
+        <div class="blocks">
+            <div class="block">
+                @if (toonDifferentiatie$ | async) {
+                    <div class="differentiatie">
+                        <div class="tags">
+                            @if (toonIedereenTag$ | async) {
+                                <hmy-tag icon="none" label="Iedereen" color="neutral"></hmy-tag>
+                            }
+                            @if (!(toonIedereenTag$ | async)) {
+                                @for (groep of differentiatiegroepen$ | async; track groep) {
+                                    <hmy-counter-tag
+                                        [hmyTooltip]="groepTooltip(groep)"
+                                        [alignCenter]="false"
+                                        [label]="groep.naam"
+                                        [color]="groep.kleur | kleurToTagColor"
+                                        [count]="groep.leerlingen?.length ?? 0"
+                                        [icon]="magDifferentiatieBewerken ? 'sluiten' : 'none'"
+                                        (iconClick)="removeGroep(groep)"></hmy-counter-tag>
+                                }
+                                @for (leerling of differentiatieleerlingen$ | async; track leerling) {
+                                    <hmy-tag
+                                        [label]="leerling | volledigeNaam"
+                                        [icon]="magDifferentiatieBewerken ? 'sluiten' : 'none'"
+                                        (iconClick)="removeLeerling(leerling)">
+                                    </hmy-tag>
+                                }
+                            }
+                        </div>
+                        @if (magDifferentiatieBewerken) {
+                            <dt-background-icon
+                                class="add-differentiatie pointer"
+                                (click)="openDifferentiatieSidebar()"
+                                icon="toevoegen"
+                                color="accent_positive_1"
+                                size="small"
+                                hmyTooltip="Differentiëren voor groep of leerling"
+                                data-gtm="differentiatie-toekenning">
+                            </dt-background-icon>
+                        }
+                    </div>
+                }
+                <div class="content-header leerdoelen" [class.closed]="!isLeerdoelenOpen" (click)="isLeerdoelenOpen = !isLeerdoelenOpen">
+                    <i hmyIcon="leerdoel" size="medium"></i>
+                    <span class="text-content-semi">Leerdoelen</span>
+                    <div class="actions">
+                        <i class="icon-arrow-open-close" [class.close]="!isLeerdoelenOpen" hmyIcon="chevronBoven"></i>
+                    </div>
+                </div>
+                <div [@collapse]="!isLeerdoelenOpen">
+                    <dt-editor-form-control
+                        [formGroup]="studiewijzeritemForm"
+                        [inSidebar]="true"
+                        controlName="leerdoelen"
+                        placeholder="Wat zijn de leerdoelen?">
+                    </dt-editor-form-control>
+                </div>
+                <div
+                    class="content-header omschrijving"
+                    [class.bottom-radius]="!heeftToegangTotElo"
+                    [class.closed]="!isOmschrijvingOpen"
+                    (click)="isOmschrijvingOpen = !isOmschrijvingOpen">
+                    <i hmyIcon="lijst" size="medium"></i>
+                    <span class="text-content-semi">Omschrijving</span>
+                    <div class="actions">
+                        <i class="icon-arrow-open-close" [class.close]="!isOmschrijvingOpen" hmyIcon="chevronBoven"></i>
+                    </div>
+                </div>
+                <div [@collapse]="!isOmschrijvingOpen">
+                    <dt-omschrijving-en-bijlage
+                        [formGroup]="studiewijzeritemForm"
+                        [omschrijvingPlaceholder]="studiewijzerItem | omschrijvingPlaceholder"
+                        [bijlagen]="bijlagen"
+                        [heeftBijlagen]="heeftToegangTotElo"
+                        [conferenceDateRange]="conferenceDateRange"
+                        [heeftToegangTotElo]="heeftToegangTotElo"
+                        [toonBestandUploaden]="heeftToegangTotElo"
+                        [toonUitMethode]="(uitMethodeToegestaan$ | async) && toonUitMethode"
+                        [showBorder]="false"
+                        (verwijderBijlage)="removeBijlage($event)"
+                        (editUrl)="openUrlPopup($event)"
+                        (saveBijlage)="onBijlageSave($event)"
+                        (fileUploaded)="fileUploaded($event)"
+                        (openMethodeSelectie)="openMethodeSelectie()"
+                        (triggerChangeDetection)="triggerEditorChangeDetection()">
+                    </dt-omschrijving-en-bijlage>
+                </div>
+                @if (heeftToegangTotElo) {
+                    <div class="content-header notitie" [class.closed]="!isNotitieOpen" (click)="isNotitieOpen = !isNotitieOpen">
+                        <i hmyIcon="reacties" size="medium"></i>
+                        <span class="text-content-semi">Notitie</span>
+                        <div class="actions">
+                            <dt-zichtbaarheids-toggle-form-control formControlName="notitieZichtbaarVoorLeerling">
+                            </dt-zichtbaarheids-toggle-form-control>
+                            <i class="icon-arrow-open-close" [class.close]="!isNotitieOpen" hmyIcon="chevronBoven"></i>
+                        </div>
+                    </div>
+                    <div class="notitie" [@collapse]="!isNotitieOpen">
+                        <dt-editor-form-control
+                            [formGroup]="studiewijzeritemForm"
+                            [inSidebar]="true"
+                            controlName="notitie"
+                            placeholder="Wat moet je niet vergeten?"
+                            cy="toekenning-form-notitie">
+                        </dt-editor-form-control>
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+    <div class="buttons">
+        <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="typography_3">{{
+            sidebarService.currentPage?.isVerdieping ? 'Terug' : 'Annuleren'
+        }}</dt-outline-button>
+        <button
+            class="submit"
+            [showAddButton]="toonDifferentiatie$ | async"
+            [attr.disabled]="studiewijzeritemForm.valid && isDirty && titelOfOmschrijving && !isUploading ? null : true"
+            [attr.data-gtm]="toekenning.id ? 'toekenning-formulier-opslaan' : 'toekenning-formulier-toevoegen'"
+            (addClick)="openOpslaanEnKopiePopup($event)"
+            type="submit"
+            form="ngForm"
+            cy="save-toekenning-formulier-button">
+            {{ toekenning.id ? 'Opslaan' : 'Toevoegen' }}
+        </button>
+    </div>
+</ng-template>

@@ -1,0 +1,21 @@
+<form id="inlineEdit" #formDir="ngForm" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <input
+        #inputField
+        [maxlength]="maxLength"
+        [value]="value"
+        [placeholder]="placeholder"
+        [style.text-align]="inputTextAlign"
+        [class.invalid]="form.controls['value'].dirty && form.controls['value'].invalid"
+        [autoFocus]="autofocus"
+        (click)="$event.stopPropagation()"
+        type="text"
+        cy="inline-bewerken"
+        formControlName="value"
+        dtAutofocus />
+</form>
+<div class="submit" [class.valid]="form.valid" (click)="onSubmit(); $event.stopPropagation()" cy="inline-submit" form="inlineEdit">
+    <i class="check-icon" hmyIcon="check" size="medium"></i>
+</div>
+<div class="cancel" (click)="cancelClick.emit(); $event.stopPropagation()">
+    <i class="sluiten-icon" hmyIcon="sluiten" size="medium"></i>
+</div>

@@ -1,0 +1,25 @@
+<dt-popup>
+    <div class="categorie-popup" popup-content>
+        <div class="header">
+            <div class="title">
+                <hmy-notification-solid [color]="registratie.categorieContent.kleur"></hmy-notification-solid>
+                <span class="title-text text-content-semi" data-cy="groepsoverzicht-categorie-popup-naam">
+                    {{ registratieNaam }}
+                    @if (keuzeLijstWaarde) {
+                        <span class="color-typography-4"> • {{ keuzeLijstWaarde }}</span>
+                    }
+                </span>
+            </div>
+            <span class="periode text-small-content-semi color-typography-3">{{ tijdspan }}</span>
+        </div>
+        @for (leerlingRegistratie of registratie.leerlingRegistratieTellingen; track leerlingRegistratie) {
+            <dt-groepsoverzicht-leerling
+                class="leerling"
+                [registratieLeerling]="leerlingRegistratie"
+                [tijdspan]="tijdspan"
+                [size]="32"
+                (click)="onLeerlingClick(leerlingRegistratie)"
+                data-gtm="groepsoverzicht-popup-leerling"></dt-groepsoverzicht-leerling>
+        }
+    </div>
+</dt-popup>

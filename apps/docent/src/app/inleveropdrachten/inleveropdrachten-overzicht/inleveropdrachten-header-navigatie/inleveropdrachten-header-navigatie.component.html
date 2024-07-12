@@ -1,0 +1,20 @@
+<div class="header text-head">
+    <i [sizeInPx]="28" hmyIcon="inleveropdracht"></i>
+</div>
+
+<div class="title-schooljaar-selectie">
+    <span class="text-content-bold title text-ellipsis" cy="header-leerling-title">Inleveropdrachten</span>
+    <span class="text-content-small-semi schooljaar-selectie">{{ schooljaar }} - {{ schooljaar + 1 }}</span>
+</div>
+
+<dt-header-navigatie-buttons
+    [heeftVolgende]="heeftVolgende"
+    [heeftVorige]="heeftVorige"
+    [showMoreOptions]="false"
+    (vorigeClick)="vorigeClick.emit()"
+    (volgendeClick)="volgendeClick.emit()"
+    volgendeTooltip="Volgend schooljaar"
+    vorigeTooltip="Vorig schooljaar"
+    gtmVolgendeButton="inl-overzicht-volgend-jaar"
+    gtmVorigeButton="inl-overzicht-vorig-jaar">
+</dt-header-navigatie-buttons>

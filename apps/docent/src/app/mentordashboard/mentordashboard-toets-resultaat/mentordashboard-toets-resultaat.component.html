@@ -1,0 +1,33 @@
+<div class="title-row">
+    <span class="text-content-semi text-strong vaknaam">
+        {{ recentResultaat.vakNaam }}
+        @if (recentResultaat.isAlternatieveNormering) {
+            <span class="alt-normering">(alt. norm)</span>
+        }
+    </span>
+    <div class="cijfer-info">
+        @if (recentResultaat.resultaat.opmerkingen) {
+            <i class="opmerking-icon" [hmyTooltip]="tooltipOpmerking" hmyIcon="reacties"></i>
+        }
+        <span
+            class="text-content-semi"
+            [style.color]="recentResultaat.resultaat.formattedResultaat | mentordashboardResultaatKleur: instellingen | cssVar">
+            {{
+                recentResultaat.isAlternatieveNormering
+                    ? recentResultaat.resultaat.formattedResultaatAlternatief
+                    : recentResultaat.resultaat.formattedResultaat
+            }}
+        </span>
+    </div>
+</div>
+<div class="info-row text-content-small-semi text-weak">
+    <span class="datum">{{ recentResultaat.laatstGewijzigdDatum | dtDate: 'dagnummer_maand_kort' }}</span>
+    <span class="toetssoort">{{ recentResultaat.resultaat.toetssoort }}</span>
+    <span class="weging"> <i hmyIcon="weging" color="text-weak" size="smallest"></i> {{ recentResultaat.resultaat.weging }}x</span>
+    @if (isHerkansing) {
+        <div class="herkansing">
+            <i hmyIcon="herkansing" color="text-weak" size="smallest"></i>
+            <span>her {{ herkansingsnummer }}</span>
+        </div>
+    }
+</div>

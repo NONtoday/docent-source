@@ -1,0 +1,50 @@
+<div class="left">
+    <span class="vaknaam">{{ trend.vak.naam }}</span>
+    @if (trend.anderNiveau) {
+        <hmy-icon-pill
+            class="alt-normering"
+            [text]="trend.anderNiveau"
+            hmyTooltip="Examen op alternatief niveau"
+            icon="hogerNiveau"
+            color="accent" />
+    }
+    @if (trend.vrijstelling && !trend.ontheffing) {
+        <hmy-pill class="vrijstelling" text="VR" hmyTooltip="Vrijstelling" color="positive" />
+    }
+    @if (trend.ontheffing) {
+        <hmy-pill class="ontheffing" text="ONT" hmyTooltip="Ontheffing" color="positive" />
+    }
+</div>
+<ng-container *ngTemplateOutlet="view === 'trend' ? trendTemplate : examencijfers"></ng-container>
+
+<ng-template #trendTemplate>
+    @if (trendwaardePill.icon) {
+        <hmy-icon-pill
+            class="trend-waarde"
+            [icon]="trendwaardePill.icon"
+            [color]="trendwaardePill.color"
+            [text]="trendwaardePill.text"
+            [hmyTooltip]="trendwaardePill.tooltip" />
+    }
+    @if (!trendwaardePill.icon) {
+        <hmy-pill [text]="trendwaardePill.text" [color]="trendwaardePill.color" [hmyTooltip]="trendwaardePill.tooltip" />
+    }
+    <span class="cijfer se" [style.color]="trend.seCijfer?.formattedResultaat | mentordashboardResultaatKleur: instellingen | cssVar">
+        {{ trend.seCijfer?.formattedResultaat ?? '-' }}
+    </span>
+    <span class="cijfer eind" [style.color]="trend.eindCijfer?.formattedResultaat | mentordashboardResultaatKleur: instellingen | cssVar">
+        {{ trend.eindCijfer?.formattedResultaat ?? '-' }}
+    </span>
+</ng-template>
+
+<ng-template #examencijfers>
+    <span class="cijfer se" [style.color]="trend.seCijfer?.formattedResultaat | mentordashboardResultaatKleur: instellingen | cssVar">
+        {{ trend.seCijfer?.formattedResultaat ?? '-' }}
+    </span>
+    <span class="cijfer ce" [style.color]="trend.ceCijfer?.formattedResultaat | mentordashboardResultaatKleur: instellingen | cssVar">
+        {{ trend.ceCijfer?.formattedResultaat ?? '-' }}
+    </span>
+    <span class="cijfer eind" [style.color]="trend.eindCijfer?.formattedResultaat | mentordashboardResultaatKleur: instellingen | cssVar">
+        {{ trend.eindCijfer?.formattedResultaat ?? '-' }}
+    </span>
+</ng-template>

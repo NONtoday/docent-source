@@ -1,0 +1,126 @@
+<div
+    class="kolom-header"
+    [class.pointer]="isToetskolom"
+    [class.with-color-bg]="kolomHeaderBackground"
+    [class.dark-background]="darkBackground"
+    [dtTooltip]="kolom | kolomHeaderTooltip: periode"
+    [alignCenter]="false"
+    [maxWidth]="356"
+    [onTouchAllowed]="false"
+    (click)="onHeaderClick.emit()"
+    data-gtm="open-toetskolom">
+    @if (isRapportCijferkolom) {
+        <div class="show-for-tablet">
+            @if (vastgezet || (toetskolomGesloten && !bekoeldEnBewerkbaar)) {
+                <i class="vastgezet fill-accent-warning-1" hmyIcon="slot" size="smallest"></i>
+            }
+            @if (!vastgezet && bekoeldEnBewerkbaar) {
+                <i class="fill-accent-warning-1" hmyIcon="slotOpen" size="smallest"></i>
+            }
+        </div>
+    }
+    <div class="header-row show-for-tablet" [class.center-letter]="centerHeaderLetter">
+        @if (headerLetter) {
+            <div class="letter" [class]="headerLetterClass">{{ headerLetter }}</div>
+        }
+        @if (kolomIcon === 'icon-samengesteldeToets') {
+            <i class="fill-primary-1" hmyIcon="samengesteldeToets" size="smallest"></i>
+        }
+        @if (kolomIcon === 'icon-deeltoets') {
+            <i class="fill-primary-1" hmyIcon="deeltoets" size="smallest"></i>
+        }
+        @if (!isRapportCijferkolom) {
+            @if (toetskolomGesloten && !bekoeldEnBewerkbaar) {
+                <i class="fill-accent-warning-1" hmyIcon="slot" size="smallest"></i>
+            }
+            @if (bekoeldEnBewerkbaar) {
+                <i class="fill-accent-warning-1" hmyIcon="slotOpen" size="smallest"></i>
+            }
+        }
+    </div>
+    @if (showKolomAfkorting) {
+        <div class="afkorting">
+            <span class="code">{{ kolom.resultaatkolom.code }}</span>
+            @if (categorie$ | async; as adviescategorie) {
+                <span class="color-typography-3"> • {{ adviescategorie }}</span>
+            }
+        </div>
+    }
+    @if (kolom.herkansingsNummer! > 0) {
+        <div class="text-label-semi color-primary-1 herkansingsnummer show-for-tablet">Her {{ kolom.herkansingsNummer }}</div>
+    }
+</div>
+@if (headerLetter) {
+    <div class="letter hide-for-tablet" [class]="headerLetterClass">{{ headerLetter }}</div>
+}
+@if (!kolom.herkansingsNummer) {
+    <div class="omschrijving text-small-content-semi color-typography-3 hide-for-tablet">
+        {{ kolom.resultaatkolom.omschrijving }}
+    </div>
+}
+@if (kolom.herkansingsNummer) {
+    <div class="herkansing text-small-content-semi color-primary-1 hide-for-tablet">Her {{ kolom.herkansingsNummer }}</div>
+}
+@if (isRapportCijferkolom && (vastgezet || toetskolomGesloten || bekoeldEnBewerkbaar)) {
+    <hmy-icon-pill
+        class="rapportcijferkolom-status-mobile hide-for-tablet"
+        [icon]="vastgezet || (toetskolomGesloten && !bekoeldEnBewerkbaar) ? 'slot' : 'slotOpen'"
+        [dtTooltip]="getBevrorenOfVastgezetStatusTooltipFn(kolom.resultaatkolom)"
+        [onTouchAllowed]="true"
+        iconSize="smallest"
+        color="warning"></hmy-icon-pill>
+}
+@if (showAantallen) {
+    <hmy-icon-pill
+        class="aantal-resultaten hide-for-tablet"
+        [color]="aantalResultatenPillClass"
+        [icon]="toetskolomGesloten && !bekoeldEnBewerkbaar ? 'slot' : 'slotOpen'"
+        [iconVisible]="toetskolomGesloten || bekoeldEnBewerkbaar"
+        [dtTooltip]="getBevrorenOfVastgezetStatusTooltipFn(kolom.resultaatkolom)"
+        [onTouchAllowed]="true"
+        text="{{ aantalResultaten }}/{{ leerlingen.length }}"
+        iconSize="smallest"></hmy-icon-pill>
+}
+<div class="klasgemiddelde" [class.dark-background]="darkBackground">
+    <span class="text-content-semi" [class.hidden]="hideGemiddelde">{{ klasgemiddelde }}</span>
+</div>
+@if (deviceService.isTabletOrDesktop$ | async) {
+    @for (leerlingResultaat of leerlingResultaten; track trackByLeerlingId(i, leerlingResultaat); let i = $index) {
+        <dt-resultaat-cell
+            class="resultaat-cell"
+            #cel
+            [id]="kolom.id | resultaatKey: leerlingResultaat.leerling.uuid : kolom.herkansingsNummer"
+            [resultaatkolom]="kolom.resultaatkolom"
+            [resultaat]="leerlingResultaat.resultaat"
+            [alternatiefNiveau]="alternatiefNiveau"
+            [missendeToets]="leerlingResultaat.missendeToets"
+            [readOnly]="readOnlyCellen || !magResultatenInvoeren"
+            [toonMissendeToetsIcoon]="!isRapportGemiddeldekolom"
+            [basisResultaat]="leerlingResultaat"
+            [readOnlyDarkBackground]="headerLetter === 'R'"
+            [inputDisabledBijResultaatLabels]="!!(inputDisabledBijResultaatLabels$ | async)"
+            [kolomHerkansingsNummer]="kolom.herkansingsNummer"
+            [opmerkingToevoegenToegestaan]="magOpmerkingToevoegen"
+            [pinned]="pinned === i"
+            [lesgroepId]="lesgroepId"
+            [datumInLesgroepVoorOvernemenResultaten]="leerlingResultaat.leerling.datumInLesgroepVoorOvernemenResultaten"
+            [vastgezet]="vastgezet"
+            [attr.cy]="cyCellId(kolom.resultaatkolom, leerlingResultaat.leerling.achternaam, kolom.herkansingsNummer)"
+            [class.highlight]="highlight === i"
+            [class.pinned]="pinned === i"
+            (onNieuwResultaat)="
+                onNieuwResultaat(
+                    $event.resultaatInput,
+                    $event.isCijfer,
+                    $event.selecteerCellNaOpslaan,
+                    leerlingResultaat.leerling.uuid,
+                    alternatiefNiveau
+                        ? leerlingResultaat.resultaat?.formattedResultaatAfwijkendNiveau
+                        : leerlingResultaat.resultaat?.formattedResultaat
+                )
+            "
+            (mouseenter)="resultaatService.nextIndexToHighlight(i)"
+            (mouseleave)="resultaatService.nextIndexToHighlight(null)">
+        </dt-resultaat-cell>
+    }
+}

@@ -1,0 +1,39 @@
+<dt-popup>
+    <div class="content" popup-content>
+        @if (editAllowed) {
+            <dt-popup-button
+                class="button"
+                [attr.data-gtm]="differentierenGtmTag"
+                (click)="onToevoegen()"
+                hideOutlineForBreakpointUp="mobile"
+                color="accent_positive_1"
+                iconColor="accent_positive_1"
+                icon="toevoegen"
+                text="Groep of leerling toevoegen">
+            </dt-popup-button>
+        }
+        <div class="tags">
+            @if (showIedereen$ | async) {
+                <hmy-tag class="iedereen" icon="none" label="Iedereen" color="neutral"></hmy-tag>
+            }
+            @for (groep of differentiatiegroepen | async; track groep) {
+                <hmy-counter-tag
+                    [dtTooltip]="groepTooltip(groep)"
+                    [alignCenter]="false"
+                    [label]="groep.naam"
+                    [color]="groep.kleur | kleurToTagColor"
+                    [count]="groep.leerlingen?.length!"
+                    [icon]="editAllowed ? 'sluiten' : 'none'"
+                    (iconClick)="removeGroep(groep)">
+                </hmy-counter-tag>
+            }
+            @for (leerling of differentiatieleerlingen | async; track leerling) {
+                <hmy-tag
+                    [label]="leerling | volledigeNaam"
+                    [icon]="editAllowed ? 'sluiten' : 'none'"
+                    (iconClick)="removeLeerling(leerling)">
+                </hmy-tag>
+            }
+        </div>
+    </div>
+</dt-popup>

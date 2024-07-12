@@ -1,0 +1,27 @@
+<span class="dag text-content-semi">{{ keuze.datum | dtDate: 'dag_kort_dagnummer_maand_kort' }}</span>
+@if (keuze.afspraak && showCollegas) {
+    <dt-collega-avatars
+        class="collegas"
+        [aantalTeTonenMedewerkers]="1"
+        [medewerkers]="keuze.afspraak.medewerkers"
+        avatarAltTag="Les van collega">
+    </dt-collega-avatars>
+}
+@if (heeftLesuur) {
+    <dt-lesuur
+        class="lesuur"
+        [isKwt]="keuze.afspraak!.isKwt"
+        [beginlesuur]="keuze.afspraak!.lesuur"
+        [eindlesuur]="keuze.afspraak!.eindLesuur"
+        [presentieVerwerkt]="keuze.afspraak!.presentieRegistratieVerwerkt"
+        [isNu]="keuze.afspraak!.isNu"
+        [isRoosterToets]="keuze.afspraak!.isRoosterToets"
+        [hmyTooltip]="
+            keuze.afspraak!.isRoosterToets ? (keuze.afspraak! | roosterToets) : dateTooltip(keuze.afspraak!.begin, keuze.afspraak!.eind)
+        "
+        [alignCenter]="false"
+        [maxWidth]="300"
+        [onTouchAllowed]="true"
+        [tooltipDisplayable]="keuze.afspraak!.isRoosterToets || !keuze.afspraak!.lesuur">
+    </dt-lesuur>
+}

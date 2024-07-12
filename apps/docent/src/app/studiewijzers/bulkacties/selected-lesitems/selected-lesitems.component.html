@@ -1,0 +1,16 @@
+<div class="melding text-content-semi">
+    <span>Geselecteerde lesitems</span>
+    @if (tooltip) {
+        <i class="info" [dtTooltip]="tooltip" [onTouchAllowed]="true" color="fg-neutral-moderate" hmyIcon="informatie" size="medium"></i>
+    }
+</div>
+@for (studiewijzeritem of selectedStudiewijzeritems; track studiewijzeritem) {
+    <div class="studiewijzeritem">
+        <i
+            [hmyIcon]="
+                studiewijzeritem.inleverperiode || studiewijzeritem.conceptInleveropdracht ? 'inleveropdracht' : $any(studiewijzeritem.icon)
+            "
+            size="medium"></i>
+        <span>{{ studiewijzeritem | studiewijzeritemTitel }}</span>
+    </div>
+}

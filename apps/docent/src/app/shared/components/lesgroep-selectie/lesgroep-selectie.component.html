@@ -1,0 +1,21 @@
+<div class="header text-content-semi fg-primary-strongest">
+    <span class="schooljaar">Lesgroepen {{ schooljaar }}-{{ schooljaar + 1 }}</span>
+    <span class="select-all text-content-semi action-primary-normal" (click)="selectAll()">Alles selecteren</span>
+</div>
+@if (lesgroepen$ | async; as lesgroepen) {
+    <div class="lesgroepen" [formGroup]="formgroup">
+        @for (lesgroep of lesgroepen; track lesgroep) {
+            <div class="lesgroep" [class.selected]="formgroup.controls[lesgroep.id].value">
+                <dt-form-checkbox class="checkbox" [formControlName]="lesgroep.id"></dt-form-checkbox>
+                <dt-background-icon [color]="$any(lesgroep.color)" size="medium" icon="groep"></dt-background-icon>
+                <span class="naam text-content-semi">{{ lesgroep.naam }}</span>
+            </div>
+        }
+    </div>
+    <div class="buttons">
+        <dt-outline-button (click)="sidebarService.closeSidebar()">Annuleren</dt-outline-button>
+        <dt-button class="selecteren" [disabled]="!(selecterenEnabled$ | async)" (click)="onSelecteren(lesgroepen)">
+            {{ selecterenText$ | async }}</dt-button
+        >
+    </div>
+}

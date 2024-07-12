@@ -1,0 +1,31 @@
+@for (hoofdstuk of methode.hoofdstukken; track hoofdstuk; let i = $index) {
+    <div class="hoofdstuk" [class.closed]="closedHoofdstukken[hoofdstuk.id]" cdkDropList cdkDropListSortingDisabled>
+        <div class="header" (click)="toggleHoofdstuk(hoofdstuk.id)">
+            <span class="label text-content-bold text-inverted">{{ i + 1 }}</span>
+            <span class="naam text-content-semi text-strong">{{ hoofdstuk.naam }}</span>
+            <i
+                class="svg-open-close fill-primary-1"
+                [class.close]="closedHoofdstukken[hoofdstuk.id]"
+                hmyIcon="chevronBoven"
+                size="medium"></i>
+        </div>
+        <div class="sub-hoofdstukken" [@collapse]="{ value: !!closedHoofdstukken[hoofdstuk.id] }">
+            @for (subHoofdstuk of hoofdstuk.subHoofdstukken; track subHoofdstuk) {
+                <div
+                    class="sub-hoofdstuk"
+                    [cdkDragData]="createDragAndDropCallback(subHoofdstuk, hoofdstuk.naam)"
+                    (cdkDragStarted)="onDragStart.emit()"
+                    (cdkDragEnded)="dragEnd()"
+                    cdkDrag>
+                    <span class="naam text-content-small-semi">{{ subHoofdstuk.naam }}</span>
+                    <i color="fg-neutral-moderate" hmyIcon="draggable" size="small"></i>
+                    <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                    <div class="dragdrop-preview" *cdkDragPreview [class.in-sjabloon]="router.url.includes('/sjablonen/')">
+                        <span class="naam text-content-small-semi text-moderate">{{ subHoofdstuk.naam }}</span>
+                        <i color="fg-neutral-moderate" hmyIcon="draggable" size="small"></i>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

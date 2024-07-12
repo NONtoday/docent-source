@@ -1,0 +1,124 @@
+<header [class.desktop-open-more-options]="desktopOpenMoreOptions$ | async">
+    <div class="left">
+        <div class="notificatie notificatie-small-alt" [class.no-width]="notitie.gelezenOp"></div>
+        @if (groepView) {
+            <dt-avatar-stack [leerlingen]="leerlingen" [lesgroepen]="lesgroepen" [stamgroepen]="stamgroepen" [altijdTonen]="contextIds">
+            </dt-avatar-stack>
+        }
+        @if (groepView) {
+            <span class="betrokkenen text-ellipsis text-content-semi text-strong">{{ betrokkenen }}</span>
+        }
+        @if (leerlingView) {
+            <span class="onderwerp text-ellipsis text-content-semi text-strong">
+                {{ heeftTitel ? notitie.titel : 'Notitie' }}
+            </span>
+        }
+    </div>
+    <div class="right">
+        <div class="on-hover header-icons">
+            <span class="aangemaakt-op text-weak text-small-content-semi show-for-desktop">
+                {{ notitie.createdAt | dtDate: 'dag_kort_dagnummer_maand_kort' }}, {{ notitie.createdAt | dtDate: 'tijd' }}
+            </span>
+            @if (huidigeSchooljaarSelected()) {
+                <dt-notitie-vastprikken-button
+                    class="show-for-tablet-portrait vastprikken-button"
+                    [vastgeprikt]="notitie.vastgeprikt"
+                    [iconSizes]="['small']"
+                    [compact]="true"
+                    (click)="onVastprikken()"
+                    dtTooltip="<b>Notitie vastprikken</b> <br> Vastgeprikte notities zie je altijd terug bij een leerling of groep"
+                    data-gtm="notitieboek-vastprikken-notitie">
+                </dt-notitie-vastprikken-button>
+                <dt-bookmark-button
+                    class="bookmark-button"
+                    [active]="notitie.bookmarked"
+                    [iconSizes]="['small']"
+                    (click)="onBookmark()"
+                    dtTooltip="<b>Notitie markeren</b> <br> Gemarkeerde notities kun je eenvoudig filteren in het notitieboek"
+                    data-gtm="notitieboek-bookmarken"
+                    size="28"></dt-bookmark-button>
+                @if (isEigenNotitie || showOpenInNotitieboekOption) {
+                    <i
+                        class="more-options"
+                        #optiesDesktop
+                        (click)="openMoreActionsPopup($event, true)"
+                        cy="notitie-meer-opties"
+                        hmyIcon="opties"
+                        color="action-primary-normal"
+                        size="medium"></i>
+                }
+            }
+        </div>
+        <div class="normal header-icons">
+            @if (leerlingView && !isEnigeBetrokkene) {
+                <dt-avatar-stack [leerlingen]="leerlingen" [lesgroepen]="lesgroepen" [stamgroepen]="stamgroepen" [size]="20" [maxshown]="1">
+                </dt-avatar-stack>
+            }
+            @if (notitie.bijlagen.length > 0) {
+                <i class="heeft-bijlage" hmyIcon="bijlage" color="text-weak" size="medium"></i>
+            }
+            @if (notitie.gedeeldVoorDocenten || notitie.gedeeldVoorMentoren) {
+                <i class="gedeeld" hmyIcon="zichtbaar" color="text-weak" size="medium"></i>
+            }
+            @if (notitie.vastgeprikt) {
+                <i class="vastgeprikt" hmyIcon="pinned" color="text-weak" size="medium"></i>
+            }
+            @if (notitie.bookmarked) {
+                <i class="bookmarked" hmyIcon="bookmark" color="fg-accent-normal" size="medium"></i>
+            }
+            @if (huidigeSchooljaarSelected()) {
+                <i
+                    class="more-options hide-for-desktop"
+                    #optiesTouch
+                    (click)="openMoreActionsPopup($event, false)"
+                    cy="notitie-meer-opties"
+                    hmyIcon="opties"
+                    color="action-primary-normal"
+                    size="medium"></i>
+            }
+        </div>
+    </div>
+</header>
+<div class="preview">
+    @if (!leerlingView && heeftTitel) {
+        <span class="titel text-ellipsis text-content-semi text-moderate">{{ notitie.titel }}</span>
+    }
+    <span
+        class="inhoud text-ellipsis text-weak"
+        [class.text-weakest]="isPrivacygevoeligStyling"
+        [class.multi-line]="leerlingView || !heeftTitel"
+        >{{ isPrivacygevoeligStyling ? 'Gemarkeerd als privacygevoelig' : (notitie.inhoud | notitiePreview) }}</span
+    >
+    @if (expandOnActive) {
+        <div class="bijlagen">
+            @for (bijlage of notitie.bijlagen; track bijlage) {
+                <dt-bijlage [bijlage]="bijlage" [toonZichtbaarheidToggle]="false"></dt-bijlage>
+            }
+        </div>
+    }
+</div>
+<div class="tags-container" [class.tags-plus-expand]="expandOnActive">
+    <div class="tags">
+        @if (!geschrevenInMentorContext && !isEigenNotitie) {
+            <hmy-tag class="auteur niet-mentor" [label]="notitie | notitieAuteur" icon="none" color="neutral"></hmy-tag>
+        }
+        @if (geschrevenInMentorContext && !isEigenNotitie) {
+            <hmy-icon-tag class="auteur mentor" [label]="notitie | notitieAuteur" icon="onderwijs" color="alternative"></hmy-icon-tag>
+        }
+        @if (isEigenNotitie) {
+            <hmy-tag class="eigen-notitie" icon="none" label="Mijn notitie" color="positive"> </hmy-tag>
+        }
+        @if (isPrivacygevoelig) {
+            <hmy-icon-tag class="privacygevoelig" label="Privacygevoelig" icon="informatie" color="primary"></hmy-icon-tag>
+        }
+        @if (notitie.belangrijk) {
+            <hmy-icon-tag class="belangrijk" label="Belangrijk" icon="waarschuwing" color="warning"> </hmy-icon-tag>
+        }
+    </div>
+    @if (expandOnActive) {
+        <i class="expand-chevron-open" [hmyIcon]="'chevronBoven'" size="small"></i>
+    }
+    @if (expandOnActive) {
+        <i class="expand-chevron-closed" [hmyIcon]="'chevronOnder'" size="small"></i>
+    }
+</div>

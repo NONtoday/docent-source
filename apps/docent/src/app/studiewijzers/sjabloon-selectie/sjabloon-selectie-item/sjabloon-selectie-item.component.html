@@ -1,0 +1,36 @@
+@if (displayCheckbox) {
+    <dt-checkbox
+        [checked]="isSelected"
+        [disabled]="isDisabled"
+        [disabledTooltip]="disabledCheckboxTooltip"
+        (click)="onCheckSjabloon($event)"></dt-checkbox>
+}
+<span class="naam text-content-semi">{{ sjabloon.naam }}</span>
+@if (displaySynchronisatieStartWeek && sjabloon.synchronisatieStartweek) {
+    <hmy-pill text="W{{ sjabloon.synchronisatieStartweek }}"></hmy-pill>
+}
+@if (sjabloon.gesynchroniseerdeStudiewijzers.length > 0) {
+    <i
+        [dtTooltip]="gesynchroniseerdeStudiewijzersTooltip"
+        [onTouchAllowed]="true"
+        color="action-positive-normal"
+        hmyIcon="synchroniseren"
+        size="medium"></i>
+}
+@if (!isEigenaar) {
+    <dt-avatar
+        [size]="32"
+        [src]="sjabloon.eigenaar.pasfoto"
+        [initialen]="sjabloon.eigenaar.initialen"
+        [allowPhotoPopup]="false"
+        [onTouchAllowed]="true"
+        dtTooltip="{{ sjabloon.eigenaar | volledigeNaam }}"
+        altTag="Sjabloon van collega - {{ sjabloon.eigenaar | volledigeNaam }}">
+    </dt-avatar>
+}
+@if (!displayCheckbox && heeftVerdieping) {
+    <i color="action-neutral-weak" hmyIcon="chevronRechts" size="medium"></i>
+}
+@if (!displayCheckbox && !heeftVerdieping) {
+    <dt-background-icon [sizes]="['small']" icon="toevoegen" color="accent_positive_1"> </dt-background-icon>
+}

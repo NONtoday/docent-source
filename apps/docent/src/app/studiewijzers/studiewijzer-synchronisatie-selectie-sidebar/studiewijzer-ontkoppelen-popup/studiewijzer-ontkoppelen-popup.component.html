@@ -1,0 +1,33 @@
+<dt-popup>
+    <div popup-content>
+        <div class="header text-content-small-semi text-strong">Lesitems uit sjabloon in studiewijzer bewaren?</div>
+
+        <div class="buttons">
+            <dt-popup-button
+                (click)="bewaarFn()"
+                data-gtm="ontkoppelen-lesitems-bewaren"
+                hideOutlineForBreakpointUp="tabletPortrait"
+                icon="check"
+                text="Bewaren">
+            </dt-popup-button>
+            <dt-popup-button
+                class="verwijderen"
+                (click)="verwijderFn()"
+                data-gtm="ontkoppelen-lesitems-verwijderen"
+                hideOutlineForBreakpointUp="tabletPortrait"
+                icon="verwijderen"
+                text="Verwijderen"
+                iconColor="accent_negative_1"
+                color="accent_negative_1">
+            </dt-popup-button>
+            <dt-popup-button
+                (click)="popup.onClose()"
+                hideOutlineForBreakpointUp="tabletPortrait"
+                icon="sluiten"
+                text="Annuleren"
+                iconColor="typography_3"
+                color="typography_3">
+            </dt-popup-button>
+        </div>
+    </div>
+</dt-popup>

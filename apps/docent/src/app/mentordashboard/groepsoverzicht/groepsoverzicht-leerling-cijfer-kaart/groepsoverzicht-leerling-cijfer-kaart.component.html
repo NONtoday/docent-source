@@ -1,0 +1,45 @@
+<div class="leerling">
+    <dt-avatar
+        [src]="cijferOverzicht.leerling.pasfoto"
+        [initialen]="cijferOverzicht.leerling.initialen"
+        [allowPhotoPopup]="false"
+        [size]="28"
+        [fontsize]="8" />
+    <span class="naam">{{ cijferOverzicht.leerling | volledigeNaam }} </span>
+    @if (cijferOverzicht.totaalgemiddelde) {
+        <span
+            class="totaal-gemiddelde"
+            [class.onvoldoende]="gemiddeldeIsOnvoldoende"
+            [alignCenter]="false"
+            [hmyTooltip]="cijferOverzicht.totaalgemiddeldeTooltip">
+            ~{{ cijferOverzicht.totaalgemiddelde | commaResult }}
+        </span>
+    }
+</div>
+<div class="cijfer-info">
+    <div class="cijferbars">
+        @for (cijferbalk of cijferOverzicht.cijferbalken; track cijferbalk) {
+            <dt-leerling-cijferoverzicht-bar
+                [cijferOverzicht]="cijferbalk.cijfers"
+                [label]="cijferbalk.label"
+                [instellingen]="instellingen" />
+        }
+    </div>
+    <div class="trends">
+        @if (cijferOverzicht.trendindicatie !== null && cijferOverzicht.trendindicatie !== undefined) {
+            <i
+                class="trend-icon"
+                [hmyIcon]="cijferOverzicht.trendindicatie | mentordashboardResultaatTrendIcon"
+                [color]="cijferOverzicht.trendindicatie | mentordashboardResultaatTrendColor"
+                [hmyTooltip]="
+                    cijferOverzicht.trendindicatie
+                        | mentordashboardResultaatTrendTooltip: cijferOverzicht.aantalResultatenVoorTrendindicatie
+                "
+                [onTouchAllowed]="true"
+                size="smallest"></i>
+        }
+        @for (x of 1 | range: Math.max(cijferOverzicht.cijferbalken.length - 1, 0); track x) {
+            <div class="grid-opvuller">&nbsp;</div>
+        }
+    </div>
+</div>

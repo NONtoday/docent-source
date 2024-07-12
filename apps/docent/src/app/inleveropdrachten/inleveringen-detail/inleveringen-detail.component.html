@@ -1,0 +1,54 @@
+@if (!berichtOpstellen) {
+    <div class="mobile-detail-header hide-for-tablet">
+        <i class="pointer" [routerLink]="[]" [queryParams]="{}" color="bg-neutral-none" hmyIcon="pijlLinks" size="medium"></i>
+        @if (leerling) {
+            <div class="leerling">
+                <dt-avatar [src]="leerling.pasfoto" [initialen]="leerling.initialen" [size]="32" [fontsize]="12"> </dt-avatar>
+                <span class="naam text-content-semi">{{ leerling | volledigeNaam }}</span>
+            </div>
+        }
+        @if (projectgroep) {
+            <dt-projectgroep-naam [readOnly]="true" [projectgroep]="projectgroep"> </dt-projectgroep-naam>
+        }
+    </div>
+}
+<div class="detail">
+    @if (!berichtOpstellen) {
+        <div class="detail-header" [class.show-for-tablet]="leerling">
+            @if (leerling) {
+                <div class="naam show-for-tablet text-head">{{ leerling | volledigeNaam }}</div>
+            }
+            @if (projectgroep) {
+                <div class="naam show-for-tablet text-head">{{ projectgroep.naam }}</div>
+                @if (projectgroep.leerlingen && projectgroep.leerlingen.length > 0) {
+                    <div class="projectgroep-leerlingen">
+                        @for (projectgroepLeerling of projectgroep.leerlingen; track projectgroepLeerling) {
+                            <dt-inleveringen-detail-leerling [leerling]="projectgroepLeerling"></dt-inleveringen-detail-leerling>
+                        }
+                    </div>
+                }
+            }
+        </div>
+        @if (geenTeBeoordelenInleveringen) {
+            <div class="geen-nieuwe-inleveringen">
+                <hmy-pill color="neutral" text="Geen {{ inleveringen.length > 0 ? 'nieuwe ' : '' }}inleveringen"></hmy-pill>
+            </div>
+        }
+        @for (beoordelingsMoment of beoordelingsMomenten; track beoordelingsMoment) {
+            <dt-inleveringen-beoordelingsmoment
+                [beoordelingsMoment]="beoordelingsMoment.beoordelingsMoment"
+                [inleveringen]="beoordelingsMoment.inleveringen"
+                [eindeInleverperiode]="inleverperiode.eind"
+                (onInleveringPlagiaatControleren)="startPlagiaatcontrole($event)">
+            </dt-inleveringen-beoordelingsmoment>
+        }
+    }
+    @if (berichtenMogelijkOpVestiging && (heeftBerichtenInzienRecht$ | async)) {
+        <dt-inlevering-conversatie
+            [conversatie]="conversatie"
+            [heeftBerichtenWijzigenRecht]="!!(heeftBerichtenWijzigenRecht$ | async)"
+            [berichtOpstellen]="berichtOpstellen"
+            (onBerichtOpstellen)="onBerichtOpstellen($event)">
+        </dt-inlevering-conversatie>
+    }
+</div>

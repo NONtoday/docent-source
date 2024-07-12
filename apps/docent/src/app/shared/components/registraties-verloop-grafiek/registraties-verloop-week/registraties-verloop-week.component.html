@@ -1,0 +1,15 @@
+<span class="weeknummer" [hmyTooltip]="weekTooltip()" [onTouchAllowed]="true">{{ verloopWeek().week | dtDate: 'week' }}</span>
+<div class="dagen">
+    @for (dag of verloopWeek().dagenMetRegistraties; track dag.datum) {
+        <dt-registraties-verloop-dag
+            [datum]="dag.datum"
+            [registraties]="dag.registraties"
+            [hmyTooltip]="dag.tooltip"
+            [alignCenter]="false"
+            [onTouchAllowed]="true"
+            [tooltipDisplayable]="dag.registraties.length > 0"
+            [preventClickOnTouch]="false"
+            position="top"
+            ontouchstart="" />
+    }
+</div>

@@ -1,0 +1,10 @@
+@if (heeftAuthenticatieError) {
+    <div class="melding">
+        <div class="header">
+            <i class="fill-primary-1" hmyIcon="synchroniseren" size="large"></i>
+            <span class="text-head">Er is iets misgegaan</span>
+        </div>
+        <span class="color-typography-1 text-small-content">Er is een fout opgetreden bij het inloggen. Probeer het nog een keer.</span>
+        <div class="button text-small-content-semi" (click)="probeerOpnieuw()">Opnieuw proberen</div>
+    </div>
+}

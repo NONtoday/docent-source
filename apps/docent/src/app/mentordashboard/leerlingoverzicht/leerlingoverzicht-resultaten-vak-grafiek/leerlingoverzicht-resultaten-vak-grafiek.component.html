@@ -1,0 +1,43 @@
+<!-- vanwege de border die over de hele breedte loopt op mobiel staat alles in een content div -->
+<div class="content">
+    <div class="vak" [class.met-alternatieve-normering]="toonAlternatieveNormering">
+        <span class="afkorting" [hmyTooltip]="tooltip" [alignCenter]="false" [maxWidth]="240" [elementOffset]="18" position="left">
+            <span class="vak-afkorting">
+                {{ vak.afkorting }}
+            </span>
+            @if (alternatieveNormering) {
+                <span class="alternatieve-normering">(alt)</span>
+            } @else if (anderNiveau) {
+                <span class="ander-niveau text-ellipsis">{{ anderNiveau }}</span>
+            }
+        </span>
+    </div>
+    <div class="cijferbalken" [class.examen]="cijferbalken.length > 1">
+        @for (balk of cijferbalken; track $index) {
+            <dt-leerlingoverzicht-resultaten-cijferbalk
+                [isFirst]="$first"
+                [isLast]="$last"
+                [label]="balk.label"
+                [cijfer]="balk.cijfer"
+                [color]="balk.color"
+                [vrijstelling]="vrijstelling"
+                [ontheffing]="ontheffing"
+                [hmyTooltip]="tooltip"
+                [alignCenter]="false"
+                [maxWidth]="240"
+                [vergelijking]="balk.vergelijking"
+                position="left" />
+        }
+    </div>
+    @if (trend && trend.trendindicatie) {
+        <div class="trend" [class.align-top]="cijferbalken.length > 1">
+            <i
+                class="trend-icon"
+                [color]="trend.trendindicatie | mentordashboardResultaatTrendColor"
+                [hmyTooltip]="trend.trendindicatie | mentordashboardResultaatTrendTooltip: trend.aantalResultatenVoorTrendindicatie"
+                [onTouchAllowed]="true"
+                [hmyIcon]="trend.trendindicatie | mentordashboardResultaatTrendIcon"
+                size="smallest"></i>
+        </div>
+    }
+</div>

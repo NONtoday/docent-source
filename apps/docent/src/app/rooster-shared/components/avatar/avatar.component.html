@@ -1,0 +1,44 @@
+<div
+    #fotoContainer
+    [ngClass]="src ? 'foto-container' : 'initials-container'"
+    [style.--dt-avatar-size.px]="size"
+    [style.--dt-avatar-font-size.pt]="fontsize"
+    [style.--dt-avatar-border-width.px]="bordersize">
+    @if (toonJarigIcoon) {
+        <div class="jarig" [onTouchAllowed]="true" dtTooltip="Leerling is jarig">
+            <i class="icon" color="fg-on-warning-max" hmyIcon="taart" size="smallest"></i>
+        </div>
+    }
+    @if (toonOnlineIcoon) {
+        <div class="online" [onTouchAllowed]="true" dtTooltip="Online deelname">
+            <i class="icon" color="fg-on-primary-max" hmyIcon="video" size="smallest"></i>
+        </div>
+    }
+    @if (toonMentorIcoon) {
+        <div class="mentor" [onTouchAllowed]="true" dtTooltip="Auteur is mentor">
+            <i class="icon" hmyIcon="onderwijs" size="smallest"></i>
+        </div>
+    }
+    @if (lazyLoaded) {
+        <img class="foto" #foto [class.hidden]="!loaded" [lazyLoad]="src!" [offset]="400" (onStateChange)="doneLoading($event)" />
+        @if (!src || !loaded) {
+            <div class="initials" #initialsRef>
+                {{ initialen }}
+            </div>
+        }
+    }
+    @if (!lazyLoaded) {
+        <img class="foto" #foto [class.hidden]="!src" [src]="src" />
+        @if (!src) {
+            <div class="initials" #initialsRef>
+                {{ initialen }}
+            </div>
+        }
+    }
+    @if (!circle) {
+        <div class="overlay" [class.offset-top]="offsetOverlayTop"></div>
+    }
+    @if (circle && heeftNotificatie) {
+        <div class="notificatie-small-alt notificatie" [dtTooltip]="notificatieTooltip" [onTouchAllowed]="true"></div>
+    }
+</div>

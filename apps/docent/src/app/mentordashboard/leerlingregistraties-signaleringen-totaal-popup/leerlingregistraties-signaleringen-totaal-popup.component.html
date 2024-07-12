@@ -1,0 +1,21 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="header">
+            <span class="title text-content-semi">{{ title }}</span>
+            <span class="text-small-content-semi color-typography-3 periode"
+                >Signaleringen · periode {{ periodeNummer }}{{ isHuidigePeriode ? ' (huidig)' : '' }}</span
+            >
+        </div>
+        <div class="signaleringen">
+            @for (signalering of signaleringen | keyvalue; track signalering) {
+                <div class="signalering">
+                    <span class="text-content-semi color-typography-2 key">{{ signalering.key }}</span>
+                    <span class="text-content-bold color-accent-warning-1 value">{{ signalering.value }}x</span>
+                </div>
+            }
+        </div>
+        <span class="footer text-content-semi color-primary-1" (click)="onDetailClick()" data-gtm="mentordashboard-toon-alle-registraties"
+            >Toon alle registraties</span
+        >
+    </div>
+</dt-popup>

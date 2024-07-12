@@ -1,0 +1,51 @@
+<dt-popup>
+    <div class="popup-content" popup-content>
+        <form #formDir="ngForm" [formGroup]="addUrlForm" [ngClass]="formDir.submitted ? 'validate' : ''" (ngSubmit)="onSubmit()">
+            <div class="input-container">
+                <label>Titel<span class="required">*</span></label>
+                <div>
+                    <input class="titel-input" maxlength="255" type="text" formControlName="titel" placeholder="Wat is de titel?" />
+                </div>
+            </div>
+
+            <div class="input-container">
+                <label>Link<span class="required">*</span></label>
+                <div class="url-control">
+                    @if (formDir.submitted && link.dirty && submitted && !validationResult?.isValid) {
+                        <i class="waarschuwing-icon" color="fg-negative-normal" hmyIcon="waarschuwing" size="medium"></i>
+                    }
+                    <input
+                        [class.invalid]="formDir.submitted && link.dirty && submitted && !validationResult?.isValid"
+                        type="text"
+                        formControlName="link"
+                        placeholder="https://www.voorbeeld.nl" />
+                    @if (formDir.submitted && link.dirty && submitted) {
+                        <div class="validation-errors">
+                            @if (!validationResult?.isValid) {
+                                <div>De link is niet valide</div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="zichtbaarheid">
+                @if (zichtbaarheid) {
+                    <i [sizes]="['medium', 'large']" (click)="toggleZichtbaarheid($event)" hmyIcon="zichtbaarCheckbox"></i>
+                }
+                @if (zichtbaarheid) {
+                    <span (click)="toggleZichtbaarheid($event)">Zichtbaar voor leerlingen</span>
+                }
+                @if (!zichtbaarheid) {
+                    <i class="rood" [sizes]="['medium', 'large']" (click)="toggleZichtbaarheid($event)" hmyIcon="nietZichtbaarCheckbox"></i>
+                }
+                @if (!zichtbaarheid) {
+                    <span (click)="toggleZichtbaarheid($event)">Niet zichtbaar voor leerlingen</span>
+                }
+            </div>
+            <div class="buttons">
+                <dt-outline-button class="cancel" (click)="cancel()" color="typography_3">Annuleren</dt-outline-button>
+                <button [disabled]="!addUrlForm.valid" type="submit">Toevoegen</button>
+            </div>
+        </form>
+    </div>
+</dt-popup>

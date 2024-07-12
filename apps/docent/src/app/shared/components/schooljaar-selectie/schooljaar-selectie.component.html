@@ -1,0 +1,23 @@
+<i
+    class="vorig-jaar icon"
+    [class.hidden]="hidePreviousButton"
+    [routerLink]="[]"
+    [queryParams]="{ jaar: schooljaar - 1 }"
+    [attr.data-gtm]="gtmPreviousButton"
+    size="small"
+    color="fg-on-primary-weak"
+    hmyIcon="chevronLinks"
+    queryParamsHandling="merge"
+    cy="schooljaar-selectie-vorig-jaar"></i>
+<span class="jaar text-content-semi text-strong">{{ schooljaar }}-{{ schooljaar + 1 }}</span>
+<i
+    class="volgend-jaar icon"
+    [class.hidden]="hideNextButton"
+    [routerLink]="[]"
+    [queryParams]="{ jaar: schooljaar + 1 }"
+    [attr.data-gtm]="gtmNextButton"
+    size="small"
+    color="fg-on-primary-weak"
+    hmyIcon="chevronRechts"
+    queryParamsHandling="merge"
+    cy="schooljaar-selectie-volgend-jaar"></i>

@@ -1,0 +1,26 @@
+@if (showHeader) {
+    <div class="header">
+        <span class="label text-content-bold text-inverted">{{ methodeSelectie.hoofdstukNummer! + 1 }}</span>
+        <span class="naam text-content-semi text-strong">{{ methodeSelectie.subHoofdstuk.naam }}</span>
+    </div>
+}
+<form [formGroup]="form">
+    @if (theorie.length > 0) {
+        <div class="lesstof toekenning">
+            <i class="show-for-tablet" color="fg-positive-normal" hmyIcon="lesstof" size="medium"></i>
+            <div class="type-line hide-for-tablet"></div>
+            <span class="text-content-semi text-moderate">Lesstof</span>
+            <dt-zichtbaarheids-toggle-form-control formControlName="theorieZichtbaarheid"> </dt-zichtbaarheids-toggle-form-control>
+            <input #titel maxlength="150" type="text" formControlName="theorie" />
+        </div>
+    }
+    @if (huiswerk.length > 0) {
+        <div class="huiswerk toekenning">
+            <i class="show-for-tablet" color="fg-primary-normal" hmyIcon="huiswerk" size="medium"></i>
+            <div class="type-line hide-for-tablet"></div>
+            <span class="text-content-semi text-moderate">Huiswerk</span>
+            <dt-zichtbaarheids-toggle-form-control formControlName="huiswerkZichtbaarheid"> </dt-zichtbaarheids-toggle-form-control>
+            <input #titel maxlength="150" type="text" formControlName="huiswerk" />
+        </div>
+    }
+</form>

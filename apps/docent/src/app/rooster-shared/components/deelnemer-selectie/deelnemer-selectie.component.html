@@ -1,0 +1,39 @@
+<div
+    class="zoekveld"
+    [formGroup]="searchForm"
+    [class.search-open]="showDropdown$ | async"
+    [class.has-selection]="deelnemers.length > 0"
+    (click)="onTouched()">
+    <i class="icon" [hmyIcon]="zoekveldIcon" [class]="zoekveldIcon" [style.fill]="zoekveldIconColor"></i>
+    <input #textInput [placeholder]="placeholder" cy="deelnemer-zoekveld" type="text" formControlName="search" />
+    @if (deelnemers.length > 0) {
+        <div class="tags">
+            @for (participant of deelnemers; track participant) {
+                <hmy-tag
+                    class="deelnemer"
+                    [label]="participant | afspraakParticipantNaam"
+                    (iconClick)="verwijderParticipant(participant)"
+                    icon="sluiten"></hmy-tag>
+            }
+        </div>
+    }
+</div>
+@if (showDropdown$ | async) {
+    <cdk-virtual-scroll-viewport
+        class="selection-box"
+        [clickOutsideEvents]="'click,touchend'"
+        [delayClickOutsideInit]="true"
+        [itemSize]="itemSize$ | async"
+        (clickOutside)="closeSearch()">
+        <ng-container *cdkVirtualFor="let participant of searchResults$ | async; let i = index">
+            <dt-participant-zoekresultaat
+                class="optie"
+                [participant]="participant"
+                [class.selected]="i === selectedIndex"
+                (click)="selectResult(participant)"></dt-participant-zoekresultaat>
+        </ng-container>
+        @if (geenResultaten) {
+            <div class="no-results-melding text-weak">Geen groep of personen gevonden</div>
+        }
+    </cdk-virtual-scroll-viewport>
+}

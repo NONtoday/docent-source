@@ -1,0 +1,49 @@
+<div class="date-selector" (click)="openNavigatiekeuzesPopup()">
+    @if (weekitemsSelected$ | async) {
+        <div class="week-items text-content-semi">Weekitems week {{ (jaarweek$ | async)!.week }}</div>
+    } @else {
+        @if (navigatiekeuze$ | async; as keuze) {
+            <div class="keuze">
+                @if (keuze.afspraak?.lesuur || keuze.afspraak?.isKwt) {
+                    <dt-lesuur
+                        class="lesuur"
+                        [isKwt]="keuze.afspraak!.isKwt"
+                        [beginlesuur]="keuze.afspraak!.lesuur"
+                        [eindlesuur]="keuze.afspraak!.eindLesuur"
+                        [presentieVerwerkt]="keuze.afspraak!.presentieRegistratieVerwerkt"
+                        [isNu]="keuze.afspraak!.isNu"
+                        [isRoosterToets]="keuze.afspraak!.isRoosterToets"
+                        [hmyTooltip]="keuze.afspraak! | roosterToets"
+                        [alignCenter]="false"
+                        [maxWidth]="300"
+                        [onTouchAllowed]="true">
+                    </dt-lesuur>
+                }
+                <span class="dag text-content-semi text-moderate">{{ keuze.datum | dtDate: 'dag_kort_dagnummer_maand_kort' }}</span>
+            </div>
+        }
+    }
+    <ng-template #lesuur>
+        @if (navigatiekeuze$ | async; as keuze) {
+            <div class="keuze">
+                @if (keuze.afspraak?.lesuur || keuze.afspraak?.isKwt) {
+                    <dt-lesuur
+                        class="lesuur"
+                        [isKwt]="keuze.afspraak!.isKwt"
+                        [beginlesuur]="keuze.afspraak!.lesuur"
+                        [eindlesuur]="keuze.afspraak!.eindLesuur"
+                        [presentieVerwerkt]="keuze.afspraak!.presentieRegistratieVerwerkt"
+                        [isNu]="keuze.afspraak!.isNu"
+                        [isRoosterToets]="keuze.afspraak!.isRoosterToets"
+                        [hmyTooltip]="keuze.afspraak! | roosterToets"
+                        [alignCenter]="false"
+                        [maxWidth]="300"
+                        [onTouchAllowed]="true">
+                    </dt-lesuur>
+                }
+                <span class="dag text-content-semi text-moderate">{{ keuze.datum | dtDate: 'dag_kort_dagnummer_maand_kort' }}</span>
+            </div>
+        }
+    </ng-template>
+    <i hmyIcon="chevronOnder" size="small"></i>
+</div>

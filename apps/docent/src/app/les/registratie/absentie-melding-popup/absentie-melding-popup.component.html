@@ -1,0 +1,62 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="header show-for-phone-only">
+            <i [hmyIcon]="icon" [class]="iconColorClass" size="large"></i>
+            <span class="text-content-semi">{{ title }}</span>
+        </div>
+        <form class="form" #formElement [class.heeft-tijd]="!isAbsent" [formGroup]="editAbsentieMeldingForm" (ngSubmit)="onSubmit()">
+            @if (toegestaneAbsentieRedenen.length > 1) {
+                <div class="afwezigheidsreden control full-width">
+                    <span class="text-content-semi text-moderate">{{ absentieRedenLabel }}</span>
+                    <dt-form-dropdown
+                        class="dag-werkdag-opties"
+                        [scrollIntoView]="false"
+                        [chevronColor]="background_1"
+                        [opties]="toegestaneAbsentieRedenen"
+                        [formControl]="absentieReden"
+                        (onOptieClicked)="focusOpmerkingen()"
+                        placeholder="Niet bekend">
+                    </dt-form-dropdown>
+                </div>
+            }
+            @if (!isAbsent) {
+                <div class="time control">
+                    <span class="text-content-semi text-moderate" [class.heeft-afwezigheidsredenen]="toegestaneAbsentieRedenen.length > 1">
+                        Tijd
+                    </span>
+                    <input class="tijd-input" type="time" dtTimeInputHelper required="required" placeholder="" formControlName="tijd" />
+                </div>
+            }
+            <div
+                class="control"
+                [class.full-width]="isAbsent"
+                [tooltipDisplayable]="!absentieReden.value"
+                [onTouchAllowed]="true"
+                [maxWidth]="350"
+                dtTooltip="Kies eerst een afwezigheidsreden om een opmerking toe te voegen">
+                <span class="text-content-semi text-moderate" [class.heeft-afwezigheidsredenen]="toegestaneAbsentieRedenen.length > 1">
+                    Opmerkingen
+                </span>
+                <textarea
+                    class="opmerkingen textarea"
+                    #opmerkingenRef
+                    [rows]="rows"
+                    maxlength="255"
+                    placeholder="Typ een opmerking"
+                    formControlName="opmerkingen"
+                    autosize
+                    dtAutofocus></textarea>
+            </div>
+            <div class="buttons" [class.full-width]="isAbsent">
+                <dt-outline-button class="annuleer" (click)="annuleer()" color="typography_3">Annuleren </dt-outline-button>
+                <button
+                    class="submit"
+                    [attr.data-gtm]="saveButtonGtmTag"
+                    [disabled]="editAbsentieMeldingForm.valid ? null : true"
+                    type="submit">
+                    Opslaan
+                </button>
+            </div>
+        </form>
+    </div>
+</dt-popup>

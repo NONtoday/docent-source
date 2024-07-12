@@ -1,0 +1,22 @@
+<dt-sidebar #sidebar (onMaskClick)="sidebarService.closeSidebar()" (onCloseClick)="sidebarService.closeSidebar()" title="Maatregelen">
+    @if (maatregelToekenningen$ | async; as maatregelToekenningen) {
+        <dt-maatregelen-lijst
+            [maatregelToekenningen]="maatregelToekenningen"
+            [editMode]="true"
+            (onBewerken)="openEditSidebar($event)"
+            (onAfgehandeld)="onAfgehandeld($event)"
+            (onVerwijderen)="onVerwijderen($event)">
+            >
+        </dt-maatregelen-lijst>
+    }
+    <div class="buttons" *dtHeeftRecht="['leerlingAfwezigheidMaatregelBewerkenRecht']">
+        <dt-outline-button
+            (click)="openEditSidebar()"
+            icon="toevoegen"
+            iconColor="accent_positive_1"
+            color="accent_positive_1"
+            cy="maatregeltoekenning-toevoegen">
+            Maatregel toevoegen
+        </dt-outline-button>
+    </div>
+</dt-sidebar>

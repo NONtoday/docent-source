@@ -1,0 +1,251 @@
+<div class="detail-header">
+    <div
+        class="terug hide-for-desktop pointer"
+        [routerLink]="['./']"
+        [queryParams]="{ notitie: null }"
+        data-gtm="notitieboek-detail-terug"
+        queryParamsHandling="merge">
+        <i class="icon" [sizes]="['large', 'large', 'large', 'medium']" hmyIcon="pijlLinks"></i>
+    </div>
+    <span class="hide-for-tablet-portrait text-ellipsis text-content-bold">Notitie bekijken</span>
+    <div class="navigatie">
+        <div
+            class="vorige-notitie pointer"
+            [class.disabled]="!prevNotitie"
+            [routerLink]="prevNotitie ? ['./'] : null"
+            [queryParams]="prevNotitie ? { notitie: prevNotitie.id } : null"
+            queryParamsHandling="merge"
+            dtTooltip="Vorige notitie"
+            data-gtm="notitieboek-detail-vorige-notitie">
+            <i class="icon" [sizes]="['small', 'large', 'large', 'medium']" hmyIcon="chevronBoven"></i>
+        </div>
+        <div
+            class="volgende-notitie pointer"
+            [class.disabled]="!nextNotitie"
+            [routerLink]="nextNotitie ? ['./'] : null"
+            [queryParams]="nextNotitie ? { notitie: nextNotitie.id } : null"
+            queryParamsHandling="merge"
+            dtTooltip="Volgende notitie"
+            data-gtm="notitieboek-detail-volgende-notitie">
+            <i class="icon" [sizes]="['small', 'large', 'large', 'medium']" hmyIcon="chevronOnder"></i>
+        </div>
+    </div>
+    @if (huidigeSchooljaarSelected()) {
+        <div class="header-buttons hide-for-phone-only">
+            @if (isEigenNotitie) {
+                <dt-notitie-zichtbaarheid-button
+                    class="show-for-tablet-portrait zichtbaarheid-button"
+                    [docenten]="notitie.gedeeldVoorDocenten"
+                    [mentoren]="notitie.gedeeldVoorMentoren"
+                    [docentenDisabled]="notitie | notitieDelenDisabled: 'Docenten'"
+                    [mentorenDisabled]="notitie | notitieDelenDisabled: 'Mentoren'"
+                    [reactiesToegestaan]="notitie.reactiesToegestaan"
+                    [alignCenter]="false"
+                    [iconSizesOog]="['large', 'large', 'large', 'medium']"
+                    (onSubmit)="onZichtbaarheid($event)"
+                    data-gtm="notitieboek-detail-zichtbaarheid-aanpassen"
+                    submitButtonText="Opslaan"
+                    dtTooltip="<b>Notitie zichtbaar maken</b><br/>Maak de notitie zichtbaar voor collega's"
+                    position="bottom">
+                </dt-notitie-zichtbaarheid-button>
+            }
+            <dt-notitie-vastprikken-button
+                class="show-for-tablet-portrait vastprikken-button"
+                [vastgeprikt]="notitie.vastgeprikt"
+                [iconSizes]="['large', 'large', 'large', 'medium']"
+                (click)="onVastprikken()"
+                dtTooltip="<b>Notitie vastprikken</b> <br> Vastgeprikte notities zie je altijd terug bij een leerling of groep"
+                position="left"
+                data-gtm="notitieboek-detail-vastprikken-notitie">
+            </dt-notitie-vastprikken-button>
+            <dt-bookmark-button
+                class="bookmark-button"
+                [active]="notitie.bookmarked"
+                [iconSizes]="['large', 'large', 'large', 'medium']"
+                (click)="onBookmark()"
+                dtTooltip="<b>Notitie markeren</b> <br> Gemarkeerde notities kun je eenvoudig filteren in het notitieboek"
+                position="left"
+                data-gtm="notitieboek-detail-bookmarken-notitie">
+            </dt-bookmark-button>
+        </div>
+    }
+</div>
+<div class="detail-body">
+    <div class="notitie-detail-header" [class.with-actions]="isEigenNotitie">
+        <dt-avatar
+            class="avatar"
+            [src]="notitie.auteur.pasfoto"
+            [initialen]="notitie.auteur.initialen"
+            [size]="40"
+            [toonMentorIcoon]="auteurHasMentorIcon"></dt-avatar>
+        <div class="notitie-auteur-tijd">
+            <span class="auteur text-ellipsis text-content-semi text-strong"
+                >{{ isEigenNotitie ? 'Mijzelf' : (notitie.auteur | volledigeNaam) }}
+                @if (notitie.auteurInactief) {
+                    <span class="auteur-inactief text-weak">(Inactief)</span>
+                }
+            </span>
+            <span class="aangemaakt-op show-for-phone-only text-weak text-small-content-regular">
+                {{ notitie.createdAt | dtDate: 'dag_uitgeschreven_dagnummer_maand_kort' }}, {{ notitie.createdAt | dtDate: 'tijd' }}
+            </span>
+            <span class="aangemaakt-op hide-for-phone-only text-weak text-small-content-regular">
+                {{ notitie.createdAt | dtDate: 'dag_uitgeschreven_dagnummer_maand' }}, {{ notitie.createdAt | dtDate: 'tijd' }}
+            </span>
+        </div>
+        @if (isEigenNotitie && huidigeSchooljaarSelected()) {
+            <div class="actions-mobile show-for-phone-only">
+                <i
+                    class="verwijder-button"
+                    (click)="openVerwijderPopup()"
+                    color="action-negative-normal"
+                    data-gtm="notitieboek-detail-verwijderen-notitie-mobile"
+                    size="large"
+                    hmyIcon="verwijderen"></i>
+                <i
+                    class="bewerken-button"
+                    [routerLink]="['./']"
+                    [queryParams]="{ edit: true }"
+                    color="action-primary-normal"
+                    data-gtm="notitieboek-detail-bewerken-notitie-mobile"
+                    size="large"
+                    hmyIcon="bewerken"
+                    queryParamsHandling="merge"></i>
+            </div>
+        }
+        @if (notitieBetrokkeneToegang$ | async; as notitieBetrokkeneToegang) {
+            <div class="labels">
+                @for (leerlingB of leerlingBetrokkenen; track leerlingB) {
+                    @if ({ value: notitieBetrokkeneToegang.get(leerlingB.id) }; as toegankelijk) {
+                        <dt-notitie-detail-label
+                            class="pointer leerling-label"
+                            [text]="leerlingB.leerling | volledigeNaam"
+                            [withMentorIcon]="leerlingB.geschrevenInMentorContext"
+                            [disabled]="!toegankelijk.value || !huidigeSchooljaarSelected()"
+                            [dtTooltip]="
+                                toegankelijk.value
+                                    ? 'Navigeer naar notitieboek'
+                                    : 'Je hebt geen rechten om het notitieboek van deze leerling te bekijken.'
+                            "
+                            [onTouchAllowed]="!toegankelijk.value"
+                            [maxWidth]="306"
+                            (click)="onDetailLabelClickLeerling(!!toegankelijk.value, leerlingB.leerling)"
+                            data-gtm="notitieboek-detail-label-leerling">
+                        </dt-notitie-detail-label>
+                    }
+                }
+                @for (groep of groepBetrokkenen; track groep) {
+                    @if ({ value: notitieBetrokkeneToegang.get(groep.id) }; as toegankelijk) {
+                        <dt-notitie-detail-label
+                            class="pointer groep-label"
+                            [text]="groep.naam"
+                            [disabled]="!toegankelijk.value || !huidigeSchooljaarSelected()"
+                            [dtTooltip]="groepNavigatieTooltip(groep, !!toegankelijk.value)"
+                            [onTouchAllowed]="!toegankelijk.value"
+                            [maxWidth]="306"
+                            (click)="onDetailLabelClickGroep(!!toegankelijk.value, groep)"
+                            data-gtm="notitieboek-detail-label-groep"></dt-notitie-detail-label>
+                    }
+                }
+                @if (notitie.vak) {
+                    <dt-notitie-detail-label class="vak-label" [text]="notitie.vak.naam" [isVak]="true"></dt-notitie-detail-label>
+                }
+                @if (notitie.privacygevoelig) {
+                    <dt-notitie-detail-label
+                        class="privacygevoelig-label"
+                        [isPrivacygevoelig]="true"
+                        text="Privacygevoelig"></dt-notitie-detail-label>
+                }
+                @if (notitie.belangrijk) {
+                    <dt-notitie-detail-label class="belangrijk-label" [isBelangrijk]="true" text="Belangrijk"></dt-notitie-detail-label>
+                }
+            </div>
+        }
+    </div>
+    <div class="notitie-detail-body">
+        <span class="notitie-titel text-head text-strong">{{ notitie.titel }}</span>
+        @if (notitie.privacygevoelig) {
+            <span
+                class="notitie-inhoud-toggle action-primary-normal text-content-semi pointer"
+                (click)="toggleInhoud()"
+                data-gtm="notitieboek-detail-toggle-inhoud-privacygevoelig"
+                >{{ showInhoud ? 'Verberg inhoud' : 'Toon inhoud' }}
+                <i [hmyIcon]="showInhoud ? 'chevronBoven' : 'chevronOnder'" color="action-primary-normal" size="small"></i>
+            </span>
+        }
+        @if (showInhoud) {
+            <span class="notitie-inhoud text-content text-strong" [innerHtml]="notitie.inhoud"></span>
+            @if (notitie.bijlagen.length > 0) {
+                <div class="bijlagen">
+                    @for (bijlage of notitie.bijlagen; track bijlage) {
+                        <dt-bijlage [bijlage]="bijlage" [toonZichtbaarheidToggle]="false"></dt-bijlage>
+                    }
+                </div>
+            }
+        }
+        @if (isGewijzigd) {
+            <span class="laatst-gewijzigd text-small-content-semi">
+                Laatst gewijzigd • {{ notitie.lastModifiedAt | dtDate: 'dag_uitgeschreven_dagnummer_maand' }},
+                {{ notitie.lastModifiedAt | dtDate: 'tijd' }}
+            </span>
+        }
+    </div>
+</div>
+@if (huidigeSchooljaarSelected()) {
+    <div class="footer">
+        @if (isEigenNotitie) {
+            <dt-verwijder-button
+                class="verwijderen-button hide-for-phone-only"
+                [withBorder]="true"
+                [icon]="null"
+                (onDelete)="onVerwijderNotitie.emit(notitie)"
+                data-gtm="notitieboek-detail-verwijderen-notitie" />
+            <dt-outline-button
+                class="bewerken-button hide-for-phone-only"
+                [routerLink]="['./']"
+                [queryParams]="{ edit: true }"
+                data-gtm="notitieboek-detail-bewerken-notitie"
+                queryParamsHandling="merge">
+                Bewerken
+            </dt-outline-button>
+            <dt-notitie-zichtbaarheid-button
+                class="show-for-phone-only zichtbaarheid-button"
+                [docenten]="notitie.gedeeldVoorDocenten"
+                [mentoren]="notitie.gedeeldVoorMentoren"
+                [docentenDisabled]="notitie | notitieDelenDisabled: 'Docenten'"
+                [mentorenDisabled]="notitie | notitieDelenDisabled: 'Mentoren'"
+                [reactiesToegestaan]="notitie.reactiesToegestaan"
+                [alignCenter]="true"
+                [iconSizesOog]="['large']"
+                (onSubmit)="onZichtbaarheid($event)"
+                data-gtm="notitieboek-detail-zichtbaarheid-notitie-mobile"
+                submitButtonText="Opslaan"
+                dtTooltip="<b>Notitie zichtbaar maken</b><br/>Maak de notitie zichtbaar voor collega's"
+                position="bottom" />
+        }
+        <dt-notitie-vastprikken-button
+            class="show-for-phone-only vastprikken-button"
+            [vastgeprikt]="notitie.vastgeprikt"
+            [iconSizes]="['large']"
+            (click)="onVastprikken()"
+            data-gtm="notitieboek-detail-vastprikken-notitie-mobile">
+        </dt-notitie-vastprikken-button>
+        <dt-bookmark-button
+            class="show-for-phone-only bookmark-button"
+            [active]="notitie.bookmarked"
+            [iconSizes]="['large']"
+            (click)="onBookmark()"
+            data-gtm="notitieboek-detail-bookmarken-notitie-mobile">
+        </dt-bookmark-button>
+        <dt-outline-button
+            class="nieuw-button"
+            #nieuwButton
+            (click)="onNieuw()"
+            data-gtm="notitieboek-detail-nieuw-button"
+            icon="toevoegen"
+            iconColor="accent_positive_1"
+            color="accent_positive_1"
+            iconOnlyRangeEnd="tablet-portrait">
+            Nieuw
+        </dt-outline-button>
+    </div>
+}

@@ -1,0 +1,71 @@
+<dt-sidebar
+    #sidebar
+    [title]="(leerlingCijferoverzicht.leerling | volledigeNaam) ?? 'Sidebar'"
+    (onMaskClick)="sidebarService.closeSidebar()"
+    (onCloseClick)="sidebarService.closeSidebar()">
+    <div class="container">
+        <hmy-tab-row
+            class="sidebar-tabs"
+            [tabs]="tabs"
+            [activeTabLabel]="activeTab()"
+            (activeTabChange)="onActiveTabChange($any($event))" />
+        <div class="sidebar-content">
+            @if (activeTab() === 'Vakgemiddelde' && (vakgemiddeldeView$ | async); as vgm) {
+                <div class="vakgemiddelde-tab">
+                    <div class="info-tiles">
+                        <dt-mentordashboard-sidebar-info-tile
+                            class="totaalgemiddelde"
+                            [valueColor]="vgm.gemiddeldeColor"
+                            [value]="vgm.totaalGemiddeldeWaarde"
+                            titel="Totaalgemiddelde" />
+                        @if (vgm.gemisteToetsen.length > 0) {
+                            <dt-mentordashboard-sidebar-info-tile
+                                class="gemiste-toetsen"
+                                #gemisteToetsen
+                                [value]="vgm.gemisteToetsen.length.toString()"
+                                [showChevron]="true"
+                                (click)="openGemisteToetsenPopup(vgm.gemisteToetsen)"
+                                data-gtm="groepsoverzicht-gemiste-toetsen-info-tile"
+                                titel="Gemiste toetsen" />
+                        }
+                        @if (vgm.gemisteToetsen.length === 0) {
+                            <dt-mentordashboard-sidebar-info-tile
+                                class="gemiste-toetsen"
+                                #gemisteToetsen
+                                [valueSmallFont]="true"
+                                value="Geen"
+                                valueColor="text-weakest"
+                                titel="Gemiste toetsen" />
+                        }
+                        <dt-mentordashboard-resultaat-trend-info-tile
+                            [trendindicatie]="leerlingCijferoverzicht.trendindicatie"
+                            [aantalResultatenVoorTrendindicatie]="leerlingCijferoverzicht.aantalResultatenVoorTrendindicatie"
+                            (click)="trendInfoClick()"
+                            data-gtm="groepsoverzicht-laatste-resultaten-info-tile" />
+                    </div>
+                    @if (resultatenSoort === 'resultaten') {
+                        <dt-groepsoverzicht-resultaten-sidebar-table
+                            class="resultaten-table"
+                            [leerlingId]="leerlingCijferoverzicht.leerling.id"
+                            [instellingen]="vgm.instellingen" />
+                    }
+                    @if (resultatenSoort === 'examens') {
+                        <dt-groepsoverzicht-examen-resultaten-sidebar-table
+                            class="examen-resultaten-table"
+                            [instellingen]="vgm.instellingen"
+                            [leerlingId]="leerlingCijferoverzicht.leerling.id" />
+                    }
+                </div>
+            }
+            @if (activeTab() === laatsteResultatenTabLabel && (laatsteResultatenView$ | async); as lrv) {
+                <dt-mentordashboard-laatste-resultaten-list
+                    [trendindicatie]="leerlingCijferoverzicht.trendindicatie!"
+                    [aantalVoorTrendindicatie]="leerlingCijferoverzicht.aantalResultatenVoorTrendindicatie"
+                    [instellingen]="lrv.instellingen"
+                    [laatsteResultaten]="lrv.laatsteResultaten"
+                    [resultatenSoort]="resultatenSoort"
+                    [leerlingId]="leerlingCijferoverzicht.leerling.id" />
+            }
+        </div>
+    </div>
+</dt-sidebar>

@@ -1,0 +1,140 @@
+@if (schooljaar$ | async; as schooljaar) {
+    <dt-header [metNavigatie]="true" titel="Inleveropdrachten" icon="inleveropdracht">
+        <dt-inleveropdrachten-header-navigatie
+            [heeftVolgende]="schooljaar <= huidigSchooljaar"
+            [heeftVorige]="schooljaar > huidigSchooljaar - 2"
+            [schooljaar]="schooljaar"
+            (vorigeClick)="showSchooljaar(schooljaar - 1)"
+            (volgendeClick)="showSchooljaar(schooljaar + 1)"></dt-inleveropdrachten-header-navigatie>
+    </dt-header>
+    @if (activeTab$ | async; as activeTab) {
+        <div class="inleveropdrachten-table-header">
+            @if (schooljaar >= huidigSchooljaar) {
+                <div
+                    class="nav-item aankomend"
+                    [class.active]="activeTab === 'aankomend'"
+                    (click)="updateActiveTab('aankomend')"
+                    data-gtm="inl-overzicht-aankomend">
+                    <span class="text-content-semi">Aankomend</span>
+                    @if (aantalAankomend$ | async; as aantal) {
+                        <hmy-pill class="aankomend-counter" color="primary" text="{{ aantal }}"></hmy-pill>
+                    }
+                </div>
+            }
+            @if (schooljaar <= huidigSchooljaar) {
+                <div
+                    class="nav-item verlopen"
+                    [class.active]="activeTab === 'verlopen'"
+                    (click)="updateActiveTab('verlopen')"
+                    data-gtm="inl-overzicht-verlopen">
+                    <span class="text-content-semi">Verlopen</span>
+                    @if (aantalVerlopen$ | async; as aantal) {
+                        <hmy-pill class="verlopen-counter" color="primary" text="{{ aantal }}"></hmy-pill>
+                    }
+                </div>
+            }
+        </div>
+    }
+    <div class="inleveropdrachten-table">
+        @if (activeSort$ | async; as activeSort) {
+            <div class="sorteer-header" [class.met-differentiatie]="toonDifferentiatie$ | async">
+                <div class="active-sortering hide-for-desktop" #sorteer (click)="openSorteerPopup(activeSort[0], activeSort[1])">
+                    <span class="text-content-semi">{{ activeSort[0] | ucfirst }}</span>
+                    <i [hmyIcon]="activeSort[1] === 'asc' ? 'aZ' : 'zA'" color="action-primary-normal" size="small"></i>
+                </div>
+                <dt-sorteer-column-header
+                    class="deadline show-for-desktop"
+                    [activeSortHeader]="activeSort[0]"
+                    [activeOrder]="activeSort[1]"
+                    (click)="updateSortering('deadline')"
+                    label="deadline"
+                    data-gtm="inl-overzicht-sorteer-deadline">
+                </dt-sorteer-column-header>
+                <dt-sorteer-column-header
+                    class="lesgroep show-for-desktop"
+                    [activeSortHeader]="activeSort[0]"
+                    [activeOrder]="activeSort[1]"
+                    (click)="updateSortering('lesgroep')"
+                    label="lesgroep"
+                    data-gtm="inl-overzicht-sorteer-lesgroep">
+                </dt-sorteer-column-header>
+                <div class="titel show-for-desktop text-content-semi text-weak">Titel</div>
+                @if (toonDifferentiatie$ | async) {
+                    <div class="differentiatie show-for-desktop text-content-semi text-weak">Differentiatie</div>
+                }
+                <div class="inleveringen show-for-desktop text-content-semi text-weak">Inleveringen</div>
+            </div>
+        }
+        @if (!loadingState.isLoading && (inleveropdrachten$ | async); as inleveropdrachten) {
+            @if (inleveropdrachten.length > 0) {
+                <div class="inleveropdrachten">
+                    @for (inleveropdracht of inleveropdrachten; track inleveropdracht) {
+                        <dt-inleveropdracht
+                            [routerLink]="[inleveropdracht.id]"
+                            [inleveropdracht]="$any(inleveropdracht)"
+                            [toonDifferentiatie]="!!(toonDifferentiatie$ | async)"
+                            (onVerwijder)="verwijderOpdracht($event)"
+                            (onInleveringenClick)="openInleveringenPopup($event, inleveropdracht)">
+                        </dt-inleveropdracht>
+                    }
+                </div>
+            } @else {
+                <div class="geen-opdrachten text-content-semi" [class.with-nieuwe-opdracht]="schooljaar >= huidigSchooljaar">
+                    Er zijn geen inleveropdrachten
+                </div>
+            }
+        }
+        @if (loadingState.isLoading) {
+            <hmy-spinner class="loader" />
+        }
+    </div>
+    @if (schooljaar >= huidigSchooljaar) {
+        <div class="inleveropdrachten-page-footer">
+            <dt-outline-button
+                #addIcon
+                (click)="openLesgroepSelectie(schooljaar)"
+                icon="toevoegen"
+                color="accent_positive_1"
+                iconColor="accent_positive_1"
+                data-gtm="inl-overzicht-nieuwe-opdracht">
+                Nieuwe opdracht
+            </dt-outline-button>
+        </div>
+    }
+    @if (lesgroepSelectieSidebar$ | async; as data) {
+        <dt-lesgroep-selectie-sidebar
+            [@allowLeaveAnimation]
+            [sidebar]="data.sidebar!"
+            (onLesgroepSelectie)="openStudiewijzerItemSidebar($event, schooljaar)">
+        </dt-lesgroep-selectie-sidebar>
+    }
+}
+@if (studiewijzeritemSidebar$ | async; as data) {
+    <dt-studiewijzeritem-sidebar
+        [@allowLeaveAnimation]
+        [sidebar]="data.sidebar!"
+        [toekenning]="data.toekenning!"
+        [isEditable]="true"
+        [heeftToegangTotElo]="true"
+        [toonDatepicker]="false"
+        [schooljaar]="(schooljaar$ | async)!"
+        [toonLesgroep]="true"
+        [openInEditMode]="data.openInEditMode!"
+        [openWithDirtyForm]="data.openWithDirtyForm!"
+        [heeftToegangTotDifferentiatie]="!!((toonDifferentiatie$ | async) && data.heeftToegangTotDifferentiatie)"
+        [selectedLesgroepen]="data.selectedLesgroepen!"
+        (onSaveToekenning)="saveOpdracht($event)"
+        (onVerwijder)="verwijderOpdracht(data.toekenning!)"
+        (onDifferentiatieToekenning)="onDifferentiatieToekennenClick($event)">
+    </dt-studiewijzeritem-sidebar>
+}
+@if (differentiatieToekennenSidebar$ | async; as data) {
+    <dt-differentiatie-toekennen-sidebar
+        [@allowLeaveAnimation]
+        [lesgroep]="data.toekenning!.lesgroep!"
+        [toekenning]="data.toekenning"
+        [showVervangenGuard]="false"
+        [disableSidebarAnimation]="!!data.disableSidebarAnimation"
+        (onDifferentieren)="onDifferentiatieToekennen($event)">
+    </dt-differentiatie-toekennen-sidebar>
+}

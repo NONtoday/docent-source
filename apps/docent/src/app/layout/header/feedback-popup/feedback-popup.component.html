@@ -1,0 +1,78 @@
+<dt-popup>
+    <div popup-content>
+        <div class="wrapper">
+            @if (!submitted) {
+                <form #form="ngForm" [formGroup]="feedbackForm" (ngSubmit)="onFormSubmit($event)">
+                    <div
+                        class="radio-button-group"
+                        [ngClass]="{ 'form-invalid': form.submitted && feedbackForm.controls['indruk'].invalid }">
+                        <div class="radio-option">
+                            <label>
+                                <i class="mad"></i>
+                                <input type="radio" value="1" formControlName="indruk" />
+                                <i class="checkmark" [hmyIcon]="indruk === '1' ? 'radioSelect' : 'radio'"></i>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <label>
+                                <i class="not-amused"></i>
+                                <input type="radio" value="2" formControlName="indruk" />
+                                <i class="checkmark" [hmyIcon]="indruk === '2' ? 'radioSelect' : 'radio'"></i>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <label>
+                                <i class="neutral"></i>
+                                <input type="radio" value="3" formControlName="indruk" />
+                                <i class="checkmark" [hmyIcon]="indruk === '3' ? 'radioSelect' : 'radio'"></i>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <label>
+                                <i class="amused"></i>
+                                <input type="radio" value="4" formControlName="indruk" />
+                                <i class="checkmark" [hmyIcon]="indruk === '4' ? 'radioSelect' : 'radio'"></i>
+                            </label>
+                        </div>
+                        <div class="radio-option">
+                            <label>
+                                <i class="happy"></i>
+                                <input type="radio" value="5" formControlName="indruk" />
+                                <i class="checkmark" [hmyIcon]="indruk === '5' ? 'radioSelect' : 'radio'"></i>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="opmerking-grid">
+                        <label class="opmerking-label">Opmerking</label>
+                        <textarea class="opmerking" formControlName="opmerking" placeholder="Vertel hier waarom dit zo is"></textarea>
+                    </div>
+                    <div class="buttons">
+                        <hmy-button class="annuleren" (click)="cancel($event)" type="button" label="Annuleren" mode="tertiary" />
+                        <hmy-button class="submit" type="submit" label="Verstuur" mode="primary"></hmy-button>
+                    </div>
+                </form>
+            } @else {
+                <div class="bedankt">
+                    <span class="bedankt-title text-heading-2">Bedankt voor je feedback</span>
+                    <i class="foto"></i>
+                    <div class="tekst-container">
+                        <div class="tekst text-content-semi">We nemen jouw input mee in onze evaluaties en doorontwikkeling.</div>
+                        <div class="functie-tekst text-content-small-semi">Karoline Heidrich - Product owner Somtoday Docent</div>
+                    </div>
+                    <hmy-button class="klaar" (click)="cancel($event)" type="button" label="Klaar!" mode="secondary"></hmy-button>
+                </div>
+            }
+            <ng-template #bedankt>
+                <div class="bedankt">
+                    <span class="bedankt-title text-heading-2">Bedankt voor je feedback</span>
+                    <i class="foto"></i>
+                    <div class="tekst-container">
+                        <div class="tekst text-content-semi">We nemen jouw input mee in onze evaluaties en doorontwikkeling.</div>
+                        <div class="functie-tekst text-content-small-semi">Karoline Heidrich - Product owner Somtoday Docent</div>
+                    </div>
+                    <hmy-button class="klaar" (click)="cancel($event)" type="button" label="Klaar!" mode="secondary"></hmy-button>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</dt-popup>

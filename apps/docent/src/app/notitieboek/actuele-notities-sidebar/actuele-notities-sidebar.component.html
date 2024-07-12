@@ -1,0 +1,127 @@
+@if (mode$ | async; as mode) {
+    <dt-sidebar
+        #sidebar
+        [iconClickable]="mode !== 'lijst'"
+        [icon]="mode === 'lijst' ? null : nieuwOnEnter ? 'reactieToevoegen' : 'pijlLinks'"
+        [title]="mode === 'lijst' ? titel : ModeTitle[mode]"
+        (onIconClick)="onAnnuleerNotitie()"
+        (onMaskClick)="sidebarService.closeSidebar()"
+        (onCloseClick)="sidebarService.closeSidebar()">
+        @if (actueleNotities$ | async; as actueleNotities) {
+            <div class="container" id="actuele-notities-sidebar-stream">
+                @if (mode === 'lijst') {
+                    @if ({ data: activeNotitie$ | async }; as actieveNotitie) {
+                        <div class="notities">
+                            @if (actueleNotities.vastgeprikteNotities.length > 0) {
+                                <dt-accordion
+                                    class="accordion-vastgeprikt"
+                                    [expanded]="true"
+                                    [withShadow]="false"
+                                    [zonderBorderRadius]="true"
+                                    headerIcon="pinned">
+                                    <div title>Vastgeprikt {{ actueleNotities.vastgeprikteNotities.length | aantalNotitiesCounter }}</div>
+                                    <div body>
+                                        <div class="accordion-body">
+                                            @for (notitie of actueleNotities.vastgeprikteNotities; track notitie; let isLast = $last) {
+                                                <dt-notitie-kaart
+                                                    [notitie]="notitie"
+                                                    [context]="context"
+                                                    [huidigeSchooljaarSelected]="true"
+                                                    [expandOnActive]="true"
+                                                    [class.is-active]="
+                                                        actieveNotitie.data?.context === 'vastgeprikt' &&
+                                                        notitie.id === actieveNotitie.data?.id
+                                                    "
+                                                    [roundedCornersMobile]="true"
+                                                    [preferPopupDirectionTop]="isLast"
+                                                    [showOpenInNotitieboekOption]="true"
+                                                    (openInNotitieboek)="openInNotitieboek($event)"
+                                                    (click)="onNotitieClick('vastgeprikt', notitie)"
+                                                    (notitieBewerken)="onNotitieBewerken($event)"
+                                                    meerOptiesPopupChildSelector="#actuele-notities-sidebar-stream"></dt-notitie-kaart>
+                                            }
+                                        </div>
+                                    </div>
+                                </dt-accordion>
+                            }
+                            <dt-accordion
+                                class="accordion-ongelezen"
+                                [expanded]="true"
+                                [withShadow]="false"
+                                [zonderBorderRadius]="true"
+                                headerIcon="kalenderDag">
+                                <div title>Vandaag of ongelezen {{ (aantalOngelezenNotities$ | async)! | aantalNotitiesCounter }}</div>
+                                <div body>
+                                    @if (actueleNotities.vandaagOfOngelezenNotitiestream.length > 0) {
+                                        <div class="accordion-body">
+                                            @for (week of actueleNotities.vandaagOfOngelezenNotitiestream; track week; let i = $index) {
+                                                <div class="week-header">
+                                                    @if (i === 0 && isHuidigeWeek(week)) {
+                                                        <span class="text-content-semi"> Deze week </span>
+                                                    } @else {
+                                                        <span class="weeknummer text-content-semi">{{ week.start | dtDate: 'week' }}</span>
+                                                    }
+                                                    <span class="week-datum text-small-content text-weakest">
+                                                        {{ week.start | dtDate: 'dag_kort_dagnummer_maand_kort' }} -
+                                                        {{ week.eind | dtDate: 'dag_kort_dagnummer_maand_kort' }}
+                                                    </span>
+                                                </div>
+                                                @for (notitie of week.notities; track trackById($index, notitie); let isLast = $last) {
+                                                    <dt-notitie-kaart
+                                                        [notitie]="notitie"
+                                                        [context]="context"
+                                                        [expandOnActive]="true"
+                                                        [huidigeSchooljaarSelected]="true"
+                                                        [class.is-active]="
+                                                            actieveNotitie.data?.context === 'ongelezen' &&
+                                                            notitie.id === actieveNotitie.data?.id
+                                                        "
+                                                        [roundedCornersMobile]="true"
+                                                        [preferPopupDirectionTop]="isLast"
+                                                        [showOpenInNotitieboekOption]="true"
+                                                        (openInNotitieboek)="openInNotitieboek($event)"
+                                                        (click)="onNotitieClick('ongelezen', notitie)"
+                                                        (notitieBewerken)="onNotitieBewerken($event)"
+                                                        meerOptiesPopupChildSelector="#actuele-notities-sidebar-stream">
+                                                    </dt-notitie-kaart>
+                                                }
+                                            }
+                                        </div>
+                                    } @else {
+                                        <div class="geen text-weakest">Er zijn geen ongelezen notities</div>
+                                    }
+                                </div>
+                            </dt-accordion>
+                        </div>
+                    }
+                    <div class="buttons">
+                        <dt-outline-button
+                            (click)="onNotitieToevoegen()"
+                            icon="toevoegen"
+                            iconColor="accent_positive_1"
+                            color="accent_positive_1"
+                            data-gtm="notitieboek-notitie-toevoegen-registratie">
+                            Notitie toevoegen
+                        </dt-outline-button>
+                        <dt-outline-button
+                            (click)="onNavigeerNaarNotitieboek()"
+                            icon="naarNotitieboek"
+                            data-gtm="notitieboek-navigatie-van-registratie">
+                            Open notitieboek
+                        </dt-outline-button>
+                    </div>
+                } @else {
+                    <dt-notitie-edit
+                        [notitie]="teBewerkenNotitie || NieuweNotitieInput"
+                        [context]="context"
+                        [inSidebar]="true"
+                        [betrokkenenAltijdVerwijderbaar]="true"
+                        (onSaveNotitie)="onSavedNotitie($event.notitieId)"
+                        (onAnnuleerNotitie)="onAnnuleerNotitie()"></dt-notitie-edit>
+                }
+            </div>
+        } @else {
+            <hmy-spinner [centeredInParent]="true" />
+        }
+    </dt-sidebar>
+}

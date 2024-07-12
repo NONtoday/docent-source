@@ -1,0 +1,211 @@
+<dt-header [metNavigatie]="true" titel="Inleveropdrachten" icon="inleveropdracht">
+    @if (headerNavigatie$ | async; as headerNavigatie) {
+        <div [class.show-for-tablet]="detail$ | async">
+            @if (inleveringenOverzicht$ | async; as inleveringenOverzicht) {
+                <dt-inleveringen-header-navigatie
+                    [inleveringenOverzicht]="inleveringenOverzicht"
+                    [heeftVolgende]="!!headerNavigatie.nextId"
+                    [heeftVorige]="!!headerNavigatie.previousId"
+                    (terugClick)="backToInleveropdrachtenOverzicht()"
+                    (volgendeClick)="showOpdracht(headerNavigatie.nextId!)"
+                    (vorigeClick)="showOpdracht(headerNavigatie.previousId!)"
+                    (meerOptiesClick)="showHeaderMoreOptions($event, inleveringenOverzicht)"></dt-inleveringen-header-navigatie>
+            }
+        </div>
+    }
+</dt-header>
+@if (inleveringenOverzicht$ | async; as inleveringenOverzicht) {
+    <div class="lesgroep">
+        <dt-background-icon
+            [color]="$any(inleveringenOverzicht.toekenning.lesgroep?.color)"
+            size="medium"
+            icon="groep"></dt-background-icon>
+        <span class="lesgroep-naam text-content-small-semi">{{ inleveringenOverzicht.toekenning.lesgroep?.naam }}</span>
+        @if (
+            (inleveringenOverzicht.toekenning.differentiatiegroepen && inleveringenOverzicht.toekenning.differentiatiegroepen.length > 0) ||
+            (inleveringenOverzicht.toekenning.differentiatieleerlingen &&
+                inleveringenOverzicht.toekenning.differentiatieleerlingen.length > 0)
+        ) {
+            <div class="lesgroep-differentiatie">
+                <i class="pijltje" hmyIcon="pijlKleinRechts" size="smallest"></i>
+                <dt-kleuren-stack
+                    [kleuren]="kleuren$ | async"
+                    [nummerKleur]="
+                        inleveringenOverzicht.toekenning.differentiatiegroepen &&
+                        inleveringenOverzicht.toekenning.differentiatiegroepen.length > 0
+                            ? 0
+                            : inleveringenOverzicht.toekenning.differentiatieleerlingen.length
+                    "
+                    [showBackground]="!!(showKleurenStackBackground$ | async)"
+                    tooltipPosition="left">
+                </dt-kleuren-stack>
+            </div>
+        }
+        @if (inleveringenOverzicht.toekenning.studiewijzeritem.inleverperiode; as inleverperiode) {
+            <div class="inleveringen-aantal">
+                <hmy-icon-pill
+                    #inleveringen
+                    [color]="getInleveringenAantalColor(inleverperiode)"
+                    [iconVisible]="isTabletOfDesktop()"
+                    icon="inleveropdracht"
+                    iconSize="smallest"
+                    text="{{ inleverperiode.inleveringenAantal }}/{{ inleverperiode.inleveringenVerwacht }}">
+                </hmy-icon-pill>
+            </div>
+        }
+        <dt-icon
+            #moreOptions
+            [color]="isTabletOfDesktop() ? 'primary' : 'background-light'"
+            (click)="onMoreOptions(inleveringenOverzicht.toekenning.lesgroep!)"
+            icon="opties"
+            size="medium"></dt-icon>
+    </div>
+    <div class="overzicht">
+        <div class="nieuw" [routerLink]="[]" [queryParams]="{ detail: 'nieuw' }" [class.active]="(detail$ | async) === 'nieuw'">
+            <span class="text-content-small-semi">Nieuwe inleveringen</span>
+            @if (inleveringenOverzicht.nieuw.length > 0) {
+                <hmy-pill color="warning" type="darker" text="{{ inleveringenOverzicht.nieuw.length }}"></hmy-pill>
+            }
+        </div>
+        <form [formGroup]="bulkactiesForm">
+            @for (overzichtStatus of overzichtStatussen; track overzichtStatus) {
+                @if (inleveringenOverzicht[overzichtStatus.property] && inleveringenOverzicht[overzichtStatus.property].length > 0) {
+                    <dt-inleveringen-overzicht-selectie
+                        class="{{ overzichtStatus.property }} selectie"
+                        [labelColor]="overzichtStatus.color"
+                        [labelText]="overzichtStatus.label"
+                        [aantalInleveringen]="inleveringenOverzicht[overzichtStatus.property].length"
+                        [controlName]="overzichtStatus.property"
+                        [form]="bulkactiesForm"
+                        [checkboxEnabled]="
+                            overzichtStatus.label !== 'Niet ingeleverd' ||
+                            (inleveringenOverzicht.berichtenMogelijk && !!(heeftBerichtenWijzigenRecht$ | async))
+                        ">
+                    </dt-inleveringen-overzicht-selectie>
+                    @if (inleveringenOverzicht.toekenning.studiewijzeritem.projectgroepen.length > 0) {
+                        @for (projectgroep of inleveringenOverzicht[overzichtStatus.property]; track projectgroep) {
+                            <dt-inleveringen-overzicht-item
+                                class="overzichtitem projectgroep"
+                                [projectgroep]="$any(projectgroep)"
+                                [routerLink]="[]"
+                                [queryParams]="{ detail: projectgroep.id }"
+                                [attr.cy]="'overzicht-items-' + overzichtStatus.property"
+                                routerLinkActive="actief">
+                            </dt-inleveringen-overzicht-item>
+                        }
+                    } @else {
+                        @for (leerling of inleveringenOverzicht[overzichtStatus.property]; track leerling) {
+                            <dt-inleveringen-overzicht-item
+                                class="overzichtitem leerling"
+                                [leerling]="$any(leerling)"
+                                [routerLink]="[]"
+                                [queryParams]="{ detail: leerling.id }"
+                                [attr.cy]="'overzicht-items-' + overzichtStatus.property"
+                                routerLinkActive="actief">
+                            </dt-inleveringen-overzicht-item>
+                        }
+                    }
+                }
+            }
+            @if (bulkActiesOverzichtProperties$ | async; as properties) {
+                @if (properties.length > 0) {
+                    <div class="bulk-acties" [@slideInUpOnEnter] [@slideOutDownOnLeave]>
+                        <!-- de outline buttons wijken hier qua look af van de default, dus stel icon in via content projection  -->
+                        @if (bulkDownloadenAantal$ | async) {
+                            <dt-outline-button (click)="downloadStatussen()" dtTooltip="Downloaden">
+                                @if (!downloading) {
+                                    <i color="fg-primary-normal" hmyIcon="downloaden" size="medium"></i>
+                                }
+                                @if (downloading) {
+                                    <hmy-spinner [centeredInParent]="true" />
+                                }
+                            </dt-outline-button>
+                        }
+                        @if (bulkBerichtenVersturenAantal$ | async; as aantal) {
+                            <dt-outline-button
+                                #berichtenVersturen
+                                (click)="verstuurBerichtenVoorStatussenClick(inleveringenOverzicht)"
+                                dtTooltip="Bericht sturen ({{ aantal }})"
+                                cy="inleveringen-overzicht-bericht-sturen">
+                                <i color="fg-primary-normal" hmyIcon="bericht" size="medium"></i>
+                            </dt-outline-button>
+                        }
+                    </div>
+                }
+            }
+        </form>
+    </div>
+    @if (detail$ | async; as detail) {
+        <div class="detail">
+            @if (detail === 'nieuw') {
+                <dt-nieuwe-inleveringen
+                    [ongelezenInleveringen]="inleveringenOverzicht.nieuw"
+                    [inleverperiode]="inleveringenOverzicht.toekenning.studiewijzeritem.inleverperiode!">
+                </dt-nieuwe-inleveringen>
+            } @else {
+                @if ({ value: selectedInleveraar$ | async }; as inleveraar) {
+                    @if (inleveringenDetail$ | async; as detail) {
+                        <dt-inleveringen-detail
+                            [inleveringen]="detail"
+                            [toekenningId]="inleveringenOverzicht.toekenning.id"
+                            [lesgroep]="inleveringenOverzicht.toekenning.lesgroep!"
+                            [inleverperiode]="inleveringenOverzicht.toekenning.studiewijzeritem.inleverperiode!"
+                            [inleveraar]="inleveraar.value!"
+                            [conversatie]="(inleveringConversatie$ | async)!"
+                            [berichtenMogelijkOpVestiging]="inleveringenOverzicht.berichtenMogelijk">
+                        </dt-inleveringen-detail>
+                    } @else {
+                        <hmy-spinner class="inleveringen-spinner" />
+                    }
+                }
+            }
+        </div>
+    }
+    @if ({ value: heeftToegangTotDifferentiatie$ | async }; as toegangTotDifferentiatie) {
+        @if (studiewijzeritemSidebar$ | async; as data) {
+            <dt-studiewijzeritem-sidebar
+                [@allowLeaveAnimation]
+                [toekenning]="data.toekenning!"
+                [isEditable]="true"
+                [heeftToegangTotElo]="true"
+                [toonDatepicker]="false"
+                [openInEditMode]="!!data.openInEditMode"
+                [openWithDirtyForm]="!!data.openWithDirtyForm"
+                [heeftToegangTotDifferentiatie]="toegangTotDifferentiatie.value!"
+                (onSaveToekenning)="saveOpdracht($event)"
+                (onVerwijder)="verwijderOpdracht(data.toekenning!)"
+                (onDifferentiatieToekenning)="onDifferentiatieToekennenClick($event)">
+            </dt-studiewijzeritem-sidebar>
+        }
+    }
+    @if (differentiatieToekennenSidebar$ | async; as data) {
+        <dt-differentiatie-toekennen-sidebar
+            [@allowLeaveAnimation]
+            [lesgroep]="inleveringenOverzicht.toekenning.lesgroep!"
+            [toekenning]="inleveringenOverzicht.toekenning"
+            [showVervangenGuard]="false"
+            [disableSidebarAnimation]="!!data.disableSidebarAnimation"
+            (onDifferentieren)="onDifferentiatieToekennen($event)">
+        </dt-differentiatie-toekennen-sidebar>
+    }
+} @else {
+    <div class="lesgroep">
+        <dt-background-icon size="medium" icon="groep" color="primary_1"></dt-background-icon>
+        <span class="lesgroep-naam text-content-small-semi"></span>
+        <span class="aantal-inleveringen"></span>
+    </div>
+}
+@if (showMessage) {
+    <dt-message
+        [@slideInUpOnEnter]
+        [@slideOutDownOnLeave]
+        [text]="message"
+        [duration]="3000"
+        [isToast]="true"
+        (onClose)="showMessage = false"
+        soort="ok">
+    </dt-message>
+}
+@if (differentiatieSidebar$ | async; as data) {
+    <dt-differentiatie-sidebar [@allowLeaveAnimation] [lesgroep]="data.lesgroep!"> </dt-differentiatie-sidebar>
+}

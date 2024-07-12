@@ -1,0 +1,13 @@
+<label class="checkbox-container" [formGroup]="checkboxGroup!">
+    @if (disabled) {
+        <i class="disabled-checkbox" [dtTooltip]="disabledTooltip" [onTouchAllowed]="true"></i>
+    } @else {
+        @if (checkboxControlName) {
+            <input [formControlName]="checkboxControlName" type="checkbox" />
+        }
+        @if (!checkboxControlName) {
+            <input [checked]="checked" type="checkbox" />
+        }
+        <span class="checkmark" #checkmark [class.checked]="checked"></span>
+    }
+</label>

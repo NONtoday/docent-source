@@ -1,0 +1,26 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="search">
+            <dt-search [searchControl]="searchControl" [autofocus]="true"></dt-search>
+        </div>
+        <div class="scroll-container">
+            @if (leerlingMenuItems$ | async; as leerlingen) {
+                @for (leerling of leerlingen; track leerling) {
+                    <dt-notitieboek-menu-leerling-item
+                        [leerlingItem]="leerling"
+                        [routerLink]="[]"
+                        [queryParams]="{ leerling: leerling.leerling.id }"
+                        queryParamsHandling="merge">
+                    </dt-notitieboek-menu-leerling-item>
+                }
+                @if (leerlingen.length === 0) {
+                    <div class="geen-resultaten text-content-semi text-weakest">Geen resultaten gevonden</div>
+                }
+            } @else {
+                <div class="spinner">
+                    <hmy-spinner />
+                </div>
+            }
+        </div>
+    </div>
+</dt-popup>

@@ -1,0 +1,48 @@
+<div class="header" [class.can-open]="canOpen()" (click)="toggleOpen()">
+    <dt-inlever-status-pill [inleverStatus]="status"></dt-inlever-status-pill>
+    @if (status === 'IN_BEOORDELING') {
+        <i [onTouchAllowed]="true" color="fg-neutral-moderate" hmyIcon="slot" dtTooltip="Inlevermogelijkheid gesloten"></i>
+    }
+    @if (canOpen()) {
+        <span class="text-content-small-semi beoordelingsdatum">
+            {{ inleveringen[0].wijzigingsDatum | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}
+        </span>
+    }
+    @if (isOpen && inleveringen.length > 1) {
+        <div class="download-alles download-button hide-for-desktop" (click)="downloadAlles(inleveringen, $event)">
+            @if (!loadingZip) {
+                <i color="action-primary-normal" hmyIcon="downloaden" size="medium"></i>
+            }
+            @if (loadingZip) {
+                <hmy-spinner />
+            }
+            <span class="text-content-semi" color="action-primary-normal">{{ inleveringen.length }}</span>
+        </div>
+    }
+    @if (inleveringen.length > 1 && isOpen) {
+        <span class="download-alles download-link text-content-semi show-for-desktop" (click)="downloadAlles(inleveringen, $event)">
+            @if (!loadingZip) {
+                <span>Download alles</span>
+            }
+            @if (loadingZip) {
+                <hmy-spinner />
+            }
+        </span>
+    }
+    @if (canOpen()) {
+        <i class="icon-arrow-open-close" [class.close]="!isOpen" hmyIcon="chevronBoven"></i>
+    }
+</div>
+<div class="inleveringen" [@collapse]="{ value: !isOpen }">
+    @for (inlevering of inleveringen; track inlevering) {
+        <dt-inlevering
+            [inlevering]="inlevering"
+            [deadline]="eindeInleverperiode"
+            [plagiaatFeatureAan]="!!(isPlagiaatControleerbaar$ | async)"
+            (onDownload)="download($event)"
+            (onPlagiaatControleren)="onInleveringPlagiaatControleren.emit($event)"></dt-inlevering>
+    }
+</div>
+@if (status === 'IN_BEOORDELING') {
+    <dt-outline-button class="beoordelen-button" #beoordelenButton (click)="onBeoordelenClick()"> Beoordelen </dt-outline-button>
+}

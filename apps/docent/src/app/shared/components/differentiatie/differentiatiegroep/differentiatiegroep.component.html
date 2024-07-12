@@ -1,0 +1,15 @@
+<dt-differentiatiegroep-header
+    [differentiatiegroep]="differentiatiegroep"
+    (onLeerlingenToevoegen)="onLeerlingenToevoegen.emit()"
+    (saveDifferentiatiegroep)="saveDifferentiatiegroep.emit($event)"
+    (deleteDifferentiatiegroep)="deleteDifferentiatiegroep.emit($event)"></dt-differentiatiegroep-header>
+<div class="leerling-toevoegen" (click)="onLeerlingenToevoegen.emit()">
+    <div class="icon"><i color="fg-on-positive-weak" hmyIcon="toevoegen" size="smallest"></i></div>
+    <span class="text-content-semi action-positive-normal">Leerling toevoegen</span>
+</div>
+@for (leerling of differentiatiegroep.leerlingen; track leerling) {
+    <dt-leerling-groep [leerling]="leerling" [cdkDragData]="leerling" (onVerwijderLeerling)="onVerwijderLeerling.emit(leerling)" cdkDrag>
+        <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+        <dt-icon class="show-for-desktop-only" cdkDragHandle icon="draggable" size="medium" color="background"></dt-icon>
+    </dt-leerling-groep>
+}

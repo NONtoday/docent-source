@@ -1,0 +1,8 @@
+<dt-sidebar
+    (onMaskClick)="sidebar.onMaskClick?.()"
+    (onCloseClick)="sidebar.onCloseClick?.()"
+    title="Nieuwe inleveropdracht"
+    icon="toevoegen">
+    <dt-lesgroep-selectie [initieleSelectie]="initieleSelectie" [schooljaar]="schooljaar" (onSelectie)="onLesgroepSelectie.emit($event)">
+    </dt-lesgroep-selectie>
+</dt-sidebar>

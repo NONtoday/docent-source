@@ -1,0 +1,87 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="search-container">
+            <dt-search [searchControl]="searchControl" [autofocus]="true" placeholder="Zoek mentorleerling of groep"></dt-search>
+        </div>
+        @if (mentorleerlingen$ | async; as mentorleerlingen) {
+            <div class="scroll-container">
+                @for (stamgroepMentorleerlingen of mentorleerlingen.stamgroepMentorleerlingen; track stamgroepMentorleerlingen) {
+                    @if (!headerContext && showGroepsOverzicht()) {
+                        <div class="header stamgroep">
+                            <span
+                                class="fg-primary-strongest text-content-semi"
+                                #mentorgroep
+                                [id]="'mentorgroep-' + stamgroepMentorleerlingen.stamgroep.id"
+                                >{{ stamgroepMentorleerlingen.stamgroep.naam }}</span
+                            >
+                        </div>
+                        <dt-mentorgroep-popup-element
+                            class="mentormenu-element"
+                            *dtHeeftVestigingsRecht="
+                                ['heeftToegangMentordashboardCompleet'];
+                                vestigingId: stamgroepMentorleerlingen.stamgroep.vestigingId
+                            "
+                            [stamgroep]="stamgroepMentorleerlingen.stamgroep"
+                            (click)="onSelectedGroep(stamgroepMentorleerlingen.stamgroep.id)"
+                            data-gtm="mentorleerlingen-popup-stamgroep-groepsoverzicht-nav"
+                            text="Groepsoverzicht"></dt-mentorgroep-popup-element>
+                    }
+                    @for (leerling of stamgroepMentorleerlingen.mentorleerlingen; track trackByLeerlingId($index, leerling)) {
+                        <dt-mentorleerling-popup-element
+                            class="mentormenu-element"
+                            #mentorleerling
+                            [id]="'mentorleerling-' + leerling.id"
+                            [leerling]="leerling"
+                            [stamgroep]="!showGroepsOverzicht() ? stamgroepMentorleerlingen.stamgroep : null"
+                            [isActive]="leerling.id === currentHeaderItemId"
+                            (click)="onSelected(leerling.id, $event)"
+                            data-gtm="mentorleerlingen-popup-leerling-nav">
+                        </dt-mentorleerling-popup-element>
+                    }
+                }
+                @if ({ value: isSearching$ | async }; as isSearching) {
+                    @if (showIndividueelOverzicht() && !headerContext) {
+                        <div class="header individueel">
+                            <span class="fg-primary-strongest text-content-semi" id="mentorgroep-gezamenlijk-overzicht" #mentorgroep
+                                >Individueel</span
+                            >
+                        </div>
+                    }
+                    @if (
+                        isSearching.value &&
+                        mentorleerlingen.individueleMentorleerlingen.length === 0 &&
+                        mentorleerlingen.stamgroepMentorleerlingen.length === 0 &&
+                        !showIndividueelOverzicht() &&
+                        !showGroepsOverzicht()
+                    ) {
+                        <div class="geen-resultaat text-content-semi text-weak">Geen resultaat</div>
+                    }
+                }
+                @if ((heeftToegangTotMentordashboardCompleet$ | async) && !headerContext && showIndividueelOverzicht()) {
+                    <dt-mentorgroep-popup-element
+                        class="mentormenu-element"
+                        (click)="onOverzichtIndividueel()"
+                        data-gtm="mentorleerlingen-popup-individueel-groepsoverzicht-nav"
+                        text="Gezamenlijk overzicht" />
+                }
+                @for (
+                    individueleMentorLeerling of mentorleerlingen.individueleMentorleerlingen;
+                    track trackByIndividueleLeerlingId($index, individueleMentorLeerling)
+                ) {
+                    <dt-mentorleerling-popup-element
+                        class="mentormenu-element"
+                        #mentorleerling
+                        [id]="'mentorleerling-' + individueleMentorLeerling.leerling.id"
+                        [leerling]="individueleMentorLeerling.leerling"
+                        [stamgroep]="individueleMentorLeerling.stamgroep!"
+                        [isActive]="individueleMentorLeerling.leerling.id === currentHeaderItemId"
+                        (click)="onSelected(individueleMentorLeerling.leerling.id, $event)"
+                        data-gtm="mentorleerlingen-popup-leerling-nav">
+                    </dt-mentorleerling-popup-element>
+                }
+            </div>
+        } @else {
+            <hmy-spinner class="loader" />
+        }
+    </div>
+</dt-popup>

@@ -1,0 +1,20 @@
+<div class="nav-item registraties" [routerLink]="['./registratie']" routerLinkActive="active">
+    <i hmyIcon="yesRadio" size="medium"></i>
+    <span class="text-content-semi show-for-tablet">Registraties</span>
+</div>
+@if (heeftLesplanning) {
+    <div class="nav-item lesplanning" [routerLink]="['./lesplanning']" routerLinkActive="active" data-gtm="lesplanning-switch">
+        <i hmyIcon="lesplanning" size="medium"></i>
+        <span class="text-content-semi show-for-tablet">Lesplanning</span>
+    </div>
+}
+@if (heeftLesplanning) {
+    <div
+        class="nav-item inleveropdrachten"
+        [class.active]="inleveropdrachtenOverzichtSidebar$ | async"
+        (click)="onInleveropdrachtenClick.emit()"
+        data-gtm="inleveropdrachten">
+        <i hmyIcon="inleveropdracht" size="medium"></i>
+        <span class="text-content-semi show-for-tablet">Inleveropdrachten</span>
+    </div>
+}

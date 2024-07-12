@@ -1,0 +1,20 @@
+@import 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
+@import 'normalize';
+@import 'breakpoints';
+@import 'themes/global';
+@import 'themes/theme-light';
+@import 'themes/theme-dark';
+@import 'hover';
+@import 'shadows';
+@import 'typography';
+@import 'color-utility';
+@import 'bg-color-utility';
+@import 'radio-button';
+@import 'input';
+@import '@angular/cdk/a11y-prebuilt.css';
+@import 'toastr';
+
+// Zit niet meer in de normalize
+*:focus {
+    outline: none;
+}

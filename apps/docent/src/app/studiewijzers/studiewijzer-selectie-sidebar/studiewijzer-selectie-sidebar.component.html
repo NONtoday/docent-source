@@ -1,0 +1,24 @@
+<dt-sidebar
+    [title]="sidebarTitle"
+    [icon]="sidebarIcon"
+    (onMaskClick)="sidebarService.closeSidebar()"
+    (onCloseClick)="sidebarService.closeSidebar()">
+    <div class="container">
+        <div class="schooljaar text-content-semi">
+            <span>{{ studiewijzer.schooljaar }}-{{ studiewijzer.schooljaar + 1 }}</span>
+        </div>
+        <ng-content></ng-content>
+        <dt-studiewijzer-multiselect [studiewijzer]="studiewijzer" (selectie)="geselecteerdeStudiewijzers = $event">
+        </dt-studiewijzer-multiselect>
+    </div>
+    <div class="buttons">
+        <dt-outline-button class="annuleren" (click)="sidebarService.closeSidebar()" color="typography_3">Annuleren </dt-outline-button>
+        <hmy-button
+            class="submit"
+            [label]="buttonText"
+            [disabled]="geselecteerdeStudiewijzers.length === 0"
+            (click)="onSubmit.emit(geselecteerdeStudiewijzers)"
+            type="submit"
+            cy="sw-selectie-sidebar-submit" />
+    </div>
+</dt-sidebar>

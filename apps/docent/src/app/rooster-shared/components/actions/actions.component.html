@@ -1,0 +1,105 @@
+<div class="hide-for-tablet actions">
+    @for (customButton of buttons[0]; track customButton) {
+        @if (customButton.isVerwijderButton) {
+            <dt-verwijder-button
+                [buttonText]="customButton.text"
+                [icon]="customButton.icon"
+                [withBorder]="true"
+                [gtmTag]="customButton.gtmTag"
+                (onDelete)="customButton.onClickFn(); onActionClicked.emit()"></dt-verwijder-button>
+        } @else {
+            <dt-outline-button
+                class="custom-button"
+                [color]="customButton.textcolor"
+                [iconColor]="customButton.iconcolor"
+                [icon]="customButton.icon"
+                [ngClass]="customButton.customCssClass ?? ''"
+                [attr.data-gtm]="customButton.gtmTag"
+                [notificationCount]="customButton.notificationCount | async"
+                (click)="customButton.onClickFn(); onActionClicked.emit()">
+                {{ customButton.text }}</dt-outline-button
+            >
+        }
+    }
+    @if (buttons[1]) {
+        <div class="divider-container">
+            <div class="divider"></div>
+        </div>
+    }
+    @for (customButton of buttons[1]; track customButton) {
+        @if (customButton.isVerwijderButton) {
+            <dt-verwijder-button
+                [buttonText]="customButton.text"
+                [icon]="customButton.icon"
+                [withBorder]="true"
+                [gtmTag]="customButton.gtmTag"
+                (onDelete)="customButton.onClickFn(); onActionClicked.emit()"></dt-verwijder-button>
+        } @else {
+            <dt-outline-button
+                class="custom-button"
+                [color]="customButton.textcolor"
+                [iconColor]="customButton.iconcolor"
+                [icon]="customButton.icon"
+                [ngClass]="customButton.customCssClass ?? ''"
+                [attr.data-gtm]="customButton.gtmTag"
+                [notificationCount]="customButton.notificationCount | async"
+                (click)="customButton.onClickFn(); onActionClicked.emit()">
+                {{ customButton.text }}</dt-outline-button
+            >
+        }
+    }
+</div>
+<div class="show-for-tablet actions" [class.align-left]="alignLeft">
+    @for (customButton of buttons[0]; track customButton) {
+        @if (customButton.isVerwijderButton) {
+            <dt-verwijder-button
+                [buttonText]="customButton.text"
+                [icon]="customButton.icon"
+                [gtmTag]="customButton.gtmTag"
+                (onDelete)="customButton.onClickFn(); onActionClicked.emit()">
+            </dt-verwijder-button>
+        } @else {
+            <a
+                class="custom-button"
+                [color]="customButton.textcolor"
+                [hoverColor]="customButton.textHoverColor"
+                [iconHoverColor]="customButton.iconcolor"
+                [iconColor]="customButton.iconcolor"
+                [icon]="customButton.icon"
+                [ngClass]="customButton.customCssClass ?? ''"
+                [attr.data-gtm]="customButton.gtmTag"
+                (click)="customButton.onClickFn(); onActionClicked.emit()">
+                {{ customButton.text }}</a
+            >
+        }
+    }
+    @if (buttons[1]) {
+        <div class="divider-container">
+            <div class="divider"></div>
+        </div>
+    }
+    @for (customButton of buttons[1]; track customButton) {
+        @if (customButton.isVerwijderButton) {
+            <dt-verwijder-button
+                class="no-height"
+                [buttonText]="customButton.text"
+                [icon]="customButton.icon"
+                [gtmTag]="customButton.gtmTag"
+                (onDelete)="customButton.onClickFn(); onActionClicked.emit()">
+            </dt-verwijder-button>
+        } @else {
+            <a
+                class="custom-button"
+                [color]="customButton.textcolor"
+                [hoverColor]="customButton.textHoverColor"
+                [iconHoverColor]="customButton.iconcolor"
+                [iconColor]="customButton.iconcolor"
+                [icon]="customButton.icon"
+                [ngClass]="customButton.customCssClass ?? ''"
+                [attr.data-gtm]="customButton.gtmTag"
+                (click)="customButton.onClickFn(); onActionClicked.emit()">
+                {{ customButton.text }}</a
+            >
+        }
+    }
+</div>

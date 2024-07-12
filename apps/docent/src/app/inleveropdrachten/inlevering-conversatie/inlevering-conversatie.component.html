@@ -1,0 +1,64 @@
+@if (berichtOpstellen) {
+    <div class="mobile-detail-header">
+        <i class="pointer" (click)="openBerichtAnnulerenGuard()" color="bg-neutral-none" hmyIcon="pijlLinks" size="medium"></i>
+        <span class="titel text-content-bold">Bericht sturen</span>
+    </div>
+    <div class="buttons">
+        <dt-outline-button class="annuleren" (click)="openBerichtAnnulerenGuard()" color="typography_3">Annuleren </dt-outline-button>
+        <dt-button class="submit" [disabled]="submitButtonDisabled$ | async" (click)="submitMessage()">Versturen </dt-button>
+    </div>
+} @else {
+    @if (heeftBerichtenWijzigenRecht) {
+        <dt-outline-button class="bericht-sturen-button hide-for-tablet" (click)="openBerichtOpstellen()" icon="bericht">
+            Bericht sturen
+        </dt-outline-button>
+        <dt-button class="verstuur-bericht show-for-tablet" [disabled]="submitButtonDisabled$ | async" (click)="submitMessage()">
+            <div>
+                <i color="bg-neutral-none" hmyIcon="bericht" size="medium"></i>
+                <span class="hide-for-desktop">Versturen</span>
+            </div>
+        </dt-button>
+    }
+    <div class="berichten">
+        @for (boodschap of conversatie; track boodschap) {
+            <dt-boodschap [boodschap]="boodschap"></dt-boodschap>
+        }
+    </div>
+}
+<div class="editor-container" #editorContainer>
+    <div class="shadow-layer" [class.no-display]="!heeftBerichtenWijzigenRecht">
+        <input #fileInput (change)="onFilesSelected($event)" type="file" style="display: none" multiple />
+        <dt-editor-form-control
+            [formGroup]="berichtForm"
+            [showBorder]="true"
+            [useMinHeight]="isPhoneOrTabletPortrait$ | async"
+            [heeftBijlagen]="true"
+            [useSidebarWidth]="false"
+            controlName="bericht"
+            placeholder="Typ een bericht"
+            ngDefaultControl></dt-editor-form-control>
+        @for (bijlage of bijlagen; track trackByBijlageId($index, bijlage)) {
+            <div class="bijlage">
+                <dt-bijlage
+                    class="edit"
+                    [bijlage]="bijlage"
+                    [inEditMode]="true"
+                    [canOpen]="false"
+                    [heeftToegangTotElo]="true"
+                    [alleenDeleteIcon]="true"
+                    (removeBijlage)="removeBijlage($event)">
+                </dt-bijlage>
+            </div>
+        }
+        <dt-bijlage-upload-lijst
+            [uploadingFiles]="uploadingFiles"
+            (fileUploadCancelled)="cancelUpload()"
+            (fileUploaded)="fileUploaded($event.uploadContextId!, $event.file)"></dt-bijlage-upload-lijst>
+        <div class="upload-bijlage">
+            <div class="bijlage-knop" (click)="openBijlagePicker()">
+                <i #uploadIcon color="action-positive-normal" hmyIcon="bijlageToevoegen"></i>
+                <span class="text text-content-semi">Bijlage toevoegen</span>
+            </div>
+        </div>
+    </div>
+</div>

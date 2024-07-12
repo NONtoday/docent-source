@@ -1,0 +1,43 @@
+@if (differentiatiegroepen.length > 0) {
+    <div class="groepen">
+        @for (differentiatiegroep of differentiatiegroepen; track trackById($index, differentiatiegroep)) {
+            <dt-differentiatiegroep-form-control
+                [differentiatiegroep]="differentiatiegroep"
+                [formGroup]="groepenFormGroup"
+                [controlName]="differentiatiegroep.id">
+            </dt-differentiatiegroep-form-control>
+        }
+    </div>
+}
+@if (leerlingen.length > 0) {
+    @if (filteredLeerlingen$ | async; as filteredLeerlingen) {
+        <div class="alles-selecteren" [class.hidden]="filteredLeerlingen.length === 0">
+            <span class="fg-primary-strongest text-content-semi">Leerlingen</span>
+            @if (alleLeerlingenGeselecteerd$ | async) {
+                <span class="action-primary-normal text-content-semi selecteer-alles-button" (click)="onDeselectAll()">
+                    Alles deselecteren
+                </span>
+            } @else {
+                <span class="action-primary-normal text-content-semi selecteer-alles-button" (click)="onSelectAll()">
+                    Alles selecteren
+                </span>
+            }
+        </div>
+        <div class="leerlingen">
+            @for (leerling of filteredLeerlingen; track trackById($index, leerling)) {
+                <dt-leerling-groep-form-control [leerling]="leerling" [formGroup]="leerlingenFormGroup" [controlName]="leerling.id">
+                </dt-leerling-groep-form-control>
+            }
+        </div>
+    }
+} @else {
+    <div class="geen-leerlingen">Geen leerlingen in deze lesgroep</div>
+}
+<div class="buttons">
+    <dt-outline-button (click)="onAnnuleren.emit()" color="typography_3">Annuleren</dt-outline-button>
+    @if ({ value: aantalGeselecteerd$ | async }; as aantal) {
+        <dt-button [disabled]="!!aantal.value && aantal.value < 1" (click)="voegToe()" data-gtm="differentiatie-toevoegen"
+            >{{ (aantal.value! > 0 ? '(' + aantal.value + ') ' : '') + 'Toevoegen' }}
+        </dt-button>
+    }
+</div>

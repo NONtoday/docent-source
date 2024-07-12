@@ -1,0 +1,152 @@
+<div class="header">
+    <i [hmyIcon]="isGoogleMeet ? 'googleMeet' : 'msTeams'" size="large"></i>
+    <span class="titel text-content-bold">{{ title }}</span>
+</div>
+@if (type === 'MSTEAMSCHANNEL') {
+    @if (channelsLoaded) {
+        <div>
+            @for (channelData of teamChannelData; track channelData) {
+                <div class="channellist" (click)="selectChannel(channelData)" data-gtm="msteams-channel-gekozen">
+                    <span class="text-content-semi">{{ channelData.teamTitle }}</span>
+                    <span class="text-content-semi subtext">{{ channelData.channelTitle }}</span>
+                </div>
+            }
+        </div>
+    } @else {
+        @if (!errorMessage) {
+            <div class="channellist">
+                <span class="text-content-semi"><img src="/assets/img/spinner-docent.svg" />{{ status }}</span>
+            </div>
+        }
+        @if (errorMessage) {
+            <div class="error">
+                <div class="content">
+                    <div class="error-header text-content-semi">
+                        <i class="alert" hmyIcon="waarschuwing" size="large"></i>
+                        <span class="titel">Toevoegen niet gelukt</span>
+                    </div>
+                    <p>{{ errorMessage }}</p>
+                </div>
+                <dt-outline-button (click)="close()" color="typography_3" data-gtm="msteams-channel-error-gesloten"
+                    >Sluiten</dt-outline-button
+                >
+            </div>
+        }
+    }
+}
+@if (type !== 'MSTEAMSCHANNEL') {
+    @if (!hasResponse) {
+        <div class="container text-content-semi color-typography-2">
+            <form [formGroup]="meetingForm">
+                <div class="onderwerp-container">
+                    <label>Titel <span class="required">*</span></label>
+                    <input #titel maxlength="150" type="text" formControlName="titel" placeholder="Wat is de titel?" />
+                    @if (meetingForm.get('titel')!.invalid && meetingForm.get('titel')!.dirty) {
+                        <div class="validation-errors">
+                            @if (meetingForm.get('titel')!.hasError('required')) {
+                                <div>Titel is verplicht</div>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="meeting-datums" formGroupName="startEind">
+                    <label>Inplannen van / tot</label>
+                    <dt-ranged-datepicker
+                        [rangeGroup]="startEindFormGroup"
+                        [disableWeekends]="true"
+                        [schooljaar]="schooljaar"
+                        [hideTime]="meetingForm.get('heleDag')!.value">
+                    </dt-ranged-datepicker>
+                    @if (startEindFormGroup.invalid) {
+                        <div class="validation-errors">
+                            @if (startEindFormGroup.hasError('startVoorEind')) {
+                                <div>Het begin moet voor het einde liggen</div>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="checkbox-options">
+                    <dt-form-checkbox class="hele-dag text-content" label="Hele dag" formControlName="heleDag"> </dt-form-checkbox>
+                </div>
+            </form>
+            <div class="buttons">
+                <dt-outline-button (click)="close()" color="typography_3">Annuleren</dt-outline-button>
+                <hmy-button
+                    [disabled]="!isFormValid"
+                    (click)="onSubmit()"
+                    label="Aanmaken"
+                    data-gtm="ms-teams-meeting-aanmaken"></hmy-button>
+            </div>
+        </div>
+    }
+}
+@if (hasResponse) {
+    @if (errorMessage) {
+        <div class="error">
+            <div class="content">
+                <div class="error-header text-content-semi">
+                    <i class="alert" hmyIcon="waarschuwing" size="large"></i>
+                    <span class="titel">Aanmaken niet gelukt</span>
+                </div>
+                <p>{{ errorMessage }}</p>
+            </div>
+            <div class="buttons">
+                <dt-outline-button (click)="close()" color="typography_3">Annuleren</dt-outline-button>
+                <dt-outline-button (click)="reset()">Opnieuw proberen</dt-outline-button>
+            </div>
+        </div>
+    } @else {
+        <div class="success">
+            <div class="content">
+                <dt-message [text]="successMessage" [closable]="false" soort="ok"> </dt-message>
+                @if (settingsUrl) {
+                    <div class="instelling-button-container">
+                        <div class="instelling-button" (click)="redirectToSettings()">
+                            <i class="settings-icon" hmyIcon="settings" size="large" color="action-primary-normal"></i>
+                            <span class="action-primary-normal">Meeting options instellen</span>
+                        </div>
+                        <i
+                            class="informatie-icon"
+                            [maxWidth]="200"
+                            [onTouchAllowed]="true"
+                            color="action-neutral-weak"
+                            hmyIcon="informatie"
+                            size="medium"
+                            dtTooltip="Het is ook mogelijk om de instellingen vanuit Microsoft 365 te wijzigen"
+                            position="bottom"></i>
+                    </div>
+                }
+            </div>
+            <div class="close-button">
+                <dt-outline-button (click)="close()" color="primary_1">Sluiten</dt-outline-button>
+            </div>
+        </div>
+    }
+    <ng-template #success>
+        <div class="success">
+            <div class="content">
+                <dt-message [text]="successMessage" [closable]="false" soort="ok"> </dt-message>
+                @if (settingsUrl) {
+                    <div class="instelling-button-container">
+                        <div class="instelling-button" (click)="redirectToSettings()">
+                            <i class="settings-icon" hmyIcon="settings" size="large"></i>
+                            <span>Meeting options instellen</span>
+                        </div>
+                        <i
+                            class="informatie-icon"
+                            [maxWidth]="200"
+                            [onTouchAllowed]="true"
+                            color="action-neutral-weak"
+                            hmyIcon="informatie"
+                            size="medium"
+                            dtTooltip="Het is ook mogelijk om de instellingen vanuit Microsoft 365 te wijzigen"
+                            position="bottom"></i>
+                    </div>
+                }
+            </div>
+            <div class="close-button">
+                <dt-outline-button (click)="close()" color="primary_1">Sluiten</dt-outline-button>
+            </div>
+        </div>
+    </ng-template>
+}

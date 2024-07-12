@@ -1,0 +1,48 @@
+<dt-sidebar
+    #sidebar
+    [icon]="icon"
+    [title]="title"
+    [iconClickable]="selectingSjabloon"
+    (onMaskClick)="overzichtService.closeSidebar()"
+    (onCloseClick)="overzichtService.closeSidebar()"
+    (onIconClick)="terugNaarSWI()">
+    @if (!selectingSjabloon) {
+        <div class="content">
+            <form id="ngForm" #formDir="ngForm" [formGroup]="studiewijzerForm" (ngSubmit)="submit()">
+                <!-- Titel -->
+                <label>Titel<span class="required">*</span></label>
+                <input
+                    [class.invalid]="formDir.submitted && naamControl.hasError('required')"
+                    type="text"
+                    maxlength="255"
+                    placeholder="Wat is de titel?"
+                    formControlName="naam"
+                    dtAutofocus />
+                <!-- Lesgroep -->
+                <label class="lesgroep">Studiewijzer voor<span class="required">*</span> </label>
+                <dt-lesgroep-dropdown
+                    [lesgroepen]="$any(lesgroepen)"
+                    [invalid]="formDir.submitted && lesgroepControl.hasError('required')"
+                    placeholder="Kies een lesgroep"
+                    formControlName="lesgroep">
+                </dt-lesgroep-dropdown>
+            </form>
+            <div class="buttons">
+                <dt-outline-button (click)="overzichtService.closeSidebar()" color="typography_3">Annuleren </dt-outline-button>
+                @if (!submitting) {
+                    <button
+                        class="opslaan"
+                        [disabled]="!studiewijzerForm.valid"
+                        [attr.data-gtm]="studiewijzer.id ? 'studiewijzer-bewerken' : 'studiewijzer-toevoegen'"
+                        type="submit"
+                        form="ngForm">
+                        {{ submitText }}
+                    </button>
+                }
+                @if (submitting) {
+                    <hmy-spinner [centeredInParent]="true" />
+                }
+            </div>
+        </div>
+    }
+</dt-sidebar>

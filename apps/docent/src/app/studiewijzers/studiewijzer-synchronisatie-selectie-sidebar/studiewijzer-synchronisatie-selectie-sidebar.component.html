@@ -1,0 +1,120 @@
+<dt-sidebar
+    [title]="sidebarTitel"
+    [icon]="this.showToevoegenStudiewijzers$.value ? 'pijlLinks' : 'synchroniseren'"
+    [iconClickable]="this.showToevoegenStudiewijzers$.value"
+    (onMaskClick)="sidebarService.closeSidebar()"
+    (onCloseClick)="sidebarService.closeSidebar()"
+    (onIconClick)="this.showToevoegenStudiewijzers$.next(false)">
+    @if (studiewijzerOverzichtViews$ | async; as studiewijzerOverzichtViews) {
+        <form [formGroup]="studiewijzerForm">
+            @for (studiewijzerView of studiewijzerOverzichtViews; track studiewijzerView; let isLast = $last) {
+                <div class="studiewijzer-overzicht-view" [class.is-last]="isLast" [class.extra-hoogte]="heeftCheckedControls">
+                    <div [formArrayName]="studiewijzerView.schooljaar">
+                        <div class="schooljaar text-content-semi">{{ getSchooljaarNaam(studiewijzerView) }}</div>
+                        @for (studiewijzer of studiewijzerView.studiewijzers; track studiewijzer; let i = $index) {
+                            <dt-selectable-studiewijzer
+                                [formControlName]="getControlName(studiewijzerView, i)"
+                                [studiewijzer]="studiewijzer">
+                            </dt-selectable-studiewijzer>
+                        }
+                        @for (categorie of studiewijzerView.categorieen; track categorie; let i = $index) {
+                            @if (categorie.studiewijzers.length > 0) {
+                                <div class="categorie">
+                                    <div class="categorie-header text-content-semi">{{ categorie.naam }}</div>
+                                    @for (studiewijzer of categorie.studiewijzers; track studiewijzer; let j = $index) {
+                                        <dt-selectable-studiewijzer
+                                            [formControlName]="getControlName(studiewijzerView, j, i)"
+                                            [studiewijzer]="studiewijzer">
+                                        </dt-selectable-studiewijzer>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </form>
+        <div class="buttons">
+            @if (heeftCheckedControls) {
+                <dt-outline-button
+                    class="startweek-button"
+                    #startweekButton
+                    [disabled]="!!synchronisatieStartweek"
+                    (click)="selecteerStartweek()"
+                    icon="reeks">
+                    {{ weeknummer ? 'Week ' + weeknummer : 'Inplannen vanaf' }}
+                </dt-outline-button>
+            }
+            <div class="form-buttons">
+                <dt-outline-button class="annuleren" (click)="annuleer()" color="typography_3"> Annuleren </dt-outline-button>
+                <button
+                    class="submit"
+                    [disabled]="formDisabled || !weeknummer"
+                    [showLoaderOnClick]="true"
+                    (click)="onSubmit()"
+                    data-gtm="synchronisaties-opslaan"
+                    type="submit">
+                    Opslaan
+                </button>
+            </div>
+        </div>
+    } @else {
+        <div class="bewerk-synchronisaties">
+            <div class="startweek">
+                <span>Sjabloon ingepland vanaf</span>
+                <i
+                    (click)="openWeekSelectiePopup()"
+                    color="action-primary-normal"
+                    hmyIcon="reeks"
+                    size="small"
+                    dtTooltip="Week wijzigen"></i>
+                <div class="week" #startWeekLabel (click)="openWeekSelectiePopup()" dtTooltip="Week wijzigen">
+                    Week
+                    {{ synchronisatieStartweek }}
+                </div>
+            </div>
+            @for (studiewijzer of gesynchroniseerdeStudiewijzers; track studiewijzer) {
+                <div class="studiewijzer">
+                    <dt-background-icon class="groep-icon" [color]="$any(studiewijzer.lesgroep.color)" [sizes]="['medium']" icon="groep">
+                    </dt-background-icon>
+                    <span class="naam text-content-semi">{{ studiewijzer.lesgroep.naam }}</span>
+                    @if (studiewijzer.id !== studiewijzerIdOntkoppelenInProgress) {
+                        <i
+                            class="ontkoppelen"
+                            id="{{ studiewijzer.id }}"
+                            #ontkoppelIcon
+                            (click)="openOntkoppelPopup(studiewijzer)"
+                            color="action-neutral-normal"
+                            hmyIcon="ontkoppelen"
+                            size="medium"
+                            data-gtm="studiewijzer-ontkoppel-icon"
+                            dtTooltip="Ontkoppelen"></i>
+                    }
+                    @if (studiewijzer.id === studiewijzerIdOntkoppelenInProgress) {
+                        <hmy-spinner />
+                    }
+                </div>
+            }
+            <div class="toevoegen" (click)="onToevoegenClick()">
+                @if (loadingStudiewijzers) {
+                    <hmy-spinner />
+                }
+                @if (!loadingStudiewijzers) {
+                    <dt-background-icon [sizes]="['small']" icon="toevoegen" color="accent_positive_1"> </dt-background-icon>
+                }
+                <span [class.disabled]="loadingStudiewijzers">Studiewijzer toevoegen</span>
+            </div>
+        </div>
+        @if (inSidebarMessage$ | async) {
+            <dt-message
+                class="ok-message text-content-semi"
+                [@slideInUpOnEnter]
+                [@slideOutDownOnLeave]
+                [text]="inSidebarMessage$.value"
+                [duration]="3000"
+                [isToast]="true"
+                (onClose)="inSidebarMessage$.next(undefined)"
+                soort="ok"></dt-message>
+        }
+    }
+</dt-sidebar>

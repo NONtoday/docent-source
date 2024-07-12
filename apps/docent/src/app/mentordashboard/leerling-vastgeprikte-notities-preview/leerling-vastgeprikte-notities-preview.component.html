@@ -1,0 +1,38 @@
+<dt-accordion [withShadow]="false" [showSideBorders]="true">
+    <div class="title-content" title>
+        <span>Vastgeprikte notities {{ huidigSchooljaar.start.getFullYear() }}/{{ huidigSchooljaar.eind.getFullYear() }}</span>
+        @if (aantalVastgeprikteNotities$ | async; as aantal) {
+            <hmy-notification-counter [count]="aantal" color="warning"></hmy-notification-counter>
+        }
+    </div>
+    <div body>
+        @if (preview$ | async; as preview) {
+            @if (preview.aantalVastgeprikteNotities === 0) {
+                <div class="geen-items text-content-small color-typography-4">Geen vastgeprikte notities</div>
+            }
+            @for (notitie of preview.notities; track notitie) {
+                <dt-notitie-kaart
+                    [notitie]="notitie"
+                    [context]="context"
+                    [huidigeSchooljaarSelected]="true"
+                    [metBorder]="false"
+                    [showEditOptions]="false"
+                    [showOpenInNotitieboekOption]="true"
+                    (openInNotitieboek)="openInNotitieboek($event)"
+                    (click)="openNotitiesSidebar($event, notitie.id)">
+                </dt-notitie-kaart>
+            }
+            <!-- Het '>'-teken moet naast het volledig overzicht blijven staan en is niet om de div te sluiten -->
+            @if (preview.aantalVastgeprikteNotities > 0) {
+                <div
+                    class="color-primary-1 text-content volledig-overzicht"
+                    (click)="openNotitiesSidebar($event)"
+                    cy="notities-volledig-overzicht">
+                    Volledig overzicht ›
+                </div>
+            }
+        } @else {
+            <hmy-spinner />
+        }
+    </div>
+</dt-accordion>

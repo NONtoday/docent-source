@@ -1,0 +1,178 @@
+<div class="header" (click)="headerClicked($event)">
+    @if (!collapsed) {
+        <div
+            class="sticky-container show-for-tablet"
+            [dtTooltip]="periodeTooltip(periode.cijferPeriode)"
+            [alignCenter]="false"
+            [maxWidth]="300">
+            <div class="label-block show-for-tablet">P{{ periode.cijferPeriode.nummer }}</div>
+            <div class="periode-naam text-content-semi">Periode {{ periode.cijferPeriode.nummer }}</div>
+        </div>
+    }
+    @if (collapsed) {
+        <div class="label-block show-for-tablet" [dtTooltip]="periodeTooltip(periode.cijferPeriode)" [alignCenter]="false" [maxWidth]="300">
+            P{{ periode.cijferPeriode.nummer }}
+        </div>
+    }
+    @if ((isPhoneOrTabletPortrait$ | async) || !collapsed) {
+        <div class="periode-naam text-content-semi hide-for-tablet">Periode {{ periode.cijferPeriode.nummer }}</div>
+    }
+    @if (!collapsed) {
+        <div class="kolom-toggles show-for-tablet">
+            @if (periode.advieskolommen.length > 0) {
+                <div
+                    class="advies-toggle kolom-toggle"
+                    [class.toggled]="kolomZichtbaarheid['A']"
+                    (click)="toggleKolomZichtbaarheid($event, 'A')"
+                    dtTooltip="Advieskolommen"
+                    data-gtm="toggle-advieskolommen">
+                    A
+                </div>
+            }
+            <div
+                class="periodegemiddelde-toggle kolom-toggle"
+                [class.toggled]="kolomZichtbaarheid['P']"
+                (click)="toggleKolomZichtbaarheid($event, 'P')"
+                dtTooltip="Periodegemiddelde"
+                data-gtm="toggle-periodegemiddelde">
+                P
+            </div>
+            <div
+                class="berekend-rapportcijfer-toggle kolom-toggle"
+                [class.toggled]="kolomZichtbaarheid['r']"
+                (click)="toggleKolomZichtbaarheid($event, 'r')"
+                dtTooltip="Berekend rapportcijfer"
+                data-gtm="toggle-rapportcijfer">
+                r
+            </div>
+        </div>
+    }
+    <i class="icon-uitklappen-links show-for-tablet" hmyIcon="uitklappenLinks" size="medium"></i>
+</div>
+<div class="content">
+    @if ((isPhoneOrTabletPortrait$ | async) || !collapsed) {
+        <div class="toetskolommen-container" [class.mag-bewerken]="magBewerken">
+            @if (periode.resultaatkolommen.length > 0) {
+                <div class="toetskolommen">
+                    @for (matrixkolom of periode.resultaatkolommen; track trackByKolom($index, matrixkolom)) {
+                        <dt-toetskolom
+                            [kolom]="matrixkolom"
+                            [alternatiefNiveau]="alternatiefNiveau"
+                            [leerlingen]="leerlingen"
+                            [highlight]="highlight"
+                            [periode]="periode.cijferPeriode.nummer"
+                            [pinned]="pinned"
+                            [lesgroepId]="lesgroepId"
+                            (click)="openToetsKolomMobile(matrixkolom)"
+                            (onHeaderClick)="openToetsKolom(matrixkolom)">
+                        </dt-toetskolom>
+                    }
+                </div>
+            }
+            @if (magBewerken) {
+                <div class="add-kolom">
+                    @if (magKolomToevoegenInPeriode) {
+                        <div
+                            class="kolom-header pointer"
+                            #toevoegen
+                            [class.popup-open]="isPopupOpen"
+                            (click)="openToevoegenPopup()"
+                            cy="kolom-toevoegen"
+                            dtTooltip="Toetskolom toevoegen">
+                            <dt-background-icon [sizes]="['small', 'medium']" icon="toevoegen" color="accent_positive_1">
+                            </dt-background-icon>
+                            <span class="hide-for-tablet color-accent-positive-1 text-small-content-semi">Toetskolom toevoegen</span>
+                        </div>
+                    }
+                    @if (!magKolomToevoegenInPeriode) {
+                        <div
+                            class="kolom-header not-allowed"
+                            [onTouchAllowed]="true"
+                            [maxWidth]="288"
+                            [alignCenter]="false"
+                            position="bottom"
+                            dtTooltip="<b>Rapportperiode is bevroren/bekoeld</b><br />
+              Het is niet mogelijk om een toetskolom
+              toe te voegen.">
+                            <dt-background-icon [sizes]="['small', 'medium']" icon="toevoegen" color="typography_4"> </dt-background-icon>
+                            <span class="hide-for-tablet color-typography-4 text-small-content-semi">Toetskolom toevoegen</span>
+                        </div>
+                    }
+                    <div class="klasgemiddelde background-color-background-4 show-for-tablet"></div>
+                    @for (cijfercell of leerlingen; track cijfercell; let i = $index) {
+                        <div
+                            class="resultaat-cell show-for-tablet"
+                            [class.highlight]="highlight === i"
+                            [class.pinned]="pinned === i"
+                            (mouseenter)="resultaatService.nextIndexToHighlight(i)"
+                            (mouseleave)="resultaatService.nextIndexToHighlight(null)"></div>
+                    }
+                </div>
+            }
+            <div class="filler-kolom show-for-tablet">
+                <div class="kolom-header"></div>
+                <div class="klasgemiddelde background-color-background-4"></div>
+                @for (cijfercell of leerlingen; track cijfercell; let i = $index) {
+                    <div
+                        class="resultaat-cell"
+                        [class.highlight]="highlight === i"
+                        [class.pinned]="pinned === i"
+                        (mouseenter)="resultaatService.nextIndexToHighlight(i)"
+                        (mouseleave)="resultaatService.nextIndexToHighlight(null)"></div>
+                }
+            </div>
+        </div>
+    }
+    @if ({ isPhoneOrTablet: isPhoneOrTabletPortrait$ | async }; as device) {
+        @if (kolomZichtbaarheid['A'] || device.isPhoneOrTablet) {
+            @for (advieskolom of periode.advieskolommen; track trackById($index, advieskolom)) {
+                <dt-toetskolom
+                    class="advieskolom"
+                    [highlight]="highlight"
+                    [kolom]="advieskolom"
+                    [leerlingen]="leerlingen"
+                    [pinned]="pinned"
+                    [lesgroepId]="lesgroepId"
+                    [alternatiefNiveau]="alternatiefNiveau"
+                    (click)="openToetsKolomMobile(advieskolom)">
+                </dt-toetskolom>
+            }
+        }
+        @if (kolomZichtbaarheid['P'] || device.isPhoneOrTablet) {
+            <dt-gemiddeldekolom
+                class="periode-gemiddelde-kolom"
+                [kolom]="periode.periodeGemiddeldeKolom!"
+                [type]="gemiddeldetypes.periodeGemiddelde"
+                [pinned]="pinned"
+                [lesgroepId]="lesgroepId"
+                [leerlingen]="leerlingen"
+                [alternatiefNiveau]="alternatiefNiveau"
+                (onKolomClick)="openToetsKolomMobile(periode.rapportCijferkolom!)">
+            </dt-gemiddeldekolom>
+        }
+        @if (kolomZichtbaarheid['r'] || device.isPhoneOrTablet) {
+            <dt-gemiddeldekolom
+                class="rapport-gemiddelde-kolom"
+                [kolom]="periode.rapportGemiddeldeKolom!"
+                [type]="gemiddeldetypes.rapportGemiddelde"
+                [pinned]="pinned"
+                [lesgroepId]="lesgroepId"
+                [leerlingen]="leerlingen"
+                [alternatiefNiveau]="alternatiefNiveau"
+                (onKolomClick)="openToetsKolomMobile(periode.rapportCijferkolom!)">
+            </dt-gemiddeldekolom>
+        }
+        <dt-gemiddeldekolom
+            class="rapport-gemiddelde-kolom"
+            class="geen-border-right rapport-cijfer-kolom"
+            [kolom]="periode.rapportCijferkolom!"
+            [type]="gemiddeldetypes.rapportCijfer"
+            [leerlingMissendeToetsen]="periode.leerlingMissendeToetsen"
+            [pinned]="pinned"
+            [lesgroepId]="lesgroepId"
+            [leerlingen]="leerlingen"
+            [alternatiefNiveau]="alternatiefNiveau"
+            (onKolomClick)="openToetsKolomMobile(periode.rapportCijferkolom!)">
+        </dt-gemiddeldekolom>
+    }
+</div>

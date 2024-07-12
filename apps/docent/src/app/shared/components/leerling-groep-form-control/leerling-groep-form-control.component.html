@@ -1,0 +1,5 @@
+<div class="container" [formGroup]="formGroup" [class.active]="formValueChanges$ | async">
+    <dt-form-checkbox [formControlName]="controlName"></dt-form-checkbox>
+    <dt-avatar-naam [avatarUrl]="leerling.pasfoto" [initialen]="leerling.initialen" [naam]="leerling | volledigeNaam"> </dt-avatar-naam>
+    <dt-kleuren-stack [kleuren]="kleuren"></dt-kleuren-stack>
+</div>

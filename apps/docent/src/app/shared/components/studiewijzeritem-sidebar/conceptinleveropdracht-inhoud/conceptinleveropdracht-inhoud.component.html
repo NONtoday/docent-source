@@ -1,0 +1,50 @@
+<div class="header">
+    <span class="onderwerp text-content-bold">{{ swi.onderwerp }}</span>
+    <i
+        class="niet-zichtbaar-icon"
+        [class.hidden]="swi.zichtbaarVoorLeerling"
+        [onTouchAllowed]="true"
+        hmyIcon="nietZichtbaar"
+        size="large"
+        hmyTooltip="Niet zichtbaar voor leerling"></i>
+</div>
+<div class="datum">
+    <div class="start center-align-container text-content-semi">
+        <i class="text-content uitklappen-rechts-icon" size="medium" color="fg-primary-normal" hmyIcon="uitklappenRechts"></i>
+        <span class="week text-moderate">
+            {{ weektoekenning | toekenningDatum: null : weekOpties }}, {{ dagnamen[conceptOpdracht!.startDag - 1] | lowercase }},
+            {{ conceptOpdracht!.startUur | number: '2.0' }}:{{ conceptOpdracht!.startMinuut | number: '2.0' }}
+        </span>
+    </div>
+    <div class="eind text-content-semi center-align-container">
+        <i class="text-content tijd-icon" color="fg-primary-normal" size="medium" hmyIcon="tijd"></i>
+        <span class="week text-moderate"
+            >{{ weektoekenning | toekenningDatum: null : weekOpties : 'eind' }}, {{ dagnamen[conceptOpdracht!.eindDag - 1] | lowercase }},
+            {{ conceptOpdracht!.eindUur | number: '2.0' }}:{{ conceptOpdracht!.eindMinuut | number: '2.0' }}
+        </span>
+    </div>
+</div>
+<div class="notificatie-container center-align-container">
+    <i class="notificatie-icon" color="fg-warning-normal" size="medium" hmyIcon="notificatie"></i>
+    @if (conceptOpdracht!.herinnering === 0) {
+        <span class="notificatie text-content-semi text-moderate">Geen herinnering</span>
+    }
+    @if (conceptOpdracht!.herinnering > 0) {
+        <span class="notificatie text-content-semi text-moderate">{{ conceptOpdracht!.herinnering | dagenDuration }} voor de deadline</span>
+    }
+</div>
+@if (conceptOpdracht!.plagiaatDetectie) {
+    <div class="plagiaat center-align-container">
+        <i class="check-icon" color="fg-positive-normal" size="medium" hmyIcon="check"></i>
+        <span class="plagiaat-label text-content-semi text-moderate">Plagiaat automatisch controleren</span>
+    </div>
+}
+@if (conceptOpdracht!.stuurBerichtBijInlevering) {
+    <div class="bericht center-align-container">
+        <i class="check-icon" color="fg-positive-normal" size="medium" hmyIcon="check"></i>
+        <span class="bericht-label text-content-semi text-moderate">Ontvang berichten van inlevering</span>
+    </div>
+}
+@if (swi.tijdsindicatie) {
+    <hmy-icon-pill class="tijdsindicatie" [text]="swi.tijdsindicatie" icon="klok" hmyTooltip="Tijdsindicatie"></hmy-icon-pill>
+}

@@ -1,0 +1,69 @@
+@if (!editing) {
+    @if (!readonly) {
+        <dt-checkbox class="checkbox" [checked]="!!bijlageMap.isSelected" (click)="toggleMapSelection($event)"> </dt-checkbox>
+    }
+    <div class="map" [dtTooltip]="bijlageMap.synchroniseertMet">
+        <i color="fg-primary-normal" hmyIcon="map" size="medium"></i>
+        @if (bijlageMap.synchroniseertMet) {
+            <i [color]="isPopupOpen ? 'fg-neutral-weak' : 'fg-neutral-inverted'" hmyIcon="synchroniseren" size="small"></i>
+        }
+    </div>
+    <span class="titel text-content-semi">{{ bijlageMap.naam }}</span>
+    @if (bijlageMap.synchroniseertMet && inBulkMode) {
+        <i
+            class="sync-info"
+            class="info"
+            [onTouchAllowed]="true"
+            color="fg-neutral-normal"
+            hmyIcon="informatie"
+            size="medium"
+            dtTooltip="Beheer van deze gesynchroniseerde map kan vanuit {{ bijlageMap.synchroniseertMet }}"></i>
+    }
+    @if (kleuren.length! > 0) {
+        <dt-kleuren-stack
+            class="kleuren-stack"
+            [showBorder]="true"
+            [displayTooltip]="!!(kleuren.length! > 0 && (isDesktop$ | async))"
+            [kleuren]="kleuren"
+            [nummerKleur]="bijlageMap.differentiatiegroepen.length > 0 ? 0 : bijlageMap.differentiatieleerlingen.length"
+            (click)="openDifferentiatiePopup($event)">
+        </dt-kleuren-stack>
+    }
+    @if (!bijlageMap.zichtbaarVoorLeerling) {
+        <i class="oog-onzichtbaar" color="fg-neutral-moderate" hmyIcon="nietZichtbaar" size="medium"></i>
+    }
+    @if (!inBulkMode) {
+        <div class="actions">
+            @if (isEditable) {
+                <dt-zichtbaarheidstoggle
+                    class="zichtbaarheid-toggle"
+                    [isZichtbaar]="bijlageMap.zichtbaarVoorLeerling"
+                    (click)="toggleZichtbaarheid(); $event.stopPropagation()"
+                    dtTooltip="Maak {{ bijlageMap.zichtbaarVoorLeerling ? 'on' : '' }}zichtbaar voor leerling"
+                    data-gtm="jaarbijlagemap-zichtbaarheid">
+                </dt-zichtbaarheidstoggle>
+            }
+            @if (!readonly) {
+                <dt-icon
+                    class="more-options"
+                    #meeropties
+                    (click)="openOptiesPopup(); $event.stopPropagation()"
+                    icon="opties"
+                    color="primary"
+                    size="medium"></dt-icon>
+            }
+        </div>
+    }
+    @if (isEditable) {
+        <div class="drag-handle text-weakest">
+            <ng-content #dragHandle></ng-content>
+        </div>
+    }
+}
+@if (editing) {
+    <dt-inline-edit
+        class="edit-form"
+        [value]="bijlageMap.naam"
+        (saveClick)="onSaveClicked($event)"
+        (cancelClick)="onCancelClicked()"></dt-inline-edit>
+}

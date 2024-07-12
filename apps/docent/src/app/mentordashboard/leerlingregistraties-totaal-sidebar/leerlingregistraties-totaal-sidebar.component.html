@@ -1,0 +1,63 @@
+<dt-sidebar
+    [title]="sidebar.title"
+    [avatar]="sidebarAvatar"
+    (onMaskClick)="sidebar.onMaskClick?.()"
+    (onCloseClick)="sidebar.onCloseClick?.()">
+    @if (registratieDetail$ | async; as registratieDetail) {
+        <div class="container">
+            <div class="registratie-totalen" [class.double-row]="isAfwezigKolom" cy="aantal-totaal">
+                <div class="totalen-block">
+                    <span class="totalen-label text-small-content-semi color-typography-3">Totaal</span>
+                    <span class="totalen-value text-head color-typography-1">{{ registratie.aantalRegistraties }}x</span>
+                </div>
+                <div class="totalen-block" cy="lesuren-totaal">
+                    <span class="totalen-label text-small-content-semi color-typography-3">Lesmomenten</span>
+                    <div class="lesuren">
+                        <span class="totalen-value text-head color-typography-1">
+                            {{ formatPercentageAfwezig(registratie.aantalLessen, totaalAantalLessen) }}%
+                        </span>
+                        <span class="aantal-afwezig">{{ registratie.aantalLessen }}/{{ totaalAantalLessen }}</span>
+                    </div>
+                </div>
+                @if (isAfwezigKolom) {
+                    <div class="totalen-block uren-totaal" cy="uren-totaal">
+                        <span class="totalen-label text-small-content-semi color-typography-3">Uren</span>
+                        <span class="totalen-value text-head color-typography-1">
+                            {{ registratie.totaalMinuten | urenDuration }}
+                        </span>
+                    </div>
+                }
+                <div class="totalen-block" [class.mobile-extra-wide]="!isAfwezigKolom" cy="toetsmomenten-totaal">
+                    <span class="totalen-label text-small-content-semi color-typography-3">Toetsmomenten</span>
+                    <span class="totalen-value text-head color-typography-1">{{ registratieDetail.aantalToetsmomenten }}x</span>
+                </div>
+            </div>
+            @for (maand of registratieDetail.registratieMaanden; track maand) {
+                <div>
+                    <div class="maand-header">
+                        <div class="maand-container">
+                            <span class="maand text-content-semi color-primary-3"> {{ maanden[maand.maand] }}</span>
+                            @if (maanden[maand.maand] === huidigeMaand) {
+                                <div
+                                    class="hide-for-tablet huidige-week notificatie-smallest-alt-2"
+                                    [onTouchAllowed]="true"
+                                    dtTooltip="Deze maand"></div>
+                                <span class="show-for-tablet deze-maand text-content-semi color-typography-4"> (deze maand) </span>
+                            }
+                        </div>
+                        @if (isAfwezigKolom) {
+                            <span class="uur text-content-semi color-primary-3"> {{ maand.totaalMinuten | urenDuration }} uur </span>
+                        }
+                        @if (!isAfwezigKolom) {
+                            <span class="aantal text-content-semi color-primary-3"> {{ maand.aantalRegistraties }}x</span>
+                        }
+                    </div>
+                    <dt-leerlingregistraties-detail-lijst [registraties]="maand.registraties" [isAfwezigKolom]="isAfwezigKolom">
+                    </dt-leerlingregistraties-detail-lijst>
+                </div>
+            }
+        </div>
+    } @else {
+        <hmy-spinner [centeredInParent]="true" />
+    }
+</dt-sidebar>

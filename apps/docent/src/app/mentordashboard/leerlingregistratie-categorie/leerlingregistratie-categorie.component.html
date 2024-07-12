@@ -1,0 +1,21 @@
+<div class="registratie-title">
+    <hmy-notification-solid [color]="kleur" [size]="12" [inverted]="inverted" />
+    <span class="name">{{ naam }}</span>
+</div>
+<div class="info">
+    <div class="label" [class.hidden]="!label" [hmyTooltip]="tooltip">
+        {{ label }}
+    </div>
+    @if (trend) {
+        <hmy-icon-pill
+            class="trend"
+            [icon]="trend > 0 ? 'trendBoven' : 'trendBeneden'"
+            [color]="trend | registratieTrendPillColor"
+            [text]="trend < 0 ? trend.toString() : '+' + trend.toString()"
+            [hmyTooltip]="trend | mentordashboardRegistratieTrendTooltip: periode"
+            [onTouchAllowed]="true"
+            [alignCenter]="false" />
+    }
+
+    <span class="count">{{ aantalRegistraties }}x</span>
+</div>

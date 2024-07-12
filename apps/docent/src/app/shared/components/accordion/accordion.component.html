@@ -1,0 +1,29 @@
+<div
+    class="panel"
+    [class.zonder-border-radius]="zonderBorderRadius"
+    [class.expanded]="expanded"
+    [class.sub-accordion]="isSubAccordion"
+    [class.with-shadow]="withShadow"
+    [class.with-border]="showSideBorders">
+    <div
+        class="title text-content-semi"
+        [class.with-header-icon]="headerIcon"
+        [class.light-background]="lightBackground"
+        (click)="toggle()">
+        @if (headerIcon) {
+            <i class="header-icon" [hmyIcon]="headerIcon" size="small"></i>
+        }
+        <ng-content select="[title]"></ng-content>
+        @if (showChevron) {
+            <i
+                class="chevron-icon icon-arrow-open-close"
+                [class.expanded]="expanded"
+                [class.close]="!expanded"
+                hmyIcon="chevronBoven"
+                size="small"></i>
+        }
+    </div>
+    <div class="collapse-panel">
+        <ng-content select="[body]"></ng-content>
+    </div>
+</div>

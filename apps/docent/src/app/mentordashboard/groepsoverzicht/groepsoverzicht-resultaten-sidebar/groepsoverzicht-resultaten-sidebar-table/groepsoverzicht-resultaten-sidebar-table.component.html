@@ -1,0 +1,47 @@
+<header class="table-header">
+    <span class="row-title">Vakken</span>
+    <div class="sort-buttons">
+        <hmy-table-header
+            class="trend-header"
+            [elevated]="true"
+            [isActive]="sortInstellingen.actieveKolom === 'RESULTATEN_SIDEBAR_TREND'"
+            [sortDirection]="sortInstellingen.trendWaarde === 'ASC' ? 'asc' : 'desc'"
+            (click)="sorteerKolom('RESULTATEN_SIDEBAR_TREND', 'trendWaarde')"
+            label="Trend"
+            sortIcon="arrow" />
+        <hmy-table-header
+            class="r-waarde-header"
+            [elevated]="true"
+            [isActive]="sortInstellingen.actieveKolom === 'RESULTATEN_SIDEBAR_R'"
+            [sortDirection]="sortInstellingen.rWaarde === 'ASC' ? 'asc' : 'desc'"
+            (click)="sorteerKolom('RESULTATEN_SIDEBAR_R', 'rWaarde')"
+            label="R"
+            sortIcon="arrow" />
+    </div>
+</header>
+<div class="vakresultaten">
+    @if (sortedTrends$ | async; as trends) {
+        @for (resTrend of trends; track resTrend) {
+            <dt-groepsoverzicht-sidebar-vak-resultaat [resultaatTrend]="resTrend" [instellingen]="instellingen" />
+        }
+        <div
+            class="deeplink-button"
+            (click)="navigateToLeerlingVakresultaten()"
+            data-gtm="groepsoverzicht-sidebar-resultaten-navigeer-leerling-vakresultaten">
+            <span>Bekijk alle resultaten</span>
+            <i hmyIcon="chevronRechts" size="smallest" color="action-primary-normal"></i>
+        </div>
+        <div
+            class="deeplink-button"
+            (click)="navigateToLeerlingoverzicht()"
+            data-gtm="groepsoverzicht-sidebar-resultaten-navigeer-leerling-leerlingoverzicht">
+            <span>Bekijk leerlingoverzicht</span>
+            <i hmyIcon="chevronRechts" size="smallest" color="action-primary-normal"></i>
+        </div>
+    } @else {
+        <hmy-spinner class="loader" />
+    }
+</div>
+<ng-template #loader>
+    <hmy-spinner class="loader" />
+</ng-template>

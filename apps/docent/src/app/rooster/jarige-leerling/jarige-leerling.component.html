@@ -1,0 +1,13 @@
+<dt-avatar
+    class="avatar"
+    [toonJarigIcoon]="leerling.isJarig"
+    [src]="leerling.pasfoto"
+    [initialen]="leerling.initialen"
+    [size]="32"
+    [allowPhotoPopup]="false"></dt-avatar>
+<span class="naam text-content-semi">{{ leerling | volledigeNaam }}</span>
+<span class="stamgroep text-content-small-semi">{{ leerling.stamgroep || '-' }}</span>
+<span class="geboortedatum text-content-semi">
+    {{ verjaardag | dtDate: 'dag_kort' }} {{ leerling.geboortedatum | dtDate: 'dagnummer_maand_kort_zonder_jaar' }}
+</span>
+<span class="leeftijd text-content-semi">{{ leeftijd }} jaar</span>

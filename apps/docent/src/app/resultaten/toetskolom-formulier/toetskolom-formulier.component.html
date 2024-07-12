@@ -1,0 +1,113 @@
+<form class="form" id="ngForm" [formGroup]="toetskolomForm" (ngSubmit)="onSubmitClick()">
+    <div class="control">
+        <label>Periode<span class="color-accent-warning-1">*</span></label>
+        <dt-form-dropdown
+            [scrollIntoView]="false"
+            [chevronColor]="background_1"
+            [opties]="periodesDropDownOptions"
+            [selectedOptie]="selectedPeriode"
+            formControlName="periode">
+        </dt-form-dropdown>
+    </div>
+    <div class="control">
+        <label>Afkorting<span class="color-accent-warning-1">*</span></label>
+        <input dtAutofocus type="text" maxlength="5" placeholder="Typ hier een afkorting" formControlName="code" />
+    </div>
+    <div class="control">
+        <label>Toetsomschrijving<span class="color-accent-warning-1">*</span></label>
+        <textarea [placeholder]="toetsomschrijvingPlaceholder" autosize formControlName="omschrijving"></textarea>
+    </div>
+    <div class="horizontal-controls-container">
+        <div class="control">
+            <label>Soort toets</label>
+            <dt-form-dropdown
+                [scrollIntoView]="false"
+                [chevronColor]="background_1"
+                [opties]="toetsSoortDropDownOptions"
+                [selectedOptie]="selectedToetsSoort"
+                formControlName="toetsSoort">
+            </dt-form-dropdown>
+        </div>
+        <div class="control">
+            <label>Weging</label>
+            <input
+                type="number"
+                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                maxlength="5"
+                min="0"
+                formControlName="weging" />
+        </div>
+    </div>
+    @if (!isSamengesteldeToets && !isDeeltoets) {
+        <div class="control herkansing-container">
+            <label>Herkansing</label>
+            <dt-form-dropdown
+                [scrollIntoView]="false"
+                [chevronColor]="background_1"
+                [opties]="herkansingDropDownOptions"
+                [selectedOptie]="selectedHerkansing"
+                formControlName="herkansing">
+            </dt-form-dropdown>
+        </div>
+    }
+    <div class="control beoordeling-container">
+        <label>Beoordeling</label>
+        <dt-form-dropdown
+            [scrollIntoView]="false"
+            [chevronColor]="background_1"
+            [opties]="resultaatLabelLijstDropDownOptions"
+            [selectedOptie]="selectedResultaatLabelLijst"
+            [enabled]="magBeoordelingWijzigen"
+            formControlName="resultaatLabelLijst">
+        </dt-form-dropdown>
+    </div>
+    <div class="control">
+        <label>Geplande datum</label>
+        <dt-datepicker [isResetable]="true" [schooljaar]="schooljaar" placeholder="" formControlName="datumToets"> </dt-datepicker>
+    </div>
+    @if (toonDomeinvelden) {
+        <div class="control">
+            <label>Domeincode</label>
+            <input type="text" placeholder="Wat is de domeincode?" formControlName="domeincode" />
+        </div>
+        <div class="control">
+            <label>Domeinomschrijving</label>
+            <textarea autosize formControlName="domeinomschrijving" placeholder="Typ een omschrijving van het domein"></textarea>
+        </div>
+        <div class="control">
+            <label>Toetsduur in minuten</label>
+            <input type="number" maxlength="5" formControlName="toetsduur" placeholder="Hoeveel tijd kost het?" />
+        </div>
+        <div class="control toetsvorm">
+            <label>Toetsvorm</label>
+            <dt-form-dropdown
+                [chevronColor]="background_1"
+                [opties]="toetsvormDropDownOptions"
+                [selectedOptie]="selectedToetsvorm"
+                placeholder="Selecteer een toetsvorm"
+                formControlName="toetsvorm">
+            </dt-form-dropdown>
+        </div>
+        <div class="control afnamevorm">
+            <label>Afnamevorm</label>
+            <dt-form-dropdown
+                [chevronColor]="background_1"
+                [opties]="afnamevormDropDownOptions"
+                [selectedOptie]="selectedAfnamevorm"
+                placeholder="Selecteer een afnamevorm"
+                formControlName="afnamevorm">
+            </dt-form-dropdown>
+        </div>
+    }
+</form>
+<div class="buttons">
+    <dt-outline-button class="annuleren" (click)="onAnnuleren.emit()">Annuleren</dt-outline-button>
+    <button
+        [disabled]="!toetskolomForm.valid || !toetskolomForm.dirty"
+        [showLoaderOnClick]="true"
+        type="submit"
+        form="ngForm"
+        data-gtm="toetskolom-opslaan">
+        {{ kolom ? 'Opslaan' : 'Toevoegen' }}
+    </button>
+</div>

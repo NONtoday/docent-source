@@ -1,4 +1,4 @@
-automatically releases Somtoday docent source whenever there's a new version 
+automatically releases Somtoday Docent source whenever there's a new version 
 \
 \
 \

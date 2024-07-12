@@ -1,0 +1,28 @@
+<dt-popup>
+    @if (leerlingen$ | async; as leerlingen) {
+        <div class="content leerlingen-popup" popup-content>
+            @if (showHeader) {
+                <div class="header text-content-semi fg-primary-strongest">
+                    <span
+                        >{{ leerlingen.length }} leerling
+                        @if (leerlingen.length > 1) {
+                            <span>en</span>
+                        }
+                    </span>
+                </div>
+            }
+            <div class="leerlingen">
+                @for (leerling of leerlingen; track leerling) {
+                    <div class="leerling" (click)="onLeerlingClick(leerling)">
+                        <dt-avatar [src]="leerling.pasfoto" [initialen]="leerling.initialen" [size]="32" [fontsize]="12"> </dt-avatar>
+                        <span class="text-ellipsis text-content-semi">{{ leerling | volledigeNaam }}</span>
+                    </div>
+                }
+            </div>
+        </div>
+    } @else {
+        <div class="spinner">
+            <hmy-spinner />
+        </div>
+    }
+</dt-popup>

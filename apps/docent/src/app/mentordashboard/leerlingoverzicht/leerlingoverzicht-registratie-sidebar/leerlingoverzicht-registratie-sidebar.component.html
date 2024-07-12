@@ -1,0 +1,6 @@
+<dt-sidebar #sidebar [title]="'Inzichten'" (onMaskClick)="sidebarService.closeSidebar()" (onCloseClick)="sidebarService.closeSidebar()">
+    <dt-mentordashboard-overzicht-sidebar-registratiedetails
+        [leerlingRegistratie]="leerlingRegistratie"
+        [showLinkLeerlingoverzicht]="false"
+        titelLinkRegistratiesPerVak="Bekijk alle registraties per vak" />
+</dt-sidebar>

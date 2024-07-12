@@ -1,0 +1,14 @@
+:root {
+    --shadow-raised-weak: 0 1px 1px rgba(56, 64, 76, 0.25);
+    --shadow-raised-normal: 0 1px 3px rgba(56, 64, 76, 0.25);
+    --shadow-raised-strong: 0 2px 8px rgba(56, 64, 76, 0.25);
+    --shadow-raised-strongest: 0 2px 8px rgba(56, 64, 76, 0.25);
+    --shadow-raised-max: 0 4px 16px rgba(56, 64, 76, 0.25);
+    --shadow-downed-weak: 0 -1px 3px rgba(56, 64, 76, 0.25);
+    --shadow-downed-strong: 0 -2px 8px rgba(56, 64, 76, 0.25);
+    --shadow-downed-max: 0 -4px 16px rgba(56, 64, 76, 0.25);
+    --shadow-centred-weak: 0 0 4px rgba(56, 64, 76, 0.25);
+    --shadow-centred-normal: 0 0 8px rgba(56, 64, 76, 0.25);
+    --shadow-left-strong: -4px 0 8px rgba(56, 64, 76, 0.25);
+    --shadow-right-strong: 3px 0 8px rgba(56, 64, 76, 0.25);
+}

@@ -1,0 +1,68 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="header">
+            <i class="fill-primary-3" hmyIcon="downloaden" size="large"></i>
+            <span class="text-content-semi color-primary-3">Selecteer een resultaat</span>
+        </div>
+        @if (importeerbareResultaten$ | async; as importeerbareResultaten) {
+            @if (importeerbareResultaten.length > 0) {
+                <div class="periodes">
+                    @for (periode of importeerbareResultaten; track periode) {
+                        <div class="periode">
+                            <div class="periode-header">
+                                <span class="text-content-semi color-primary-3">Periode {{ periode.periodeNummer }}</span>
+                            </div>
+                            @for (importeerbaarResultaat of periode.importeerbareResultaten; track importeerbaarResultaat) {
+                                <div class="resultaat pointer" (click)="onResultaatClick(importeerbaarResultaat.resultaat)">
+                                    <div class="afkorting-container">
+                                        <span class="afkorting text-small-content-semi">{{ importeerbaarResultaat.toetskolom.code }}</span>
+                                        @if (importeerbaarResultaat.resultaat.herkansingsNummer) {
+                                            <span class="herkansing dot color-typography-3 text-content-semi">•</span>
+                                        }
+                                        @if (importeerbaarResultaat.resultaat.herkansingsNummer) {
+                                            <span class="herkansing color-primary-1 text-small-content-semi"
+                                                >Her {{ importeerbaarResultaat.resultaat.herkansingsNummer }}</span
+                                            >
+                                        }
+                                    </div>
+                                    @if (importeerbaarResultaat.toetskolom.type === resultaatKolomType.SAMENGESTELDE_TOETS) {
+                                        <i class="fill-typography-4" hmyIcon="samengesteldeToets" size="smallest"></i>
+                                    }
+                                    <div class="weging-container">
+                                        <i class="fill-typography-4 weging-icon" hmyIcon="weging" size="smallest"></i>
+                                        <span class="weging text-small-content color-typography-4"
+                                            >{{
+                                                importeerbaarResultaat.toetskolom.type === resultaatKolomType.DEELTOETS
+                                                    ? $any(importeerbaarResultaat.toetskolom).deeltoetsWeging
+                                                    : $any(importeerbaarResultaat.toetskolom).weging
+                                            }}x</span
+                                        >
+                                    </div>
+                                    <span
+                                        class="text-content-semi resultaat-value"
+                                        [class.onvoldoende]="importeerbaarResultaat.resultaat | onvoldoende: alternatiefNiveau : false"
+                                        >{{
+                                            $any(importeerbaarResultaat.resultaat)[resultaatLabelProperty]?.afkorting ??
+                                                $any(importeerbaarResultaat.resultaat)[resultaatProperty]
+                                        }}</span
+                                    >
+                                    <span
+                                        class="omschrijving text-small-content-semi color-typography-3"
+                                        [dtTooltip]="importeerbaarResultaat.toetskolom.omschrijving"
+                                        [showIfEllipsed]="true"
+                                        [onTouchAllowed]="true"
+                                        >{{ importeerbaarResultaat.toetskolom.omschrijving }}</span
+                                    >
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            } @else {
+                <span class="text-content-semi geen-resultaten color-typography-4"
+                    >Er zijn geen resultaten gevonden voor deze leerling</span
+                >
+            }
+        }
+    </div>
+</dt-popup>

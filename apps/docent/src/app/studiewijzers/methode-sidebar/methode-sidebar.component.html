@@ -1,0 +1,33 @@
+@if (sidebarService.currentPage$ | async; as page) {
+    <dt-sidebar
+        #sidebar
+        [hideSidebar]="hideSidebar"
+        [title]="page.titel"
+        [icon]="page.icon"
+        [iconClickable]="!!page.iconClickable"
+        (onIconClick)="page?.onIconClick()"
+        (onMaskClick)="closeSidebar()"
+        (onCloseClick)="closeSidebar()">
+        @if (page.pagenumber === 0) {
+            <dt-methode-selectie [activeTab$]="activeTab$" (onMethodeSelectie)="selectMethode($event)"> </dt-methode-selectie>
+        }
+        @if (page.pagenumber === 1) {
+            @if (methodeInhoud$ | async; as data) {
+                @if (createToekenningFn) {
+                    <dt-methode-inhoud-selectie [methode]="data" (onToevoegen)="saveToekenningen(createToekenningFn, $event)">
+                    </dt-methode-inhoud-selectie>
+                }
+                @if (!createToekenningFn) {
+                    <dt-methode-drag-and-drop
+                        [methode]="data"
+                        [saveToekenningenFn]="openMethodeControlePopup"
+                        (onDragStart)="hideSidebar = true"
+                        (onDragEnd)="showSidebarAfterDrag()">
+                    </dt-methode-drag-and-drop>
+                }
+            } @else {
+                <hmy-spinner [centeredInParent]="true" />
+            }
+        }
+    </dt-sidebar>
+}

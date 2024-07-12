@@ -1,0 +1,117 @@
+@if (toonDifferentiatie) {
+    <div class="differentiatie">
+        <div class="tags">
+            @if (showIedereenTag) {
+                <hmy-tag class="iedereen" icon="none" label="Iedereen" color="neutral"> </hmy-tag>
+            }
+            @if (toonNamenInTags) {
+                @for (groep of differentiatiegroepen; track groep) {
+                    <hmy-counter-tag
+                        [dtTooltip]="groepTooltip(groep)"
+                        [alignCenter]="false"
+                        [label]="groep.naam"
+                        [icon]="readOnlyDifferentiatie ? 'none' : 'sluiten'"
+                        [color]="groep.kleur | kleurToTagColor"
+                        [count]="groep.leerlingen?.length ?? 0"
+                        (iconClick)="verwijderDiffGroep.emit(groep.id)"
+                        data-gtm="differentiatiegroep-ontkoppelen">
+                    </hmy-counter-tag>
+                }
+                @for (leerling of differentiatieleerlingen; track leerling) {
+                    <hmy-tag
+                        [dtTooltip]="leerlingTooltip([leerling])"
+                        [label]="leerling | volledigeNaam"
+                        [icon]="readOnlyDifferentiatie ? 'none' : 'sluiten'"
+                        (iconClick)="verwijderDiffLeerling.emit(leerling.id)"
+                        data-gtm="differentiatieleerlingen-ontkoppelen">
+                    </hmy-tag>
+                }
+            }
+            @if (!toonNamenInTags) {
+                @for (groep of differentiatiegroepen; track groep) {
+                    <hmy-counter-tag
+                        [dtTooltip]="groepTooltip(groep)"
+                        [icon]="readOnlyDifferentiatie ? 'none' : 'sluiten'"
+                        [color]="groep.kleur | kleurToTagColor"
+                        [count]="groep.leerlingen?.length ?? 0"
+                        (iconClick)="verwijderDiffGroep.emit(groep.id)"
+                        label="groep"
+                        data-gtm="differentiatiegroep-ontkoppelen">
+                    </hmy-counter-tag>
+                }
+                @if (differentiatieleerlingen.length > 0) {
+                    <hmy-tag
+                        [dtTooltip]="leerlingTooltip(differentiatieleerlingen)"
+                        [label]="aantalLeerlingenTag"
+                        [icon]="readOnlyDifferentiatie ? 'none' : 'sluiten'"
+                        (iconClick)="verwijderAlleDiffLeerlingen.emit()"
+                        data-gtm="differentiatieleerling-ontkoppelen">
+                    </hmy-tag>
+                }
+            }
+        </div>
+        @if (!readOnlyDifferentiatie) {
+            <dt-background-icon
+                class="add-differentiatie pointer"
+                (click)="onDifferentiatieToekenning.emit()"
+                icon="toevoegen"
+                color="accent_positive_1"
+                size="small"
+                dtTooltip="Differentiëren voor groep of leerling"
+                data-gtm="differentiatie-toekenning">
+            </dt-background-icon>
+        }
+    </div>
+}
+@if (heeftLeerdoelen) {
+    <div class="leerdoelen content-block">
+        <div class="titel">
+            <i color="fg-primary-strongest" hmyIcon="leerdoel" size="medium"></i>
+            <span class="text-content-semi fg-primary-strongest">Leerdoelen</span>
+        </div>
+        <div class="content text-content" [innerHTML]="studiewijzeritem.leerdoelen"></div>
+    </div>
+}
+@if (heeftOmschrijving) {
+    <div class="omschrijving content-block">
+        <div class="titel">
+            <i color="fg-primary-strongest" hmyIcon="lijst" size="medium"></i>
+            <span class="text-content-semi fg-primary-strongest">Omschrijving</span>
+        </div>
+        <div class="content text-content" [innerHTML]="studiewijzeritem | studiewijzeritemOmschrijving"></div>
+    </div>
+}
+@if (studiewijzeritem.bijlagen.length > 0) {
+    <div class="bijlagen">
+        @for (bijlage of studiewijzeritem.bijlagen; track bijlage) {
+            <dt-bijlage [bijlage]="bijlage" [toekomend]="toekomend"> </dt-bijlage>
+        }
+    </div>
+}
+@if (heeftNotitie) {
+    <div class="notitie content-block" [class.is-open]="isNotitieOpen">
+        <div class="titel" (click)="isNotitieOpen = !isNotitieOpen">
+            <i hmyIcon="reacties" size="medium"></i>
+            <span class="text-content-semi fg-primary-strongest">Notitie</span>
+            <div class="notitie-icons">
+                @if (!studiewijzeritem.notitieZichtbaarVoorLeerling) {
+                    <i
+                        [onTouchAllowed]="true"
+                        color="fg-neutral-moderate"
+                        hmyIcon="nietZichtbaar"
+                        size="large"
+                        dtTooltip="Niet zichtbaar voor leerling"></i>
+                }
+                <i class="icon-arrow-open-close" [class.close]="!isNotitieOpen" hmyIcon="chevronBoven"></i>
+            </div>
+        </div>
+        <div [@collapse]="{ value: !isNotitieOpen, params: { duration: 300, delay: 0 } }">
+            <div class="content notitie-content" [innerHTML]="studiewijzeritem.notitie"></div>
+        </div>
+    </div>
+}
+@if (heeftGeenInhoud) {
+    <div class="geen-inhoud content-block">
+        <span class="text-content text-weak">Geen inhoud</span>
+    </div>
+}

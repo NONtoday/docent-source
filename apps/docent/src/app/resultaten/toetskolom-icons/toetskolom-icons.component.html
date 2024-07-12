@@ -1,0 +1,57 @@
+@if (heeftZichtbaarStatusIcon) {
+    <div
+        class="fill-typography-3 icons"
+        [dtTooltip]="getCellTooltipFn(matrixKolom.resultaatkolom, basisResultaat, alternatiefNiveau)"
+        [onTouchAllowed]="true"
+        [alignCenter]="false"
+        [maxWidth]="300">
+        @if (vastgezet || (toetskolomGesloten && !bekoeldEnBewerkbaar)) {
+            <i hmyIcon="slot" size="smallest"></i>
+        }
+        @if (!vastgezet && bekoeldEnBewerkbaar) {
+            <i hmyIcon="slotOpen" size="smallest"></i>
+        }
+        @if (heeftBestaandeOpmerking) {
+            <i hmyIcon="reacties" size="smallest"></i>
+        }
+        @if (overschrevenRapportcijfer) {
+            <i class="overschreven" hmyIcon="persoon" size="smallest"></i>
+        }
+        @if (toetsNietGemaakt) {
+            <i class="niet-gemaakt" hmyIcon="letOp" size="smallest"></i>
+        }
+    </div>
+}
+@if (isActiveCell) {
+    <div class="actions" [@slideInRightOnEnter]>
+        @if (cijferhistorieTonen) {
+            <i
+                class="fill-primary-1 popout-option-icon"
+                (click)="openCijferhistorie()"
+                hmyIcon="klok"
+                size="medium"
+                data-gtm="cijferhistorie-bekijken"></i>
+        }
+        @if (magOpmerkingToevoegen && !heeftBestaandeOpmerking) {
+            <i
+                class="fill-accent-positive-1 popout-option-icon"
+                (click)="createOrEditOpmerking()"
+                hmyIcon="reactieToevoegen"
+                size="medium"></i>
+        }
+        @if (magOpmerkingToevoegen && heeftBestaandeOpmerking) {
+            <i class="fill-primary-1 popout-option-icon" (click)="createOrEditOpmerking()" hmyIcon="reacties" size="medium"></i>
+        }
+    </div>
+} @else {
+    @if (resultaatService.cellenMetErrors$ | async; as cellen) {
+        @if (cellen.length > 0 && getErrorVanCell(cellen); as errorVanCell) {
+            <i
+                class="fill-accent-negative-1"
+                [hmyIcon]="errorVanCell?.icon ?? 'waarschuwing'"
+                [onTouchAllowed]="true"
+                [dtTooltip]="errorVanCell?.errorMessage"
+                size="large"></i>
+        }
+    }
+}

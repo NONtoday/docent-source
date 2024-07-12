@@ -1,0 +1,17 @@
+<dt-popup>
+    <form class="content" [formGroup]="form" (ngSubmit)="onSubmit()" popup-content>
+        <div class="informatie">
+            <div class="text-content-semi text-strong">Notitie zichtbaar maken voor</div>
+        </div>
+        <div class="deel-buttons">
+            <dt-form-checkbox formControlName="docenten" label="Docenten"></dt-form-checkbox>
+            <dt-form-checkbox formControlName="mentoren" label="Mentoren"></dt-form-checkbox>
+        </div>
+        <div class="button-bar">
+            <dt-outline-button (click)="onAnnuleren()" color="typography_3">Annuleren</dt-outline-button>
+            <button [disabled]="!form.dirty" buttonType="positive" type="submit" data-gtm="notitieboek-zichtbaarheid-aanpassen">
+                {{ submitButtonText }}
+            </button>
+        </div>
+    </form>
+</dt-popup>

@@ -1,0 +1,23 @@
+@if (heeftVolgende || heeftVorige) {
+    <div class="arrows">
+        <hmy-browse
+            [backDisabled]="!heeftVorige"
+            [nextDisabled]="!heeftVolgende"
+            [backTooltip]="vorigeTooltip"
+            [nextTooltip]="volgendeTooltip"
+            [backAdditionalAttributes]="{ 'data-gtm': gtmVorigeButton, cy: 'header-item-previous' }"
+            [nextAdditionalAttributes]="{ 'data-gtm': gtmVolgendeButton, cy: 'header-item-next' }"
+            (backClick)="onVorigeClick()"
+            (nextClick)="onVolgendeClick()"
+            tooltipPosition="bottom"></hmy-browse>
+    </div>
+}
+@if (showMoreOptions) {
+    <i
+        class="more-options pointer"
+        #moreOptionsIcon
+        (click)="onMeerOptiesClick()"
+        cy="header-more-options"
+        hmyIcon="opties"
+        size="medium"></i>
+}

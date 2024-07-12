@@ -1,0 +1,47 @@
+<div class="balk mobile" [style.--fg-color]="fgColor() | cssVar" [style.--hover-border]="hoverBorder() | cssVar">
+    <div class="color" [style.transform]="scaleX()">
+        <div class="fill neutral" [style.opacity]="color() === 'neutral' ? 100 : 0"></div>
+        <div class="fill postive" [style.opacity]="color() === 'positive' ? 100 : 0"></div>
+        <div class="fill negative" [style.opacity]="color() === 'negative' ? 100 : 0"></div>
+        <div class="fill warning" [style.opacity]="color() === 'warning' ? 100 : 0"></div>
+    </div>
+    <div class="border" [style.transform]="translateBorderX()"></div>
+    <div class="vergelijking" [class.invisible]="!vergelijking()" [style.transform]="translateVergelijkingX()"></div>
+    <span class="label">{{ validCijfer() ? label() : '' }}</span>
+    <span class="cijfer" [style.transform]="translateX()">
+        <ng-container *ngTemplateOutlet="resultaat"></ng-container>
+    </span>
+</div>
+
+<div
+    class="balk desktop"
+    [class.is-first]="isFirst()"
+    [class.is-last]="isLast()"
+    [style.--fg-color]="fgColor() | cssVar"
+    [style.--hover-border]="hoverBorder() | cssVar">
+    <div class="color" [style.height.%]="height() * 100">
+        <div class="fill neutral" [style.opacity]="color() === 'neutral' ? 100 : 0"></div>
+        <div class="fill postive" [style.opacity]="color() === 'positive' ? 100 : 0"></div>
+        <div class="fill negative" [style.opacity]="color() === 'negative' ? 100 : 0"></div>
+        <div class="fill warning" [style.opacity]="color() === 'warning' ? 100 : 0"></div>
+    </div>
+    <div class="border" [class.invisible]="borderheight() === 100" [style.transform]="translateBorderHeight()"></div>
+    <div class="vergelijking" [class.invisible]="!vergelijking()" [style.transform]="vergelijkingHeight()"></div>
+    <div class="hover-border" [class.has-cijfer]="validCijfer()" [style.height.%]="validCijfer() ? cijfer()! * 10 : 100"></div>
+    <span class="cijfer" [style.transform]="translateY()">
+        <ng-container *ngTemplateOutlet="resultaat"></ng-container>
+    </span>
+    <span class="label">{{ validCijfer() ? label() : '' }}</span>
+</div>
+
+<ng-template #resultaat>
+    @if (vrijstelling()) {
+        Vr
+    } @else if (ontheffing()) {
+        Ont
+    } @else if (cijfer()) {
+        {{ cijfer() | commaResult }}
+    } @else {
+        -
+    }
+</ng-template>

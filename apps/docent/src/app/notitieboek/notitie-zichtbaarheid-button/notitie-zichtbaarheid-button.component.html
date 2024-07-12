@@ -1,0 +1,11 @@
+<div
+    class="button"
+    #button
+    [class.edit-mode]="editMode"
+    [class.is-gedeeld]="docenten || mentoren"
+    [dtPopupOpen]="[buttonRef]"
+    (click)="openPopup()">
+    <i [sizes]="iconSizesOog" hmyIcon="zichtbaar"></i>
+    <span class="text-content-semi icon-content" [class.show-for-tablet]="!editMode">{{ gedeeldMet }}</span>
+    <i class="icon-content" hmyIcon="chevronOnder" size="smallest"></i>
+</div>

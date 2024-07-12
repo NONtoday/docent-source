@@ -1,0 +1,9 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <dt-methode-controle [methodeSelectie]="methodeSelectie" [form]="form" [showHeader]="false"> </dt-methode-controle>
+        <div class="buttons">
+            <dt-outline-button class="annuleren" (click)="onAnnulerenClick()">Annuleren</dt-outline-button>
+            <hmy-button class="inplannen" (click)="onInplannenClick()" cy="methode-inplannen" label="Inplannen" />
+        </div>
+    </div>
+</dt-popup>

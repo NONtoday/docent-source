@@ -1,0 +1,45 @@
+<dt-popup>
+    <div class="content" popup-content>
+        <div class="titel">
+            <i color="fg-negative-normal" hmyIcon="informatie" size="medium"></i>
+            <span class="text-content-semi">{{
+                inDetail
+                    ? 'Sjablonen synchroniseren met studiewijzers van vorig schooljaar'
+                    : 'Sjablonen synchroniseren met studiewijzer(s) van vorig schooljaar'
+            }}</span>
+        </div>
+        <span class="text text-content text-moderate">
+            Ontkoppel deze eerst om te kunnen synchroniseren met studiewijzers van dit schooljaar. Lesitems blijven als kopie bestaan in
+            studiewijzers.
+        </span>
+        <div class="sjablonen">
+            @for (sjabloon of sjablonen; track sjabloon) {
+                <div class="sjabloon text-content-small-semi">
+                    @if (inDetail) {
+                        <span class="naam text-moderate">
+                            <span>Oude studiewijzers</span>
+                        </span>
+                    } @else {
+                        <span class="naam text-strong">
+                            <span>{{ sjabloon.naam }}</span>
+                        </span>
+                    }
+                    <span class="lesgroepen">
+                        <span>{{ sjabloon.gesynchroniseerdeStudiewijzers | studiewijzerLesgroepNaam }}</span>
+                    </span>
+                </div>
+            }
+        </div>
+        <div class="footer">
+            <div class="divider-line"></div>
+            <dt-outline-button
+                class="ontkoppel-button"
+                (click)="onOntkoppelen()"
+                color="accent_negative_1"
+                iconColor="accent_negative_1"
+                icon="ontkoppelen"
+                >Sjabloon ontkoppelen</dt-outline-button
+            >
+        </div>
+    </div>
+</dt-popup>

@@ -1,0 +1,11 @@
+<dt-popup>
+    <div popup-content>
+        <div class="content">
+            <div class="mobile-header hide-for-tablet-portrait">
+                <span class="text-content-semi text-strong">Gemiste toetsen</span>
+                <hmy-notification-counter [inverted]="true" [count]="gemisteToetsen.length" color="warning"></hmy-notification-counter>
+            </div>
+            <dt-mentordashboard-gemiste-toetsen-list [gemisteToetsen]="gemisteToetsen" />
+        </div>
+    </div>
+</dt-popup>

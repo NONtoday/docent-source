@@ -1,0 +1,288 @@
+<div class="leerling-container">
+    @if ({ isDesktop: isDesktop$ | async }; as data) {
+        <dt-leerling
+            class="leerling"
+            [leerling]="registratie.leerling"
+            [avatarsize]="avatarsize"
+            [avatarfontsize]="avatarfontsize"
+            [toonJarigIcoon]="!!(isJarigIcoonTonen && data.isDesktop)"
+            [toonOnlineIcoon]="!!(registratie.onlineDeelname && data.isDesktop)"
+            [toonMoreOptions]="true"
+            [toonWerkdruk]="afspraak.lesgroepen.length > 0"
+            [offsetNameBottom]="false"
+            [notitieboekToegankelijk]="registratie.notitieboekToegankelijk"
+            [toonNieuweNotitie]="true"
+            (onWerkdrukSelected)="onWerkdrukSelected.emit($event)"
+            (nieuweNotitieClicked)="onNieuweNotitie(registratie.leerling)">
+        </dt-leerling>
+    }
+</div>
+<div class="statussen" [class.met-verwijderd]="verwijderdMeldingToegestaan">
+    <div class="aanwezigheid" [class.disabled]="disabled" [class.extern]="externeRegistratie">
+        @if ((isDesktop$ | async) && externeRegistratie) {
+            <!-- Aanwezig gemeld door -->
+            @if (externeRegistratie === externeRegistratieTypeEnum.AANWEZIG) {
+                <hmy-pill color="positive" text="Aanwezig gemeld"> </hmy-pill>
+            }
+            <!-- Afwezig gemeld door -->
+            @if (externeRegistratie === externeRegistratieTypeEnum.ABSENT_MET_EINDDATUM) {
+                <hmy-pill
+                    #externGeregistreerdChevron
+                    [metChevron]="true"
+                    (click)="openExterneAbsentiePopup()"
+                    color="negative"
+                    text="Afwezig gemeld">
+                </hmy-pill>
+            }
+            <!-- Te laat gemeld door-->
+            @if (externeRegistratie === externeRegistratieTypeEnum.TE_LAAT) {
+                <hmy-pill
+                    #externGeregistreerdChevron
+                    [metChevron]="true"
+                    (click)="openExterneTeLaatPopup()"
+                    color="accent"
+                    text="Te laat gemeld">
+                </hmy-pill>
+            }
+            <!-- Verwijderd gemeld door-->
+            @if (externeRegistratie === externeRegistratieTypeEnum.VERWIJDERD) {
+                <hmy-pill
+                    #externGeregistreerdChevron
+                    [metChevron]="true"
+                    (click)="openExterneVerwijderdPopup()"
+                    color="accent"
+                    text="Verwijderd gemeld">
+                </hmy-pill>
+            }
+        } @else {
+            <!-- Aanwezig -->
+            <!-- Active wanneer geen waarneming / aanwezig en niet te laat in eigen les / aanwezig en te laat gemeld door bijvoorbeeld een concierge -->
+            <div
+                class="status aanwezig pointer"
+                [class.active]="isAanwezigClassActive"
+                [class.disabled]="disabled || externeRegistratie"
+                (click)="registreerAanwezig()">
+                <i class="registratie-icon" [sizesInPx]="registratieIconSizes" hmyIcon="yesRadio"></i>
+            </div>
+            <!-- Afwezig -->
+            <div
+                class="status afwezig"
+                #afwezigIcon
+                [class.active]="(!registratie.aanwezig || popupAbsentOpen) && !externeRegistratie"
+                [class.disabled]="disabled || externeRegistratie"
+                [class.disabled-pointer]="disabled && moetAbsentieRedenIcoonTonen"
+                (click)="registreerAfwezig()">
+                <i class="registratie-icon" [sizesInPx]="registratieIconSizes" hmyIcon="noRadio">
+                    @if (moetAbsentieRedenIcoonTonen) {
+                        <i class="afwezig-info info-icon" hmyIcon="reacties" size="smallest"></i>
+                    }
+                </i>
+            </div>
+            <!-- Te laat -->
+            @if (heeftTeLaat) {
+                <div
+                    class="status te-laat"
+                    #teLaatIcon
+                    [class.active]="(registratie.teLaat || popupTelaatOpen) && !externeRegistratie && !popupAbsentOpen"
+                    [class.popup-open]="popupTelaatOpen"
+                    [class.disabled]="disabled || externeRegistratie"
+                    (click)="registreerTeLaat()">
+                    <i class="registratie-icon klok" [sizesInPx]="registratieIconSizes" hmyIcon="klok">
+                        @if (!teLaatMeldingToegestaan) {
+                            <i
+                                class="info-icon slot"
+                                [onTouchAllowed]="true"
+                                dtTooltip="Deze optie is op jouw school uitgeschakeld"
+                                hmyIcon="slot"
+                                size="smallest"></i>
+                        }
+                        @if (teLaatAndereDocentZonderOfEigenConst) {
+                            <i class="info-icon slot" hmyIcon="slot" size="smallest"></i>
+                        }
+                        @if (moetTeLaatCommentIconTonen) {
+                            <i class="info-icon" hmyIcon="reacties" size="smallest"></i>
+                        }
+                    </i>
+                </div>
+            }
+        }
+    </div>
+    <!-- Verwijderd -->
+    <!-- Tonen als er een verwijderd melding mag gedaan worden, er geen externe registratie is of als deze er wel is maar niet op desktop -->
+    @if (verwijderdMeldingToegestaan && (!externeRegistratie || !(isDesktop$ | async))) {
+        <div
+            class="status verwijderd"
+            #verwijderdIcon
+            [class.active]="(registratie.verwijderd || popupVerwijderOpen) && !externeRegistratie && !popupAbsentOpen"
+            [class.disabled]="disabled || !registratie.aanwezig || externeRegistratie"
+            [class.popup-open]="popupVerwijderOpen"
+            (click)="verwijderLeerling()">
+            <i class="registratie-icon" [sizesInPx]="registratieIconSizes" hmyIcon="leerlingVerwijderdCheckbox">
+                @if (moetVerwijderdCommentIconTonen && externeRegistratie !== externeRegistratieTypeEnum.VERWIJDERD) {
+                    <i class="info-icon" hmyIcon="reacties" size="smallest"></i>
+                }
+            </i>
+        </div>
+    }
+    @if (verwijderdMeldingToegestaan && externeRegistratie) {
+        <div class="show-for-desktop">
+            <!-- Opvul div om de statussen in het grid goed te positioneren bij een externe registratie -->
+        </div>
+    }
+    <!-- Huiswerk -->
+    <div
+        class="status huiswerk show-for-tablet aankruisvak"
+        [class.active]="registratie.huiswerkNietInOrde"
+        [class.disabled]="disabled"
+        (click)="toggleHuiswerk()">
+        <i class="registratie-icon show-for-desktop" [sizesInPx]="registratieIconSizes" hmyIcon="noCheckbox"></i>
+        <span class="action-neutral-normal hide-for-desktop registratie-text text-content-semi">Hw</span>
+    </div>
+    <!-- Materiaal -->
+    <div
+        class="status materiaal show-for-tablet aankruisvak"
+        [class.active]="registratie.materiaalVergeten"
+        [class.disabled]="disabled"
+        (click)="toggleMateriaal()">
+        <i class="registratie-icon show-for-desktop" [sizesInPx]="registratieIconSizes" hmyIcon="noCheckbox"></i>
+        <span class="action-neutral-normal hide-for-desktop registratie-text text-content-semi">Mt</span>
+    </div>
+    <!-- Flexibele registraties -->
+    @if ({ isDesktop: isDesktop$ | async }; as device) {
+        <div class="extra-registraties show-for-tablet" #extraRegistraties>
+            @if (device.isDesktop) {
+                @for (item of [].constructor(aantalExtraRegistratiesTonen); track item; let i = $index) {
+                    <div
+                        class="extra-registratie-container"
+                        #extraRegistratieContainer
+                        [class.active]="keuzeOptiesPopupOpenFor?.id === vrijveldDefinities[i].id"
+                        [class.disabled]="disabled">
+                        @if ((vrijveldDefinities[i].keuzelijstWaardeMogelijkheden?.length ?? 0) > 0) {
+                            <div class="keuze-optie" [class.disabled]="disabled" (click)="openKeuzePopup(vrijveldDefinities[i], i)">
+                                @if ({ value: vrijveldDefinities[i] | keuzeVrijVeldActive: registratie }; as actief) {
+                                    <div
+                                        class="actieve-keuze text-content-semi text-ellipsis action-primary-normal"
+                                        [dtTooltip]="actief.value"
+                                        [showIfEllipsed]="true">
+                                        {{ actief.value }}
+                                    </div>
+                                }
+                                <i
+                                    [color]="
+                                        keuzeOptiesPopupOpenFor?.id !== vrijveldDefinities[i].id
+                                            ? 'action-neutral-weak'
+                                            : 'action-primary-normal'
+                                    "
+                                    [hmyIcon]="keuzeOptiesPopupOpenFor?.id !== vrijveldDefinities[i].id ? 'chevronOnder' : 'chevronBoven'"
+                                    size="smallest"></i>
+                            </div>
+                        }
+                        @if (
+                            !vrijveldDefinities[i].keuzelijstWaardeMogelijkheden ||
+                            vrijveldDefinities[i].keuzelijstWaardeMogelijkheden?.length === 0
+                        ) {
+                            <div
+                                class="status extra-reg aankruisvak"
+                                [class.active]="vrijveldDefinities[i] | booleanVrijVeldActive: registratie"
+                                [class.disabled]="disabled"
+                                (click)="toggleAankruisvak(vrijveldDefinities[i])">
+                                <i class="registratie-icon show-for-desktop" [sizesInPx]="registratieIconSizes" hmyIcon="noCheckbox"></i>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            @if (isExtraRegistratiesVisible && (!device.isDesktop || aantalExtraRegistratiesTonen < vrijveldDefinities.length)) {
+                <div
+                    class="status flexibele-registraties show-for-tablet"
+                    #flexibeleRegistratie
+                    [class.popup-open]="popupFlexibeleRegistratiesOpen"
+                    [class.active]="flexibeleRegistratiesGeselecteerd"
+                    [class.disabled]="disabled"
+                    [dtTooltip]="flexibeleRegistratiesTooltip"
+                    [tooltipDisplayable]="flexibeleRegistratiesGeselecteerd"
+                    [onTouchAllowed]="disabled"
+                    (click)="openFlexibeleRegistratiesPopup()"
+                    data-testid="flexibele-registraties-desktop">
+                    @if (flexibeleRegistratiesGeselecteerd) {
+                        <div class="active-container">
+                            <span
+                                class="text-small-content-semi flexibele-registraties-label"
+                                data-testid="flexibele-registraties-label-desktop"
+                                >{{ flexibeleRegistratiesLabel }}</span
+                            >
+                            @if (!disabled) {
+                                <i
+                                    class="sluiten"
+                                    (click)="verwijderFlexibeleRegistraties()"
+                                    color="fg-on-primary-weak"
+                                    hmyIcon="sluiten"
+                                    size="smallest"></i>
+                            }
+                        </div>
+                    } @else {
+                        <i class="registratie-icon" hmyIcon="toevoegen" size="medium"></i>
+                    }
+                </div>
+            }
+        </div>
+    }
+    <div
+        class="status flexibele-registraties hide-for-tablet"
+        #flexibeleRegistratie
+        [class.popup-open]="popupFlexibeleRegistratiesOpen"
+        [class.active]="flexibeleRegistratiesHwMtGeselecteerd"
+        [class.disabled]="disabled"
+        [dtTooltip]="flexibeleRegistratiesHwMtTooltip"
+        [tooltipDisplayable]="flexibeleRegistratiesHwMtGeselecteerd"
+        [onTouchAllowed]="disabled"
+        (click)="openFlexibeleRegistratiesPopup()"
+        data-testid="flexibele-registraties-phone">
+        @if (flexibeleRegistratiesHwMtGeselecteerd) {
+            <span class="text-content-small-semi flexibele-registraties-label" data-testid="flexibele-registraties-label-phone">{{
+                flexibeleRegistratiesHwMtLabel
+            }}</span>
+        } @else {
+            <i class="registratie-icon" hmyIcon="toevoegen" size="medium"></i>
+        }
+    </div>
+</div>
+<div class="labels hide-for-desktop">
+    <!-- Aanwezig gemeld door -->
+    @if (externeRegistratie === externeRegistratieTypeEnum.AANWEZIG) {
+        <hmy-pill color="positive" text="Aanwezig gemeld"> </hmy-pill>
+    }
+    <!-- Afwezig gemeld door -->
+    @if (externeRegistratie === externeRegistratieTypeEnum.ABSENT_MET_EINDDATUM) {
+        <hmy-pill
+            #externGeregistreerdChevron
+            [metChevron]="true"
+            (click)="openExterneAbsentiePopup()"
+            color="negative"
+            text="Afwezig gemeld">
+        </hmy-pill>
+    }
+    <!-- Te laat gemeld door -->
+    @if (externeRegistratie === externeRegistratieTypeEnum.TE_LAAT) {
+        <hmy-pill #externGeregistreerdChevron [metChevron]="true" (click)="openExterneTeLaatPopup()" color="accent" text="Te laat gemeld">
+        </hmy-pill>
+    }
+    <!-- Verwijderd gemeld door -->
+    @if (externeRegistratie === externeRegistratieTypeEnum.VERWIJDERD) {
+        <hmy-pill
+            #externGeregistreerdChevron
+            [metChevron]="true"
+            (click)="openExterneVerwijderdPopup()"
+            color="accent"
+            text="Verwijderd gemeld">
+        </hmy-pill>
+    }
+    <!-- Online les -->
+    @if (registratie.onlineDeelname) {
+        <hmy-icon-pill color="neutral" icon="video" iconSize="smallest" text="Online"> </hmy-icon-pill>
+    }
+    <!-- Jarig -->
+    @if (isJarigIcoonTonen) {
+        <hmy-icon-pill color="neutral" icon="taart" iconSize="smallest" text="Jarig"> </hmy-icon-pill>
+    }
+</div>

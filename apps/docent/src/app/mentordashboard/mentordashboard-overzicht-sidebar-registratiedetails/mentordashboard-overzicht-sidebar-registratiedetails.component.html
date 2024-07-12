@@ -1,0 +1,86 @@
+@if (groepsoverzichtSidebarRegistratiedetailsView$ | async; as vm) {
+    <header class="detail-header">
+        <div class="header-title">
+            <hmy-notification-solid [color]="vm.leerlingRegistratie.categorieContent.kleur" [size]="12"></hmy-notification-solid>
+            <span>
+                {{ vm.headerTitle }}
+                @if (vm.keuzelijstWaardeText) {
+                    <span> • {{ vm.keuzelijstWaardeText }} </span>
+                }
+            </span>
+        </div>
+        <span class="header-subtitle">
+            {{ vm.headerSubtitle }}
+            @if (vm.huidigePeriodeText) {
+                <span class="huidige-text">({{ vm.huidigePeriodeText }})</span>
+            }
+        </span>
+        @if (vm.showPeriodeNavigation) {
+            <hmy-browse
+                class="header-navigation"
+                [backDisabled]="!vm.hasPrevious"
+                [nextDisabled]="!vm.hasNext"
+                [backTooltip]="vm.backTooltip"
+                [nextTooltip]="vm.nextTooltip"
+                (backClick)="onBackClick(vm.tijdspanOpties, vm.selectedPeriode)"
+                (nextClick)="onNextClick(vm.tijdspanOpties, vm.selectedPeriode)"
+                data-gtm="groepsoverzicht-sidebar-registratiedetails-browse"></hmy-browse>
+        }
+    </header>
+    <div class="info-tiles" [class.afwezigheids-categorie]="vm.isAfwezigheidsCategorie">
+        <dt-mentordashboard-sidebar-info-tile
+            class="totaal-info"
+            [value]="vm.periodeRegistraties.aantalRegistraties + 'x'"
+            [trend]="vm.selectedPeriode.isHuidig ? vm.leerlingRegistratie.trend : null"
+            [trendTooltip]="vm.leerlingRegistratie.trend | mentordashboardRegistratieTrendTooltip: vm.leerlingRegistratie.tijdspan"
+            titel="Totaal" />
+        @if (vm.isAfwezigheidsCategorie) {
+            <dt-mentordashboard-sidebar-info-tile
+                class="uren-info"
+                [value]="(vm.periodeRegistraties.totaalMinuten | urenDuration) + ' uur'"
+                titel="Gemiste uren" />
+        }
+        <dt-mentordashboard-sidebar-info-tile
+            class="percentage-info"
+            [value]="(vm.periodeRegistraties | formatPercentageRegistraties) + '%'"
+            [additionalText]="vm.periodeRegistraties.aantalLesRegistraties + '/' + vm.periodeRegistraties.aantalLessen"
+            titel="Lesmomenten" />
+    </div>
+    <div class="registraties vak">
+        @for (vakRegistratie of vm.periodeRegistraties.vakRegistraties; track vakRegistratie) {
+            <dt-mentordashboard-overzicht-sidebar-vak-registratie
+                [vakRegistratie]="vakRegistratie"
+                [isAfwezigheidsCategorie]="vm.isAfwezigheidsCategorie" />
+        }
+        <div
+            class="deeplink-button"
+            (click)="navigateToLeerlingVakregistraties()"
+            data-gtm="groepsoverzicht-sidebar-registratiedetails-navigeer-leerling-vakregistraties">
+            <span>{{ titelLinkRegistratiesPerVak ?? 'Bekijk alle registraties per vak' }}</span>
+            <i hmyIcon="chevronRechts" size="smallest" color="action-primary-normal"></i>
+        </div>
+        @if (showLinkLeerlingoverzicht) {
+            <div
+                class="deeplink-button"
+                (click)="navigateToLeerlingoverzicht()"
+                data-gtm="groepsoverzicht-sidebar-registratiedetails-navigeer-leerling-leerlingoverzicht">
+                <span>Bekijk leerlingoverzicht</span>
+                <i hmyIcon="chevronRechts" size="smallest" color="action-primary-normal"></i>
+            </div>
+        }
+    </div>
+    <div class="grafieken">
+        <dt-registraties-verloop-grafiek
+            [beginDatum]="vm.selectedPeriode.vanafDatum"
+            [eindDatum]="vm.selectedPeriode.totDatum"
+            [registraties]="vm.grafiekRegistraties" />
+        <hmy-heatmap
+            [data]="vm.grafiekRegistraties"
+            [tooltipFn]="vm.toonHeatmapTooltip ? heatmapTooltipFn : null"
+            label="Momenten per dag"
+            geenDataTekst="Geen registraties"
+            infoTooltip="Momenten in de week waarop (de meeste) registraties gedaan zijn binnen het geselecteerde tijdsvak" />
+    </div>
+} @else {
+    <hmy-spinner class="loader" />
+}

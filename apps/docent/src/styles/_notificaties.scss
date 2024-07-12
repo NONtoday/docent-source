@@ -1,0 +1,111 @@
+@import 'global-variables';
+@import 'breakpoints';
+
+@mixin nt-large {
+    width: 20px;
+    height: 20px;
+
+    border-radius: $br-label;
+}
+
+@mixin nt-small {
+    width: 12px;
+    height: 12px;
+
+    border-radius: $br-label;
+}
+
+@mixin nt-smallest {
+    width: 8px;
+    height: 8px;
+
+    border-radius: $br-label;
+}
+
+@mixin nt-counter {
+    @include text-label-semi;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+}
+
+.notificatie-counter {
+    @include nt-large;
+    @include nt-counter;
+    color: var(--fg-on-warning-normal);
+
+    background-color: var(--bg-warning-normal);
+}
+
+.notificatie-counter-alt {
+    @include nt-large;
+    @include nt-counter;
+    color: $primary-1;
+
+    background-color: $primary-4;
+}
+
+.notificatie-counter-alt-2 {
+    @include nt-large;
+    @include nt-counter;
+    color: $accent-positive-1;
+
+    background-color: $accent-positive-3;
+}
+
+.notificatie-small {
+    @include nt-small;
+    background-color: $primary-1;
+}
+
+.notificatie-small-alt {
+    @include nt-small;
+    background-color: var(--bg-warning-normal);
+}
+
+.notificatie-small-alt-2 {
+    @include nt-small;
+    background-color: var(--bg-accent-normal);
+}
+
+.notificatie-small-alt-3 {
+    @include nt-small;
+    background-color: var(--bg-alternative-normal);
+}
+
+.notificatie-smallest {
+    @include nt-smallest;
+    background-color: $primary-1;
+}
+
+.notificatie-smallest-alt {
+    @include nt-smallest;
+    background-color: $accent-warning-1;
+}
+
+.notificatie-smallest-alt-2 {
+    @include nt-smallest;
+    background-color: $secondary-1;
+}
+
+.notificatie-smallest-alt-3 {
+    @include nt-smallest;
+    background-color: $accent-alt-1;
+}
+
+.notificatie-check {
+    @include nt-large;
+    background-color: var(--bg-neutral-none);
+    background-image: url('/assets/img/check.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 16px 16px;
+
+    @include breakpoint(desktop) {
+        width: 16px;
+        height: 16px;
+
+        background-size: 12px 12px;
+    }
+}

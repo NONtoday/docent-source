@@ -1,0 +1,12 @@
+@if (draggable) {
+    <div class="drag-handle">
+        <ng-content></ng-content>
+    </div>
+}
+<dt-background-icon class="groep-icon" [color]="$any(studiewijzer.lesgroep.color)" [sizes]="['medium', 'large']" icon="groep">
+</dt-background-icon>
+<div class="namen">
+    <span class="lesgroep-naam naam text-strong text-content-semi">{{ studiewijzer.lesgroep.naam }}</span>
+    <span class="studiewijzer-naam text-content-semi text-moderate naam">{{ studiewijzer.naam }}</span>
+</div>
+<i #moreOptionsIcon (click)="toggleActionsPopup($event)" color="action-primary-normal" hmyIcon="opties" size="medium"></i>

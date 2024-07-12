@@ -1,0 +1,12 @@
+<!-- functionaliteit edit icoontje is deprecated -->
+@if (metEditState) {
+    <i
+        class="bewerken-icon"
+        (click)="onEditClick(); $event.stopPropagation()"
+        color="action-primary-normal"
+        hmyIcon="bewerken"
+        size="medium"></i>
+}
+@if (!verbergBackToTop) {
+    <i class="pijl-boven" color="fg-on-primary-normal" size="medium" hmyIcon="pijlBoven"></i>
+}

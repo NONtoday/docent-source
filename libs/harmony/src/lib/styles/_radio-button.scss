@@ -1,0 +1,75 @@
+@import 'breakpoints';
+@import 'hover';
+
+input[type='radio'] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+
+    margin: 0;
+
+    color: var(--border-neutral-strong);
+
+    font: inherit;
+
+    background-color: transparent;
+    transform: translateY(-0.075em);
+    cursor: pointer;
+
+    appearance: none;
+    border: 0.15em solid currentcolor;
+    border-radius: 50%;
+
+    @include hover {
+        color: var(--border-primary-normal);
+    }
+}
+
+input[type='radio'][disabled] {
+    color: var(--disabled-border) !important;
+
+    background-color: var(--disabled-bg) !important;
+
+    cursor: not-allowed;
+
+    &::before {
+        box-shadow: inset 14px 14px var(--disabled-fg) !important;
+    }
+}
+
+input[type='radio']::before {
+    width: 14px;
+    height: 14px;
+
+    box-shadow: inset 14px 14px var(--border-primary-strong);
+    transform: scale(0);
+
+    transition: 120ms transform ease-in-out;
+
+    content: '';
+    border-radius: 50%;
+}
+
+input[type='radio']:checked {
+    color: var(--border-primary-strong);
+}
+
+input[type='radio']:checked::before {
+    transform: scale(1);
+}
+
+@include breakpoint(desktop) {
+    input[type='radio'] {
+        width: 22px;
+        height: 22px;
+    }
+
+    input[type='radio']::before {
+        width: 12px;
+        height: 12px;
+
+        box-shadow: inset 12px 12px var(--border-primary-strong);
+    }
+}

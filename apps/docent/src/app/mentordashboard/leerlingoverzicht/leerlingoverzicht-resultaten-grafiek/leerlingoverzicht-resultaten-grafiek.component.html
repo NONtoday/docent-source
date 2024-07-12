@@ -1,0 +1,49 @@
+<header>
+    @if (selectedTab === 'resultaten') {
+        <div class="periode-navigatie">
+            <div class="navigatie-arrows">
+                <hmy-browse
+                    [backDisabled]="!heeftVorigePeriode"
+                    [nextDisabled]="!heeftVolgendePeriode"
+                    [backAdditionalAttributes]="{ cy: 'leerlingoverzicht-resultaten-grafiek-vorige-periode' }"
+                    [nextAdditionalAttributes]="{ cy: 'leerlingoverzicht-resultaten-grafiek-volgende-periode' }"
+                    (backClick)="vorigePeriode()"
+                    (nextClick)="volgendePeriode()"></hmy-browse>
+            </div>
+            <div class="periode-info">Periode {{ selectedPeriode }}</div>
+        </div>
+    } @else {
+        <span>Examenresultaten</span>
+    }
+    <div class="vergelijking">
+        <hmy-setting-button
+            [opties]="vergelijkOpties"
+            [selected]="vergelijking"
+            [showLoader]="vergelijkingLoading"
+            [additionalAttributes]="vergelijkDataGtm"
+            [titel]="'vergelijk resultaten met'"
+            (selection)="onVergelijkOptie.emit($event)"
+            verwijderLabel="Vergelijking"
+            icon="vergelijk"
+            label="Vergelijk"
+            data-gtm="leerlingoverzicht-vergelijk-button"></hmy-setting-button>
+        @if (vergelijkingTooltip) {
+            <i class="info" [hmyTooltip]="vergelijkingTooltip" [onTouchAllowed]="true" hmyIcon="informatie" size="small"></i>
+        }
+    </div>
+
+    @for (header of headers; track $index) {
+        <dt-leerlingoverzicht-resultaten-grafiek-header-gemiddelde
+            [titel]="header.titel"
+            [gemiddelde]="header.gemiddelde"
+            [tooltip]="header.tooltip"
+            [isOnvoldoende]="header.isOnvoldoende" />
+    }
+</header>
+<dt-leerlingoverzicht-resultaten-vak-grafieken
+    [vakgrafieken]="vakgrafieken"
+    [zIndex]="5"
+    [paddingLeft]="24"
+    [topOffset]="-43"
+    (openVakResultatenSidebar)="openVakResultatenSidebar.emit($event)"
+    hmyHorizontalScrollButtons />

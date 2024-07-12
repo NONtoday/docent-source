@@ -1,0 +1,48 @@
+<div class="header pointer" (click)="toggleRooster()">
+    <i color="fg-neutral-moderate" hmyIcon="pijlKleinRechts" size="large"></i>
+    <span class="fg-primary-strongest text-content-semi werkdruk-rooster-header" cy="werkdruk-rooster-header">
+        @if (lesgroepen.length > 1) {
+            <span class="header-title">Combiles</span>
+        }
+        @if (lesgroepen.length === 1) {
+            <span class="header-title">Lessen</span>
+        }
+        {{ lesgroepen | lesgroepNamen }}
+    </span>
+    <i
+        class="icon-arrow-open-close"
+        [class.close]="!isOpen"
+        [class.fill-primary-1]="!isOpen"
+        color="fg-neutral-moderate"
+        hmyIcon="chevronOnder"></i>
+</div>
+<div class="dagen" [@collapse]="{ value: !isOpen }">
+    @for (dag of lesmomentDagen; track dag) {
+        <div class="dag">
+            <span class="datum">
+                <span class="datum-dag text-moderate text-content-small-semi">{{ dag.datum | dtDate: 'dag_kort_dagnummer' }}</span>
+            </span>
+            @for (afspraak of dag.lesmomenten; track afspraak) {
+                <div
+                    class="lesuur pointer"
+                    [dtTooltip]="afspraak.isRoosterToets ? (afspraak | roosterToets) : tooltipContent(afspraak)"
+                    [alignCenter]="false"
+                    [maxWidth]="300"
+                    [onTouchAllowed]="true"
+                    [preventClickOnTouch]="false"
+                    [routerLink]="['/rooster', 'les', afspraak.id, 'lesplanning']"
+                    data-gtm="werkdruk-rooster-lesuur">
+                    <dt-lesuur
+                        [isKwt]="afspraak.isKwt"
+                        [beginlesuur]="afspraak.lesuur"
+                        [eindlesuur]="afspraak.eindLesuur"
+                        [isRoosterToets]="afspraak.isRoosterToets">
+                    </dt-lesuur>
+                </div>
+            }
+            @if (dag.lesmomenten.length === 0) {
+                <span class="geen-afspraken text-content-small text-weakest">Geen</span>
+            }
+        </div>
+    }
+</div>

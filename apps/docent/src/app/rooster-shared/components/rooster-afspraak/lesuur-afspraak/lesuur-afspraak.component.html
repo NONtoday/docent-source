@@ -1,0 +1,66 @@
+<div class="lesindicatie">
+    <dt-lesuur
+        [isKwt]="afspraak.isKwt"
+        [beginlesuur]="afspraak.lesuur"
+        [eindlesuur]="afspraak.eindLesuur"
+        [presentieVerwerkt]="afspraak.presentieRegistratieVerwerkt"
+        [isNu]="huidigeAfspraak"
+        [isRoosterToets]="afspraak.isRoosterToets"
+        [hmyTooltip]="afspraak | roosterToets"
+        [alignCenter]="false"
+        [maxWidth]="300">
+    </dt-lesuur>
+</div>
+<div class="tijd">
+    <div class="start text-content-small-semi">{{ afspraak.begin | dtDate: 'tijd' }}</div>
+    <div class="eind text-content-small">{{ afspraak.eind | dtDate: 'tijd' }}</div>
+</div>
+<div class="lijn"></div>
+<div class="titel text-content-small-semi">{{ afspraak | afspraakTitel }}</div>
+<div class="locatie">{{ afspraak.locatie }}</div>
+<div class="icons">
+    @if (afspraak.lesstof) {
+        <dt-icon
+            class="lesstof"
+            #iconLesstof
+            (click)="onIconClick($event, huiswerkType.LESSTOF)"
+            size="medium"
+            color="positive"
+            icon="lesstof"></dt-icon>
+    }
+    @if (afspraak.toets) {
+        <dt-icon
+            class="toets"
+            #iconToets
+            (click)="onIconClick($event, huiswerkType.TOETS)"
+            size="medium"
+            icon="toets"
+            color="warning"></dt-icon>
+    }
+    @if (afspraak.groteToets) {
+        <dt-icon
+            class="toets"
+            #iconGroteToets
+            (click)="onIconClick($event, huiswerkType.GROTE_TOETS)"
+            size="medium"
+            icon="toetsGroot"
+            color="negative"></dt-icon>
+    }
+    @if (afspraak.huiswerk) {
+        <dt-icon
+            class="huiswerk"
+            #iconHuiswerk
+            (click)="onIconClick($event, huiswerkType.HUISWERK)"
+            size="medium"
+            icon="huiswerk"></dt-icon>
+    }
+    @if (afspraak.heeftZwevendeLesitems) {
+        <dt-icon
+            class="zwevend-item-icon"
+            (click)="onZwevendeLesitemsClick($event)"
+            size="medium"
+            hmyTooltip="Zwevend lesitem voor deze lesgroep"
+            icon="zwevendItem"
+            color="negative"></dt-icon>
+    }
+</div>

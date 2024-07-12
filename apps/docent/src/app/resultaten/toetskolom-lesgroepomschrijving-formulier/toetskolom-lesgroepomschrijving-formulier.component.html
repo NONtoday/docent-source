@@ -1,0 +1,17 @@
+<form class="form" id="ngForm" (ngSubmit)="onSubmitClick()">
+    <div class="control">
+        <label class="text-content-semi">Lesgroepspecifieke toetsomschrijving</label>
+        <textarea [maxlength]="maxLengthLesgroepOmschrijving" [formControl]="formControl" placeholder="Waar gaat de toets over?"></textarea>
+    </div>
+</form>
+<div class="buttons">
+    <dt-outline-button class="annuleren" (click)="onAnnuleren.emit()">Annuleren</dt-outline-button>
+    <button
+        [disabled]="!formControl.valid || !formControl.dirty || (!heeftBestaandeLesgroepOmschrijving && !formControl.value)"
+        [showLoaderOnClick]="true"
+        type="submit"
+        form="ngForm"
+        data-gtm="toetskolom-opslaan">
+        {{ kolom ? 'Opslaan' : 'Toevoegen' }}
+    </button>
+</div>

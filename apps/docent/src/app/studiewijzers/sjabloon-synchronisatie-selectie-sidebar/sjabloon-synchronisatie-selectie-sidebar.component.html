@@ -1,0 +1,115 @@
+<dt-sidebar
+    [title]="'Synchroniseren met'"
+    [icon]="toonTerugknop ? 'pijlLinks' : 'synchroniseren'"
+    [iconClickable]="toonTerugknop"
+    (onMaskClick)="onMaskClicked()"
+    (onCloseClick)="onMaskClicked()"
+    (onIconClick)="annuleer()">
+    @if (toonOverzicht) {
+        <div>
+            @for (sjabloon of studiewijzer.gesynchroniseerdeSjablonen; track sjabloon) {
+                <div class="sjabloon">
+                    <span class="naam text-content-semi">{{ sjabloon.naam }}</span>
+                    <hmy-pill
+                        [onTouchAllowed]="true"
+                        hmyTooltip="Ingepland vanaf"
+                        text="W{{ sjabloon.synchronisatieStartweek }}"></hmy-pill>
+                    @if (sjabloon.id !== sjabloonIdOntkoppelenInProgress) {
+                        <i
+                            class="ontkoppelen"
+                            id="{{ sjabloon.id }}"
+                            #ontkoppelIcon
+                            (click)="openOntkoppelPopup(sjabloon)"
+                            color="action-neutral-normal"
+                            hmyIcon="ontkoppelen"
+                            size="medium"
+                            data-gtm="sjabloon-ontkoppel-icon"
+                            hmyTooltip="Ontkoppelen"></i>
+                    }
+                    @if (sjabloon.id === sjabloonIdOntkoppelenInProgress) {
+                        <hmy-spinner [centeredInParent]="true" />
+                    }
+                </div>
+            }
+            @if (geselecteerdeSjablonenMap.size > 0) {
+                <div class="header text-content-semi">Geselecteerde sjablonen</div>
+                @for (entry of geselecteerdeSjablonenMap | keyvalue; track entry; let i = $index) {
+                    <div class="sjabloon">
+                        <span class="naam text-content-semi">{{ entry.key.naam }}</span>
+                        @if (entry.key.synchronisatieStartweek) {
+                            <i
+                                [onTouchAllowed]="true"
+                                [maxWidth]="312"
+                                color="fg-neutral-normal"
+                                hmyIcon="waarschuwing"
+                                size="medium"
+                                hmyTooltip="Dit sjabloon wordt ingepland vanaf week {{
+                                    entry.key.synchronisatieStartweek
+                                }} in deze studiewijzer"></i>
+                            <hmy-pill
+                                #startweek
+                                [onTouchAllowed]="true"
+                                hmyTooltip="Ingepland vanaf"
+                                text="W{{ entry.key.synchronisatieStartweek }}"></hmy-pill>
+                        } @else {
+                            <div class="startweek" #startweek (click)="selecteerStartWeek(entry.key, i)">
+                                <span class="text-content-small-semi">{{ entry.value ? 'Week ' + entry.value : 'Inplannen vanaf' }}</span>
+                                <i color="fg-primary-normal" hmyIcon="reeks" size="small"></i>
+                            </div>
+                        }
+                        <dt-icon
+                            (click)="geselecteerdeSjablonenMap.delete(entry.key)"
+                            icon="sluiten"
+                            size="medium"
+                            color="background"></dt-icon>
+                    </div>
+                }
+            }
+            <div class="toevoegen" (click)="toonOverzicht = false">
+                <dt-background-icon icon="toevoegen" size="small" color="accent_positive_1"></dt-background-icon>
+                <span class="text-content-semi">Extra sjabloon toevoegen</span>
+            </div>
+        </div>
+    } @else {
+        <dt-sjabloon-selectie
+            [negeerSjablonen]="genegeerdeSjablonen"
+            [alleenEigenSjablonen]="true"
+            [displayCheckbox]="true"
+            [displaySynchronisatieStartWeek]="true"
+            [heeftVerdieping]="false"
+            [vestigingSchooljaar]="vestigingSchooljaar"
+            [selectedSjablonen]="geselecteerdeSjablonen"
+            (onSelect)="selecteerSjabloon($event)"
+            disabledCheckboxTooltip="Sjabloon synchroniseert met een studiewijzer van een andere vestiging of schooljaar.">
+        </dt-sjabloon-selectie>
+    }
+    @if (toonButtonBar) {
+        <div class="buttons">
+            <dt-outline-button class="annuleren" (click)="annuleer()" color="typography_3"> Annuleren </dt-outline-button>
+            @if (toonOverzicht) {
+                <dt-button
+                    class="submit"
+                    [class.disabled]="opslaanDisabled"
+                    [showLoaderOnClick]="true"
+                    (click)="opslaan()"
+                    data-gtm="synchronisaties-opslaan"
+                    >Opslaan</dt-button
+                >
+            }
+            @if (!toonOverzicht) {
+                <button (click)="toevoegen()" data-gtm="synchronisatie-sjabloon-toevoegen">Toevoegen</button>
+            }
+        </div>
+    }
+    @if (inSidebarMessage | async) {
+        <dt-message
+            class="ok-message text-content-semi"
+            [@slideInUpOnEnter]
+            [@slideOutDownOnLeave]
+            [text]="inSidebarMessage.value"
+            [duration]="3000"
+            [isToast]="true"
+            (onClose)="inSidebarMessage.next(null)"
+            soort="ok"></dt-message>
+    }
+</dt-sidebar>

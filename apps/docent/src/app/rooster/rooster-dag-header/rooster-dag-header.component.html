@@ -1,0 +1,23 @@
+<span class="dag-maand text-content-semi hide-for-desktop-only" [class.vandaag]="vandaag">{{
+    datum | dtDate: 'dag_kort_dagnummer_maand_kort'
+}}</span>
+
+<div class="dag-informatie weekview-header show-for-desktop-only">
+    <span class="dag-maand fg-on-neutral-weak text-content-semi">{{ datum | dtDate: 'dag_kort' }}</span>
+    <span class="dag-maand fg-on-neutral-weak text-content-semi" [class.vandaag]="vandaag">{{ datum | dtDate: 'dag_nummer' }}</span>
+</div>
+
+<span class="dag-maand show-for-desktop-only fg-on-neutral-weak text-content-semi dagview-header" [class.vandaag]="vandaag">{{
+    datum | dtDate: 'dag_kort_dagnummer_maand_kort'
+}}</span>
+
+<div class="toevoegen" [class.popup-open]="isPopupOpen" data-gtm="afspraak-toevoegen-top">
+    <dt-background-icon
+        class="toevoegen"
+        #addIcon
+        [sizes]="['small']"
+        (click)="addAfspraak()"
+        color="accent_positive_1"
+        hoverColor="accent_positive_2"
+        icon="toevoegen"></dt-background-icon>
+</div>
