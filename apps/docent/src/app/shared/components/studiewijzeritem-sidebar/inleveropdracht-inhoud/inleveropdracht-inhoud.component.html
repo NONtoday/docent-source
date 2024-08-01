@@ -74,7 +74,12 @@
             >
         } @else {
             @if (!heeftInleveringen) {
-                <dt-outline-button class="projectgroep-toevoegen" [dashed]="true" (click)="openProjectgroepen.emit()" icon="groep"
+                <dt-outline-button
+                    class="projectgroep-toevoegen"
+                    [dashed]="true"
+                    (click)="openProjectgroepen.emit()"
+                    color="positive"
+                    icon="groep"
                     >Projectgroep toevoegen</dt-outline-button
                 >
             }
@@ -83,8 +88,7 @@
                     class="projectgroep-toevoegen met-inleveringen"
                     [onTouchAllowed]="true"
                     (click)="onOpenProjectgroepenClick()"
-                    color="typography_3"
-                    iconColor="typography_3"
+                    color="disabled"
                     icon="slot"
                     hmyTooltip="Je kunt projectgroepen niet bewerken, omdat de opdracht inleveringen bevat."
                     >Projectgroep toevoegen</dt-outline-button

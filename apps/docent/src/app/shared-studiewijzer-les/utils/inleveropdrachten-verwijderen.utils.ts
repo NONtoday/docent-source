@@ -1,5 +1,3 @@
-import * as HarmonyColors from '../../rooster-shared/colors';
-
 export const inleveropdrachtVerwijderenGuardProperties = {
     title: 'Er zijn inleveropdrachten met inleveringen',
     message:
@@ -8,5 +6,5 @@ export const inleveropdrachtVerwijderenGuardProperties = {
     cancelLabel: 'Annuleren',
     warning: true,
     outlineConfirmKnop: true,
-    buttonColor: HarmonyColors.accent_negative_1
+    buttonColor: 'negative'
 };

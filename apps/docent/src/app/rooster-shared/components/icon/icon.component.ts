@@ -3,7 +3,7 @@ import { IconDirective, IconSize } from 'harmony';
 import { IconName } from 'harmony-icons';
 import { TooltipDirective } from '../../directives/tooltip.directive';
 
-export type IconColor = 'primary' | 'positive' | 'negative' | 'typography' | 'background' | 'background-light' | 'warning';
+export type IconColor = 'primary' | 'positive' | 'negative' | 'neutral' | 'warning';
 
 @Component({
     selector: 'dt-icon',

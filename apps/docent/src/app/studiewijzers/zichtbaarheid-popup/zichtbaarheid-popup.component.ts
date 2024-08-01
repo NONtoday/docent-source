@@ -4,6 +4,7 @@ import { Sjabloon } from '../../../generated/_types';
 import { IconDirective } from 'harmony';
 import { IconNietZichtbaarCheckbox, IconZichtbaarCheckbox, provideIcons } from 'harmony-icons';
 import { EditAction } from '../../core/models/shared.model';
+import { LinkComponent } from '../../rooster-shared/components/link/link.component';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { SjabloonDataService } from '../sjabloon-data.service';
@@ -13,7 +14,7 @@ import { SjabloonDataService } from '../sjabloon-data.service';
     templateUrl: './zichtbaarheid-popup.component.html',
     styleUrls: ['./zichtbaarheid-popup.component.scss'],
     standalone: true,
-    imports: [PopupComponent, OutlineButtonComponent, IconDirective],
+    imports: [PopupComponent, OutlineButtonComponent, IconDirective, LinkComponent],
     providers: [provideIcons(IconZichtbaarCheckbox, IconNietZichtbaarCheckbox)]
 })
 export class ZichtbaarheidPopupComponent implements Popup {

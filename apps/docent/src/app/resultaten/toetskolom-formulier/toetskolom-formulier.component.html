@@ -3,7 +3,6 @@
         <label>Periode<span class="color-accent-warning-1">*</span></label>
         <dt-form-dropdown
             [scrollIntoView]="false"
-            [chevronColor]="background_1"
             [opties]="periodesDropDownOptions"
             [selectedOptie]="selectedPeriode"
             formControlName="periode">
@@ -22,7 +21,6 @@
             <label>Soort toets</label>
             <dt-form-dropdown
                 [scrollIntoView]="false"
-                [chevronColor]="background_1"
                 [opties]="toetsSoortDropDownOptions"
                 [selectedOptie]="selectedToetsSoort"
                 formControlName="toetsSoort">
@@ -43,7 +41,6 @@
             <label>Herkansing</label>
             <dt-form-dropdown
                 [scrollIntoView]="false"
-                [chevronColor]="background_1"
                 [opties]="herkansingDropDownOptions"
                 [selectedOptie]="selectedHerkansing"
                 formControlName="herkansing">
@@ -54,7 +51,6 @@
         <label>Beoordeling</label>
         <dt-form-dropdown
             [scrollIntoView]="false"
-            [chevronColor]="background_1"
             [opties]="resultaatLabelLijstDropDownOptions"
             [selectedOptie]="selectedResultaatLabelLijst"
             [enabled]="magBeoordelingWijzigen"
@@ -81,7 +77,6 @@
         <div class="control toetsvorm">
             <label>Toetsvorm</label>
             <dt-form-dropdown
-                [chevronColor]="background_1"
                 [opties]="toetsvormDropDownOptions"
                 [selectedOptie]="selectedToetsvorm"
                 placeholder="Selecteer een toetsvorm"
@@ -91,7 +86,6 @@
         <div class="control afnamevorm">
             <label>Afnamevorm</label>
             <dt-form-dropdown
-                [chevronColor]="background_1"
                 [opties]="afnamevormDropDownOptions"
                 [selectedOptie]="selectedAfnamevorm"
                 placeholder="Selecteer een afnamevorm"

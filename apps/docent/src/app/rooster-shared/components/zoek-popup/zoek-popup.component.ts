@@ -5,7 +5,6 @@ import { map, take } from 'rxjs/operators';
 import { AfspraakParticipant } from '../../../../generated/_types';
 import { UriService } from '../../../auth/uri-service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
-import { primary_1 } from '../../colors';
 import { DeelnemerSelectieComponent } from '../deelnemer-selectie/deelnemer-selectie.component';
 import { Popup, PopupComponent } from '../popup/popup.component';
 
@@ -22,7 +21,6 @@ export class ZoekPopupComponent implements OnInit, Popup {
     @ViewChild(PopupComponent, { static: true }) popup: PopupComponent;
 
     deelnemerSelectie = new UntypedFormControl();
-    primary_1 = primary_1;
     iconZoeken: IconName = 'zoeken';
 
     ngOnInit(): void {

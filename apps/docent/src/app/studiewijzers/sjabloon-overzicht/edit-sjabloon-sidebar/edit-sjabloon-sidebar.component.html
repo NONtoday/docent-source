@@ -46,6 +46,7 @@
                         class="studiewijzer-selecteren"
                         [dashed]="true"
                         (click)="toonStudiewijzerOverzicht()"
+                        color="positive"
                         icon="studiewijzer"
                         data-gtm="studiewijzer-bij-sjabloon"
                         >Studiewijzer kiezen
@@ -75,9 +76,7 @@
                 </div>
             </form>
             <div class="buttons">
-                <dt-outline-button class="annuleren" (click)="sidebarService.closeSidebar()" color="typography_3"
-                    >Annuleren
-                </dt-outline-button>
+                <dt-outline-button class="annuleren" (click)="sidebarService.closeSidebar()" color="neutral">Annuleren </dt-outline-button>
                 @if (!submitting) {
                     <button class="opslaan" [disabled]="!editSjabloonForm.valid" cy="sjabloon-opslaan" type="submit" form="ngForm">
                         {{ sjabloon.id ? 'Opslaan' : 'Toevoegen' }}

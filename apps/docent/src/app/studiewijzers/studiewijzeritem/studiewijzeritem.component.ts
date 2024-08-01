@@ -39,7 +39,6 @@ import { Differentiatie } from '../../core/models/studiewijzers/shared.model';
 import { PopupService } from '../../core/popup/popup.service';
 import { DeviceService } from '../../core/services/device.service';
 import { SidebarService } from '../../core/services/sidebar.service';
-import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/colors';
 import {
     ActionButton,
     ActionsPopupComponent,
@@ -50,6 +49,7 @@ import {
 } from '../../rooster-shared/components/actions-popup/actions-popup.component';
 import { CheckboxComponent } from '../../rooster-shared/components/checkbox/checkbox.component';
 import { StudiewijzeritemTitelPipe } from '../../rooster-shared/pipes/studiewijzeritem-titel.pipe';
+import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/utils/color-token-utils';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { KleurenStackComponent, KleurenStackElement } from '../../shared/components/kleuren-stack/kleuren-stack.component';
 import { ZichtbaarheidstoggleComponent } from '../../shared/components/zichtbaarheidstoggle/zichtbaarheidstoggle.component';
@@ -254,7 +254,7 @@ export class StudiewijzeritemComponent implements OnInit, OnChanges, OnDestroy {
         const lesitemTypeWijzigenAction: ActionButton = {
             text: 'Type wijzigen',
             icon: 'typeWijzigen',
-            iconcolor: 'primary_1',
+            color: 'primary',
             onClickFn: this.openLesitemTypeWijzigenPopup
         };
 
@@ -277,8 +277,7 @@ export class StudiewijzeritemComponent implements OnInit, OnChanges, OnDestroy {
                 popup.customButtons.splice(index, 0, {
                     icon: 'sluiten',
                     text: 'Differentiatie verwijderen',
-                    iconcolor: 'accent_negative_1',
-                    textcolor: 'accent_negative_1',
+                    color: 'negative',
                     gtmTag: 'toekenning-differentiatie-verwijderen',
                     onClickFn: () => {
                         this.studiewijzerDataService.verwijderToekenningDifferentiaties(
@@ -341,28 +340,28 @@ export class StudiewijzeritemComponent implements OnInit, OnChanges, OnDestroy {
         const huiswerkButton: ActionButton = {
             text: 'Huiswerk',
             icon: 'huiswerk',
-            iconcolor: 'primary_1',
+            color: 'primary',
             gtmTag: 'swi-type-quickswitch',
             onClickFn: () => this.onUpdateLesitemType.emit(HuiswerkType.HUISWERK)
         };
         const toetsButton: ActionButton = {
             text: 'Toets',
             icon: 'toets',
-            iconcolor: 'accent_warning_1',
+            color: 'warning',
             gtmTag: 'swi-type-quickswitch',
             onClickFn: () => this.onUpdateLesitemType.emit(HuiswerkType.TOETS)
         };
         const groteToetsButton: ActionButton = {
             text: 'Grote toets',
             icon: 'toetsGroot',
-            iconcolor: 'accent_negative_1',
+            color: 'negative',
             gtmTag: 'swi-type-quickswitch',
             onClickFn: () => this.onUpdateLesitemType.emit(HuiswerkType.GROTE_TOETS)
         };
         const lesstofButton: ActionButton = {
             text: 'Lesstof',
             icon: 'lesstof',
-            iconcolor: 'accent_positive_1',
+            color: 'positive',
             gtmTag: 'swi-type-quickswitch',
             onClickFn: () => this.onUpdateLesitemType.emit(HuiswerkType.LESSTOF)
         };

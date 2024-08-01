@@ -175,7 +175,7 @@ export class SjabloonOverzichtItemComponent implements OnInit, OnChanges {
         popup.actionLabel = 'Verwijder uit studiewijzer(s)';
         popup.cancelLabel = 'Bewaar kopie in studiewijzer(s)';
         popup.outlineConfirmKnop = true;
-        popup.buttonColor = 'accent_negative_1';
+        popup.buttonColor = 'negative';
         popup.onConfirmFn = () => {
             this.verwijderSjabloon(true);
             return true;

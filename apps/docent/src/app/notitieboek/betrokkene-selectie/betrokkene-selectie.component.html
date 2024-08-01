@@ -1,7 +1,7 @@
 @if ({ height: tagsContainerHeight$ | async }; as tags) {
     <div class="zoekveld pointer" [class.search-open]="showDropdown$ | async" [class.has-selection]="hasSelection" (click)="open()">
         <div class="toevoegen-icon" (click)="onTouched()">
-            <dt-background-icon color="accent_positive_1" icon="toevoegen" size="smallest" iconSize="smallest"></dt-background-icon>
+            <dt-background-icon color="positive" icon="toevoegen" size="smallest" iconSize="smallest"></dt-background-icon>
         </div>
         <div class="tags" #tagsRef>
             @for (tag of betrokkenenView; track trackById($index, tag)) {

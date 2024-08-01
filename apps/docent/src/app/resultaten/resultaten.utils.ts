@@ -19,7 +19,7 @@ import {
     VoortgangsdossierMatrixVanLesgroepQuery
 } from '../../generated/_types';
 import { toetskolommenConfig } from '../core/models/resultaten/resultaten.model';
-import { HarmonyColorName } from '../rooster-shared/colors';
+import { ActionColor } from '../rooster-shared/utils/color-token-utils';
 import { getSchooljaar } from '../rooster-shared/utils/date.utils';
 import { isStringNullOrEmpty, Optional } from '../rooster-shared/utils/utils';
 
@@ -111,7 +111,7 @@ export const resultatenOpslaanGuardProperties = {
     cancelLabel: 'Annuleren',
     actionLabel: 'Opslaan en verlaten',
     outlineConfirmKnop: true,
-    buttonColor: 'accent_positive_1' as HarmonyColorName
+    buttonColor: 'positive' as ActionColor
 };
 
 export interface BasisResultaat {

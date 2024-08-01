@@ -52,7 +52,6 @@ import { SidebarService } from '../core/services/sidebar.service';
 import { HeaderComponent } from '../layout/header/header.component';
 import { ResultaatMenuPopupComponent } from '../layout/menu/resultaat-menu-popup/resultaat-menu-popup.component';
 import { LesgroepDeeplinkPopupComponent } from '../les/lesgroep-deeplink-popup/lesgroep-deeplink-popup.component';
-import { background_6, primary_1 } from '../rooster-shared/colors';
 import {
     ActionsPopupComponent,
     SorteerButtonClickFn,
@@ -160,8 +159,6 @@ export class ResultatenComponent extends DeactivatableComponentDirective impleme
 
     public activeLeerling$: Observable<Optional<string>>;
     public pinned$: Observable<Optional<number>>;
-    public primary_1 = primary_1;
-    public background_6 = background_6;
 
     public toonLeerlingen: boolean;
     public toonToetsen: boolean;

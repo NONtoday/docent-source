@@ -190,7 +190,7 @@ export class StudiewijzerOverzichtComponent implements OnInit {
         if (showUp) {
             popup.customButtons.push({
                 icon: 'pijlBoven',
-                iconcolor: 'typography_3',
+                color: 'neutral',
                 text: 'Verplaats naar boven',
                 onClickFn: () =>
                     this.studiewijzerDataService.moveStudiewijzerCategorie(
@@ -205,7 +205,7 @@ export class StudiewijzerOverzichtComponent implements OnInit {
         if (showDown) {
             popup.customButtons.push({
                 icon: 'pijlOnder',
-                iconcolor: 'typography_3',
+                color: 'neutral',
                 text: 'Verplaats naar beneden',
                 onClickFn: () =>
                     this.studiewijzerDataService.moveStudiewijzerCategorie(

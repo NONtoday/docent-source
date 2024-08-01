@@ -123,8 +123,8 @@ export class AuthService {
 
     private get authConfig() {
         return {
-            clientId: this.environment.clientId, // configured on authentication server
-
+            // in het geval van een core PR, gebruik de lokale nightly client id
+            clientId: this.environment.corePr ? '0577D7AC-68AC-11E8-ADC0-FA7AE01BBEBC' : this.environment.clientId,
             customQueryParams: {
                 claims: '{ "id_token": { "name": null} }'
             },

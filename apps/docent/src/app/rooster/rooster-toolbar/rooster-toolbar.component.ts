@@ -31,13 +31,11 @@ import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
 import { getSchooljaar } from '../../rooster-shared/utils/date.utils';
 import { RoosterDataService } from '../rooster-data.service';
 import { VerjaardagenPopupComponent } from '../verjaardagen-popup/verjaardagen-popup.component';
-import { dagToggle, weekToggle } from './rooster-toolbar.animations';
 
 @Component({
     selector: 'dt-rooster-toolbar',
     templateUrl: './rooster-toolbar.component.html',
     styleUrls: ['./rooster-toolbar.component.scss'],
-    animations: [weekToggle, dagToggle],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     imports: [
@@ -124,9 +122,8 @@ export class RoosterToolbarComponent {
         const popup = this.popupService.popup(this.moreOptionsIcons, popupSettings, ActionsPopupComponent);
         const vrijeUrenAction: ActionButton = {
             icon: this.toonVrijeUren ? 'rijVerbergen' : 'rijTonen',
-            iconcolor: this.toonVrijeUren ? 'accent_negative_1' : 'primary_1',
+            color: this.toonVrijeUren ? 'negative' : 'primary',
             text: this.toonVrijeUren ? 'Verberg vrije uren' : 'Toon vrije uren',
-            textcolor: this.toonVrijeUren ? 'accent_negative_1' : 'primary_1',
             onClickFn: () => {
                 this.popupService.closePopUp();
                 this.onVrijeUrenClick();
@@ -135,9 +132,8 @@ export class RoosterToolbarComponent {
         };
         const werkdrukAction: ActionButton = {
             icon: 'werkdruk',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Toon werkdruk',
-            textcolor: 'primary_1',
             onClickFn: () => {
                 this.popupService.closePopUp(true);
                 this.openWerkdruk();
@@ -146,9 +142,8 @@ export class RoosterToolbarComponent {
 
         const isJarigAction: ActionButton = {
             icon: 'taart',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Jarige leerlingen',
-            textcolor: 'primary_1',
             onClickFn: () => {
                 this.popupService.closePopUp(true);
                 this.openJarigPopup();

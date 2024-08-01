@@ -27,17 +27,15 @@ import { Lesgroep, SorteringOrder, SorteringVeld } from '../../../../generated/_
 import { SorteerOrder } from '../../../core/models/inleveropdrachten/inleveropdrachten.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
-import { HarmonyColorName } from '../../colors';
+import { ActionColor } from '../../utils/color-token-utils';
 import { Optional } from '../../utils/utils';
 import { ActionsComponent } from '../actions/actions.component';
 import { Popup, PopupComponent } from '../popup/popup.component';
 
 export interface ActionButton {
     icon?: Optional<IconName>;
-    iconcolor?: Optional<HarmonyColorName>;
     text: string;
-    textcolor?: Optional<HarmonyColorName>;
-    textHoverColor?: Optional<HarmonyColorName>;
+    color: ActionColor;
     isVerwijderButton?: Optional<boolean>;
     onClickFn: (...args: unknown[]) => void;
     customCssClass?: Optional<string>;
@@ -48,16 +46,15 @@ export interface ActionButton {
 export const differentiatiegroepen = (onClickFn: (lesgroep: Lesgroep) => void, gtmTag?: Optional<string>): ActionButton => ({
     icon: 'differentiatie',
     text: 'Differentiatiegroepen',
-    iconcolor: 'primary_1',
+    color: 'primary',
     gtmTag,
     onClickFn
 });
 
 export const accorderenButton = (onClickFn: () => void, gtmTag?: string): ActionButton => ({
     icon: 'yesRadio',
-    iconcolor: 'accent_positive_1',
+    color: 'positive',
     text: 'Accorderen',
-    textcolor: 'accent_positive_1',
     isVerwijderButton: false,
     onClickFn,
     gtmTag
@@ -65,9 +62,8 @@ export const accorderenButton = (onClickFn: () => void, gtmTag?: string): Action
 
 export const afwijzenButton = (onClickFn: () => void, gtmTag?: string): ActionButton => ({
     icon: 'noRadio',
-    iconcolor: 'accent_negative_1',
+    color: 'negative',
     text: 'Afwijzen',
-    textcolor: 'accent_negative_1',
     isVerwijderButton: false,
     onClickFn,
     gtmTag
@@ -80,9 +76,8 @@ export const zichtbaarheidButton = (
     gtmTag?: Optional<string>
 ): ActionButton => ({
     icon: zichtbaar ? 'nietZichtbaarCheckbox' : 'zichtbaarCheckbox',
-    iconcolor: zichtbaar ? 'accent_negative_1' : 'primary_1',
+    color: zichtbaar ? 'negative' : 'primary',
     text: zichtbaar ? 'Maak onzichtbaar voor leerling' : 'Maak zichtbaar voor leerling',
-    textcolor: zichtbaar ? 'accent_negative_1' : 'primary_1',
     customCssClass,
     onClickFn: zichtbaarheidFn,
     gtmTag
@@ -90,18 +85,16 @@ export const zichtbaarheidButton = (
 
 export const ontkoppelButton = (onClickFn: () => void): ActionButton => ({
     icon: 'ontkoppelen',
-    iconcolor: 'accent_negative_1',
+    color: 'negative',
     text: 'Ontkoppel van sjabloon',
-    textcolor: 'accent_negative_1',
     onClickFn,
     gtmTag: 'ontkoppel-item-van-sjabloon'
 });
 
 export const annulerenButton = (onClickFn?: () => void): ActionButton => ({
     icon: 'sluiten',
-    iconcolor: 'typography_3',
+    color: 'neutral',
     text: 'Annuleren',
-    textcolor: 'typography_3',
     onClickFn: onClickFn
         ? onClickFn
         : () => {
@@ -111,18 +104,16 @@ export const annulerenButton = (onClickFn?: () => void): ActionButton => ({
 
 export const naarSomtodayButton = (onClickFn: () => void): ActionButton => ({
     icon: 'link',
-    iconcolor: 'primary_1',
+    color: 'primary',
     text: 'Naar Somtoday',
-    textcolor: 'primary_1',
     isVerwijderButton: false,
     onClickFn
 });
 
 export const bewerkButton = (bewerkFn: () => void, gtmTag?: Optional<string>): ActionButton => ({
     icon: 'bewerken',
-    iconcolor: 'primary_1',
+    color: 'primary',
     text: 'Bewerken',
-    textcolor: 'primary_1',
     isVerwijderButton: false,
     onClickFn: bewerkFn,
     gtmTag
@@ -130,9 +121,8 @@ export const bewerkButton = (bewerkFn: () => void, gtmTag?: Optional<string>): A
 
 export const verwijderButton = (verwijderFn: () => void, gtmTag?: Optional<string>): ActionButton => ({
     icon: 'verwijderen',
-    iconcolor: 'accent_negative_1',
+    color: 'negative',
     text: 'Verwijderen',
-    textcolor: 'accent_negative_1',
     isVerwijderButton: true,
     onClickFn: verwijderFn,
     gtmTag
@@ -140,37 +130,33 @@ export const verwijderButton = (verwijderFn: () => void, gtmTag?: Optional<strin
 
 export const kopieerButton = (kopieerFn: () => void, gtmTag?: Optional<string>): ActionButton => ({
     icon: 'kopierenNaar',
-    iconcolor: 'primary_1',
+    color: 'primary',
     text: 'Kopiëren naar',
-    textcolor: 'primary_1',
     onClickFn: kopieerFn,
     gtmTag
 });
 
 export const dupliceerButton = (dupliceerFn: () => void, gtmTag?: Optional<string>): ActionButton => ({
     icon: 'dupliceren',
-    iconcolor: 'primary_1',
+    color: 'primary',
     text: 'Dupliceren',
-    textcolor: 'primary_1',
     onClickFn: dupliceerFn,
     gtmTag
 });
 
 export const verplaatsButton = (onClick: () => void, gtmTag?: Optional<string>): ActionButton => ({
     icon: 'mapVerplaatsen',
-    iconcolor: 'primary_1',
+    color: 'primary',
     onClickFn: onClick,
     text: 'Verplaatsen',
-    textcolor: 'primary_1',
     gtmTag
 });
 
 export const opslaanEnKopieerButton = (onClick: () => void, gtmTag?: Optional<string>): ActionButton => ({
     icon: 'dupliceren',
-    iconcolor: 'primary_1',
+    color: 'primary',
     onClickFn: onClick,
     text: 'Opslaan en kopie maken',
-    textcolor: 'primary_1',
     gtmTag
 });
 
@@ -213,7 +199,7 @@ export const sorteerButton = (
     gtmTag = ''
 ): ActionButton => ({
     icon: activeSort === label && activeOrder === order ? 'check' : orderToIcon(order),
-    iconcolor: activeSort === label && activeOrder === order ? 'accent_positive_1' : 'primary_1',
+    color: activeSort === label && activeOrder === order ? 'positive' : 'primary',
     onClickFn: onClick,
     text: `${capitalize(label)} ${orderToAZ(order)}`,
     gtmTag
@@ -221,9 +207,8 @@ export const sorteerButton = (
 
 export const bekijkOpdrachtButton = (onClick: () => void): ActionButton => ({
     icon: 'zichtbaar',
-    iconcolor: 'primary_1',
+    color: 'primary',
     text: 'Bekijk opdracht',
-    textcolor: 'primary_1',
     isVerwijderButton: false,
     onClickFn: onClick,
     gtmTag: 'inl-overzicht-bekijk-opdracht'
@@ -233,15 +218,13 @@ export const methodeButton = (text: string, onClickFn: () => void): ActionButton
     text,
     gtmTag: 'sjabloon-methode-selectie',
     onClickFn,
-    iconcolor: 'primary_1',
-    textcolor: 'primary_1'
+    color: 'primary'
 });
 
 export const primaryButton = (icon: Optional<IconName>, text: string, onClickFn: () => void, gtmTag?: Optional<string>): ActionButton => ({
     icon,
-    iconcolor: 'primary_1',
     text,
-    textcolor: 'primary_1',
+    color: 'primary',
     isVerwijderButton: false,
     onClickFn,
     gtmTag
@@ -249,9 +232,8 @@ export const primaryButton = (icon: Optional<IconName>, text: string, onClickFn:
 
 export const negativeButton = (icon: Optional<IconName>, text: string, onClickFn: () => void, gtmTag?: Optional<string>): ActionButton => ({
     icon,
-    iconcolor: 'accent_negative_1',
+    color: 'negative',
     text,
-    textcolor: 'accent_negative_1',
     isVerwijderButton: false,
     onClickFn,
     gtmTag
@@ -259,10 +241,8 @@ export const negativeButton = (icon: Optional<IconName>, text: string, onClickFn
 
 export const opmerkingVerwijderenButton = (onClick: () => void): ActionButton => ({
     icon: 'opmerkingVerwijderen',
-    iconcolor: 'accent_negative_1',
+    color: 'negative',
     text: 'Opmerking verwijderen',
-    textcolor: 'accent_negative_1',
-    textHoverColor: 'accent_negative_2',
     onClickFn: onClick,
     gtmTag: 'opmerking-verwijderen'
 });

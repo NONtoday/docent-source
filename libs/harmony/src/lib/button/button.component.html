@@ -4,15 +4,15 @@
     [ngClass]="[disabledOrMode(), size(), getLabelColor, justifyContent()]"
     [attr.tabindex]="customTabindex()"
     hmyClassOnClick="active">
-    <div [style.marginRight]="leftIconMargin()">
+    <div class="icon-container left" [style.marginRight]="leftIconMargin()">
         @if (iconLeft(); as icon) {
-            <i [hmyIcon]="icon" [color]="getLabelColor" size="medium"></i>
+            <i [hmyIcon]="icon" [color]="getLabelColor" [size]="iconLeftSize()"></i>
         }
     </div>
     <span class="label">{{ label() }}</span>
-    <div [style.marginLeft]="rightIconMargin()">
+    <div class="icon-container right" [style.marginLeft]="rightIconMargin()">
         @if (iconRight(); as icon) {
-            <i [hmyIcon]="icon" [color]="getLabelColor" size="medium"></i>
+            <i [hmyIcon]="icon" [color]="getLabelColor" [size]="iconRightSize()"></i>
         }
     </div>
 </button>

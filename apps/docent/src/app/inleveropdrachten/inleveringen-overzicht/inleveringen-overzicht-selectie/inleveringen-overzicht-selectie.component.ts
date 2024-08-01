@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
-import { IconDirective, PillComponent, PillTagColor } from 'harmony';
+import { CheckboxComponent, IconDirective, PillComponent, PillTagColor } from 'harmony';
 import { IconSlot, provideIcons } from 'harmony-icons';
-import { FormCheckboxComponent } from '../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 
 @Component({
@@ -12,7 +11,7 @@ import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.dir
     styleUrls: ['./inleveringen-overzicht-selectie.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, FormCheckboxComponent, TooltipDirective, IconDirective, PillComponent],
+    imports: [FormsModule, ReactiveFormsModule, CheckboxComponent, TooltipDirective, IconDirective, PillComponent],
     providers: [provideIcons(IconSlot)]
 })
 export class InleveringenOverzichtSelectieComponent implements OnChanges {

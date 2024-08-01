@@ -11,12 +11,7 @@
     </div>
 }
 @if (!synchroniseertMet) {
-    <dt-link
-        #synchroniserenLink
-        (click)="openSjabloonSynchronisatiePopup()"
-        icon="synchroniseren"
-        color="accent_positive_1"
-        iconColor="accent_positive_1">
+    <dt-link #synchroniserenLink (click)="openSjabloonSynchronisatiePopup()" icon="synchroniseren" color="positive">
         Synchroniseer met sjabloon</dt-link
     >
 }

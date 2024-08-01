@@ -119,16 +119,14 @@ export class BulkactiesComponent implements OnChanges {
         const popup = this.popupService.popup(this.moreOptionsButtonRef, popupSettings, ActionsPopupComponent);
         const verplaatsenButton: ActionButton = {
             icon: 'mapVerplaatsen',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Verplaatsen naar',
-            textcolor: 'primary_1',
             onClickFn: () => this.verplaatsClicked.emit()
         };
         const kopierenButton: ActionButton = {
             icon: 'kopierenNaar',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Kopiëren naar',
-            textcolor: 'primary_1',
             gtmTag: 'bulk-kopieren',
             onClickFn: () => this.kopieerClicked.emit()
         };
@@ -148,17 +146,15 @@ export class BulkactiesComponent implements OnChanges {
         const popup = this.popupService.popup(this.differentierenButtonRef, popupSettings, ActionsPopupComponent);
         const iedereen: ActionButton = {
             icon: 'groep',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Iedereen',
-            textcolor: 'primary_1',
             gtmTag: 'bulk-differentieer-iedereen',
             onClickFn: () => this.onToekennen.emit(true)
         };
         const groepOfLeerling: ActionButton = {
             icon: 'differentiatie',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Groep of leerling',
-            textcolor: 'primary_1',
             gtmTag: 'bulk-differentieer',
             onClickFn: () => this.onToekennen.emit(false)
         };

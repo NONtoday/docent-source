@@ -59,11 +59,8 @@ export class FeedbackPopupComponent implements OnInit, Popup {
     onFormSubmit(event: Event) {
         const indruk = parseInt(this.feedbackForm.get('indruk')!.value, 10);
         const opmerking = this.feedbackForm.get('opmerking')!.value;
-        const deviceInfo = navigator.userAgent;
-        const huidigeUrl = this.router.url;
-        const schermresolutie = String(window.innerWidth) + 'x' + String(window.innerHeight);
         if (this.feedbackForm.valid) {
-            this._feedbackService.sendFeedback(indruk, opmerking, deviceInfo, huidigeUrl, schermresolutie);
+            this._feedbackService.sendFeedback(indruk, opmerking);
             this.submitted = true;
         }
 

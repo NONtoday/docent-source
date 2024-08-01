@@ -265,7 +265,7 @@ export class SjabloonSynchronisatieSelectieSidebarComponent extends BaseSidebar 
         popup.actionLabel = 'Stoppen met bewerken';
         popup.cancelLabel = 'Annuleren';
         popup.outlineConfirmKnop = true;
-        popup.buttonColor = 'accent_negative_1';
+        popup.buttonColor = 'negative';
         popup.onConfirmFn = () => {
             this.sidebarService.closeSidebar();
             return true;

@@ -58,7 +58,6 @@ import { startVoorEindValidator } from '../../../../core/validators/startVoorEin
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { ConferenceDateRange } from '../../../../shared/components/editor-form-control/editor-form-control.component';
 import { replaceInArray } from '../../../../shared/utils/array.utils';
-import { background_1 } from '../../../colors';
 import { AutofocusDirective } from '../../../directives/autofocus.directive';
 import { getSchooljaar } from '../../../utils/date.utils';
 import {
@@ -142,7 +141,6 @@ export class AfspraakFormulierComponent implements OnInit, OnDestroy {
     public maxDatepicker$: Observable<Date>;
     public uploadingFiles = new Subject<FileList>();
 
-    public background_1 = background_1;
     public herhalingTypeOptions = herhalingTypeOptions;
     public maandXsteOptions = maandXsteOptions;
     public herhalingDagOptions = herhalingDagOptions;

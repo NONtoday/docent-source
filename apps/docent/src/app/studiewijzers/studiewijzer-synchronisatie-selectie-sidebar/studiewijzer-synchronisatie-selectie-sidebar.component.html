@@ -46,7 +46,7 @@
                 </dt-outline-button>
             }
             <div class="form-buttons">
-                <dt-outline-button class="annuleren" (click)="annuleer()" color="typography_3"> Annuleren </dt-outline-button>
+                <dt-outline-button class="annuleren" (click)="annuleer()" color="neutral"> Annuleren </dt-outline-button>
                 <button
                     class="submit"
                     [disabled]="formDisabled || !weeknummer"
@@ -100,7 +100,7 @@
                     <hmy-spinner />
                 }
                 @if (!loadingStudiewijzers) {
-                    <dt-background-icon [sizes]="['small']" icon="toevoegen" color="accent_positive_1"> </dt-background-icon>
+                    <dt-background-icon [sizes]="['small']" icon="toevoegen" color="positive"> </dt-background-icon>
                 }
                 <span [class.disabled]="loadingStudiewijzers">Studiewijzer toevoegen</span>
             </div>

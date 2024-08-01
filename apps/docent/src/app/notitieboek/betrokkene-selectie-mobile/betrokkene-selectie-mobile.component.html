@@ -4,7 +4,7 @@
 </div>
 <div class="search">
     <div class="search-input" (click)="focusInput()">
-        <dt-background-icon color="accent_positive_1" icon="toevoegen" size="smallest" iconSize="smallest"></dt-background-icon>
+        <dt-background-icon color="positive" icon="toevoegen" size="smallest" iconSize="smallest"></dt-background-icon>
         <div class="tags" [class.has-tags]="betrokkenenSelectie.length > 0">
             @for (tag of betrokkenenTags; track trackById($index, tag)) {
                 @if (tag.type === 'leerling') {

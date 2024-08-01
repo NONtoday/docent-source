@@ -20,7 +20,6 @@ import { PopupService } from '../../../../core/popup/popup.service';
 import { PopupDirection } from '../../../../core/popup/popup.settings';
 import { MedewerkerDataService } from '../../../../core/services/medewerker-data.service';
 import { SidebarService } from '../../../../core/services/sidebar.service';
-import { accent_positive_2, accent_positive_3 } from '../../../../rooster-shared/colors';
 import { RoosterDataService } from '../../../../rooster/rooster-data.service';
 import { ConfirmationDialogComponent } from '../../../../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { VerwijderPopupComponent } from '../../../../shared/components/verwijder-popup/verwijder-popup.component';
@@ -61,9 +60,6 @@ export class EigenAfspraakComponent extends RoosterItemBaseDirective implements 
     @Input() toonVrijUren: boolean;
 
     public ingelogdeMedewerkerIsAuteur: boolean;
-
-    accent_positive_2 = accent_positive_2;
-    accent_positive_3 = accent_positive_3;
 
     ngOnChanges(): void {
         this.ingelogdeMedewerkerIsAuteur =

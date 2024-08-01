@@ -52,7 +52,7 @@ export class SynchroniseerItemMetSjabloonComponent {
             (sjabloon) =>
                 ({
                     text: sjabloon.naam,
-                    textcolor: 'primary_1',
+                    color: 'primary',
                     onClickFn: () => this.onSynchroniseren.emit(sjabloon as Sjabloon),
                     gtmTag: 'synchroniseer-item-met-sjabloon'
                 }) as ActionButton

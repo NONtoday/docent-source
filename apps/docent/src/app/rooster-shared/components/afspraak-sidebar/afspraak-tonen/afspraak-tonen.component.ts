@@ -6,7 +6,6 @@ import { PopupService } from '../../../../core/popup/popup.service';
 import { PopupDirection } from '../../../../core/popup/popup.settings';
 import { BijlageLijstComponent } from '../../../../shared/components/bijlage/bijlage-lijst.component';
 import { VerwijderPopupComponent } from '../../../../shared/components/verwijder-popup/verwijder-popup.component';
-import { accent_positive_2, accent_positive_3 } from '../../../colors';
 import { AfspraakTitelPipe } from '../../../pipes/afspraak-titel.pipe';
 import { AfspraakParticipantNaamPipe } from '../../../pipes/afspraakparticipant-naam.pipe';
 import { DtDatePipe } from '../../../pipes/dt-date.pipe';
@@ -45,9 +44,6 @@ export class AfspraakTonenComponent {
     onDelete = output<void>();
     onDeleteHerhaling = output<void>();
     onRegistreren = output<void>();
-
-    accent_positive_2 = accent_positive_2;
-    accent_positive_3 = accent_positive_3;
 
     deleteHerhaling() {
         const settings = VerwijderPopupComponent.defaultPopupSettings;

@@ -55,8 +55,8 @@
         }
         <dt-icon
             #moreOptions
-            [color]="isTabletOfDesktop() ? 'primary' : 'background-light'"
             (click)="onMoreOptions(inleveringenOverzicht.toekenning.lesgroep!)"
+            color="primary"
             icon="opties"
             size="medium"></dt-icon>
     </div>
@@ -190,7 +190,7 @@
     }
 } @else {
     <div class="lesgroep">
-        <dt-background-icon size="medium" icon="groep" color="primary_1"></dt-background-icon>
+        <dt-background-icon size="medium" icon="groep" color="primary"></dt-background-icon>
         <span class="lesgroep-naam text-content-small-semi"></span>
         <span class="aantal-inleveringen"></span>
     </div>

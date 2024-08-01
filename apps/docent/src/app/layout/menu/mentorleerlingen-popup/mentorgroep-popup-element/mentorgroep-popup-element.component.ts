@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IconGroep, provideIcons } from 'harmony-icons';
 import { MentorleerlingenQuery } from '../../../../../generated/_types';
-import { HarmonyColorName } from '../../../../rooster-shared/colors';
 import { BackgroundIconComponent } from '../../../../rooster-shared/components/background-icon/background-icon.component';
+import { BackgroundIconColor } from '../../../../rooster-shared/utils/color-token-utils';
 
 @Component({
     selector: 'dt-mentorgroep-popup-element',
@@ -17,7 +17,7 @@ export class MentorgroepPopupElementComponent {
     @Input() stamgroep: MentorleerlingenQuery['mentorleerlingen']['stamgroepMentorleerlingen'][number]['stamgroep'];
     @Input({ required: true }) text: string;
 
-    get colorBgIcon(): HarmonyColorName {
-        return (this.stamgroep?.color as HarmonyColorName) || 'typography_1';
+    get colorBgIcon(): BackgroundIconColor {
+        return this.stamgroep?.color as BackgroundIconColor;
     }
 }

@@ -23,7 +23,7 @@ import {
     Maybe
 } from '../../../../generated/_types';
 import { DeviceService } from '../../../core/services/device.service';
-import { HarmonyColorName, background_1, toFillCssClass } from '../../../rooster-shared/colors';
+import { HarmonyColorName, toFillCssClass } from '../../../rooster-shared/colors';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';
 import { FormDropdownComponent } from '../../../rooster-shared/components/form-dropdown/form-dropdown.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
@@ -85,7 +85,6 @@ export class AbsentieMeldingPopupComponent implements OnInit, OnDestroy, Popup {
     onSave: (absentieMelding: AbsentieMelding | null) => void;
 
     rows = 2;
-    background_1 = background_1;
 
     private destroy$ = new Subject<void>();
 

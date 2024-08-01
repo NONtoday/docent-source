@@ -87,7 +87,6 @@ export class TooltipDirective implements OnChanges, OnDestroy {
 
     private _isOpenedOnTouch: boolean;
 
-    @HostListener('focusin')
     @HostListener('mouseenter', ['$event'])
     onMouseEnter(event: any) {
         if (!event?.sourceCapabilities?.firesTouchEvents && !this._content && this.isDisplayable()) {
@@ -109,7 +108,6 @@ export class TooltipDirective implements OnChanges, OnDestroy {
         }
     }
 
-    @HostListener('focusout')
     @HostListener('mouseleave')
     @HostListener('click')
     onMouseLeave() {

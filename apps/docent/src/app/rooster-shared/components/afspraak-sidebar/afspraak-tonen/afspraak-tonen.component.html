@@ -18,11 +18,11 @@
         </div>
         @if (afspraak.presentieRegistratieVerplicht) {
             <div class="presentieregistratie">
-                <i
-                    [class.fill-accent-positive-1]="afspraak.presentieRegistratieVerwerkt"
-                    color="fg-primary-normal"
-                    hmyIcon="check"
-                    size="medium"></i>
+                @if (afspraak.presentieRegistratieVerwerkt) {
+                    <i color="fg-positive-normal" data-testid="presentie-verwerkt" hmyIcon="check" size="medium"></i>
+                } @else {
+                    <i color="fg-primary-normal" data-testid="presentie-niet-verwerkt" hmyIcon="check" size="medium"></i>
+                }
                 <span class="text-content-semi text-strong">Presentieregistratie</span>
             </div>
         }
@@ -58,8 +58,6 @@
         class="edit-button"
         (click)="onEdit.emit()"
         cy="afspraak-sidebar-bewerken-button"
-        color="primary_1"
-        iconColor="primary_1"
         icon="bewerken"
         iconOnlyRangeEnd="tablet"
         >Bewerken
@@ -67,8 +65,7 @@
     @if (afspraak.presentieRegistratieVerplicht) {
         <dt-outline-button
             class="registratie-button"
-            [color]="afspraak.presentieRegistratieVerwerkt ? 'accent_positive_1' : 'primary_1'"
-            [iconColor]="afspraak.presentieRegistratieVerwerkt ? 'accent_positive_1' : 'primary_1'"
+            [color]="afspraak.presentieRegistratieVerwerkt ? 'positive' : 'primary'"
             (click)="onRegistreren.emit()"
             icon="yesRadio"
             iconOnlyRangeEnd="tablet"

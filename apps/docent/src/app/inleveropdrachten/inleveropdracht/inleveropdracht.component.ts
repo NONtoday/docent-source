@@ -21,7 +21,6 @@ import { PopupService } from '../../core/popup/popup.service';
 import { DeviceService } from '../../core/services/device.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';
-import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/colors';
 import {
     ActionsPopupComponent,
     bekijkOpdrachtButton,
@@ -32,6 +31,7 @@ import { BackgroundIconComponent } from '../../rooster-shared/components/backgro
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
 import { StudiewijzeritemTitelPipe } from '../../rooster-shared/pipes/studiewijzeritem-titel.pipe';
+import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/utils/color-token-utils';
 import { KleurenStackComponent, KleurenStackElement } from '../../shared/components/kleuren-stack/kleuren-stack.component';
 import { StudiewijzeritemSidebarComponent } from '../../shared/components/studiewijzeritem-sidebar/studiewijzeritem-sidebar.component';
 import { getInleveringenAantalPillTagColor } from '../inleveropdrachten.util';

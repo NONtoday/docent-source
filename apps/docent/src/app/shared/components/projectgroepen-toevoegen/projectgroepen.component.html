@@ -7,7 +7,7 @@
     </div>
     @if (teKiezenLeerlingen$ | async; as leerlingen) {
         <div class="buttons">
-            <dt-outline-button class="terug" (click)="sluitLeerlingSelectie()" color="typography_3">Terug </dt-outline-button>
+            <dt-outline-button class="terug" (click)="sluitLeerlingSelectie()" color="neutral">Terug </dt-outline-button>
             @if ({ value: aantalGeselecteerdeLeerlingen$ | async }; as aantal) {
                 <dt-button
                     [disabled]="aantal.value! < 1"
@@ -71,14 +71,13 @@
             </div>
         }
         <div class="buttons">
-            <dt-outline-button class="terug" (click)="terug.emit()" color="typography_3"> Terug</dt-outline-button>
+            <dt-outline-button class="terug" (click)="terug.emit()" color="neutral"> Terug</dt-outline-button>
             <dt-outline-button
                 class="add"
                 [hideIconForMobile]="true"
                 (click)="nieuweProjectgroep(projectgroepen.length + 1)"
-                color="accent_positive_1"
+                color="positive"
                 icon="toevoegen"
-                iconColor="accent_positive_1"
                 data-gtm="projectgroep-toevoegen">
                 Toevoegen
             </dt-outline-button>

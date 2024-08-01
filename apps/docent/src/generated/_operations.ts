@@ -1274,6 +1274,7 @@ export const overigeVrijVeldWaardeFields = gql`
     id
     naam
     vastgezet
+    positie
   }
   booleanWaarde
   keuzelijstWaarde {
@@ -1969,6 +1970,15 @@ export const sendFeedback = gql`
     medewerker: $medewerker
     deviceInfo: $deviceInfo
     url: $url
+  )
+}
+    `;
+export const sendProductboardFeedback = gql`
+    mutation sendProductboardFeedback($feedbackValue: Int!, $opmerking: String!, $medewerker: medewerkerInput!) {
+  sendProductboardFeedback(
+    feedbackValue: $feedbackValue
+    opmerking: $opmerking
+    medewerker: $medewerker
   )
 }
     `;
@@ -4490,6 +4500,7 @@ export const lesRegistratie = gql`
         waarde
       }
       vastgezet
+      positie
     }
     leerlingRegistraties {
       id
@@ -4552,6 +4563,7 @@ export const signaleringen = gql`
         id
         naam
         vastgezet
+        positie
       }
       leerlingSignaleringen {
         ...leerlingSignaleringen

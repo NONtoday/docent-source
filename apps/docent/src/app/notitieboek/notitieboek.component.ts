@@ -348,7 +348,7 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
         popup.cancelLabel = 'Annuleren';
         popup.actionLabel = 'Stoppen met bewerken';
         popup.outlineConfirmKnop = true;
-        popup.buttonColor = 'accent_negative_1';
+        popup.buttonColor = 'negative';
 
         popup.onConfirmFn = () => true;
         popup.onCancelFn = () => {

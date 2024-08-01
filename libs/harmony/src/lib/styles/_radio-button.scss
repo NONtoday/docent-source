@@ -2,6 +2,8 @@
 @import 'hover';
 
 input[type='radio'] {
+    --radio-input-hover-border-color: var(--border-primary-normal);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +25,9 @@ input[type='radio'] {
     border-radius: 50%;
 
     @include hover {
-        color: var(--border-primary-normal);
+        color: var(--radio-input-hover-border-color);
+
+        border: 0.15em solid currentcolor;
     }
 }
 

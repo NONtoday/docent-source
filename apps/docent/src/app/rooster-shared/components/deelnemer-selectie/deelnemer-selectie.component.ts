@@ -24,7 +24,7 @@ import {
     UntypedFormControl,
     UntypedFormGroup
 } from '@angular/forms';
-import { IconDirective, TagComponent } from 'harmony';
+import { ColorToken, IconDirective, TagComponent } from 'harmony';
 import { IconName, IconToevoegen, provideIcons } from 'harmony-icons';
 import { get, isEqual, pick } from 'lodash-es';
 import { NgClickOutsideDelayOutsideDirective, NgClickOutsideDirective } from 'ng-click-outside2';
@@ -35,7 +35,6 @@ import { shareReplayLastValue } from '../../../core/operators/shareReplayLastVal
 import { DeviceService, phoneQuery, tabletPortraitQuery, tabletQuery } from '../../../core/services/device.service';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { RoosterDataService } from '../../../rooster/rooster-data.service';
-import { HarmonyColor, accent_positive_1 } from '../../colors';
 import { AfspraakParticipantNaamPipe } from '../../pipes/afspraakparticipant-naam.pipe';
 import { ParticipantZoekresultaatComponent } from '../participant-zoekresultaat/participant-zoekresultaat.component';
 
@@ -77,7 +76,7 @@ export class DeelnemerSelectieComponent implements OnInit, AfterViewInit, Contro
     @Input() public placeholder: string;
     @Input() public afspraakId: string;
     @Input() zoekveldIcon: IconName = 'toevoegen';
-    @Input() zoekveldIconColor: HarmonyColor = accent_positive_1;
+    @Input() zoekveldIconColor: ColorToken = 'action-positive-normal';
     @Input() focusOnInit: boolean;
 
     selectedIndex = 0;

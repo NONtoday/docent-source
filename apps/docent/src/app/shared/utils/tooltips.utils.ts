@@ -1,12 +1,13 @@
+import { toCssVar } from 'harmony';
 import { memoize } from 'lodash-es';
 import { Differentiatiegroep, Leerling } from '../../../generated/_types';
-import { background_1, differentieKleurConverter } from '../../rooster-shared/colors';
 import { getVolledigeNaam } from '../../rooster-shared/pipes/volledige-naam.pipe';
+import { differentiatieKleurConverter } from '../../rooster-shared/utils/color-token-utils';
 
 export const groepTooltip = memoize(
     (groep: Differentiatiegroep) =>
         `<div style="height: 12px; width: 12px; border-radius: 50%;
-            background-color: ${differentieKleurConverter[groep.kleur].counter}; display: inline-block; margin-right: 8px"></div>
+            background-color: ${toCssVar(differentiatieKleurConverter[groep.kleur].counter)}; display: inline-block; margin-right: 8px"></div>
         <span>${groep.naam}</span> <br>
         <span>${groep.leerlingen?.map(getVolledigeNaam).join(', ')}</span`
 );
@@ -14,6 +15,6 @@ export const groepTooltip = memoize(
 export const leerlingenTooltip = memoize(
     (leerlingen: Leerling[]) =>
         `<div style="height: 12px; width: 12px; border-radius: 50%;
-            background-color: ${background_1}; display: inline-block; margin-right: 8px"></div>
+            background-color: var(--bg-neutral-weak); display: inline-block; margin-right: 8px"></div>
         <span>${leerlingen?.map(getVolledigeNaam).join(', ')}</span`
 );

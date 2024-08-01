@@ -313,7 +313,9 @@ export class RegistratieComponent extends DeactivatableComponentDirective implem
                         leerlingRegistraties: sortedRegistraties
                     };
                     this.alleVrijveldDefinities = data.lesRegistratie.overigeVrijVeldDefinities;
-                    this.alleExtraVrijveldDefinities = data.lesRegistratie.overigeVrijVeldDefinities.filter((vvd) => !vvd.vastgezet);
+                    this.alleExtraVrijveldDefinities = data.lesRegistratie.overigeVrijVeldDefinities
+                        .filter((vvd) => !vvd.vastgezet)
+                        .sort((veldA, veldB) => (veldA.positie ?? Number.MAX_VALUE) - (veldB.positie ?? Number.MAX_VALUE));
                     this.dirty = some(data.lesRegistratie.leerlingRegistraties, { dirty: true });
                     this.laatstGewijzigdDatum = data.lesRegistratie.laatstGewijzigdDatum;
                     if (data.lesRegistratie.leerlingRegistraties) {
@@ -796,14 +798,14 @@ export class RegistratieComponent extends DeactivatableComponentDirective implem
         popup.customButtons = [
             {
                 icon: 'yesRadio',
-                iconcolor: 'accent_positive_1',
+                color: 'positive',
                 text: 'Aanwezig',
                 gtmTag: 'lesregistratie-bulk-aanwezig',
                 onClickFn: () => this.bulkRegistreerAanwezig()
             },
             {
                 icon: 'noRadio',
-                iconcolor: 'accent_negative_1',
+                color: 'negative',
                 text: 'Afwezig',
                 gtmTag: 'lesregistratie-bulk-afwezig',
                 onClickFn: () => this.bulkRegistreerAfwezig()
@@ -813,7 +815,7 @@ export class RegistratieComponent extends DeactivatableComponentDirective implem
         if (this.teLaatMeldingToegestaan) {
             popup.customButtons.push({
                 icon: 'klok',
-                iconcolor: 'secondary_1',
+                color: 'accent',
                 text: 'Te laat',
                 gtmTag: 'lesregistratie-bulk-telaat',
                 onClickFn: () => this.bulkRegistreerTeLaat()
@@ -855,15 +857,14 @@ export class RegistratieComponent extends DeactivatableComponentDirective implem
 
         const icon = check ? 'bulkCheck' : 'bulkUncheck';
         const text = check ? 'Registreer iedereen' : 'Wis voor iedereen';
-        const actionColor = check ? 'primary_1' : 'accent_negative_1';
+        const actionColor = check ? 'primary' : 'negative';
         const gtmTag = check ? 'lesregistratie-bulk-registreer-iedereen' : undefined;
 
         popup.customButtons = [
             {
                 icon,
-                iconcolor: actionColor,
+                color: actionColor,
                 text,
-                textcolor: actionColor,
                 gtmTag,
                 onClickFn: () => onBulkConfirm(check)
             }

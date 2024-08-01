@@ -1,7 +1,7 @@
 @if (label()) {
     <span class="dropdown-label">{{ label() }}</span>
 }
-<button
+<div
     class="dropdown-box"
     #dropdownBox
     [class.dropdown-open]="isOpen()"
@@ -9,13 +9,15 @@
     [attr.aria-label]="getDropdownBoxAriaLabel()"
     [style.height.px]="buttonHeight()"
     [tabindex]="customTabindex()"
+    [attr.id]="customId()"
     (click)="openOptionsList()"
+    role="listbox"
     aria-controls="dropdown-list">
     <span class="dropdown-value" [class.placeholder]="!selected()">
         {{ selected()?.label ?? placeholder() }}
     </span>
     <i class="dropdown-chevron" hmyIcon="chevronOnder" size="smallest"></i>
-</button>
+</div>
 
 <ng-template #dropdownList>
     <div id="dropdown-list" [style.height]="getListHeightValue()">

@@ -313,7 +313,7 @@ export class SjabloonDetailComponent extends DeactivatableComponentDirective imp
         popup.customButtons = [
             {
                 icon: 'bewerken',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Titel wijzigen',
                 gtmTag: 'sjabloon-titel-wijzigen',
                 onClickFn: () => {

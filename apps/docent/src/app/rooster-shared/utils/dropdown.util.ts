@@ -1,3 +1,4 @@
+import { ColorToken } from 'harmony';
 import { IconName } from 'harmony-icons';
 import { curry, times } from 'lodash-es';
 import { AfspraakHerhalingDag, AfspraakHerhalingEindeType, AfspraakHerhalingType, SjabloonViewQuery } from '../../../generated/_types';
@@ -9,7 +10,7 @@ export interface DropDownOption<T> {
     label?: string;
     labelstyle?: 'warning' | 'primary';
     icon?: IconName;
-    iconColor?: string;
+    iconColor?: ColorToken;
 }
 
 export const toConceptInleveropdrachtWeekOption = curry(

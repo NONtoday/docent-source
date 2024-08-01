@@ -4,7 +4,6 @@ import { MaatregelInput, MaatregelToekenningFragment, MaatregelToekenningInput, 
 import { Schooljaar } from '../../core/models/schooljaar.model';
 import { MaatregelToekenningDataService } from '../../core/services/maatregeltoekenning-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';
-import { background_1 } from '../../rooster-shared/colors';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
 import { DatepickerComponent } from '../../rooster-shared/components/datepicker/datepicker.component';
 import { FormCheckboxComponent } from '../../rooster-shared/components/form-checkbox/form-checkbox.component';
@@ -49,7 +48,6 @@ export class MaatregelenBewerkenSidebarComponent extends BaseSidebar implements 
     schooljaar: Schooljaar = getSchooljaar(new Date());
     maatregelenOptions: DropDownOption<Maatregel>[];
     maatregelInactiefMessage: string;
-    background_1 = background_1;
 
     private maatregelToekenningDataService = inject(MaatregelToekenningDataService);
 

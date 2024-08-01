@@ -110,7 +110,7 @@ export class LeerlingPersonaliaComponent implements OnChanges {
         if (this.heeftBerichtenRecht) {
             buttons.push({
                 icon: 'reacties',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Bericht via Somtoday',
                 onClickFn: () => window.location.assign(this.uriService.getLeerlingNieuwBerichtLink(this.leerling.leerlingnummer)),
                 gtmTag: 'leerlingpersonalia-bericht-leerling'
@@ -123,14 +123,14 @@ export class LeerlingPersonaliaComponent implements OnChanges {
                 ...buttons,
                 {
                     icon: 'bericht',
-                    iconcolor: 'primary_1',
+                    color: 'primary',
                     text: email,
                     onClickFn: () => window.open(`mailto:${email}`, '_blank'),
                     gtmTag: 'leerlingpersonalia-mail-leerling'
                 },
                 {
                     icon: 'dupliceren',
-                    iconcolor: 'primary_1',
+                    color: 'primary',
                     text: 'Kopieer e-mailadres',
                     onClickFn: () => {
                         navigator.clipboard.writeText(email);

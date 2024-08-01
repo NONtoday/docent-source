@@ -18,10 +18,9 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { isEqual, isNil } from 'lodash-es';
 
-import { IconDirective } from 'harmony';
+import { ColorToken, IconDirective } from 'harmony';
 import { IconChevronOnder, IconName, IconNoRadio, provideIcons } from 'harmony-icons';
 import { NgClickOutsideDelayOutsideDirective, NgClickOutsideDirective } from 'ng-click-outside2';
-import { HarmonyColor } from '../../colors';
 import { DropDownOption } from '../../utils/dropdown.util';
 import { Optional } from '../../utils/utils';
 
@@ -51,12 +50,11 @@ export class FormDropdownComponent<T> implements ControlValueAccessor, OnChanges
     @Input() enabled = true;
     @Input() placeholder: string;
     @Input() icon: IconName;
-    @Input() iconColor: HarmonyColor;
+    @Input() iconColor: ColorToken;
     @Input() opties: DropDownOption<T>[] = [];
     @Input() selectedOptie: Optional<DropDownOption<T>>;
     @Input() selectBoxHeight: number;
     @Input() chevronIcon: IconName = 'chevronOnder';
-    @Input() chevronColor: HarmonyColor;
     @Input() scrollIntoView = true;
 
     onOptieClicked = output<any>();

@@ -19,7 +19,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router } from '@angular/router';
 import * as anime from 'animejs/lib/anime.js';
-import { IconSluiten, provideIcons } from 'harmony-icons';
+import { IconSluiten, IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { createNotifier } from 'ngxtension/create-notifier';
 import { NgxDrag, NgxMove, NgxScroll, type NgxInjectDrag } from 'ngxtension/gestures';
 import { filter } from 'rxjs';
@@ -39,7 +39,7 @@ import { ContentAnimationState, MaskAnimationState, ModalSettings } from './moda
     host: {
         '(window:keydown.escape)': 'animateAndClose()'
     },
-    providers: [provideIcons(IconSluiten)]
+    providers: [provideIcons(IconSluiten, IconWaarschuwing)]
 })
 export class ModalComponent implements OnInit {
     @ViewChild('content', { read: ViewContainerRef, static: true }) contentRef: ViewContainerRef;

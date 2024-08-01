@@ -4,7 +4,7 @@
     [class.search-open]="showDropdown$ | async"
     [class.has-selection]="deelnemers.length > 0"
     (click)="onTouched()">
-    <i class="icon" [hmyIcon]="zoekveldIcon" [class]="zoekveldIcon" [style.fill]="zoekveldIconColor"></i>
+    <i class="icon" [hmyIcon]="zoekveldIcon" [class]="zoekveldIcon" [color]="zoekveldIconColor"></i>
     <input #textInput [placeholder]="placeholder" cy="deelnemer-zoekveld" type="text" formControlName="search" />
     @if (deelnemers.length > 0) {
         <div class="tags">

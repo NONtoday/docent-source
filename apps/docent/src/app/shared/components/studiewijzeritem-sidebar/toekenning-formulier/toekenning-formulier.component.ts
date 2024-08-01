@@ -80,15 +80,6 @@ import { MedewerkerDataService } from '../../../../core/services/medewerker-data
 import { SidebarService } from '../../../../core/services/sidebar.service';
 import { ConceptInleveropdrachtStartVoorEindValidator } from '../../../../core/validators/conceptInleveropdracht-start-voor-eind.validator';
 import { startVoorEindValidator } from '../../../../core/validators/startVoorEind.validator';
-import {
-    accent_negative_1,
-    accent_positive_1,
-    accent_warning_1,
-    background_1,
-    background_3,
-    primary_1,
-    typography_3
-} from '../../../../rooster-shared/colors';
 import { ActionsPopupComponent, opslaanEnKopieerButton } from '../../../../rooster-shared/components/actions-popup/actions-popup.component';
 import { BackgroundIconComponent } from '../../../../rooster-shared/components/background-icon/background-icon.component';
 import { ButtonComponent } from '../../../../rooster-shared/components/button/button.component';
@@ -259,16 +250,11 @@ export class ToekenningFormulierComponent implements OnInit, OnChanges, AfterVie
     dagenInWeek = dagenVanDeWeekOptions;
     herinneringOptions = herinneringOptions;
     typeOpties: DropDownOption<HuiswerkType>[] = [
-        { text: 'Huiswerk', value: HuiswerkType.HUISWERK, icon: 'huiswerk', iconColor: primary_1 },
-        { text: 'Toets', value: HuiswerkType.TOETS, icon: 'toets', iconColor: accent_warning_1 },
-        { text: 'Grote toets', value: HuiswerkType.GROTE_TOETS, icon: 'toetsGroot', iconColor: accent_negative_1 },
-        { text: 'Lesstof', value: HuiswerkType.LESSTOF, icon: 'lesstof', iconColor: accent_positive_1 }
+        { text: 'Huiswerk', value: HuiswerkType.HUISWERK, icon: 'huiswerk', iconColor: 'fg-primary-normal' },
+        { text: 'Toets', value: HuiswerkType.TOETS, icon: 'toets', iconColor: 'fg-warning-normal' },
+        { text: 'Grote toets', value: HuiswerkType.GROTE_TOETS, icon: 'toetsGroot', iconColor: 'fg-negative-normal' },
+        { text: 'Lesstof', value: HuiswerkType.LESSTOF, icon: 'lesstof', iconColor: 'fg-positive-normal' }
     ];
-    primary_1 = primary_1;
-    background_1 = background_1;
-    background_3 = background_3;
-    warning_1 = accent_warning_1;
-    typography_3 = typography_3;
     iconNotificatie: IconName = 'notificatie';
     iconVandaag: IconName = 'kalenderDag';
     iconDeadline: IconName = 'tijd';

@@ -12,7 +12,6 @@
                 [attr.data-gtm]="cancelGtmTag"
                 [color]="cancelButtonColor"
                 [icon]="cancelIcon"
-                [iconColor]="cancelIconColor"
                 [wordWrap]="cancelWordWrap"
                 (click)="onCancelClick()">
                 {{ cancelLabel }}
@@ -23,7 +22,6 @@
                     [attr.data-gtm]="confirmGtmTag"
                     [color]="buttonColor"
                     [icon]="icon"
-                    [iconColor]="iconColor"
                     (click)="onActionClick(); $event.stopPropagation()"
                     >{{ actionLabel }}
                 </dt-outline-button>

@@ -76,7 +76,7 @@ export class StudiewijzerOverzichtItemComponent {
         popup.actionLabel = 'Definitief verwijderen';
         popup.warning = true;
         popup.outlineConfirmKnop = true;
-        popup.buttonColor = 'accent_negative_1';
+        popup.buttonColor = 'negative';
         popup.cancelLabel = 'Annuleren';
         popup.onConfirmFn = () => {
             this.studiewijzerDataService.deleteStudiewijzer(this.studiewijzer as Studiewijzer, this.medewerkerDataService.medewerkerUuid);

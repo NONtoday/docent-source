@@ -118,16 +118,16 @@
                         <div class="start-eind-tijden">
                             <div class="start-tijd indicatie">
                                 <dt-form-dropdown
-                                    [iconColor]="primary_1"
                                     [opties]="conceptInleveropdrachtWeekOpties"
                                     [icon]="iconStart"
+                                    iconColor="fg-primary-normal"
                                     formControlName="startWeek">
                                 </dt-form-dropdown>
                                 <div class="dag-tijd">
                                     <dt-form-dropdown
-                                        [iconColor]="background_1"
                                         [opties]="dagenInWeek"
                                         [icon]="iconVandaag"
+                                        iconColor="fg-neutral-normal"
                                         formControlName="startDag">
                                     </dt-form-dropdown>
                                     <input
@@ -142,16 +142,16 @@
                             </div>
                             <div class="eind-tijd indicatie">
                                 <dt-form-dropdown
-                                    [iconColor]="primary_1"
                                     [opties]="conceptInleveropdrachtWeekOpties"
                                     [icon]="iconDeadline"
+                                    iconColor="fg-primary-normal"
                                     formControlName="eindWeek">
                                 </dt-form-dropdown>
                                 <div class="dag-tijd">
                                     <dt-form-dropdown
-                                        [iconColor]="background_1"
                                         [opties]="dagenInWeek"
                                         [icon]="iconVandaag"
+                                        iconColor="fg-neutral-normal"
                                         formControlName="eindDag">
                                     </dt-form-dropdown>
                                     <input
@@ -179,9 +179,9 @@
                     <div class="herinnering">
                         <label>Herinnering instellen</label>
                         <dt-form-dropdown
-                            [iconColor]="warning_1"
                             [opties]="herinneringOptions"
                             [icon]="iconNotificatie"
+                            iconColor="fg-warning-normal"
                             formControlName="herinnering"
                             placeholder="Stel een herinnering in voor de leerlingen">
                         </dt-form-dropdown>
@@ -222,9 +222,9 @@
                     <div class="herinnering">
                         <label>Herinnering instellen</label>
                         <dt-form-dropdown
-                            [iconColor]="warning_1"
                             [opties]="herinneringOptions"
                             [icon]="iconNotificatie"
+                            iconColor="fg-warning-normal"
                             formControlName="herinnering"
                             placeholder="Stel een herinnering in voor de leerlingen">
                         </dt-form-dropdown>
@@ -303,7 +303,7 @@
                                     class="add-differentiatie pointer"
                                     (click)="openDifferentiatieSidebar()"
                                     icon="toevoegen"
-                                    color="accent_positive_1"
+                                    color="positive"
                                     size="small"
                                     hmyTooltip="Differentiëren voor groep of leerling"
                                     data-gtm="differentiatie-toekenning">
@@ -383,7 +383,7 @@
             </div>
         </form>
         <div class="buttons">
-            <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="typography_3">{{
+            <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="neutral">{{
                 sidebarService.currentPage?.isVerdieping ? 'Terug' : 'Annuleren'
             }}</dt-outline-button>
             <button
@@ -504,16 +504,16 @@
                         <div class="start-eind-tijden">
                             <div class="start-tijd indicatie">
                                 <dt-form-dropdown
-                                    [iconColor]="primary_1"
                                     [opties]="conceptInleveropdrachtWeekOpties"
                                     [icon]="iconStart"
+                                    iconColor="fg-primary-normal"
                                     formControlName="startWeek">
                                 </dt-form-dropdown>
                                 <div class="dag-tijd">
                                     <dt-form-dropdown
-                                        [iconColor]="background_1"
                                         [opties]="dagenInWeek"
                                         [icon]="iconVandaag"
+                                        iconColor="fg-neutral-normal"
                                         formControlName="startDag">
                                     </dt-form-dropdown>
                                     <input
@@ -528,16 +528,16 @@
                             </div>
                             <div class="eind-tijd indicatie">
                                 <dt-form-dropdown
-                                    [iconColor]="primary_1"
                                     [opties]="conceptInleveropdrachtWeekOpties"
                                     [icon]="iconDeadline"
+                                    iconColor="fg-primary-normal"
                                     formControlName="eindWeek">
                                 </dt-form-dropdown>
                                 <div class="dag-tijd">
                                     <dt-form-dropdown
-                                        [iconColor]="background_1"
                                         [opties]="dagenInWeek"
                                         [icon]="iconVandaag"
+                                        iconColor="fg-neutral-normal"
                                         formControlName="eindDag">
                                     </dt-form-dropdown>
                                     <input
@@ -565,9 +565,9 @@
                     <div class="herinnering">
                         <label>Herinnering instellen</label>
                         <dt-form-dropdown
-                            [iconColor]="warning_1"
                             [opties]="herinneringOptions"
                             [icon]="iconNotificatie"
+                            iconColor="fg-warning-normal"
                             formControlName="herinnering"
                             placeholder="Stel een herinnering in voor de leerlingen">
                         </dt-form-dropdown>
@@ -608,9 +608,9 @@
                     <div class="herinnering">
                         <label>Herinnering instellen</label>
                         <dt-form-dropdown
-                            [iconColor]="warning_1"
                             [opties]="herinneringOptions"
                             [icon]="iconNotificatie"
+                            iconColor="fg-warning-normal"
                             formControlName="herinnering"
                             placeholder="Stel een herinnering in voor de leerlingen">
                         </dt-form-dropdown>
@@ -632,7 +632,7 @@
                     @if (!toekenning.studiewijzeritem.inleverperiode.id) {
                         <div class="projectgroepen-melding-container">
                             <div class="groep-icon">
-                                <i class="fill-primary-1" hmyIcon="groep" size="medium"></i>
+                                <i hmyIcon="groep" size="medium"></i>
                             </div>
                             <span>Projectgroepen kun je toevoegen na opslaan van de opdracht.</span>
                         </div>
@@ -689,7 +689,7 @@
                                     class="add-differentiatie pointer"
                                     (click)="openDifferentiatieSidebar()"
                                     icon="toevoegen"
-                                    color="accent_positive_1"
+                                    color="positive"
                                     size="small"
                                     hmyTooltip="Differentiëren voor groep of leerling"
                                     data-gtm="differentiatie-toekenning">
@@ -769,7 +769,7 @@
             </div>
         </form>
         <div class="buttons">
-            <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="typography_3">{{
+            <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="neutral">{{
                 sidebarService.currentPage?.isVerdieping ? 'Terug' : 'Annuleren'
             }}</dt-outline-button>
             <button
@@ -878,16 +878,16 @@
                     <div class="start-eind-tijden">
                         <div class="start-tijd indicatie">
                             <dt-form-dropdown
-                                [iconColor]="primary_1"
                                 [opties]="conceptInleveropdrachtWeekOpties"
                                 [icon]="iconStart"
+                                iconColor="fg-primary-normal"
                                 formControlName="startWeek">
                             </dt-form-dropdown>
                             <div class="dag-tijd">
                                 <dt-form-dropdown
-                                    [iconColor]="background_1"
                                     [opties]="dagenInWeek"
                                     [icon]="iconVandaag"
+                                    iconColor="fg-primary-normal"
                                     formControlName="startDag">
                                 </dt-form-dropdown>
                                 <input
@@ -902,16 +902,16 @@
                         </div>
                         <div class="eind-tijd indicatie">
                             <dt-form-dropdown
-                                [iconColor]="primary_1"
                                 [opties]="conceptInleveropdrachtWeekOpties"
                                 [icon]="iconDeadline"
+                                iconColor="fg-primary-normal"
                                 formControlName="eindWeek">
                             </dt-form-dropdown>
                             <div class="dag-tijd">
                                 <dt-form-dropdown
-                                    [iconColor]="background_1"
                                     [opties]="dagenInWeek"
                                     [icon]="iconVandaag"
+                                    iconColor="fg-neutral-normal"
                                     formControlName="eindDag">
                                 </dt-form-dropdown>
                                 <input
@@ -939,9 +939,9 @@
                 <div class="herinnering">
                     <label>Herinnering instellen</label>
                     <dt-form-dropdown
-                        [iconColor]="warning_1"
                         [opties]="herinneringOptions"
                         [icon]="iconNotificatie"
+                        iconColor="fg-warning-normal"
                         formControlName="herinnering"
                         placeholder="Stel een herinnering in voor de leerlingen">
                     </dt-form-dropdown>
@@ -982,9 +982,9 @@
                 <div class="herinnering">
                     <label>Herinnering instellen</label>
                     <dt-form-dropdown
-                        [iconColor]="warning_1"
                         [opties]="herinneringOptions"
                         [icon]="iconNotificatie"
+                        iconColor="fg-warning-normal"
                         formControlName="herinnering"
                         placeholder="Stel een herinnering in voor de leerlingen">
                     </dt-form-dropdown>
@@ -1006,7 +1006,7 @@
                 @if (!toekenning.studiewijzeritem.inleverperiode.id) {
                     <div class="projectgroepen-melding-container">
                         <div class="groep-icon">
-                            <i class="fill-primary-1" hmyIcon="groep" size="medium"></i>
+                            <i hmyIcon="groep" size="medium"></i>
                         </div>
                         <span>Projectgroepen kun je toevoegen na opslaan van de opdracht.</span>
                     </div>
@@ -1063,7 +1063,7 @@
                                 class="add-differentiatie pointer"
                                 (click)="openDifferentiatieSidebar()"
                                 icon="toevoegen"
-                                color="accent_positive_1"
+                                color="positive"
                                 size="small"
                                 hmyTooltip="Differentiëren voor groep of leerling"
                                 data-gtm="differentiatie-toekenning">
@@ -1140,7 +1140,7 @@
         </div>
     </form>
     <div class="buttons">
-        <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="typography_3">{{
+        <dt-outline-button class="cancel" (click)="onAnnulerenClick()" color="neutral">{{
             sidebarService.currentPage?.isVerdieping ? 'Terug' : 'Annuleren'
         }}</dt-outline-button>
         <button

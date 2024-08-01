@@ -1,8 +1,7 @@
-import { sortBy } from 'lodash-es';
-import { Differentiatiegroep, DifferentiatiegroepKleur, Leerling } from '../../generated/_types';
-import { KleurenStackElement } from '../shared/components/kleuren-stack/kleuren-stack.component';
-import { getVolledigeNaam } from '../shared/utils/leerling.utils';
-import { stringToHash } from './utils/utils';
+/**
+ * Dit bestand bevat alle legacy Harmony kleuren en bijbehorende logica. Zodra alle kleuren zijn omgezet naar design tokens kan dit weg.
+ * Alle Docent-specifieke logica die al omgezet is naar color tokens kan verplaatst worden naar color-token-utils.ts
+ */
 
 const backgroundColors = ['#d0dae4', '#d7dfe6', '#e3e9ee', '#f0f3f5', '#f7f9fa', '#ffffff'] as const;
 export type Background = (typeof backgroundColors)[number];
@@ -152,21 +151,6 @@ const harmonyBackgroundColorMap = new Map<HarmonyColor, HarmonyColor>()
  */
 export const getHarmonyBackgroundColor = (foregroundColor: HarmonyColor) => harmonyBackgroundColorMap.get(foregroundColor) || background_1;
 
-export const backgroundIconColors: HarmonyColorName[] = [
-    'primary_1',
-    'accent_positive_1',
-    'accent_negative_1',
-    'accent_warning_1',
-    'secondary_1',
-    'typography_3',
-    'accent_alt_1'
-];
-
-export const stringToColor = (string: string, choices = backgroundIconColors): HarmonyColorName => {
-    const hash = stringToHash(string);
-    return choices[hash % choices.length];
-};
-
 /**
  * Geeft de hex waarde van de meest voorkomende string kleuren als 'negative', 'positive', 'typography'.
  * Wanneer de waarde niet gevonden kan worden, wordt de input gereturned.
@@ -192,22 +176,6 @@ export const colorToHex = (color: string): HarmonyColor => {
     return color as HarmonyColor;
 };
 
-interface KleurConverter {
-    background: HarmonyColor;
-    color: HarmonyColor;
-    counter: HarmonyColor;
-    border: HarmonyColor;
-}
-export const differentieKleurConverter: Record<DifferentiatiegroepKleur, KleurConverter> = {
-    BLAUW: { background: primary_4, color: primary_2, counter: primary_1, border: primary_2 },
-    GEEL: { background: secondary_3, color: secondary_2, counter: secondary_1, border: secondary_2 },
-    GROEN: { background: accent_positive_3, color: accent_positive_2, counter: accent_positive_1, border: accent_positive_2 },
-    ORANJE: { background: accent_warning_3, color: accent_warning_2, counter: accent_warning_1, border: accent_warning_2 },
-    PAARS: { background: accent_alt_3, color: accent_alt_2, counter: accent_alt_1, border: accent_alt_2 },
-    ROOD: { background: accent_negative_3, color: accent_negative_2, counter: accent_negative_1, border: accent_negative_2 },
-    GRIJS: { background: background_3, color: typography_3, counter: typography_3, border: typography_2 }
-};
-
 export const harmonyBorderColorMap = new Map<HarmonyColor, HarmonyColor>()
     .set(primary_1, primary_2)
     .set(accent_positive_1, accent_positive_2)
@@ -219,23 +187,6 @@ export const harmonyBorderColorMap = new Map<HarmonyColor, HarmonyColor>()
     .set(background_1, background_2);
 
 export const getHarmonyBorderColor = (foregroundColor: HarmonyColor) => harmonyBorderColorMap.get(foregroundColor) || background_1;
-
-export const mapDifferentiatieToKleurenStackElements = (
-    groepen: Differentiatiegroep[] = [],
-    leerlingen: Leerling[] = []
-): KleurenStackElement[] => {
-    const kleuren =
-        sortBy(groepen, ['id']).map((groep) => ({
-            kleur: differentieKleurConverter[groep.kleur].counter,
-            border: differentieKleurConverter[groep.kleur].border,
-            content: groep.naam
-        })) ?? [];
-    if (leerlingen.length > 0) {
-        kleuren.push({ kleur: primary_4, border: background_1, content: leerlingen.map(getVolledigeNaam).join(', ') });
-    }
-
-    return kleuren;
-};
 
 function replaceUnderscoresInColorName(colorName: HarmonyColorName) {
     return colorName?.replace(/_/g, '-');

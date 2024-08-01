@@ -60,7 +60,7 @@ export class MaatregeltoekenningComponent {
         popup.customButtons = [
             {
                 icon: 'bewerken',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Bewerken',
                 onClickFn: () => {
                     this.bewerken.emit(this.maatregeltoekenning);
@@ -70,7 +70,7 @@ export class MaatregeltoekenningComponent {
             },
             {
                 icon: 'verwijderen',
-                iconcolor: 'accent_negative_1',
+                color: 'negative',
                 text: 'Verwijderen',
                 isVerwijderButton: true,
                 onClickFn: () => {
@@ -81,7 +81,7 @@ export class MaatregeltoekenningComponent {
             },
             {
                 icon: nagekomen ? 'noRadio' : 'yesRadio',
-                iconcolor: nagekomen ? 'accent_negative_1' : 'accent_positive_1',
+                color: nagekomen ? 'negative' : 'positive',
                 text: nagekomen ? 'Markeer als actieve maatregel' : 'Markeer als afgehandeld',
                 onClickFn: () => {
                     this.afgehandeld.emit(this.maatregeltoekenning);

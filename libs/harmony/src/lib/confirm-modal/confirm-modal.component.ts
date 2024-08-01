@@ -1,6 +1,7 @@
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, inject, input } from '@angular/core';
+import { IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { ButtonComponent, ButtonMode } from '../button/button.component';
 import { ModalService } from '../overlay/modal/service/modal.service';
 
@@ -8,6 +9,7 @@ import { ModalService } from '../overlay/modal/service/modal.service';
     selector: 'hmy-confirm-modal',
     standalone: true,
     imports: [CommonModule, ButtonComponent, CdkTrapFocus],
+    providers: [provideIcons(IconWaarschuwing)],
     templateUrl: './confirm-modal.component.html',
     styleUrl: './confirm-modal.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

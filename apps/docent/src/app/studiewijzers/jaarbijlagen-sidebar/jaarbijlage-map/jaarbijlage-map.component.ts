@@ -22,7 +22,6 @@ import { BijlageMap, Differentiatiegroep, Leerling, Sjabloon, Studiewijzer } fro
 import { PopupService } from '../../../core/popup/popup.service';
 import { PopupDirection } from '../../../core/popup/popup.settings';
 import { DeviceService, desktopQuery } from '../../../core/services/device.service';
-import { mapDifferentiatieToKleurenStackElements } from '../../../rooster-shared/colors';
 import {
     ActionsPopupComponent,
     bewerkButton,
@@ -33,6 +32,7 @@ import {
 import { CheckboxComponent } from '../../../rooster-shared/components/checkbox/checkbox.component';
 import { IconComponent } from '../../../rooster-shared/components/icon/icon.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
+import { mapDifferentiatieToKleurenStackElements } from '../../../rooster-shared/utils/color-token-utils';
 import { InlineEditComponent } from '../../../shared/components/inline-edit/inline-edit.component';
 import { KleurenStackComponent, KleurenStackElement } from '../../../shared/components/kleuren-stack/kleuren-stack.component';
 import { ZichtbaarheidstoggleComponent } from '../../../shared/components/zichtbaarheidstoggle/zichtbaarheidstoggle.component';
@@ -187,9 +187,8 @@ export class JaarbijlageMapComponent implements OnInit, OnChanges, OnDestroy {
             if (!this.bijlageMap.synchroniseertMet) {
                 customButtons.push({
                     icon: 'mapVerwijderen',
-                    iconcolor: 'accent_positive_1',
+                    color: 'positive',
                     text: 'Alleen map verwijderen',
-                    textcolor: 'accent_positive_1',
                     isVerwijderButton: true,
                     onClickFn: () => this.verwijderBijlageMap.emit({ bijlageMap: this.bijlageMap, inclBijlagen: false })
                 });
@@ -249,9 +248,8 @@ export class JaarbijlageMapComponent implements OnInit, OnChanges, OnDestroy {
         const popup = this.popupService.popup(this.meerOptiesIcon, settings, ActionsPopupComponent);
         popup.customButtons = this.studiewijzer.gesynchroniseerdeSjablonen.map((sjabloon) => ({
             text: sjabloon.naam,
-            textcolor: 'primary_1',
+            color: 'primary',
             icon: null,
-            iconcolor: null,
             onClickFn: () => {
                 this.synchroniseerBijlageMapEmitter.emit(sjabloon);
                 this.popupService.closePopUp();

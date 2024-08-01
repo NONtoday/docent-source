@@ -46,7 +46,8 @@ fetch('./assets/environment-config.json')
         const updatedConfig = {
             ...envConfig,
             useAuthenticator:
-                process.env.NG_APP_USE_AUTH !== undefined ? process.env.NG_APP_USE_AUTH !== 'false' : envConfig.useAuthenticator
+                process.env.NG_APP_USE_AUTH !== undefined ? process.env.NG_APP_USE_AUTH !== 'false' : envConfig.useAuthenticator,
+            corePr: process.env.NG_APP_CORE_PR
         } satisfies EnvironmentConfiguration;
 
         if ('serviceWorker' in navigator && !updatedConfig.useServiceWorkers) {

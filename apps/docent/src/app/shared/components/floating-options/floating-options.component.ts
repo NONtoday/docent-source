@@ -12,7 +12,7 @@ import {
 } from '../../../rooster-shared/components/actions-popup/actions-popup.component';
 import { Optional, callIfFunction } from '../../../rooster-shared/utils/utils';
 
-export type FloatingOption = Omit<ActionButton, 'iconcolor' | 'icon' | 'onClickFn'> & {
+export type FloatingOption = Omit<ActionButton, 'color' | 'icon' | 'onClickFn'> & {
     active: boolean | (() => boolean);
     icon?: IconName;
     onClickFn: (...args: unknown[]) => Promise<void> | void;
@@ -69,7 +69,7 @@ export class FloatingOptionsComponent implements OnChanges {
                 option.gtmTag
             );
             if (callIfFunction(option.active)) {
-                button.textcolor = 'typography_1';
+                button.color = 'neutral';
             }
             return button;
         });

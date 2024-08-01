@@ -80,19 +80,17 @@
                                 </dt-leerling>
                                 @if ((pinned$ | async) === i) {
                                     <dt-background-icon
-                                        class="pinned-icon"
-                                        [backgroundColor]="primary_1"
+                                        class="pinned-icon is-pinned"
                                         icon="pinned"
-                                        color="background_6"
+                                        color="neutral"
                                         size="smallest"></dt-background-icon>
                                 }
                                 @if ((pinned$ | async) !== i) {
                                     <dt-background-icon
                                         class="pinned-icon hover show-for-desktop"
-                                        [backgroundColor]="background_6"
+                                        [hoverable]="true"
                                         icon="pinned"
-                                        color="typography_3"
-                                        hoverColor="primary_1"
+                                        color="neutral"
                                         size="smallest">
                                     </dt-background-icon>
                                 }

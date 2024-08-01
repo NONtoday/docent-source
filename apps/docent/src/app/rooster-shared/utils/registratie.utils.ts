@@ -10,8 +10,8 @@ import {
 } from '../../../generated/_types';
 import { ExterneRegistratieType } from '../../core/models/lesregistratie.model';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
-import { HarmonyColorName } from '../colors';
 import { ActionButton } from '../components/actions-popup/actions-popup.component';
+import { ActionColor } from './color-token-utils';
 import { Optional, equalsId } from './utils';
 
 export const createVrijVeldKeuzePopupCustomButtons = (
@@ -22,12 +22,12 @@ export const createVrijVeldKeuzePopupCustomButtons = (
     return [
         ...(vrijveld.keuzelijstWaardeMogelijkheden ?? []).map((keuze) => ({
             text: keuze.waarde,
-            textcolor: (huidigeWaarde?.keuzelijstWaarde?.id === keuze.id ? 'typography_1' : 'primary_1') as HarmonyColorName,
+            color: (huidigeWaarde?.keuzelijstWaarde?.id === keuze.id ? 'neutral' : 'primary') as ActionColor,
             onClickFn: () => updateKeuzeFn(vrijveld, keuze)
         })),
         {
             text: 'Geen',
-            textcolor: huidigeWaarde?.keuzelijstWaarde ? 'primary_1' : 'typography_1',
+            color: huidigeWaarde?.keuzelijstWaarde ? 'primary' : 'neutral',
             onClickFn: () => updateKeuzeFn(vrijveld, null)
         }
     ];

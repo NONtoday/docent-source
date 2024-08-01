@@ -84,15 +84,10 @@ export class NotitieStreamComponent implements OnInit, AfterViewInit {
     noNotities$: Observable<boolean>;
     filterOptie$ = new BehaviorSubject<Optional<NotitieFilter>>(null);
     readonly filterOpties: NotitieFilter[] = ['Mijn notities', 'Docenten', 'Mentor', 'Belangrijk', 'Vastgeprikt', 'Gemarkeerd'];
-    schooljaarOpties: () => DropdownItem<number>[] = computed(
-        () =>
-            this.context().leerling?.schooljaren?.map((sj) => {
-                return {
-                    label: `${sj}/${sj + 1}`,
-                    data: sj
-                };
-            }) || []
-    );
+    schooljaarOpties: () => DropdownItem<number>[] = computed(() => {
+        const opties = this.context().leerling?.schooljaren?.map((sj) => getSchooljaarOptieFromStartYear(sj)) || [];
+        return opties.length > 0 ? opties : [getSchooljaarOptieFromStartYear(getSchooljaar(new Date()).start.getFullYear())];
+    });
     selectedSchooljaar = computed(() => this.schooljaarOpties().find((sj) => sj.data === getSchooljaar(new Date()).start.getFullYear()));
 
     searchControl = new FormControl('', { nonNullable: true });
@@ -193,6 +188,11 @@ export class NotitieStreamComponent implements OnInit, AfterViewInit {
         this.onSchooljaarSelected.emit(schooljaar);
     }
 }
+
+const getSchooljaarOptieFromStartYear = (startYear: number): DropdownItem<number> => ({
+    label: `${startYear}/${startYear + 1}`,
+    data: startYear
+});
 
 export type NotitieFilter = 'Mijn notities' | 'Docenten' | 'Mentor' | 'Belangrijk' | 'Vastgeprikt' | 'Gemarkeerd';
 type QueriedNotitie = NotitiestreamQuery['notitiestream'][number]['notities'][number];

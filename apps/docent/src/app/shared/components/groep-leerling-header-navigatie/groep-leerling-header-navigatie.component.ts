@@ -6,10 +6,10 @@ import { Observable, map, startWith } from 'rxjs';
 import { LesgroepFieldsFragment, PartialLeerlingFragment, StamgroepFieldsFragment } from '../../../../generated/_types';
 import { DeviceService } from '../../../core/services/device.service';
 import { MentorLeerlingStamgroep } from '../../../mentordashboard/mentordashboard-navigatie/mentordashboard-navigatie.component';
-import { HarmonyColorName } from '../../../rooster-shared/colors';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';
+import { BackgroundIconColor } from '../../../rooster-shared/utils/color-token-utils';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { HeaderNavigatieButtonsComponent } from '../header-navigatie-buttons/header-navigatie-buttons.component';
 
@@ -78,8 +78,8 @@ export class GroepLeerlingHeaderNavigatieComponent implements OnInit {
     onLeerlingClick = () => this.leerlingClick.emit(this.popupRef);
     onGroepClick = () => (this.kanNavigerenNaarGroep ? this.groepClick.emit() : void 0);
 
-    get groepColor(): HarmonyColorName {
-        return (this.groep?.color as HarmonyColorName) || 'typography_1';
+    get groepColor(): BackgroundIconColor {
+        return this.groep?.color as BackgroundIconColor;
     }
 
     get groepName(): string {

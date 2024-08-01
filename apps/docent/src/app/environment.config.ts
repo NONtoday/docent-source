@@ -40,5 +40,6 @@ export interface EnvironmentConfiguration {
     connectEnvironment: string;
     googleClientId: string;
     msGraphClientId: string;
+    corePr: string;
 }
 export const ENVIRONMENT_CONFIG = new InjectionToken<EnvironmentConfiguration>('Environment_Configuration');

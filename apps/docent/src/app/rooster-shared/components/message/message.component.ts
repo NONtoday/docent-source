@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnDestroy, OnInit, output } from '@angular/core';
 import { IconDirective } from 'harmony';
 import { IconInformatie, IconNoRadio, IconSluiten, IconSynchroniseren, IconWaarschuwing, IconYesRadio, provideIcons } from 'harmony-icons';
 import { Optional } from '../../utils/utils';
@@ -15,7 +15,7 @@ export type MessageSoort = 'waarschuwing' | 'info' | 'error' | 'ok' | 'confirm';
     imports: [ButtonComponent, IconDirective],
     providers: [provideIcons(IconWaarschuwing, IconInformatie, IconNoRadio, IconYesRadio, IconSynchroniseren, IconSluiten)]
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent implements OnInit, OnDestroy {
     @Input() @HostBinding('attr.soort') soort: MessageSoort = 'info';
     @Input() @HostBinding('class.is-toast') isToast = false;
     @Input() text: Optional<string>;
@@ -27,9 +27,15 @@ export class MessageComponent implements OnInit {
     onClose = output<void>();
     onButtonClick = output<void>();
 
+    private isDestroyed = false;
+
     ngOnInit() {
         if (this.duration) {
-            setTimeout(() => this.onClose.emit(), this.duration);
+            setTimeout(() => !this.isDestroyed && this.onClose.emit(), this.duration);
         }
+    }
+
+    ngOnDestroy(): void {
+        this.isDestroyed = true;
     }
 }

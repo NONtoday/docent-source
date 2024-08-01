@@ -1,49 +1,80 @@
 <dt-popup>
     <div class="container" [class.geen-elo-toegang]="!heeftToegangTotElo" popup-content>
-        <div class="optie huiswerk" (click)="addSwi(huiswerkType.HUISWERK)" data-gtm="swi-toevoegen-huiswerk">
-            <i color="fg-primary-normal" hmyIcon="huiswerk" size="medium"></i>
-            <span>Huiswerk</span>
+        <div class="links">
+            <dt-popup-button
+                (click)="addSwi(huiswerkType.HUISWERK)"
+                icon="huiswerk"
+                size="medium"
+                color="primary"
+                data-gtm="swi-toevoegen-huiswerk"
+                text="Huiswerk">
+            </dt-popup-button>
+            <dt-popup-button
+                (click)="addSwi(huiswerkType.TOETS)"
+                icon="toets"
+                size="medium"
+                color="warning"
+                data-gtm="swi-toevoegen-toets"
+                text="Toets">
+            </dt-popup-button>
+            <dt-popup-button
+                (click)="addSwi(huiswerkType.GROTE_TOETS)"
+                icon="toetsGroot"
+                size="medium"
+                color="negative"
+                data-gtm="swi-toevoegen-grote-toets"
+                text="Grote toets">
+            </dt-popup-button>
+            @if (heeftToegangTotElo) {
+                <dt-popup-button
+                    (click)="addSwi(huiswerkType.LESSTOF)"
+                    icon="lesstof"
+                    size="medium"
+                    color="positive"
+                    data-gtm="swi-toevoegen-lesstof"
+                    text="Lesstof">
+                </dt-popup-button>
+            }
+            @if ((!week || inSjabloon) && showInleveropdracht) {
+                <dt-popup-button
+                    (click)="addSwi(huiswerkType.HUISWERK, true)"
+                    icon="inleveropdracht"
+                    size="medium"
+                    color="alternative"
+                    data-gtm="swi-toevoegen-inleveropdracht"
+                    text="Inleveropdracht">
+                </dt-popup-button>
+            }
+            @if (onStudiewijzerClick || onSjabloonClick) {
+                <div class="divider"></div>
+            }
+            @if (onStudiewijzerClick) {
+                <dt-popup-button
+                    (click)="openStudiewijzerSelectie()"
+                    icon="studiewijzer"
+                    size="medium"
+                    data-gtm="swi-toevoegen-uit-studiewijzer"
+                    text="Uit studiewijzer">
+                </dt-popup-button>
+            }
+            @if (showUitMethode && (kanToevoegenUitMethode$ | async)) {
+                <dt-popup-button
+                    (click)="openMethodeInhoudSelectieSidebar()"
+                    icon="methode"
+                    size="medium"
+                    data-gtm="swi-toevoegen-uit-methode"
+                    text="Uit methode">
+                </dt-popup-button>
+            }
+            @if (onSjabloonClick) {
+                <dt-popup-button
+                    (click)="openSjabloonSelectie()"
+                    icon="sjabloon"
+                    size="medium"
+                    data-gtm="swi-toevoegen-uit-sjabloon"
+                    text="Uit sjabloon">
+                </dt-popup-button>
+            }
         </div>
-        <div class="optie toets" (click)="addSwi(huiswerkType.TOETS)" data-gtm="swi-toevoegen-toets">
-            <i color="fg-warning-normal" hmyIcon="toets" size="medium"></i>
-            <span>Toets</span>
-        </div>
-        <div class="optie grote-toets" (click)="addSwi(huiswerkType.GROTE_TOETS)" data-gtm="swi-toevoegen-grote-toets">
-            <i color="fg-negative-normal" hmyIcon="toetsGroot" size="medium"></i>
-            <span>Grote toets</span>
-        </div>
-        @if (heeftToegangTotElo) {
-            <div class="optie lesstof" (click)="addSwi(huiswerkType.LESSTOF)" data-gtm="swi-toevoegen-lesstof">
-                <i color="fg-positive-normal" hmyIcon="lesstof" size="medium"></i>
-                <span>Lesstof</span>
-            </div>
-        }
-        @if ((!week || inSjabloon) && showInleveropdracht) {
-            <div class="optie inleveropdracht" (click)="addSwi(huiswerkType.HUISWERK, true)" data-gtm="swi-toevoegen-inleveropdracht">
-                <i color="fg-alternative-normal" hmyIcon="inleveropdracht" size="medium"></i>
-                <span>Inleveropdracht</span>
-            </div>
-        }
-        @if (onStudiewijzerClick || onSjabloonClick) {
-            <div class="divider"></div>
-        }
-        @if (onStudiewijzerClick) {
-            <div class="optie uit-studiewijzer" (click)="openStudiewijzerSelectie()" data-gtm="swi-toevoegen-uit-studiewijzer">
-                <i color="fg-primary-normal" hmyIcon="studiewijzer" size="medium"></i>
-                <span>Uit studiewijzer</span>
-            </div>
-        }
-        @if (showUitMethode && (kanToevoegenUitMethode$ | async)) {
-            <div class="optie methode hide-for-tablet" (click)="openMethodeInhoudSelectieSidebar()" data-gtm="swi-toevoegen-uit-methode">
-                <i color="fg-primary-normal" hmyIcon="methode" size="medium"></i>
-                <span>Uit methode</span>
-            </div>
-        }
-        @if (onSjabloonClick) {
-            <div class="optie uit-sjabloon" (click)="openSjabloonSelectie()" data-gtm="swi-toevoegen-uit-sjabloon">
-                <i color="fg-primary-normal" hmyIcon="sjabloon" size="medium"></i>
-                <span>Uit sjabloon</span>
-            </div>
-        }
     </div>
 </dt-popup>

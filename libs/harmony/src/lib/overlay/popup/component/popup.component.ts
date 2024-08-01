@@ -84,6 +84,7 @@ export class PopupComponent implements AfterViewInit {
             () => {
                 this.viewContainerRef.element.nativeElement.style.setProperty('--width', this.settings().width);
                 this.viewContainerRef.element.nativeElement.style.setProperty('--max-width', this.settings().maxWidth);
+                this.viewContainerRef.element.nativeElement.style.setProperty('--max-height', this.settings().maxHeight);
 
                 const connectedLocation = this.connectedElement().element.nativeElement.getBoundingClientRect() as BoundingClientRect;
                 const popupLocation = this.viewContainerRef.element.nativeElement.getBoundingClientRect() as BoundingClientRect;
@@ -147,7 +148,7 @@ export class PopupComponent implements AfterViewInit {
     }
 
     onAnimationDone() {
-        if ((!this.isDestroyed && this.animationState() === 'fade-hidden') || this.animationState() === 'slide-hidden') {
+        if (!this.isDestroyed && (this.animationState() === 'fade-hidden' || this.animationState() === 'slide-hidden')) {
             this.closePopup.emit();
         }
     }

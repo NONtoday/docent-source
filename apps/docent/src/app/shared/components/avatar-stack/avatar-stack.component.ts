@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnC
 import { IconGroep, provideIcons } from 'harmony-icons';
 import { orderBy } from 'lodash-es';
 import { LesgroepFieldsFragment, Maybe, PartialLeerlingFragment, StamgroepFieldsFragment } from '../../../../generated/_types';
-import { HarmonyColorName } from '../../../rooster-shared/colors';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
+import { BackgroundIconColor } from '../../../rooster-shared/utils/color-token-utils';
 
 interface AvatarStackItem {
     pasfoto?: Maybe<string>;
     initialen?: string;
-    color?: Maybe<HarmonyColorName>;
+    color?: Maybe<BackgroundIconColor>;
     prio: boolean;
 }
 type AvatarStackNarrowSpacing = 2;
@@ -69,7 +69,7 @@ export class AvatarStackComponent implements OnChanges {
     });
 
     groepToStackItem = (groep: LesgroepFieldsFragment | StamgroepFieldsFragment): AvatarStackItem => ({
-        color: groep.color as HarmonyColorName,
+        color: groep.color as BackgroundIconColor,
         prio: this.altijdTonen.includes(groep.id)
     });
 }

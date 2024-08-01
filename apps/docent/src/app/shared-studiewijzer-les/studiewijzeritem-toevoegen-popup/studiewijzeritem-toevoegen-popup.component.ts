@@ -21,6 +21,7 @@ import { SidebarService } from '../../core/services/sidebar.service';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { HuiswerkTypeIconPipe } from '../../rooster-shared/pipes/huiswerk-type-icon.pipe';
 import { Optional } from '../../rooster-shared/utils/utils';
+import { PopupButtonComponent } from '../../shared/components/popup-button/popup-button.component';
 import { StudiewijzeritemSidebarComponent } from '../../shared/components/studiewijzeritem-sidebar/studiewijzeritem-sidebar.component';
 import {
     createAfspraakToekenning,
@@ -40,7 +41,7 @@ import { MethodeSidebarComponent } from '../../studiewijzers/methode-sidebar/met
         provideIcons(IconHuiswerk, IconToets, IconToetsGroot, IconLesstof, IconInleveropdracht, IconStudiewijzer, IconMethode, IconSjabloon)
     ],
     standalone: true,
-    imports: [PopupComponent, AsyncPipe, IconDirective]
+    imports: [PopupComponent, AsyncPipe, IconDirective, PopupButtonComponent]
 })
 export class StudiewijzeritemToevoegenPopupComponent implements OnInit, Popup {
     private sidebarService = inject(SidebarService);

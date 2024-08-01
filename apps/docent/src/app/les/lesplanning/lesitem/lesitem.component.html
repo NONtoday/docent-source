@@ -1,7 +1,7 @@
 <div class="header">
     <i
         [hmyIcon]="$any(toekenning.studiewijzeritem.icon)"
-        [class]="toekenning.studiewijzeritem.huiswerkType | huiswerkTypeColor | harmonyColorToFillClass"
+        [color]="getHuiswerkIconColorToken(toekenning.studiewijzeritem.huiswerkType)"
         size="large"></i>
     <span class="text-head text-moderate lesitemtitel">{{ titel }}</span>
     @if (!toekenning.studiewijzeritem.zichtbaarVoorLeerling) {

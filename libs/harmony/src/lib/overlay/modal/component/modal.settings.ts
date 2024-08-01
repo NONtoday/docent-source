@@ -11,7 +11,7 @@ export interface ModalSettings {
     maxHeightModal: string;
     keepOnNavigation: boolean;
     title: string | undefined;
-    titleIcon: IconName | undefined;
+    titleIcon: ModalIconName | undefined;
     titleIconColor: ColorToken | undefined;
     onClose?: () => void;
 }
@@ -35,3 +35,8 @@ export function createModalSettings(updatedSettings?: Partial<ModalSettings>): M
         ...updatedSettings
     };
 }
+
+type Satisfies<T, U extends T> = U;
+
+// Let op: als je deze opties wilt uitbreiden zul je ook de provideIcons in ModalComponent moeten uitbreiden
+export type ModalIconName = Satisfies<IconName, 'waarschuwing'>;

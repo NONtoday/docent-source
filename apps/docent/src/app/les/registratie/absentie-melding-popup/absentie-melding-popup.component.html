@@ -11,7 +11,6 @@
                     <dt-form-dropdown
                         class="dag-werkdag-opties"
                         [scrollIntoView]="false"
-                        [chevronColor]="background_1"
                         [opties]="toegestaneAbsentieRedenen"
                         [formControl]="absentieReden"
                         (onOptieClicked)="focusOpmerkingen()"
@@ -48,7 +47,7 @@
                     dtAutofocus></textarea>
             </div>
             <div class="buttons" [class.full-width]="isAbsent">
-                <dt-outline-button class="annuleer" (click)="annuleer()" color="typography_3">Annuleren </dt-outline-button>
+                <dt-outline-button class="annuleer" (click)="annuleer()" color="neutral">Annuleren </dt-outline-button>
                 <button
                     class="submit"
                     [attr.data-gtm]="saveButtonGtmTag"

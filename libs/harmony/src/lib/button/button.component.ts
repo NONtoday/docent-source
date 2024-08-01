@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { IconName } from 'harmony-icons';
 import { match } from 'ts-pattern';
 import { ClassOnClickDirective } from '../directives/class-on-click.directive';
-import { IconDirective } from '../icon/icon.directive';
+import { IconDirective, IconSize } from '../icon/icon.directive';
 import { ColorToken } from '../tokens/color-token';
 
 export type ButtonMode = 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'delete';
@@ -32,7 +32,9 @@ export class ButtonComponent {
 
     public justifyContent = input<JustifyContent>('center');
     public iconLeft = input<IconName>();
+    public iconLeftSize = input<IconSize>('medium');
     public iconRight = input<IconName>();
+    public iconRightSize = input<IconSize>('medium');
 
     public disabledOrMode = computed(() => (this.disabled() ? 'disabled' : this.mode()));
     public leftIconMargin = computed(() => (this.iconLeft() && this.justifyContent() === 'center' ? '8px' : null));

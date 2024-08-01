@@ -3,7 +3,7 @@ import { isDate, parseISO } from 'date-fns';
 import { TypedTypePolicies } from '../../../generated/_apollo-helpers';
 import possibleTypesData from '../../../generated/_fragment-types';
 import { HuiswerkType, InboxBericht, LeerlingoverzichtVakSamenvattingQueryVariables, Toekenning } from '../../../generated/_types';
-import { primary_2, stringToColor } from '../../rooster-shared/colors';
+import { stringToColor } from '../../rooster-shared/utils/color-token-utils';
 import { studiewijzerIcon } from '../../rooster-shared/utils/utils';
 
 const readDateField = {
@@ -121,14 +121,14 @@ const typePolicies: TypedTypePolicies = {
     Lesgroep: {
         fields: {
             color: {
-                read: (_, { readField }) => stringToColor(readField('naam')!) ?? primary_2
+                read: (_, { readField }) => stringToColor(readField('naam')!) ?? 'primary'
             }
         }
     },
     Stamgroep: {
         fields: {
             color: {
-                read: (_, { readField }) => stringToColor(readField('naam')!) ?? primary_2
+                read: (_, { readField }) => stringToColor(readField('naam')!) ?? 'primary'
             }
         }
     },

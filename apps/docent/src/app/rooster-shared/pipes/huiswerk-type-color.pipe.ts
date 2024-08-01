@@ -1,23 +1,23 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { HuiswerkType } from '../../../generated/_types';
-import { HarmonyColorName } from '../../rooster-shared/colors';
+import { BackgroundIconColor } from '../utils/color-token-utils';
 
 @Pipe({
     name: 'huiswerkTypeColor',
     standalone: true
 })
 export class HuiswerkTypeColorPipe implements PipeTransform {
-    transform(huiswerkType: HuiswerkType, heeftInleveropdracht?: boolean): HarmonyColorName {
+    transform(huiswerkType: HuiswerkType, heeftInleveropdracht?: boolean): BackgroundIconColor {
         if (heeftInleveropdracht) {
-            return 'accent_alt_1';
+            return 'alternative';
         } else if (huiswerkType === HuiswerkType.HUISWERK) {
-            return 'primary_1';
+            return 'primary';
         } else if (huiswerkType === HuiswerkType.TOETS) {
-            return 'accent_warning_1';
+            return 'warning';
         } else if (huiswerkType === HuiswerkType.GROTE_TOETS) {
-            return 'accent_negative_1';
+            return 'negative';
         }
 
-        return 'accent_positive_1';
+        return 'positive';
     }
 }

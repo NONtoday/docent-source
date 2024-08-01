@@ -15,7 +15,7 @@
             <a
                 class="text-content-small"
                 [disabled]="!bijlage.url"
-                [hoverColor]="!!bijlage.url ? 'primary_2' : null"
+                [color]="!!bijlage.url ? 'primary' : 'disabled'"
                 (click)="openBijlage(bijlage.url!)"
                 >{{ bijlage.titel }}</a
             >

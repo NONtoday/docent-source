@@ -34,7 +34,7 @@
     <div class="geen-leerlingen">Geen leerlingen in deze lesgroep</div>
 }
 <div class="buttons">
-    <dt-outline-button (click)="onAnnuleren.emit()" color="typography_3">Annuleren</dt-outline-button>
+    <dt-outline-button (click)="onAnnuleren.emit()" color="neutral">Annuleren</dt-outline-button>
     @if ({ value: aantalGeselecteerd$ | async }; as aantal) {
         <dt-button [disabled]="!!aantal.value && aantal.value < 1" (click)="voegToe()" data-gtm="differentiatie-toevoegen"
             >{{ (aantal.value! > 0 ? '(' + aantal.value + ') ' : '') + 'Toevoegen' }}

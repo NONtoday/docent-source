@@ -10,6 +10,6 @@
 @for (leerling of differentiatiegroep.leerlingen; track leerling) {
     <dt-leerling-groep [leerling]="leerling" [cdkDragData]="leerling" (onVerwijderLeerling)="onVerwijderLeerling.emit(leerling)" cdkDrag>
         <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
-        <dt-icon class="show-for-desktop-only" cdkDragHandle icon="draggable" size="medium" color="background"></dt-icon>
+        <dt-icon class="show-for-desktop-only" cdkDragHandle icon="draggable" size="medium" color="neutral"></dt-icon>
     </dt-leerling-groep>
 }

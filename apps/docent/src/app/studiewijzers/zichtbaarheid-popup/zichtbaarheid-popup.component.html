@@ -8,25 +8,18 @@
             <dt-outline-button class="maak-zichtbaar-button" (click)="setGedeeld(true)" icon="zichtbaarCheckbox">
                 Zichtbaar voor collega's
             </dt-outline-button>
-            <dt-outline-button
-                class="maak-onzichtbaar-button"
-                (click)="setGedeeld(false)"
-                icon="nietZichtbaarCheckbox"
-                color="accent_negative_1"
-                iconColor="accent_negative_1">
+            <dt-outline-button class="maak-onzichtbaar-button" (click)="setGedeeld(false)" icon="nietZichtbaarCheckbox" color="negative">
                 Niet zichtbaar voor collega's</dt-outline-button
             >
         </div>
 
         <div class="links hide-for-phone-only text-content-small-semi" data-gtm="sjabloon-zichtbaarheid-overzicht">
-            <div class="optie maak-zichtbaar" (click)="setGedeeld(true)">
-                <i color="action-primary-normal" hmyIcon="zichtbaarCheckbox" size="medium"></i>
+            <dt-link class="optie maak-zichtbaar" (click)="setGedeeld(true)" icon="zichtbaarCheckbox" size="medium">
                 <span>Zichtbaar voor collega's</span>
-            </div>
-            <div class="optie maak-onzichtbaar" (click)="setGedeeld(false)">
-                <i color="action-negative-normal" hmyIcon="nietZichtbaarCheckbox" size="medium"></i>
+            </dt-link>
+            <dt-link class="optie maak-onzichtbaar" (click)="setGedeeld(false)" icon="nietZichtbaarCheckbox" size="medium" color="negative">
                 <span>Niet zichtbaar voor collega's</span>
-            </div>
+            </dt-link>
         </div>
     </div>
 </dt-popup>

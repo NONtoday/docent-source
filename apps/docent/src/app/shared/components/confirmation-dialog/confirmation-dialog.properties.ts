@@ -7,7 +7,7 @@ export const syncedLesitemVerwijderPopupProperties: Partial<ConfirmationDialogCo
     actionLabel: 'Alleen uit studiewijzer',
     cancelLabel: 'Ook uit sjabloon',
     outlineConfirmKnop: true,
-    buttonColor: 'accent_negative_1',
+    buttonColor: 'negative',
     cancelGtmTag: 'verwijder-uit-sjabloon',
     confirmGtmTag: 'verwijder-alleen-uit-studiewijzer',
     cancelWordWrap: false
@@ -20,7 +20,7 @@ export const syncedLesitemVerwijderUitLesplanningPopupProperties: Partial<Confir
     actionLabel: 'Alleen voor deze lesgroep',
     cancelLabel: 'Ook uit sjabloon',
     outlineConfirmKnop: true,
-    buttonColor: 'accent_negative_1',
+    buttonColor: 'negative',
     cancelGtmTag: 'verwijder-uit-sjabloon',
     confirmGtmTag: 'verwijder-alleen-voor-lesgroep'
 };
@@ -32,7 +32,7 @@ export const syncedConceptInleveropdrachtVerwijderPopupProperties: Partial<Confi
     actionLabel: 'Defintief verwijderen',
     cancelLabel: 'Annuleren',
     outlineConfirmKnop: true,
-    buttonColor: 'accent_negative_1',
+    buttonColor: 'negative',
     cancelGtmTag: undefined,
     confirmGtmTag: 'verwijder-synced-conceptinleveropdracht',
     cancelWordWrap: false
@@ -45,7 +45,7 @@ export const bulkSyncedConceptInleveropdrachtVerwijderPopupProperties: Partial<C
     actionLabel: 'Defintief verwijderen',
     cancelLabel: 'Annuleren',
     outlineConfirmKnop: true,
-    buttonColor: 'accent_negative_1',
+    buttonColor: 'negative',
     cancelGtmTag: undefined,
     confirmGtmTag: 'verwijder-synced-conceptinleveropdracht',
     cancelWordWrap: false
@@ -57,7 +57,7 @@ export const toetsKolomDirtyPopupProperties: Partial<ConfirmationDialogComponent
     actionLabel: 'Stoppen met bewerken',
     cancelLabel: 'Annuleren',
     outlineConfirmKnop: true,
-    buttonColor: 'accent_negative_1'
+    buttonColor: 'negative'
 };
 
 export const toetsKolomMetCijfersVerwijderenPopupProperties: Partial<ConfirmationDialogComponent> = {
@@ -66,5 +66,5 @@ export const toetsKolomMetCijfersVerwijderenPopupProperties: Partial<Confirmatio
     actionLabel: 'Toetskolom verwijderen',
     cancelLabel: 'Annuleren',
     outlineConfirmKnop: true,
-    buttonColor: 'accent_negative_1'
+    buttonColor: 'negative'
 };

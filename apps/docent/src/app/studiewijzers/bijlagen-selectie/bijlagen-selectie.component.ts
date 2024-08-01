@@ -9,11 +9,11 @@ import zip from 'lodash-es/zip';
 import { Observable, combineLatest } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
 import { Bijlage, BijlageFieldsFragment, BijlageMap, BijlageMapFieldsFragment, BijlageType, Maybe } from '../../../generated/_types';
-import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/colors';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
 import { FormCheckboxComponent } from '../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
+import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/utils/color-token-utils';
 import { BijlageExtensieComponent } from '../../shared/components/bijlage-extensie/bijlage-extensie.component';
 import { KleurenStackComponent, KleurenStackElement } from '../../shared/components/kleuren-stack/kleuren-stack.component';
 

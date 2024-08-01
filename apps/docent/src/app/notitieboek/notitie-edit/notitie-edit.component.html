@@ -97,7 +97,7 @@
         </div>
     </div>
     <div class="buttons" [class.in-sidebar]="inSidebar">
-        <dt-outline-button (click)="onAnnuleerNotitie.emit()" color="typography_3"> Annuleren </dt-outline-button>
+        <dt-outline-button (click)="onAnnuleerNotitie.emit()" color="neutral"> Annuleren </dt-outline-button>
         <button
             [disabled]="!form.valid || isUploading ? true : null"
             [showLoaderOnClick]="true"

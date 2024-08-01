@@ -41,12 +41,13 @@
                     [dashed]="true"
                     [class.heeft-selectie]="geselecteerdeSjablonen.length > 0"
                     (click)="onKiesSjabloonClick()"
+                    color="positive"
                     icon="sjabloon"
                     >Sjabloon kiezen</dt-outline-button
                 >
             }
             <div class="buttons">
-                <dt-outline-button class="annuleren" (click)="onCancelClick(page.pagenumber!)" color="typography_3">
+                <dt-outline-button class="annuleren" (click)="onCancelClick(page.pagenumber!)" color="neutral">
                     Annuleren
                 </dt-outline-button>
                 @if (page.pagenumber === 1) {

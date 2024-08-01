@@ -11,7 +11,7 @@ import {
     output
 } from '@angular/core';
 
-import { IconDirective, IconPillComponent, PillComponent } from 'harmony';
+import { ColorToken, IconDirective, IconPillComponent, PillComponent } from 'harmony';
 import {
     IconBewerken,
     IconClockRadio,
@@ -27,6 +27,7 @@ import {
     IconVerwijderen,
     provideIcons
 } from 'harmony-icons';
+import { match } from 'ts-pattern';
 import { AfspraakQuery, AfspraakToekenning, HuiswerkType, Toekenning } from '../../../../generated/_types';
 import { PopupOpenDirective } from '../../../core/popup/popup-open.directive';
 import { PopupService } from '../../../core/popup/popup.service';
@@ -42,8 +43,6 @@ import {
 import { IconComponent } from '../../../rooster-shared/components/icon/icon.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { DtDatePipe } from '../../../rooster-shared/pipes/dt-date.pipe';
-import { HarmonyColorToFillClassPipe } from '../../../rooster-shared/pipes/harmony-color-to-fill-class.pipe';
-import { HuiswerkTypeColorPipe } from '../../../rooster-shared/pipes/huiswerk-type-color.pipe';
 import { first, getHuiswerkTypeTitel } from '../../../rooster-shared/utils/utils';
 import { StudiewijzeritemInhoudComponent } from '../../../shared/components/studiewijzeritem-inhoud/studiewijzeritem-inhoud.component';
 import { StudiewijzeritemSidebarComponent } from '../../../shared/components/studiewijzeritem-sidebar/studiewijzeritem-sidebar.component';
@@ -61,8 +60,6 @@ import { getToekenningDatum } from '../../../shared/utils/toekenning.utils';
         PopupOpenDirective,
         IconComponent,
         StudiewijzeritemInhoudComponent,
-        HuiswerkTypeColorPipe,
-        HarmonyColorToFillClassPipe,
         DtDatePipe,
         IconDirective,
         IconPillComponent,
@@ -171,5 +168,17 @@ export class LesitemComponent implements OnInit, OnChanges {
 
     getToekenningDatum(toekenning: Toekenning): Date | undefined {
         return getToekenningDatum(toekenning);
+    }
+
+    getHuiswerkIconColorToken(huiswerkType: HuiswerkType, heeftInleveropdracht?: boolean): ColorToken {
+        if (heeftInleveropdracht) {
+            return 'bg-alternative-normal';
+        }
+        return match<HuiswerkType, ColorToken>(huiswerkType)
+            .with(HuiswerkType.HUISWERK, () => 'bg-primary-normal')
+            .with(HuiswerkType.TOETS, () => 'bg-warning-normal')
+            .with(HuiswerkType.GROTE_TOETS, () => 'bg-negative-normal')
+            .with(HuiswerkType.LESSTOF, () => 'bg-positive-normal')
+            .exhaustive();
     }
 }

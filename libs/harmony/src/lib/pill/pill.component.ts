@@ -7,7 +7,7 @@ import { BasePillComponent } from './base-pill.component';
     selector: 'hmy-pill',
     standalone: true,
     imports: [CommonModule, IconDirective],
-    template: `<span>{{ text }}</span>
+    template: `<span [innerHTML]="text"></span>
         @if (metChevron) {
             <i [color]="getIconColor()" size="smallest" hmyIcon="chevronOnder"></i>
         }`,

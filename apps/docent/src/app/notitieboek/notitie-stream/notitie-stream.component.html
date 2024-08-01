@@ -1,4 +1,4 @@
-<div class="stream-header" [class.met-schooljaar-opties]="context().leerling && schooljaarOpties().length > 1">
+<div class="stream-header" [class.met-schooljaar-opties]="context().leerling">
     <hmy-setting-button
         [opties]="filterOpties"
         [showLoader]="false"
@@ -9,7 +9,7 @@
         icon="filter"
         hmyTooltip="Filteren"
         label="Filter" />
-    @if (context().leerling && schooljaarOpties().length > 1) {
+    @if (context().leerling) {
         <hmy-dropdown
             [modalOnMobile]="true"
             [buttonHeight]="40"
@@ -52,8 +52,7 @@
                             [routerLink]="['./']"
                             [queryParams]="{ notitie: 'nieuw', direct: null, edit: true, scrollto: null }"
                             queryParamsHandling="merge">
-                            <dt-background-icon icon="toevoegen" color="accent_positive_1" size="smallest" iconSize="smallest">
-                            </dt-background-icon>
+                            <dt-background-icon icon="toevoegen" color="positive" size="smallest" iconSize="smallest"> </dt-background-icon>
                             <span class="text-content-semi action-positive-normal show-for-desktop">Notitie toevoegen</span>
                         </div>
                     }
@@ -94,8 +93,7 @@
             }"
             [wordWrap]="true"
             icon="toevoegen"
-            color="accent_positive_1"
-            iconColor="accent_positive_1"
+            color="positive"
             queryParamsHandling="merge"
             data-gtm="notitieboek-notitie-toevoegen">
             Nieuw

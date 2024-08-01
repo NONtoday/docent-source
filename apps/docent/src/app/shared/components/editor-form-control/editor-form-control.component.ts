@@ -177,17 +177,15 @@ export class EditorFormControlComponent implements OnInit, OnDestroy {
         const popup = this.popupService.popup(viewRef, popupSettings, ActionsPopupComponent);
         const channelLinkKiezen: ActionButton = {
             icon: undefined,
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Teams channel kiezen',
-            textcolor: 'primary_1',
             gtmTag: 'msteams-channel-start',
             onClickFn: () => this.startExistingTeamFlow()
         };
         const createConference: ActionButton = {
             icon: undefined,
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Teams afspraak aanmaken',
-            textcolor: 'primary_1',
             onClickFn: () => this.startCreateTeamsFlow()
         };
         popup.customButtons = [channelLinkKiezen, createConference];
@@ -220,16 +218,14 @@ export class EditorFormControlComponent implements OnInit, OnDestroy {
         const popup = this.popupService.popup(this.morePopout, popupSettings, ActionsPopupComponent);
         const googleMeetButton: ActionButton = {
             icon: 'googleMeet',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Google Meet',
-            textcolor: 'primary_1',
             onClickFn: () => this.startGoogleMeetFlow()
         };
         const msTeamsButton: ActionButton = {
             icon: 'msTeams',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Microsoft Teams',
-            textcolor: 'primary_1',
             onClickFn: () => this.startTeamsFlow(this.morePopout)
         };
         popup.customButtons = [msTeamsButton, googleMeetButton];

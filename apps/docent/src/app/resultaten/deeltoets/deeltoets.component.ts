@@ -61,18 +61,16 @@ export class DeeltoetsComponent implements OnChanges {
         if (this.magBewerken) {
             popup.customButtons.push({
                 icon: 'bewerken',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Deeltoets bewerken',
-                textcolor: 'primary_1',
                 isVerwijderButton: false,
                 onClickFn: () => this.bewerkDeeltoets.emit()
             });
         } else if (this.magLesgroepOmschrijvingWijzigen) {
             popup.customButtons.push({
                 icon: 'bewerken',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Deeltoets bewerken',
-                textcolor: 'primary_1',
                 isVerwijderButton: false,
                 onClickFn: () => this.bewerkLesgroepOmschrijving.emit()
             });
@@ -81,9 +79,8 @@ export class DeeltoetsComponent implements OnChanges {
         if (this.magVerwijderen) {
             popup.customButtons.push({
                 icon: 'verwijderen',
-                iconcolor: 'accent_negative_1',
+                color: 'negative',
                 text: 'Deeltoets verwijderen',
-                textcolor: 'accent_negative_1',
                 isVerwijderButton: true,
                 onClickFn: () => this.deleteDeeltoets.emit(this.deeltoets as any)
             });

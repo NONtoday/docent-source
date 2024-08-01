@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatrixResultaatkolomFieldsFragment } from '../../../generated/_types';
-import { background_1 } from '../../rooster-shared/colors';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { AutosizeDirective } from '../../rooster-shared/directives/autosize.directive';
@@ -22,7 +21,6 @@ export class ToetskolomLesgroepOmschrijvingFormulierComponent implements OnInit 
     onAnnuleren = output<void>();
 
     toetskolomLesgroepOmschrijvingForm: UntypedFormGroup;
-    background_1 = background_1;
     maxLengthLesgroepOmschrijving = 75;
     heeftBestaandeLesgroepOmschrijving: boolean;
 

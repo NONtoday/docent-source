@@ -60,7 +60,6 @@ import { UploadDataService } from '../../core/services/upload-data.service';
 import { ToastService } from '../../core/toast/toast.service';
 import { HeaderComponent } from '../../layout/header/header.component';
 import { LesgroepDeeplinkPopupComponent } from '../../les/lesgroep-deeplink-popup/lesgroep-deeplink-popup.component';
-import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/colors';
 import {
     ActionButton,
     ActionsPopupComponent,
@@ -75,6 +74,7 @@ import { MessageComponent } from '../../rooster-shared/components/message/messag
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { sidebarMaskId } from '../../rooster-shared/components/sidebar/sidebar.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
+import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/utils/color-token-utils';
 import { differentiatiegroepenBevatLeerling } from '../../rooster-shared/utils/utils';
 import { inleveropdrachtVerwijderenGuardProperties } from '../../shared-studiewijzer-les/utils/inleveropdrachten-verwijderen.utils';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -446,16 +446,14 @@ export class InleveringenOverzichtComponent implements OnInit, OnDestroy {
         const popup = this.popupService.popup(this.berichtenVersturenRef, popupSettings, ActionsPopupComponent);
         const herinneringAction: ActionButton = {
             icon: 'notificatie',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Herinnering',
-            textcolor: 'primary_1',
             onClickFn: () => this.openBulkBerichtVersturenPopup(inleveringenOverzicht as InleveringenOverzicht, true)
         };
         const berichtAction: ActionButton = {
             icon: 'bewerken',
-            iconcolor: 'primary_1',
+            color: 'primary',
             text: 'Nieuw bericht',
-            textcolor: 'primary_1',
             onClickFn: () => this.openBulkBerichtVersturenPopup(inleveringenOverzicht as InleveringenOverzicht)
         };
 

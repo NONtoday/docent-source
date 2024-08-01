@@ -5,11 +5,10 @@
         [hideIconForMobile]="hideIconForMobile"
         (click)="onVerwijderClick($event)"
         cy="verwijder-button"
-        iconColor="accent_negative_1"
-        color="accent_negative_1">
+        color="negative">
         <div class="button-text-container" [attr.icon-only-range]="iconOnlyRangeEnd">
             <i
-                class="fill-accent-negative-1 verwijder-icon"
+                class="verwijder-icon"
                 [hmyIcon]="icon!"
                 [class.hide-icon]="showConfirmationButtons"
                 [class.hide-icon-for-mobile]="hideIconForMobile"
@@ -23,7 +22,6 @@
                         class="check-icon"
                         [attr.data-gtm]="gtmTag"
                         (click)="showConfirmationButtons = false; onDelete.emit(); $event.stopPropagation()"
-                        color="action-negative-normal"
                         hmyIcon="check"
                         size="smallest"
                         cy="delete-confirm-check"></i>
@@ -43,8 +41,7 @@
         [class.button-active]="showConfirmationButtons"
         (click)="onVerwijderClick($event)"
         cy="verwijder-button"
-        iconColor="accent_negative_1"
-        color="accent_negative_1">
+        color="negative">
         @if (!showConfirmationButtons) {
             <span> {{ buttonText }}</span>
         }

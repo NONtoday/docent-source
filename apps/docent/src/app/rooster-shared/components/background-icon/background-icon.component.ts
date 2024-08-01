@@ -2,18 +2,14 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } fro
 import { IconDirective, IconSize } from 'harmony';
 import { IconName } from 'harmony-icons';
 import { Maybe } from '../../../../generated/_types';
-import { HarmonyColor, HarmonyColorName, colorToHex, getHarmonyBackgroundColor, toFillCssClass } from '../../../rooster-shared/colors';
-import { Optional } from '../../utils/utils';
+import { BackgroundIconColor } from '../../utils/color-token-utils';
 
+/**
+ * Dit component gebruikt niet de color input van het hmy-icon directive, maar gebruikt hiervoor eigen styling. Dit om dynamische kleuren ookn samen met hover mogelijk te maken, op basis van css variabelen.
+ */
 @Component({
     selector: 'dt-background-icon',
-    template: `<i
-        class="icon {{ hover ? hoverCssClass : fillCssClass }}"
-        [hmyIcon]="icon"
-        [size]="size"
-        [sizes]="sizes"
-        (mouseover)="hover = true"
-        (mouseleave)="hover = false"></i>`,
+    template: `<i class="icon" [hmyIcon]="icon" [size]="size" [sizes]="sizes"></i>`,
     styleUrls: ['./background-icon.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
@@ -23,27 +19,15 @@ export class BackgroundIconComponent implements OnChanges {
     @HostBinding('attr.mobilesize') public mobileSize: IconSize;
     @HostBinding('attr.tabletsize') public tabletSize: Maybe<IconSize>;
     @HostBinding('attr.desktopsize') public desktopSize: Maybe<IconSize>;
-    @Input() @HostBinding('style.background-color') public harmonyBackgroundColor: HarmonyColor;
-    @Input() public color: Optional<HarmonyColorName> = 'primary_1';
+    @Input() @HostBinding('attr.color') public color: BackgroundIconColor = 'primary';
+    @Input() @HostBinding('class.hoverable') public hoverable = false;
 
     /** Property om makkelijker de size op te geven. array met waardes van mobile -> desktop, waarbij mobile = 0 */
     @Input() public sizes: IconSize[];
     @Input() public size: IconSize;
     @Input() public icon: IconName;
-    @Input() public backgroundColor: HarmonyColorName | HarmonyColor | 'blank';
-    @Input() public hoverColor: HarmonyColorName;
-
-    public fillCssClass: string;
-    public hoverCssClass: string;
-    public hover = false;
 
     ngOnChanges() {
-        this.fillCssClass = toFillCssClass(this.color ?? 'primary_1');
-        this.hoverCssClass = this.hoverColor ? toFillCssClass(this.hoverColor) : toFillCssClass(this.color ?? 'primary_1');
-        this.harmonyBackgroundColor = this.backgroundColor
-            ? colorToHex(this.backgroundColor)
-            : getHarmonyBackgroundColor(colorToHex(this.color ?? 'primary_1'));
-
         if (this.size) {
             this.mobileSize = this.size;
             this.tabletSize = null;

@@ -608,18 +608,16 @@ export class StudiewijzerDetailComponent extends DeactivatableComponentDirective
             if (toegestaan) {
                 popup.customButtons.push({
                     icon: 'methode',
-                    iconcolor: 'primary_1',
+                    color: 'primary',
                     text: 'Uit methode',
-                    textcolor: 'primary_1',
                     gtmTag: 'importeer-uit-methode',
                     onClickFn: () => this.sidebarService.openSidebar(MethodeSidebarComponent)
                 } as ActionButton);
             }
             popup.customButtons.push({
                 icon: 'sjabloon',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Sjabloon',
-                textcolor: 'primary_1',
                 gtmTag: 'sjablonen-importeren',
                 onClickFn: () => {
                     if (this.heeftVaksecties) {
@@ -653,9 +651,8 @@ export class StudiewijzerDetailComponent extends DeactivatableComponentDirective
         const customButtons: ActionButton[] = [
             {
                 icon: 'eloPreview',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Bekijk in ELO',
-                textcolor: 'primary_1',
                 gtmTag: 'bekijk-in-elo',
                 onClickFn: () => {
                     this.openStudiewijzerPreview(studiewijzer.lesgroep.id);
@@ -667,17 +664,15 @@ export class StudiewijzerDetailComponent extends DeactivatableComponentDirective
             customButtons.push(
                 {
                     icon: 'eloPreview',
-                    iconcolor: 'primary_1',
+                    color: 'primary',
                     text: 'Bekijk ELO van leerling',
-                    textcolor: 'primary_1',
                     gtmTag: 'bekijk-elo-leerling',
                     onClickFn: () => this.onEloVanLeerlingBekijken(studiewijzer as Studiewijzer, isMobileRef)
                 },
                 {
                     icon: 'differentiatie',
-                    iconcolor: 'primary_1',
+                    color: 'primary',
                     text: 'Differentiatiegroepen',
-                    textcolor: 'primary_1',
                     gtmTag: 'open-sw-differentiatie',
                     onClickFn: () => {
                         this.sidebarService.openSidebar(DifferentiatieSidebarComponent, { lesgroep: studiewijzer.lesgroep });
@@ -689,9 +684,8 @@ export class StudiewijzerDetailComponent extends DeactivatableComponentDirective
         if (isMobileRef) {
             customButtons.push({
                 icon: 'sjabloon',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Sjabloon importeren',
-                textcolor: 'primary_1',
                 gtmTag: 'sjablonen-importeren',
                 onClickFn: () => {
                     this.importeerSjabloon(studiewijzer.id);

@@ -7,7 +7,7 @@ import { ENVIRONMENT_CONFIG } from '../environment.config';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const environment = inject(ENVIRONMENT_CONFIG);
     const authorizationHeaderService = inject(AuthorizationHeaderService);
-    if (req.url === environment.graphQLUri && authorizationHeaderService.isRefreshable()) {
+    if (environment.useAuthenticator && req.url === environment.graphQLUri && authorizationHeaderService.isRefreshable()) {
         return authorizationHeaderService.getValidAuthorizationHeader().pipe(
             catchError(() => {
                 // cancel request

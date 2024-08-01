@@ -171,7 +171,7 @@ export class InleveringConversatieComponent implements OnInit, AfterViewInit, On
             popup.cancelLabel = 'Annuleren';
             popup.actionLabel = 'Stoppen met bewerken';
             popup.outlineConfirmKnop = true;
-            popup.buttonColor = 'accent_negative_1';
+            popup.buttonColor = 'negative';
 
             popup.onConfirmFn = () => {
                 this.closeBerichtOpstellen();

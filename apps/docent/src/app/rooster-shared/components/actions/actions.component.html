@@ -6,17 +6,16 @@
                 [icon]="customButton.icon"
                 [withBorder]="true"
                 [gtmTag]="customButton.gtmTag"
-                (onDelete)="customButton.onClickFn(); onActionClicked.emit()"></dt-verwijder-button>
+                (onDelete)="onActionClicked.emit(); customButton.onClickFn()"></dt-verwijder-button>
         } @else {
             <dt-outline-button
                 class="custom-button"
-                [color]="customButton.textcolor"
-                [iconColor]="customButton.iconcolor"
+                [color]="customButton.color"
                 [icon]="customButton.icon"
                 [ngClass]="customButton.customCssClass ?? ''"
                 [attr.data-gtm]="customButton.gtmTag"
                 [notificationCount]="customButton.notificationCount | async"
-                (click)="customButton.onClickFn(); onActionClicked.emit()">
+                (click)="onActionClicked.emit(); customButton.onClickFn()">
                 {{ customButton.text }}</dt-outline-button
             >
         }
@@ -33,17 +32,16 @@
                 [icon]="customButton.icon"
                 [withBorder]="true"
                 [gtmTag]="customButton.gtmTag"
-                (onDelete)="customButton.onClickFn(); onActionClicked.emit()"></dt-verwijder-button>
+                (onDelete)="onActionClicked.emit(); customButton.onClickFn()"></dt-verwijder-button>
         } @else {
             <dt-outline-button
                 class="custom-button"
-                [color]="customButton.textcolor"
-                [iconColor]="customButton.iconcolor"
+                [color]="customButton.color"
                 [icon]="customButton.icon"
                 [ngClass]="customButton.customCssClass ?? ''"
                 [attr.data-gtm]="customButton.gtmTag"
                 [notificationCount]="customButton.notificationCount | async"
-                (click)="customButton.onClickFn(); onActionClicked.emit()">
+                (click)="onActionClicked.emit(); customButton.onClickFn()">
                 {{ customButton.text }}</dt-outline-button
             >
         }
@@ -56,19 +54,16 @@
                 [buttonText]="customButton.text"
                 [icon]="customButton.icon"
                 [gtmTag]="customButton.gtmTag"
-                (onDelete)="customButton.onClickFn(); onActionClicked.emit()">
+                (onDelete)="onActionClicked.emit(); customButton.onClickFn()">
             </dt-verwijder-button>
         } @else {
             <a
                 class="custom-button"
-                [color]="customButton.textcolor"
-                [hoverColor]="customButton.textHoverColor"
-                [iconHoverColor]="customButton.iconcolor"
-                [iconColor]="customButton.iconcolor"
+                [color]="customButton.color || 'primary'"
                 [icon]="customButton.icon"
                 [ngClass]="customButton.customCssClass ?? ''"
                 [attr.data-gtm]="customButton.gtmTag"
-                (click)="customButton.onClickFn(); onActionClicked.emit()">
+                (click)="onActionClicked.emit(); customButton.onClickFn()">
                 {{ customButton.text }}</a
             >
         }
@@ -85,19 +80,16 @@
                 [buttonText]="customButton.text"
                 [icon]="customButton.icon"
                 [gtmTag]="customButton.gtmTag"
-                (onDelete)="customButton.onClickFn(); onActionClicked.emit()">
+                (onDelete)="onActionClicked.emit(); customButton.onClickFn()">
             </dt-verwijder-button>
         } @else {
             <a
                 class="custom-button"
-                [color]="customButton.textcolor"
-                [hoverColor]="customButton.textHoverColor"
-                [iconHoverColor]="customButton.iconcolor"
-                [iconColor]="customButton.iconcolor"
+                [color]="customButton.color || 'primary'"
                 [icon]="customButton.icon"
                 [ngClass]="customButton.customCssClass ?? ''"
                 [attr.data-gtm]="customButton.gtmTag"
-                (click)="customButton.onClickFn(); onActionClicked.emit()">
+                (click)="onActionClicked.emit(); customButton.onClickFn()">
                 {{ customButton.text }}</a
             >
         }

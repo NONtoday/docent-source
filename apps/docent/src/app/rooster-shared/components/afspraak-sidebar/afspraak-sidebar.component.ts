@@ -165,7 +165,7 @@ export class AfspraakSidebarComponent extends BaseSidebar implements OnChanges {
         popup.actionLabel = 'Stoppen met bewerken';
         popup.cancelLabel = 'Annuleren';
         popup.outlineConfirmKnop = true;
-        popup.buttonColor = 'accent_negative_1';
+        popup.buttonColor = 'negative';
 
         popup.onConfirmFn = () => {
             this.sidebarService.closeSidebar();

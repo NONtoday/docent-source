@@ -12,8 +12,7 @@
     <i
         class="icon-arrow-open-close"
         [class.close]="!isOpen"
-        [class.fill-primary-1]="!isOpen"
-        color="fg-neutral-moderate"
+        [color]="isOpen ? 'fg-neutral-moderate' : 'fg-primary-normal'"
         hmyIcon="chevronOnder"></i>
 </div>
 <div class="dagen" [@collapse]="{ value: !isOpen }">

@@ -23,8 +23,7 @@
                 [onTouchAllowed]="true"
                 icon="noRadio"
                 size="small"
-                backgroundColor="blank"
-                color="accent_negative_1"
+                color="negative"
                 fontsize="24"
                 lineheight="26"
                 dtTooltip="Het automatisch opslaan is niet gelukt."
@@ -38,15 +37,14 @@
                 [onTouchAllowed]="true"
                 icon="yesRadio"
                 size="small"
-                backgroundColor="blank"
-                color="accent_positive_1"
+                color="positive"
                 fontsize="24"
                 lineheight="26"
                 position="bottom">
             </dt-background-icon>
         }
         @if (opgeslagenOp !== 'saving' && !withBackground) {
-            <i class="fill-accent-positive-1" [dtTooltip]="opgeslagenOp" [onTouchAllowed]="true" hmyIcon="yesRadio" size="medium"></i>
+            <i [dtTooltip]="opgeslagenOp" [onTouchAllowed]="true" color="action-positive-normal" hmyIcon="yesRadio" size="medium"></i>
         }
     }
     @if (opgeslagenOp === 'saving') {

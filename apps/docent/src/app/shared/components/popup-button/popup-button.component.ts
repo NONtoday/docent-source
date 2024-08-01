@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, inject } from '@angular/core';
 import { IconName } from 'harmony-icons';
 import { DeviceService } from '../../../core/services/device.service';
-import { HarmonyColorName } from '../../../rooster-shared/colors';
 import { LinkComponent } from '../../../rooster-shared/components/link/link.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
+import { ActionColor } from '../../../rooster-shared/utils/color-token-utils';
 
 export type Breakpoint = 'desktop' | 'tablet' | 'tabletPortrait' | 'mobile';
 
@@ -17,14 +17,10 @@ export type Breakpoint = 'desktop' | 'tablet' | 'tabletPortrait' | 'mobile';
 export class PopupButtonComponent implements OnChanges {
     private deviceService = inject(DeviceService);
     @Input() icon: IconName;
-    @Input() iconColor: HarmonyColorName = 'primary_1';
-    @Input() iconHoverColor: HarmonyColorName;
-    @Input() color: HarmonyColorName = 'primary_1';
-    @Input() hoverColor: HarmonyColorName;
+    @Input() color: ActionColor = 'primary';
     @Input() disabled: boolean;
     @Input() text: string;
     @Input() hideOutlineForBreakpointUp: Breakpoint = 'desktop';
-    @Input() showChevron: boolean;
 
     hideOutline: boolean;
 

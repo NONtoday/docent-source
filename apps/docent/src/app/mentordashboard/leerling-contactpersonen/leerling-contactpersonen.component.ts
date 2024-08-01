@@ -10,12 +10,11 @@ import {
     inject
 } from '@angular/core';
 import { IconDirective } from 'harmony';
-import { IconBericht, IconChevronOnder, IconDupliceren, IconName, IconReacties, IconTelefoon, provideIcons } from 'harmony-icons';
+import { IconBericht, IconChevronOnder, IconDupliceren, IconReacties, IconTelefoon, provideIcons } from 'harmony-icons';
 import { Geslacht, LeerlingkaartQuery, Maybe, RelatieSoort } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { PopupService } from '../../core/popup/popup.service';
-import { HarmonyColorName } from '../../rooster-shared/colors';
-import { ActionsPopupComponent } from '../../rooster-shared/components/actions-popup/actions-popup.component';
+import { ActionButton, ActionsPopupComponent } from '../../rooster-shared/components/actions-popup/actions-popup.component';
 import { AvatarComponent } from '../../rooster-shared/components/avatar/avatar.component';
 import { VolledigeNaamPipe } from '../../rooster-shared/pipes/volledige-naam.pipe';
 import { Optional } from '../../rooster-shared/utils/utils';
@@ -155,7 +154,7 @@ export class LeerlingContactpersonenComponent implements OnChanges {
         if (this.heeftBerichtenRecht) {
             popup.customButtons.push({
                 icon: 'reacties',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Bericht via Somtoday',
                 gtmTag: 'leerling-contactpersoon-bericht-somtoday',
                 onClickFn: () => {
@@ -173,15 +172,15 @@ export class LeerlingContactpersonenComponent implements OnChanges {
             popup.customButtons.push(
                 ...[
                     {
-                        icon: 'bericht' as IconName,
-                        iconcolor: 'primary_1' as HarmonyColorName,
+                        icon: 'bericht',
+                        color: 'primary',
                         text: contactpersoonEmail,
                         gtmTag: 'leerling-contactpersoon-mail',
                         onClickFn: () => (window.location.href = `mailto:${contactpersoonEmail}`)
-                    },
+                    } as ActionButton,
                     {
-                        icon: 'dupliceren' as IconName,
-                        iconcolor: 'primary_1' as HarmonyColorName,
+                        icon: 'dupliceren',
+                        color: 'primary',
                         text: 'Kopieer e-mailadres',
                         gtmTag: 'leerling-contactpersoon-kopieer-mail',
                         onClickFn: () => {
@@ -189,7 +188,7 @@ export class LeerlingContactpersonenComponent implements OnChanges {
                             this.mentordashboardService.displayMessage('E-mailadres gekopieerd');
                             this.popupService.closePopUp();
                         }
-                    }
+                    } as ActionButton
                 ]
             );
         }

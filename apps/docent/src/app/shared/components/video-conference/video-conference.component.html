@@ -27,9 +27,7 @@
                     </div>
                     <p>{{ errorMessage }}</p>
                 </div>
-                <dt-outline-button (click)="close()" color="typography_3" data-gtm="msteams-channel-error-gesloten"
-                    >Sluiten</dt-outline-button
-                >
+                <dt-outline-button (click)="close()" color="neutral" data-gtm="msteams-channel-error-gesloten">Sluiten</dt-outline-button>
             </div>
         }
     }
@@ -70,7 +68,7 @@
                 </div>
             </form>
             <div class="buttons">
-                <dt-outline-button (click)="close()" color="typography_3">Annuleren</dt-outline-button>
+                <dt-outline-button (click)="close()" color="neutral">Annuleren</dt-outline-button>
                 <hmy-button
                     [disabled]="!isFormValid"
                     (click)="onSubmit()"
@@ -91,7 +89,7 @@
                 <p>{{ errorMessage }}</p>
             </div>
             <div class="buttons">
-                <dt-outline-button (click)="close()" color="typography_3">Annuleren</dt-outline-button>
+                <dt-outline-button (click)="close()" color="neutral">Annuleren</dt-outline-button>
                 <dt-outline-button (click)="reset()">Opnieuw proberen</dt-outline-button>
             </div>
         </div>
@@ -118,7 +116,7 @@
                 }
             </div>
             <div class="close-button">
-                <dt-outline-button (click)="close()" color="primary_1">Sluiten</dt-outline-button>
+                <dt-outline-button (click)="close()">Sluiten</dt-outline-button>
             </div>
         </div>
     }
@@ -145,7 +143,7 @@
                 }
             </div>
             <div class="close-button">
-                <dt-outline-button (click)="close()" color="primary_1">Sluiten</dt-outline-button>
+                <dt-outline-button (click)="close()">Sluiten</dt-outline-button>
             </div>
         </div>
     </ng-template>

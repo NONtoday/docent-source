@@ -63,12 +63,7 @@
                     <hmy-spinner [centeredInParent]="true" />
                 }
                 <div class="buttons">
-                    <dt-outline-button
-                        (click)="addGroep()"
-                        icon="toevoegen"
-                        iconColor="accent_positive_1"
-                        color="accent_positive_1"
-                        data-gtm="differentiatiegroep-toevoegen"
+                    <dt-outline-button (click)="addGroep()" icon="toevoegen" color="positive" data-gtm="differentiatiegroep-toevoegen"
                         >Nieuwe groep toevoegen
                     </dt-outline-button>
                 </div>
@@ -91,7 +86,7 @@
                         <div class="geen-leerlingen">Geen leerlingen in deze lesgroep</div>
                     }
                     <div class="buttons">
-                        <dt-outline-button (click)="sidebarService.previousPage()" color="typography_3">Annuleren </dt-outline-button>
+                        <dt-outline-button (click)="sidebarService.previousPage()" color="neutral">Annuleren </dt-outline-button>
                         @if ({ value: aantalGeselecteerdeLeerlingen$ | async }; as aantal) {
                             <dt-button
                                 [disabled]="!!aantal.value && aantal.value < 1"

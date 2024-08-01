@@ -1,16 +1,15 @@
 import { NgStyle, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
-import { IconDirective } from 'harmony';
+import { ColorToken, IconDirective } from 'harmony';
 import { IconToevoegen, provideIcons } from 'harmony-icons';
-import { HarmonyColor } from '../../../rooster-shared/colors';
 import { TooltipDirective, TooltipPosition } from '../../../rooster-shared/directives/tooltip.directive';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { KleurenStackNgstylePipe } from './kleuren-stack-ngstyle.pipe';
 import { KleurenStackOverigeRightPipe } from './kleuren-stack-overige-right.pipe';
 
 export interface KleurenStackElement {
-    kleur: HarmonyColor;
-    border: HarmonyColor;
+    kleur: ColorToken;
+    border: ColorToken;
     content?: string;
 }
 

@@ -2,7 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Medewerker, ProductboardTokenDocument, ProductboardTokenQuery, SendFeedbackDocument } from '../../../../generated/_types';
+import {
+    Medewerker,
+    ProductboardTokenDocument,
+    ProductboardTokenQuery,
+    SendProductboardFeedbackDocument
+} from '../../../../generated/_types';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 
 @Injectable({
@@ -12,14 +17,14 @@ export class FeedbackDataService {
     private apollo = inject(Apollo);
     private medewerkerDataService = inject(MedewerkerDataService);
 
-    public async sendFeedback(value: number, opmerking: string, userAgent: string, huidigeUrl: string, schermresolutie: string) {
+    public async sendFeedback(value: number, opmerking: string) {
         const medewerker = await this.medewerkerDataService.getMedewerkerPromise();
         if (!medewerker.email || !medewerker.school) {
             return of();
         }
         this.apollo
             .mutate({
-                mutation: SendFeedbackDocument,
+                mutation: SendProductboardFeedbackDocument,
                 variables: {
                     feedbackValue: value,
                     opmerking,
@@ -29,12 +34,7 @@ export class FeedbackDataService {
                         achternaam: medewerker.achternaam,
                         email: medewerker.email,
                         school: medewerker.school
-                    },
-                    deviceInfo: {
-                        userAgent,
-                        schermresolutie
-                    },
-                    url: huidigeUrl
+                    }
                 }
             })
             .subscribe();

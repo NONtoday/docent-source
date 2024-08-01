@@ -3,7 +3,6 @@ import { collapseAnimation } from 'angular-animations';
 import { CounterTagComponent, IconDirective, TagComponent } from 'harmony';
 import { IconChevronBoven, IconLeerdoel, IconLijst, IconNietZichtbaar, IconReacties, IconToevoegen, provideIcons } from 'harmony-icons';
 import { Differentiatiegroep, HuiswerkType, ItemFieldsFragment, Leerling, Studiewijzeritem } from '../../../../generated/_types';
-import { background_3, typography_3 } from '../../../rooster-shared/colors';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';
@@ -56,9 +55,6 @@ export class StudiewijzeritemInhoudComponent implements OnChanges {
     public heeftGeenInhoud = false;
     public showIedereenTag = true;
     public aantalLeerlingenTag: string;
-
-    public background_3 = background_3;
-    public typography_3 = typography_3;
 
     groepTooltip = groepTooltip;
     leerlingTooltip = leerlingenTooltip;

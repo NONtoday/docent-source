@@ -5,7 +5,6 @@
                 <label>Maatregel<span class="color-accent-warning-1">*</span></label>
                 <dt-form-dropdown
                     [scrollIntoView]="false"
-                    [chevronColor]="background_1"
                     [opties]="maatregelenOptions"
                     placeholder="Kies een maatregel"
                     formControlName="maatregel"
@@ -37,7 +36,7 @@
         </form>
 
         <div class="buttons">
-            <dt-outline-button class="cancel" (click)="closeSidebar()" color="typography_3">Annuleren</dt-outline-button>
+            <dt-outline-button class="cancel" (click)="closeSidebar()" color="neutral">Annuleren</dt-outline-button>
             <button
                 class="opslaan"
                 [disabled]="maatregelForm.valid && maatregelForm.dirty ? null : true"

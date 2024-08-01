@@ -10,7 +10,6 @@ import { Afspraak, HuiswerkType } from '../../../../../generated/_types';
 import { StudiewijzeritemPreview } from '../../../../core/models/studiewijzers/shared.model';
 import { DeviceService } from '../../../../core/services/device.service';
 import { LesplanningDataService } from '../../../../les/lesplanning/lesplanning-data.service';
-import * as HarmonyColors from '../../../colors';
 import { AfspraakTitelPipe } from '../../../pipes/afspraak-titel.pipe';
 import { DtDatePipe } from '../../../pipes/dt-date.pipe';
 import { HuiswerkTypeColorPipe } from '../../../pipes/huiswerk-type-color.pipe';
@@ -64,7 +63,6 @@ export class LesplanningPreviewPopupComponent implements AfterViewInit, OnDestro
     moetOverflowGradientTonen = false;
     canScrollUp = false;
     canScrollDown = false;
-    harmonyColors = HarmonyColors;
 
     private unsubscribe$ = new Subject<void>();
 

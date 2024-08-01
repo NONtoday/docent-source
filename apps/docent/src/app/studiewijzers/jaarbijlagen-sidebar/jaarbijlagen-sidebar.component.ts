@@ -318,12 +318,10 @@ export class JaarbijlagenSidebarComponent extends BaseSidebar implements OnInit,
         popup.outlineConfirmKnop = true;
         popup.actionLabel = 'Aanvullen';
         popup.icon = 'toevoegen';
-        popup.iconColor = 'accent_positive_1';
-        popup.buttonColor = 'accent_positive_1';
+        popup.buttonColor = 'positive';
         popup.cancelLabel = 'Vervangen';
         popup.cancelIcon = 'verversen';
-        popup.cancelIconColor = 'primary_1';
-        popup.cancelButtonColor = 'primary_1';
+        popup.cancelButtonColor = 'primary';
 
         popup.onConfirmFn = () => {
             this.voegBulkDifferentiatieToe(leerlingen, differentiatiegroepen, false);

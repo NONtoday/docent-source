@@ -13,7 +13,6 @@ import { IconBewerken, IconOpties, IconVerwijderen, provideIcons } from 'harmony
 import { Differentiatiegroep, DifferentiatiegroepKleur } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { DeviceService } from '../../../../core/services/device.service';
-import { accent_negative_1 } from '../../../../rooster-shared/colors';
 import {
     ActionsPopupComponent,
     bewerkButton,
@@ -60,9 +59,8 @@ export class DifferentiatiegroepHeaderComponent implements OnInit {
         cancelLabel: 'Annuleren',
         warning: true,
         outlineConfirmKnop: true,
-        buttonColor: accent_negative_1,
-        icon: 'verwijderen',
-        iconColor: 'accent_negative_1'
+        buttonColor: 'negative',
+        icon: 'verwijderen'
     };
 
     ngOnInit(): void {

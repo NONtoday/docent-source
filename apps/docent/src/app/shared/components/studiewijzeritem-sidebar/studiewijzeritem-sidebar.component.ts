@@ -55,7 +55,6 @@ import { Appearance, PopupSettings } from '../../../core/popup/popup.settings';
 import { ComponentUploadService } from '../../../core/services/component-upload.service';
 import { ProjectgroepenDataService } from '../../../core/services/projectgroepen-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';
-import { accent_negative_1, typography_3 } from '../../../rooster-shared/colors';
 import { LesuurComponent } from '../../../rooster-shared/components/lesuur/lesuur.component';
 import { MessageComponent } from '../../../rooster-shared/components/message/message.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
@@ -177,8 +176,6 @@ export class StudiewijzeritemSidebarComponent extends BaseSidebar implements OnI
 
     private destroy$ = new Subject<void>();
 
-    typography_3 = typography_3;
-    accent_negative_1 = accent_negative_1;
     showSuccesMessage = false;
     succesMessage: string;
 
@@ -297,7 +294,7 @@ export class StudiewijzeritemSidebarComponent extends BaseSidebar implements OnI
         popup.actionLabel = 'Stoppen met bewerken';
         popup.cancelLabel = 'Annuleren';
         popup.outlineConfirmKnop = true;
-        popup.buttonColor = 'accent_negative_1';
+        popup.buttonColor = 'negative';
 
         popup.onConfirmFn = () => {
             toPreviousPage ? this.sidebarService.previousPage() : this.sidebarService.closeSidebar();

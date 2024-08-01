@@ -17,7 +17,6 @@ import {
     Toetsvorm
 } from '../../../generated/_types';
 import { Schooljaar } from '../../core/models/schooljaar.model';
-import { background_1 } from '../../rooster-shared/colors';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
 import { DatepickerComponent } from '../../rooster-shared/components/datepicker/datepicker.component';
 import { FormDropdownComponent } from '../../rooster-shared/components/form-dropdown/form-dropdown.component';
@@ -73,7 +72,6 @@ export class ToetskolomFormulierComponent implements OnInit, OnDestroy {
     onAnnuleren = output<void>();
 
     toetskolomForm: UntypedFormGroup;
-    background_1 = background_1;
     schooljaar: Schooljaar;
     isSamengesteldeToets: boolean;
     isDeeltoets: boolean;

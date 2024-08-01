@@ -17,6 +17,12 @@ export class UriService {
      * Returns the URI of the authorization server, e.g. 'http://localhost:8080'.
      */
     public get authServerURI(): string {
+        if (this.environment.corePr) {
+            if (this.environment.corePr === 'nightly') {
+                return 'https://inloggen.nightly.somtoday.build';
+            }
+            return `https://inloggen.pr-${this.environment.corePr}.somtoday.build`;
+        }
         const host = this.host().toLocaleLowerCase();
 
         // Het eerste '.' in de url staat direct voor de omgeving waar we mee communiceren

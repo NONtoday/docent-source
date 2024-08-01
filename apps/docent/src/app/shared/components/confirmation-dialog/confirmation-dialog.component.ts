@@ -3,10 +3,10 @@ import { IconDirective } from 'harmony';
 import { IconName, IconSluiten, IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { Subject } from 'rxjs';
 import { Appearance, PopupSettings } from '../../../core/popup/popup.settings';
-import { HarmonyColorName } from '../../../rooster-shared/colors';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../../rooster-shared/components/popup/popup.component';
+import { ActionColor } from '../../../rooster-shared/utils/color-token-utils';
 
 @Component({
     selector: 'dt-confirmation-dialog',
@@ -26,11 +26,9 @@ export class ConfirmationDialogComponent implements OnInit, Popup {
     public icon: IconName;
     public warning = false;
     public outlineConfirmKnop: boolean;
-    public buttonColor: HarmonyColorName;
-    public iconColor: HarmonyColorName;
-    public cancelButtonColor: HarmonyColorName = 'typography_3';
+    public buttonColor: ActionColor;
+    public cancelButtonColor: ActionColor = 'neutral';
     public cancelIcon: IconName;
-    public cancelIconColor: HarmonyColorName = 'typography_3';
     public showLoaderOnConfirm: boolean;
     public cancelGtmTag: string;
     public confirmGtmTag: string;

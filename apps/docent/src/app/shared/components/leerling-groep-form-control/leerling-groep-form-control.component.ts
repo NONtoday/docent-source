@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Differentiatiegroep, Leerling, Projectgroep } from '../../../../generated/_types';
-import { differentieKleurConverter } from '../../../rooster-shared/colors';
 import { FormCheckboxComponent } from '../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';
+import { differentiatieKleurConverter } from '../../../rooster-shared/utils/color-token-utils';
 import { AvatarNaamComponent } from '../avatar-naam/avatar-naam.component';
 import { KleurenStackComponent, KleurenStackElement } from '../kleuren-stack/kleuren-stack.component';
 
@@ -37,8 +37,8 @@ export class LeerlingGroepFormControlComponent implements OnInit {
     ngOnInit() {
         if (this.groepen && (<Differentiatiegroep>this.groepen[0])?.kleur) {
             this.kleuren = (<Differentiatiegroep[]>this.groepen)?.map((groepen) => ({
-                kleur: differentieKleurConverter[groepen.kleur].counter,
-                border: differentieKleurConverter[groepen.kleur].border,
+                kleur: differentiatieKleurConverter[groepen.kleur].counter,
+                border: differentiatieKleurConverter[groepen.kleur].border,
                 content: groepen.naam
             }));
         }

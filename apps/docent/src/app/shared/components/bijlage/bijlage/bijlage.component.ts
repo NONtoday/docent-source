@@ -24,7 +24,6 @@ import {
 } from 'harmony-icons';
 import { Bijlage, BijlageType } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
-import { HarmonyColorName } from '../../../../rooster-shared/colors';
 import {
     ActionButton,
     ActionsPopupComponent,
@@ -32,6 +31,7 @@ import {
     verwijderButton
 } from '../../../../rooster-shared/components/actions-popup/actions-popup.component';
 import { TooltipDirective } from '../../../../rooster-shared/directives/tooltip.directive';
+import { ActionColor } from '../../../../rooster-shared/utils/color-token-utils';
 import { BijlageExtensieComponent } from '../../bijlage-extensie/bijlage-extensie.component';
 import { InlineEditComponent } from '../../inline-edit/inline-edit.component';
 import { ZichtbaarheidstoggleComponent } from '../../zichtbaarheidstoggle/zichtbaarheidstoggle.component';
@@ -116,15 +116,14 @@ export class BijlageComponent implements OnChanges {
 
     openActionsPopup() {
         const icon: IconName = this.bijlage.zichtbaarVoorLeerling ? 'nietZichtbaarCheckbox' : 'zichtbaarCheckbox';
-        const color: HarmonyColorName = this.bijlage.zichtbaarVoorLeerling ? 'accent_negative_1' : 'primary_1';
+        const color: ActionColor = this.bijlage.zichtbaarVoorLeerling ? 'negative' : 'primary';
         const customButtons: ActionButton[] = [
             this.toonZichtbaarheidToggle
                 ? {
                       icon,
-                      iconcolor: color,
+                      color: color,
                       onClickFn: () => this.toggleZichtbaarheid(),
-                      text: this.bijlage.zichtbaarVoorLeerling ? 'Maak onzichtbaar voor leerling' : 'Maak zichtbaar voor leerling',
-                      textcolor: color
+                      text: this.bijlage.zichtbaarVoorLeerling ? 'Maak onzichtbaar voor leerling' : 'Maak zichtbaar voor leerling'
                   }
                 : null,
             verwijderButton(() => {

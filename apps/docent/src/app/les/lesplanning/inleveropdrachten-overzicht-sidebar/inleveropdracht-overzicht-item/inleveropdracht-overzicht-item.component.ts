@@ -25,7 +25,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { Afrondingsoverzicht, Toekenning } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
-import { mapDifferentiatieToKleurenStackElements } from '../../../../rooster-shared/colors';
 import {
     ActionsPopupComponent,
     bewerkButton,
@@ -35,6 +34,7 @@ import {
 import { IconComponent } from '../../../../rooster-shared/components/icon/icon.component';
 import { DtDatePipe } from '../../../../rooster-shared/pipes/dt-date.pipe';
 import { StudiewijzeritemTitelPipe } from '../../../../rooster-shared/pipes/studiewijzeritem-titel.pipe';
+import { mapDifferentiatieToKleurenStackElements } from '../../../../rooster-shared/utils/color-token-utils';
 import { sortLocale } from '../../../../rooster-shared/utils/utils';
 import { AfrondingsoverzichtPopupComponent } from '../../../../shared-studiewijzer-les/afrondingsoverzicht-popup/afrondingsoverzicht-popup.component';
 import { KleurenStackComponent, KleurenStackElement } from '../../../../shared/components/kleuren-stack/kleuren-stack.component';
@@ -100,9 +100,8 @@ export class InleveropdrachtOverzichtItemComponent implements OnInit {
         popup.customButtons = [
             {
                 icon: 'inleveropdracht',
-                iconcolor: 'primary_1',
+                color: 'primary',
                 text: 'Naar inleveringen',
-                textcolor: 'primary_1',
                 isVerwijderButton: false,
                 onClickFn: () => this.navigeerNaarInleveringen()
             },

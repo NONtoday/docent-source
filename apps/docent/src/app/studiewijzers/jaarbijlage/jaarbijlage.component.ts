@@ -20,7 +20,6 @@ import { set } from 'shades';
 import { Bijlage, BijlageMap, BijlageType, Differentiatiegroep, Leerling, Sjabloon, Studiewijzer } from '../../../generated/_types';
 import { PopupDirection } from '../../core/popup/popup.settings';
 import { DeviceService, desktopQuery } from '../../core/services/device.service';
-import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/colors';
 import {
     ActionButton,
     ActionsPopupComponent,
@@ -33,6 +32,7 @@ import {
 import { CheckboxComponent } from '../../rooster-shared/components/checkbox/checkbox.component';
 import { IconComponent } from '../../rooster-shared/components/icon/icon.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
+import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/utils/color-token-utils';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { BijlageExtensieComponent } from '../../shared/components/bijlage-extensie/bijlage-extensie.component';
 import { InlineEditComponent } from '../../shared/components/inline-edit/inline-edit.component';
@@ -244,9 +244,8 @@ export class JaarbijlageComponent implements OnChanges, OnDestroy {
 
         const toSjabloonButton = (sjabloon: Sjabloon): ActionButton => ({
             text: sjabloon.naam,
-            textcolor: 'primary_1',
+            color: 'primary',
             icon: null,
-            iconcolor: null,
             onClickFn: () => {
                 this.synchroniseerBijlageEmitter.emit(sjabloon);
                 this.popupService.closePopUp();

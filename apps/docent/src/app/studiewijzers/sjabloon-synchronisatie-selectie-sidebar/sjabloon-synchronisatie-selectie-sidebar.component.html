@@ -61,12 +61,12 @@
                             (click)="geselecteerdeSjablonenMap.delete(entry.key)"
                             icon="sluiten"
                             size="medium"
-                            color="background"></dt-icon>
+                            color="neutral"></dt-icon>
                     </div>
                 }
             }
             <div class="toevoegen" (click)="toonOverzicht = false">
-                <dt-background-icon icon="toevoegen" size="small" color="accent_positive_1"></dt-background-icon>
+                <dt-background-icon icon="toevoegen" size="small" color="positive"></dt-background-icon>
                 <span class="text-content-semi">Extra sjabloon toevoegen</span>
             </div>
         </div>
@@ -85,7 +85,7 @@
     }
     @if (toonButtonBar) {
         <div class="buttons">
-            <dt-outline-button class="annuleren" (click)="annuleer()" color="typography_3"> Annuleren </dt-outline-button>
+            <dt-outline-button class="annuleren" (click)="annuleer()" color="neutral"> Annuleren </dt-outline-button>
             @if (toonOverzicht) {
                 <dt-button
                     class="submit"

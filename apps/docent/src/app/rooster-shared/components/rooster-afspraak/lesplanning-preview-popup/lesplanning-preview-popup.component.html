@@ -1,8 +1,6 @@
 <dt-popup>
     <div class="popup-content" #content popup-content>
-        <div
-            class="header text-content-bold"
-            [ngStyle]="{ 'box-shadow': canScrollUp ? '0px 2px 5px ' + harmonyColors.background_3 : 'none' }">
+        <div class="header text-content-bold" [ngStyle]="{ 'box-shadow': canScrollUp ? '0px 2px 5px var(--bg-neutral-weak)' : 'none' }">
             <div class="title">
                 <dt-background-icon [icon]="huiswerkType | huiswerkTypeIcon" [color]="huiswerkType | huiswerkTypeColor">
                 </dt-background-icon>
@@ -58,9 +56,7 @@
         <div class="lesplanning-link show-for-desktop action-primary-normal" data-gtm="naar-lesplanning">
             <a [routerLink]="['/rooster/les', afspraak.id, 'lesplanning']">Naar lesplanning</a>
         </div>
-        <div
-            class="buttons hide-for-desktop"
-            [ngStyle]="{ 'box-shadow': canScrollDown ? '0px -2px 5px ' + harmonyColors.background_3 : 'none' }">
+        <div class="buttons hide-for-desktop" [ngStyle]="{ 'box-shadow': canScrollDown ? '0px -2px 5px var(--bg-neutral-weak)' : 'none' }">
             <dt-outline-button [routerLink]="['/rooster/les', afspraak.id, 'lesplanning']" icon="lesplanning" data-gtm="naar-lesplanning">
                 Naar lesplanning</dt-outline-button
             >

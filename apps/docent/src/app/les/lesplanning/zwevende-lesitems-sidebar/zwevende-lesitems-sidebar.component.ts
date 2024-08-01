@@ -219,7 +219,7 @@ export class ZwevendeLesitemsSidebarComponent implements OnInit, OnDestroy {
         popup.actionLabel = 'Verwijder voor lesgroep';
         popup.cancelLabel = 'Verwijder uit sjabloon';
         popup.outlineConfirmKnop = true;
-        popup.buttonColor = 'accent_negative_1';
+        popup.buttonColor = 'negative';
         popup.cancelGtmTag = 'verwijder-zwevend-item-uit-sjabloon';
         popup.confirmGtmTag = 'verwijder-zwevend-item-voor-lesgroep';
         popup.onConfirmFn = () => {

@@ -26,6 +26,7 @@ import { DeviceService } from '../services/device.service';
 import { DropdownItemComponent } from './dropdown-item/dropdown-item.component';
 import { DropdownItem } from './dropdown.model';
 
+const DEFAULT_LIST_ALIGNMENT: PopupSettings['alignment'] = 'start';
 const DEFAULT_LIST_HEIGHT = 'fit-options';
 const DEFAULT_LIST_WIDTH = 'fit-dropdown';
 const DEFAULT_NO_ITEMS_PLACEHOLDER = 'Geen opties beschikbaar';
@@ -55,18 +56,20 @@ export class DropdownComponent<T> {
 
     public label = input<string | undefined>();
     public placeholder = input(DEFAULT_PLACEHOLDER);
-    public items = input<DropdownItem<T>[]>([]);
+    public items = input.required<DropdownItem<T>[]>();
     public selected = model<DropdownItem<T> | undefined>();
     public noItemsPlaceholder = input(DEFAULT_NO_ITEMS_PLACEHOLDER);
     public customTabindex = input(DEFAULT_TABINDEX);
+    public customId = input<string | undefined>();
     public size = input<'small' | 'medium'>(DEFAULT_SIZE);
     public listWidth = input<'fit-dropdown' | 'fit-options' | number>(DEFAULT_LIST_WIDTH);
     public listHeight = input<'fit-options' | number>(DEFAULT_LIST_HEIGHT);
     public modalOnMobile = input(false);
+    public listAlignment = input<PopupSettings['alignment']>(DEFAULT_LIST_ALIGNMENT);
     public mobileModalTitle = input<string | undefined>();
     public buttonHeight = input<number>(48);
 
-    public onSelectionChanged = output<T | undefined>();
+    public onSelectionChanged = output<T>();
 
     iconSize = computed(() => {
         return match(this.size())
@@ -76,20 +79,6 @@ export class DropdownComponent<T> {
             .exhaustive();
     });
     isOpen = signal(false);
-
-    constructor() {
-        this.selected.subscribe(() => {
-            this.closeOptionsList();
-            this.onSelectionChanged.emit(this.selected()?.data);
-        });
-    }
-
-    private getalignment(): 'start' | 'center' | 'end' {
-        return match(this.listWidth())
-            .returnType<'start' | 'center' | 'end'>()
-            .with('fit-dropdown', () => 'center')
-            .otherwise(() => 'start');
-    }
 
     private getListWidthValue(boxWidth: number): string {
         return match(this.listWidth())
@@ -156,7 +145,7 @@ export class DropdownComponent<T> {
             dropdownBoxRef,
             createPopupSettings({
                 position: 'under',
-                alignment: this.getalignment(),
+                alignment: this.listAlignment(),
                 width: listWidth,
                 onClose: () => this.isOpen.set(false)
             }),
@@ -181,6 +170,8 @@ export class DropdownComponent<T> {
     select(item: DropdownItem<T>) {
         if (this.items().includes(item) && !item.disabled) {
             this.selected.set(item);
+            this.closeOptionsList();
+            this.onSelectionChanged.emit(item.data);
         }
     }
 }

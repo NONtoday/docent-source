@@ -47,8 +47,7 @@
                     class="show-for-tablet"
                     (click)="onNieuwBericht()"
                     icon="toevoegen"
-                    iconColor="accent_positive_1"
-                    color="accent_positive_1"
+                    color="positive"
                     data-gtm="berichten-nieuw-bericht">
                     Nieuw bericht</dt-outline-button
                 >
@@ -57,11 +56,7 @@
                 >Markeren
             </dt-outline-button>
             @if (heeftBerichtenWijzigenRecht$ | async) {
-                <dt-outline-button
-                    class="hide-for-tablet"
-                    (click)="onNieuwBericht()"
-                    color="accent_positive_1"
-                    data-gtm="berichten-nieuw-bericht"
+                <dt-outline-button class="hide-for-tablet" (click)="onNieuwBericht()" color="positive" data-gtm="berichten-nieuw-bericht"
                     >Nieuw
                 </dt-outline-button>
             }

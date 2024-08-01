@@ -31,6 +31,7 @@ export class TooltipDirective implements OnChanges, OnDestroy {
     private renderer = inject(Renderer2);
     private deviceService = inject(DeviceService);
     private sanitizer = inject(DomSanitizer);
+
     // The content of the hint.
     private content: any;
 

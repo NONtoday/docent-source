@@ -52,12 +52,7 @@
                     }
                 </span>
             </div>
-            <dt-form-dropdown
-                class="herhaling-type"
-                [scrollIntoView]="false"
-                [chevronColor]="background_1"
-                [opties]="herhalingTypeOptions"
-                [formControl]="type">
+            <dt-form-dropdown class="herhaling-type" [scrollIntoView]="false" [opties]="herhalingTypeOptions" [formControl]="type">
             </dt-form-dropdown>
             <div class="herhaal-elke">
                 <label>Herhaal elke</label>
@@ -74,7 +69,6 @@
                         <dt-form-dropdown
                             class="dag-werkdag-opties"
                             [scrollIntoView]="false"
-                            [chevronColor]="background_1"
                             [opties]="dagWerkdagOptions"
                             [formControl]="afspraakHerhalingDagen">
                         </dt-form-dropdown>
@@ -93,15 +87,10 @@
                     <div class="herhaal-op-opties">
                         @if (showMaandOpties) {
                             <div class="herhaal-maand">
-                                <dt-form-dropdown
-                                    [scrollIntoView]="false"
-                                    [chevronColor]="background_1"
-                                    [opties]="maandXsteOptions"
-                                    formControlName="skip">
+                                <dt-form-dropdown [scrollIntoView]="false" [opties]="maandXsteOptions" formControlName="skip">
                                 </dt-form-dropdown>
                                 <dt-form-dropdown
                                     [scrollIntoView]="false"
-                                    [chevronColor]="background_1"
                                     [opties]="herhalingDagOptions"
                                     [formControl]="afspraakHerhalingDagen">
                                 </dt-form-dropdown>
@@ -126,7 +115,6 @@
                     <dt-form-dropdown
                         class="herhaling-eind-type"
                         [scrollIntoView]="false"
-                        [chevronColor]="background_1"
                         [opties]="afspraakHerhalingEindeOptions"
                         [formControl]="herhalingEindeType">
                     </dt-form-dropdown>
@@ -189,7 +177,7 @@
     </div>
 </form>
 <div class="buttons">
-    <dt-outline-button class="annuleren" (click)="onCancel.emit()" color="typography_3">Annuleren </dt-outline-button>
+    <dt-outline-button class="annuleren" (click)="onCancel.emit()" color="neutral">Annuleren </dt-outline-button>
     <button
         class="opslaan"
         [disabled]="(editAfspraakForm.valid && editAfspraakForm.dirty ? null : true) || isUploading ? true : null"
