@@ -184,7 +184,7 @@ export class TooltipDirective implements OnChanges, OnDestroy {
         this.renderer.setStyle(content, 'padding', `${this.verticalPadding}px ${this.horizontalPadding}px`);
         this.renderer.setStyle(content, 'background-color', `var(--${'bg-elevated-weakest' satisfies ColorToken})`);
         this.renderer.setStyle(content, 'border-radius', '3px');
-        this.renderer.addClass(content, 'text-small-content');
+        this.renderer.addClass(content, 'text-content-small');
         this.renderer.setStyle(content, 'color', `var(--${'text-moderate' satisfies ColorToken})`);
         this.renderer.setStyle(content, 'border', `var(--${'thinnest-solid-neutral-strong' satisfies BorderToken})`);
         this.renderer.setStyle(content, 'box-shadow', shadow_popout_desktop);

@@ -33,12 +33,11 @@ export class InboxBerichtenSidebarComponent implements OnInit {
     aantalGetoondeBerichten = 0;
     alleBerichtenGeladen = false;
     showMessage = false;
-    aantalOngelezenBerichten$: Observable<number>;
+    aantalOngelezenBerichten$ = this.medewerkerDataService.aantalOngelezenBerichten$;
     heeftBerichtenWijzigenRecht$: Observable<boolean>;
 
     ngOnInit() {
         this.loading = true;
-        this.aantalOngelezenBerichten$ = this.medewerkerDataService.getAantalOngelezenBerichten();
         this.heeftBerichtenWijzigenRecht$ = this.medewerkerDataService.heeftBerichtenWijzigenRecht();
         this.berichten$ = this.medewerkerDataService.getBerichtenVanMedewerker().pipe(
             // Filter de null values eruit die in de typePolicy is toegevoegd (changeDetection)

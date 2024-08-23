@@ -1,4 +1,4 @@
-@for (hoofdstuk of methode.hoofdstukken; track hoofdstuk; let i = $index) {
+@for (hoofdstuk of methode.hoofdstukken; track hoofdstuk.id; let i = $index) {
     <div class="hoofdstuk" [class.closed]="closedHoofdstukken[hoofdstuk.id]" cdkDropList cdkDropListSortingDisabled>
         <div class="header" (click)="toggleHoofdstuk(hoofdstuk.id)">
             <span class="label text-content-bold text-inverted">{{ i + 1 }}</span>
@@ -10,7 +10,7 @@
                 size="medium"></i>
         </div>
         <div class="sub-hoofdstukken" [@collapse]="{ value: !!closedHoofdstukken[hoofdstuk.id] }">
-            @for (subHoofdstuk of hoofdstuk.subHoofdstukken; track subHoofdstuk) {
+            @for (subHoofdstuk of hoofdstuk.subHoofdstukken; track subHoofdstuk.id) {
                 <div
                     class="sub-hoofdstuk"
                     [cdkDragData]="createDragAndDropCallback(subHoofdstuk, hoofdstuk.naam)"

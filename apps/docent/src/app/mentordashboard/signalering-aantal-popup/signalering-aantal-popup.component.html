@@ -2,7 +2,7 @@
     <div class="content" #content popup-content>
         <div class="header">
             <span class="text-content-semi color-typography-1">Signaleren</span>
-            <span class="text-small-content-semi color-typography-3">Markeer tellingen vanaf een waarde</span>
+            <span class="text-content-small-semi color-typography-3">Markeer tellingen vanaf een waarde</span>
         </div>
 
         <div class="switch text-content-semi">
@@ -32,7 +32,7 @@
             <div class="setting-wrapper" [formGroup]="filterForm">
                 @for (filter of activeFilters$ | async; track filter) {
                     <div class="setting">
-                        <span class="text-ellipsis">{{ filter.column }}</span>
+                        <span class="ellipsis">{{ filter.column }}</span>
                         @if (activeTab === 'leerling' && filterForm.get(activeTab + '-' + filter.column)!.value) {
                             <i
                                 class="fill-typography-4 pointer reset"

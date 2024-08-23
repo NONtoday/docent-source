@@ -3,29 +3,27 @@
         <div class="resultaat-container">
             @for (historischResultaat of historischeResultaten; track historischResultaat) {
                 <div class="historisch-resultaat">
-                    <span class="datum text-small-content">
+                    <span class="datum text-content-small">
                         {{ historischResultaat.datumInvoer | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}
                     </span>
-                    <span class="medewerker text-small-content color-typography-3">{{
-                        historischResultaat.medewerker | volledigeNaam
-                    }}</span>
+                    <span class="medewerker text-content-small text-weak">{{ historischResultaat.medewerker | volledigeNaam }}</span>
                     <span
-                        class="resultaat text-small-content-semi color-typography-1"
+                        class="resultaat text-content-small-semi text-strong"
                         [class.onvoldoende]="!historischResultaat.voldoende"
                         [class.vrijstelling]="historischResultaat.vrijstelling"
-                        [class.niet-gemaakt]="historischResultaat.toetsNietGemaakt"
-                        >{{
+                        [class.niet-gemaakt]="historischResultaat.toetsNietGemaakt">
+                        {{
                             alternatiefNiveau
                                 ? historischResultaat.formattedResultaatAfwijkendNiveau
                                 : historischResultaat.formattedResultaat
-                        }}</span
-                    >
+                        }}
+                    </span>
                 </div>
             }
         </div>
     } @else {
         <div class="geen-resultaten">
-            <span class="color-typography-4 text-small-content-semi">Geen cijferhistorie</span>
+            <span class="text-weakest text-content-small-semi">Geen cijferhistorie</span>
         </div>
     }
 } @else {

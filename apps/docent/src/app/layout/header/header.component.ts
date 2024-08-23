@@ -7,11 +7,11 @@ import {
     inject,
     Input,
     NgZone,
-    OnDestroy,
     Renderer2,
     ViewChild,
     ViewContainerRef
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { IconDirective } from 'harmony';
 import {
@@ -24,13 +24,14 @@ import {
     IconZoeken,
     provideIcons
 } from 'harmony-icons';
-import { fromEvent, Observable, Subject } from 'rxjs';
-import { filter, map, takeUntil } from 'rxjs/operators';
+import { fromEvent, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Medewerker } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../../core/popup/popup.service';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
+import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { AvatarComponent } from '../../rooster-shared/components/avatar/avatar.component';
 import { ZoekPopupComponent } from '../../rooster-shared/components/zoek-popup/zoek-popup.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
@@ -51,17 +52,17 @@ import { ProfileMenuPopupComponent } from './profile-menu-popup/profile-menu-pop
     imports: [MenuComponent, CommonModule, TooltipDirective, IconDirective, AvatarComponent, VolledigeNaamPipe],
     providers: [provideIcons(IconTelefoon, IconZoeken, IconBericht, IconFeedback, IconWaarschuwing, IconTerugNaarSomtoday)]
 })
-export class HeaderComponent implements OnDestroy {
+export class HeaderComponent {
     private popupService = inject(PopupService);
     private changeDetector = inject(ChangeDetectorRef);
     private uriService = inject(UriService);
     private headerService = inject(HeaderService);
+    private medewerkerDataService = inject(MedewerkerDataService);
     private router = inject(Router);
     @HostBinding('class.met-navigatie') @Input() metNavigatie = false;
     @Input() titel: string;
     @Input() icon: IconName;
 
-    private onDestroy$ = new Subject<void>();
     private ngZone = inject(NgZone);
 
     public isPopupOpen: boolean;
@@ -69,7 +70,7 @@ export class HeaderComponent implements OnDestroy {
     public medewerker$: Observable<Medewerker>;
     public isCoreReturnUrlSet$: Observable<boolean>;
     public heeftBerichtenInzienRecht$: Observable<boolean>;
-    public aantalOngelezenBerichten$: Observable<number>;
+    public aantalOngelezenBerichten$ = this.medewerkerDataService.aantalOngelezenBerichten$;
     public isUpdateBeschikbaar$: Observable<boolean>;
 
     @ViewChild('avatarContainer', { read: ViewContainerRef }) avatar: ViewContainerRef;
@@ -84,7 +85,7 @@ export class HeaderComponent implements OnDestroy {
             map((medewerker) => medewerker.settings?.heeftBerichtenInzienRecht ?? false)
         );
         this.isCoreReturnUrlSet$ = this.uriService.getCoreReturnUrlSetObservable();
-        this.aantalOngelezenBerichten$ = this.headerService.aantalOngelezenBerichten$;
+
         this.isUpdateBeschikbaar$ = this.headerService.isUpdateBeschikbaar$;
 
         this.showDarkModeToggle = ['topicusonderwijs.build', 'localhost:4200'].some((omgeving) => window.location.host.includes(omgeving));
@@ -96,7 +97,7 @@ export class HeaderComponent implements OnDestroy {
                         (event: KeyboardEvent) =>
                             (event.ctrlKey && event.code === 'Space' && !document.querySelector('dt-sidebar')) || event.code === 'Escape'
                     ),
-                    takeUntil(this.onDestroy$)
+                    takeUntilDestroyed()
                 )
                 .subscribe((event: KeyboardEvent) => {
                     if (event.ctrlKey && event.code === 'Space') {
@@ -194,10 +195,5 @@ export class HeaderComponent implements OnDestroy {
         };
 
         this.popupService.popup(this.avatar, popupSettings, FeedbackPopupComponent);
-    }
-
-    ngOnDestroy(): void {
-        this.onDestroy$.next();
-        this.onDestroy$.complete();
     }
 }

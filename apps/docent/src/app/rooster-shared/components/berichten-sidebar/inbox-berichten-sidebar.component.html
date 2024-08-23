@@ -20,9 +20,9 @@
                         <span
                             class="meer-berichten action-primary-normal text-content-semi"
                             (click)="toonMeerBerichten()"
-                            data-gtm="berichten-toon-meer"
-                            >Toon meer berichten</span
-                        >
+                            data-gtm="berichten-toon-meer">
+                            Toon meer berichten
+                        </span>
                     }
                 </div>
             }
@@ -39,9 +39,9 @@
                 text="Alle berichten gemarkeerd als gelezen"></dt-message>
         }
         <div class="buttons">
-            <dt-outline-button class="show-for-tablet" (click)="allesGelezen()" data-gtm="berichten-alles-gelezen-markeren" icon="check"
-                >Markeren als gelezen</dt-outline-button
-            >
+            <dt-outline-button class="show-for-tablet" (click)="allesGelezen()" data-gtm="berichten-alles-gelezen-markeren" icon="check">
+                Markeren als gelezen
+            </dt-outline-button>
             @if (heeftBerichtenWijzigenRecht$ | async) {
                 <dt-outline-button
                     class="show-for-tablet"
@@ -49,15 +49,15 @@
                     icon="toevoegen"
                     color="positive"
                     data-gtm="berichten-nieuw-bericht">
-                    Nieuw bericht</dt-outline-button
-                >
+                    Nieuw bericht
+                </dt-outline-button>
             }
-            <dt-outline-button class="hide-for-tablet" (click)="allesGelezen()" data-gtm="berichten-alles-gelezen-markeren"
-                >Markeren
+            <dt-outline-button class="hide-for-tablet" (click)="allesGelezen()" data-gtm="berichten-alles-gelezen-markeren">
+                Markeren
             </dt-outline-button>
             @if (heeftBerichtenWijzigenRecht$ | async) {
-                <dt-outline-button class="hide-for-tablet" (click)="onNieuwBericht()" color="positive" data-gtm="berichten-nieuw-bericht"
-                    >Nieuw
+                <dt-outline-button class="hide-for-tablet" (click)="onNieuwBericht()" color="positive" data-gtm="berichten-nieuw-bericht">
+                    Nieuw
                 </dt-outline-button>
             }
         </div>

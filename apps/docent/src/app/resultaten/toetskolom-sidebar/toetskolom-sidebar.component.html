@@ -66,8 +66,8 @@
                     <div class="sticky-header">
                         @if (sortering) {
                             <div class="sorteer-header pointer" #sorteerheader (click)="sorteerClick(sortering)">
-                                <span class="sortering color-primary-1 text-small-content-semi">{{ sortering.veld | ucfirst }}</span>
-                                <i class="fill-primary-1" [hmyIcon]="sortering.order.toString() === 'ASC' ? 'aZ' : 'zA'"></i>
+                                <span class="sortering action-primary-normal text-content-small-semi">{{ sortering.veld | ucfirst }}</span>
+                                <i [hmyIcon]="sortering.order.toString() === 'ASC' ? 'aZ' : 'zA'" color="action-primary-normal"></i>
                             </div>
                         }
                         @if (toetskolomGesloten) {
@@ -80,7 +80,7 @@
                         <dt-resultaten-save-indicator></dt-resultaten-save-indicator>
                     </div>
                     @if (!hideGemiddelde) {
-                        <div class="klasgemiddelde color-primary-3 text-content-semi">
+                        <div class="klasgemiddelde fg-primary-strongest text-content-semi">
                             <span>Klasgemiddelde</span>
                             <span class="gemiddelde">{{ klasgemiddelde }}</span>
                         </div>
@@ -160,22 +160,25 @@
                                     ) {
                                         <div class="actions" [@slideInRightOnEnter]>
                                             <i
-                                                class="fill-primary-1 popout-option-icon"
+                                                class="popout-option-icon"
                                                 (click)="openCijferhistorie(activeCell.value!.nativeElement.id)"
+                                                color="action-primary-normal"
                                                 hmyIcon="klok"
                                                 size="medium"
                                                 data-gtm="cijferhistorie-bekijken"></i>
                                             @if (magOpmerkingToevoegen && !heeftBestaandeOpmerking(leerlingResultaat)) {
                                                 <i
-                                                    class="fill-accent-positive-1 popout-option-icon"
+                                                    class="popout-option-icon"
                                                     (click)="createOrEditOpmerking(activeCell.value!)"
+                                                    color="action-positive-normal"
                                                     hmyIcon="reactieToevoegen"
                                                     size="medium"></i>
                                             }
                                             @if (magOpmerkingToevoegen && heeftBestaandeOpmerking(leerlingResultaat)) {
                                                 <i
-                                                    class="fill-primary-1 popout-option-icon"
+                                                    class="popout-option-icon"
                                                     (click)="createOrEditOpmerking(activeCell.value!)"
+                                                    color="action-primary-normal"
                                                     hmyIcon="reacties"
                                                     size="medium"></i>
                                             }
@@ -192,10 +195,10 @@
                                                 as errorVanCell
                                             ) {
                                                 <i
-                                                    class="fill-accent-negative-1"
                                                     [hmyIcon]="errorVanCell?.icon ?? 'waarschuwing'"
                                                     [onTouchAllowed]="true"
                                                     [dtTooltip]="errorVanCell?.errorMessage"
+                                                    color="action-negative-normal"
                                                     size="large"></i>
                                             }
                                         }

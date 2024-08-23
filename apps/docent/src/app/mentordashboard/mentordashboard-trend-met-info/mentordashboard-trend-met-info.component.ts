@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CssVarPipe, IconDirective, TooltipDirective } from 'harmony';
-import { IconInformatie, provideIcons } from 'harmony-icons';
+import { IconInformatie, IconPijlRechts, IconPijlRechtsBeneden, IconPijlRechtsBoven, provideIcons } from 'harmony-icons';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { MentordashboardResultaatTrendColorPipe } from '../pipes/mentordashboard-resultaat-trend-color.pipe';
 import { MentordashboardResultaatTrendIconPipe } from '../pipes/mentordashboard-resultaat-trend-icon.pipe';
@@ -19,7 +19,7 @@ import { MentordashboardResultaatTrendTooltipPipe } from '../pipes/mentordashboa
         CssVarPipe,
         TooltipDirective
     ],
-    providers: [provideIcons(IconInformatie)],
+    providers: [provideIcons(IconInformatie, IconPijlRechts, IconPijlRechtsBoven, IconPijlRechtsBeneden)],
     templateUrl: './mentordashboard-trend-met-info.component.html',
     styleUrl: './mentordashboard-trend-met-info.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush

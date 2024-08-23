@@ -7,7 +7,7 @@
         queryParamsHandling="merge">
         <i class="icon" [sizes]="['large', 'large', 'large', 'medium']" hmyIcon="pijlLinks"></i>
     </div>
-    <span class="hide-for-tablet-portrait text-ellipsis text-content-bold">Notitie bekijken</span>
+    <span class="hide-for-tablet-portrait ellipsis text-content-bold">Notitie bekijken</span>
     <div class="navigatie">
         <div
             class="vorige-notitie pointer"
@@ -79,16 +79,16 @@
             [size]="40"
             [toonMentorIcoon]="auteurHasMentorIcon"></dt-avatar>
         <div class="notitie-auteur-tijd">
-            <span class="auteur text-ellipsis text-content-semi text-strong"
+            <span class="auteur ellipsis text-content-semi text-strong"
                 >{{ isEigenNotitie ? 'Mijzelf' : (notitie.auteur | volledigeNaam) }}
                 @if (notitie.auteurInactief) {
                     <span class="auteur-inactief text-weak">(Inactief)</span>
                 }
             </span>
-            <span class="aangemaakt-op show-for-phone-only text-weak text-small-content-regular">
+            <span class="aangemaakt-op show-for-phone-only text-weak text-content-small-regular">
                 {{ notitie.createdAt | dtDate: 'dag_uitgeschreven_dagnummer_maand_kort' }}, {{ notitie.createdAt | dtDate: 'tijd' }}
             </span>
-            <span class="aangemaakt-op hide-for-phone-only text-weak text-small-content-regular">
+            <span class="aangemaakt-op hide-for-phone-only text-weak text-content-small-regular">
                 {{ notitie.createdAt | dtDate: 'dag_uitgeschreven_dagnummer_maand' }}, {{ notitie.createdAt | dtDate: 'tijd' }}
             </span>
         </div>
@@ -114,7 +114,7 @@
         }
         @if (notitieBetrokkeneToegang$ | async; as notitieBetrokkeneToegang) {
             <div class="labels">
-                @for (leerlingB of leerlingBetrokkenen; track leerlingB) {
+                @for (leerlingB of leerlingBetrokkenen; track leerlingB.id) {
                     @if ({ value: notitieBetrokkeneToegang.get(leerlingB.id) }; as toegankelijk) {
                         <dt-notitie-detail-label
                             class="pointer leerling-label"
@@ -133,7 +133,7 @@
                         </dt-notitie-detail-label>
                     }
                 }
-                @for (groep of groepBetrokkenen; track groep) {
+                @for (groep of groepBetrokkenen; track groep.id) {
                     @if ({ value: notitieBetrokkeneToegang.get(groep.id) }; as toegankelijk) {
                         <dt-notitie-detail-label
                             class="pointer groep-label"
@@ -162,7 +162,7 @@
         }
     </div>
     <div class="notitie-detail-body">
-        <span class="notitie-titel text-head text-strong">{{ notitie.titel }}</span>
+        <span class="notitie-titel text-heading-2 text-strong">{{ notitie.titel }}</span>
         @if (notitie.privacygevoelig) {
             <span
                 class="notitie-inhoud-toggle action-primary-normal text-content-semi pointer"
@@ -176,14 +176,14 @@
             <span class="notitie-inhoud text-content text-strong" [innerHtml]="notitie.inhoud"></span>
             @if (notitie.bijlagen.length > 0) {
                 <div class="bijlagen">
-                    @for (bijlage of notitie.bijlagen; track bijlage) {
+                    @for (bijlage of notitie.bijlagen; track bijlage.id) {
                         <dt-bijlage [bijlage]="bijlage" [toonZichtbaarheidToggle]="false"></dt-bijlage>
                     }
                 </div>
             }
         }
         @if (isGewijzigd) {
-            <span class="laatst-gewijzigd text-small-content-semi">
+            <span class="laatst-gewijzigd text-content-small-semi">
                 Laatst gewijzigd • {{ notitie.lastModifiedAt | dtDate: 'dag_uitgeschreven_dagnummer_maand' }},
                 {{ notitie.lastModifiedAt | dtDate: 'tijd' }}
             </span>

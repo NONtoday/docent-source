@@ -93,7 +93,8 @@ export const defaultVoortgangsdossierMatrix: VoortgangsdossierMatrixVanLesgroepQ
         lesgroepDeeltoetsenToestaan: false,
         lesgroepToetsenToegestaan: false,
         meervoudigeToetsnorm: false,
-        onderwijssoortLeerjaar: ''
+        onderwijssoortLeerjaar: '',
+        toetsdossier: { id: '-2', naam: '', isDefaultDossier: true }
     },
     leerlingen: [],
     lesgroep: {} as VoortgangsdossierMatrixVanLesgroepQuery['voortgangsdossierMatrixVanLesgroep']['lesgroep'],

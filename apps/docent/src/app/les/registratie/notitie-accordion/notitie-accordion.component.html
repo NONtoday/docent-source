@@ -18,13 +18,13 @@
             }
             @if (aantalActueleNotities > 0) {
                 <div class="notitie-betrokkenen">
-                    @for (notitie of ongelezenNotitiesGroepen; track notitie) {
+                    @for (notitie of ongelezenNotitiesGroepen; track notitie.groep?.id) {
                         <dt-ongelezen-notitie-groep
                             class="ongelezen-notitie"
                             [ongelezenNotitieGroep]="notitie"
                             (click)="openGroepActueleNotitiesSidebar(notitie.groep)"></dt-ongelezen-notitie-groep>
                     }
-                    @for (notitie of ongelezenNotitiesLeerlingen; track notitie) {
+                    @for (notitie of ongelezenNotitiesLeerlingen; track notitie.leerling?.id) {
                         <dt-ongelezen-notitie-leerling
                             class="ongelezen-notitie"
                             [ongelezenNotitieLeerling]="notitie"

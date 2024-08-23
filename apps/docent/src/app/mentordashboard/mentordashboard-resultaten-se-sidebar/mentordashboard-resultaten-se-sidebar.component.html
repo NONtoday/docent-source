@@ -31,8 +31,8 @@
                 }
                 @for (toetssoortGemiddelde of seResultaten.toetsSoortGemiddeldeKolommen; track toetssoortGemiddelde) {
                     <div class="toetssoortgemiddelde-resultaat">
-                        <div class="text-label-bold toetssoort-afkorting">{{ toetssoortGemiddelde.toetssoortAfkorting }}</div>
-                        <span class="text-small-content-semi">{{ toetssoortGemiddelde.toetssoortNaam }}</span>
+                        <div class="text-content-smallest-bold toetssoort-afkorting">{{ toetssoortGemiddelde.toetssoortAfkorting }}</div>
+                        <span class="text-content-small-semi">{{ toetssoortGemiddelde.toetssoortNaam }}</span>
                         @if (toetssoortGemiddelde.geldendResultaat.bijzonderheid === resultaatBijzonderheid.NietGemaakt) {
                             <i
                                 class="fill-typography-4 info-icon"

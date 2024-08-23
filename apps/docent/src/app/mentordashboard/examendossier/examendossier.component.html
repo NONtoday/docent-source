@@ -35,13 +35,13 @@
                     }
                 </ng-container>
                 <!-- Table body -->
-                @for (vak of resultaten.examenVakSamenvattendeResultaten; track vak; let i = $index) {
+                @for (vak of resultaten.examenVakSamenvattendeResultaten; track vak.vak.id; let i = $index) {
                     <div class="table-td text-content-semi align-left no-hover first-column" [class.highlighted]="highlightIndex === i">
                         <div class="vaknaam no-border-right">{{ vak.vak.naam }}</div>
                         <div class="labels">
                             @if (vak.anderNiveau) {
                                 <div
-                                    class="show-for-tablet label no-hover secondary small text-label-semi hoger-niveau"
+                                    class="show-for-tablet label no-hover secondary small text-content-smallest-semi hoger-niveau"
                                     [hmyTooltip]="'Volgt vak op hoger niveau: ' + vak.anderNiveau"
                                     [onTouchAllowed]="true">
                                     <i hmyIcon="hogerNiveau" size="smallest"></i>
@@ -58,7 +58,7 @@
                             }
                             @if (vak.vrijstelling && !vak.ontheffing) {
                                 <div
-                                    class="label no-hover positive small text-label-semi"
+                                    class="label no-hover positive small text-content-smallest-semi"
                                     [hmyTooltip]="'Vrijgesteld van het examen'"
                                     [onTouchAllowed]="true">
                                     VR
@@ -66,7 +66,7 @@
                             }
                             @if (vak.ontheffing) {
                                 <div
-                                    class="label no-hover positive small text-label-semi"
+                                    class="label no-hover positive small text-content-smallest-semi"
                                     [hmyTooltip]="'Ontheffing voor vak'"
                                     [onTouchAllowed]="true">
                                     ONT

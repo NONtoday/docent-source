@@ -1,7 +1,7 @@
 @if (!inEditMode) {
     <div class="groep">
         <dt-kleur-keuze [kleur]="kleur" [content]="differentiatiegroep.leerlingen?.length"> </dt-kleur-keuze>
-        <span class="text-ellipsis fg-primary-strongest text-content-semi">{{ differentiatiegroep.naam }}</span>
+        <span class="ellipsis fg-primary-strongest text-content-semi">{{ differentiatiegroep.naam }}</span>
         <dt-icon
             class="show-for-tablet icon-hoverable"
             (click)="onEdit()"

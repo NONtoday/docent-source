@@ -3,7 +3,7 @@
         @if ((selectedItemIndex$ | async) !== null; as selectedIndex) {
             <div>
                 <div class="mobile-periodes">
-                    @for (tabel of registratieTable.tables; track tabel; let i = $index) {
+                    @for (tabel of registratieTable.tables; track $index; let i = $index) {
                         <div class="mobile-periode" (click)="switchPeriode(tabel.header.nummer)">
                             <span class="color-background-6 nummer text-content-semi">{{ tabel.header.label }}</span>
                             <div [class.active]="tabel.header.nummer === selectedPeriode$.value"></div>
@@ -15,7 +15,7 @@
                         @for (
                             item of registratieTable.tables[selectedPeriode$.value - 1].rijen[selectedItemIndex$.value!]
                                 | keyvalue: keepObjectOrder;
-                            track item;
+                            track item.key;
                             let i = $index
                         ) {
                             @if (registratieTable.tables[selectedPeriode$.value - 1].kolommen.includes(item.key)) {
@@ -51,7 +51,7 @@
                     <div class="tab" [routerLink]="['../']" cy="registraties-totaal"><span class="name">Totalen</span></div>
                     <div class="tab active" cy="registraties-per-vak"><span class="name">Per vak</span></div>
                 </div>
-                @for (vak of registratieTable.vakken; track vak; let i = $index) {
+                @for (vak of registratieTable.vakken; track $index; let i = $index) {
                     <div class="item" (click)="onVakClick(i, registratieTable.vakken)">
                         <span class="text-content-semi color-typography-2">{{ vak.naam }}</span>
                         @if (vak.signals && vak.signals > 0) {
@@ -75,7 +75,7 @@
                     <div class="tab" [routerLink]="['../']" cy="registraties-totaal"><span class="name">Totalen</span></div>
                     <div class="tab active" cy="registraties-per-vak"><span class="name">Per vak</span></div>
                 </div>
-                @for (vak of registratieTable.vakken; track vak; let i = $index) {
+                @for (vak of registratieTable.vakken; track $index; let i = $index) {
                     <div class="item" (click)="onVakClick(i, registratieTable.vakken)">
                         <span class="text-content-semi color-typography-2">{{ vak.naam }}</span>
                         @if (vak.signals && vak.signals > 0) {
@@ -161,7 +161,7 @@
                 </div>
 
                 @if (registratieTable.zichtbareKolommen.length !== 0) {
-                    @for (periodetabel of registratieTable.tables; track periodetabel; let i = $index) {
+                    @for (periodetabel of registratieTable.tables; track $index; let i = $index) {
                         <div class="table-with-header">
                             <!-- periodeheaders -->
                             <div
@@ -181,7 +181,7 @@
                             </div>
                             <!-- periode table -->
                             <table [dataSource]="periodetabel.rijen" cdk-table>
-                                @for (column of periodetabel.kolommen; track column; let i = $index) {
+                                @for (column of periodetabel.kolommen; track $index; let i = $index) {
                                     <ng-container [cdkColumnDef]="column">
                                         <th
                                             class="text-content-semi"
@@ -273,7 +273,7 @@
             }
         </div>
         <table [dataSource]="loadingDataSourceRows" cdk-table>
-            @for (column of loadingDataSourceColumns; track column) {
+            @for (column of loadingDataSourceColumns; track $index) {
                 <ng-container [cdkColumnDef]="column">
                     <th *cdkHeaderCellDef cdk-header-cell>
                         <div class="ghost"></div>

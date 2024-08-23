@@ -1,6 +1,6 @@
 <form class="form" id="ngForm" [formGroup]="toetskolomForm" (ngSubmit)="onSubmitClick()">
     <div class="control">
-        <label>Periode<span class="color-accent-warning-1">*</span></label>
+        <label>Periode<span class="fg-warning-normal">*</span></label>
         <dt-form-dropdown
             [scrollIntoView]="false"
             [opties]="periodesDropDownOptions"
@@ -9,11 +9,11 @@
         </dt-form-dropdown>
     </div>
     <div class="control">
-        <label>Afkorting<span class="color-accent-warning-1">*</span></label>
+        <label>Afkorting<span class="fg-warning-normal">*</span></label>
         <input dtAutofocus type="text" maxlength="5" placeholder="Typ hier een afkorting" formControlName="code" />
     </div>
     <div class="control">
-        <label>Toetsomschrijving<span class="color-accent-warning-1">*</span></label>
+        <label>Toetsomschrijving<span class="fg-warning-normal">*</span></label>
         <textarea [placeholder]="toetsomschrijvingPlaceholder" autosize formControlName="omschrijving"></textarea>
     </div>
     <div class="horizontal-controls-container">

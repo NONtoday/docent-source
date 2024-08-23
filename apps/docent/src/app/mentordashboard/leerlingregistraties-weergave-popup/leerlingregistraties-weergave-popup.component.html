@@ -3,16 +3,16 @@
         <div class="header">
             <span class="text-content-semi show-for-tablet">Weergave</span>
             <span class="text-content-semi hide-for-tablet">Filters</span>
-            <span class="text-small-content-semi text-weak">Toon registraties in overzicht</span>
+            <span class="text-content-small-semi text-weak">Toon registraties in overzicht</span>
         </div>
         <span class="alles-selecteren text-content-semi action-primary-normal pointer" (click)="toggleSelectAll()">
             Alles {{ allSelected ? 'deselecteren' : 'selecteren' }}
         </span>
         <div class="form-group" [formGroup]="selectedColumnsForm">
-            @for (columnFilter of columns; track columnFilter) {
+            @for (columnFilter of columns; track columnFilter.id) {
                 <div class="control pointer">
                     <dt-form-checkbox [formControlName]="columnFilter.id"> </dt-form-checkbox>
-                    <span class="name text-ellipsis" (click)="toggleControl(columnFilter.id)">{{ columnFilter.display }}</span>
+                    <span class="name ellipsis" (click)="toggleControl(columnFilter.id)">{{ columnFilter.display }}</span>
                 </div>
             }
         </div>

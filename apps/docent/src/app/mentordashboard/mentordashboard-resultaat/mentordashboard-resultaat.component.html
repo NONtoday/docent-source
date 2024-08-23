@@ -30,7 +30,7 @@
     }
     <div class="weging">
         <i class="fill-typography-4" hmyIcon="weging" size="small"></i>
-        <span class="text-small-content-semi color-typography-4">{{ toetsKolom.weging }}x</span>
+        <span class="text-content-small-semi color-typography-4">{{ toetsKolom.weging }}x</span>
     </div>
     <span class="resultaat text-content-semi" [class.onvoldoende]="!voldoende && !toetsKolom.bijzonderheid">{{
         getFormattedResultaat(resultaat)
@@ -38,6 +38,6 @@
 </div>
 @if (!herkansingsNummer) {
     <div class="bottom">
-        <span class="text-small-content-semi color-typography-3 omschrijving">{{ toetsKolom.omschrijving }}</span>
+        <span class="text-content-small-semi color-typography-3 omschrijving">{{ toetsKolom.omschrijving }}</span>
     </div>
 }

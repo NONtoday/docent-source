@@ -3,7 +3,7 @@
 } @else if (vakResultaatPeriodes().hasError) {
     <span class="error text-content-semi text-weakest">{{ vakResultaatPeriodes().error?.message }}</span>
 } @else {
-    @for (resPeriode of vakResultaatPeriodes().data; track resPeriode) {
+    @for (resPeriode of vakResultaatPeriodes().data; track $index) {
         <div class="periode-header">
             <div class="periode text-content-semi">
                 <span class="text-strong">Periode {{ resPeriode.cijferperiode }}</span>
@@ -19,7 +19,7 @@
                 }
             }
         </div>
-        @for (resultaat of resPeriode.toetsresultaten; track resultaat) {
+        @for (resultaat of resPeriode.toetsresultaten; track $index) {
             <dt-leerlingoverzicht-vak-toets-resultaat
                 [instellingen]="instellingen()"
                 [resultaat]="resultaat.resultaat"

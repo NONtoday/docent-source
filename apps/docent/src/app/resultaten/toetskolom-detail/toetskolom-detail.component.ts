@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, inject, output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IconDirective } from 'harmony';
+import { ButtonComponent, IconDirective } from 'harmony';
 import {
     IconBewerken,
     IconChevronRechts,
@@ -26,7 +26,6 @@ import {
     Toetskolom
 } from '../../../generated/_types';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
-import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { VerwijderButtonComponent } from '../../rooster-shared/components/verwijder-button/verwijder-button.component';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
 import { Optional, notEmpty } from '../../rooster-shared/utils/utils';
@@ -48,7 +47,7 @@ import { isKolomOfType } from '../resultaten.utils';
         BackgroundIconComponent,
         DeeltoetsComponent,
         VerwijderButtonComponent,
-        OutlineButtonComponent,
+        ButtonComponent,
         DtDatePipe,
         HerkansingNaamPipe,
         IconDirective

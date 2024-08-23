@@ -1,0 +1,26 @@
+<hmy-setting-button
+    [opties]="filterOpties"
+    [showLoader]="false"
+    [selected]="filterOptie()"
+    [hideLabel]="isDesktop() ?? false"
+    [titel]="'Notities filteren'"
+    (selection)="filterOptie.set($event)"
+    icon="filter"
+    hmyTooltip="Filteren"
+    label="Filter" />
+@if (showSchooljaarSelector()) {
+    <hmy-dropdown
+        [modalOnMobile]="true"
+        [buttonHeight]="40"
+        [items]="schooljaarOpties()"
+        [selected]="selectedSchooljaar()"
+        (onSelectionChanged)="selectSchooljaar($event)"
+        data-gtm="notitieboek-schooljaar-dropdown"
+        mobileModalTitle="Notities per schooljaar"
+        listWidth="fit-options"
+        cy="schooljaar-dropdown" />
+}
+<div class="search">
+    <input [formControl]="searchControl" type="text" cy="notitieboek-zoekveld" placeholder="Notitie zoeken" />
+    <i class="search-icon" hmyIcon="zoeken"></i>
+</div>

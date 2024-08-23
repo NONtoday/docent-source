@@ -7,13 +7,13 @@
         <div class="container">
             <div class="registratie-totalen" [class.double-row]="isAfwezigKolom" cy="aantal-totaal">
                 <div class="totalen-block">
-                    <span class="totalen-label text-small-content-semi color-typography-3">Totaal</span>
-                    <span class="totalen-value text-head color-typography-1">{{ registratie.aantalRegistraties }}x</span>
+                    <span class="totalen-label text-content-small-semi color-typography-3">Totaal</span>
+                    <span class="totalen-value text-heading-2 color-typography-1">{{ registratie.aantalRegistraties }}x</span>
                 </div>
                 <div class="totalen-block" cy="lesuren-totaal">
-                    <span class="totalen-label text-small-content-semi color-typography-3">Lesmomenten</span>
+                    <span class="totalen-label text-content-small-semi color-typography-3">Lesmomenten</span>
                     <div class="lesuren">
-                        <span class="totalen-value text-head color-typography-1">
+                        <span class="totalen-value text-heading-2 color-typography-1">
                             {{ formatPercentageAfwezig(registratie.aantalLessen, totaalAantalLessen) }}%
                         </span>
                         <span class="aantal-afwezig">{{ registratie.aantalLessen }}/{{ totaalAantalLessen }}</span>
@@ -21,15 +21,15 @@
                 </div>
                 @if (isAfwezigKolom) {
                     <div class="totalen-block uren-totaal" cy="uren-totaal">
-                        <span class="totalen-label text-small-content-semi color-typography-3">Uren</span>
-                        <span class="totalen-value text-head color-typography-1">
+                        <span class="totalen-label text-content-small-semi color-typography-3">Uren</span>
+                        <span class="totalen-value text-heading-2 color-typography-1">
                             {{ registratie.totaalMinuten | urenDuration }}
                         </span>
                     </div>
                 }
                 <div class="totalen-block" [class.mobile-extra-wide]="!isAfwezigKolom" cy="toetsmomenten-totaal">
-                    <span class="totalen-label text-small-content-semi color-typography-3">Toetsmomenten</span>
-                    <span class="totalen-value text-head color-typography-1">{{ registratieDetail.aantalToetsmomenten }}x</span>
+                    <span class="totalen-label text-content-small-semi color-typography-3">Toetsmomenten</span>
+                    <span class="totalen-value text-heading-2 color-typography-1">{{ registratieDetail.aantalToetsmomenten }}x</span>
                 </div>
             </div>
             @for (maand of registratieDetail.registratieMaanden; track maand) {

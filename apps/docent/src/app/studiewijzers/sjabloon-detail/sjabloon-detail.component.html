@@ -85,7 +85,7 @@
             </dt-studiewijzeritem-sidebar>
         }
         <div class="sjabloon" cdkDropListGroup>
-            @for (sjabloonWeek of sjabloonView.weken; track trackByWeeknummer($index, sjabloonWeek); let last = $last; let first = $first) {
+            @for (sjabloonWeek of sjabloonView.weken; track sjabloonWeek.weeknummer; let last = $last; let first = $first) {
                 <dt-sjabloon-week
                     [sjabloonWeek]="sjabloonWeek"
                     [isEigenaar]="isEigenaar"

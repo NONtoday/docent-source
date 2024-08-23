@@ -5,7 +5,7 @@
             #resultaatInput
             [formControl]="formControl"
             [id]="cellId + ':input'"
-            [clickOutsideExclude]="'dt-popup'"
+            [clickOutsideExclude]="'dt-popup, .arrow-icon'"
             [clickOutsideEvents]="'click,touchend'"
             [delayClickOutsideInit]="true"
             (clickOutside)="clickOutside($event)"
@@ -16,24 +16,14 @@
             dtAutoSelect />
         <div class="edit-actions show-for-desktop-only">
             @if (cijferhistorieTonen) {
-                <i
-                    class="fill-typography-4"
-                    (click)="openCijferhistorie($event)"
-                    hmyIcon="klok"
-                    size="smallest"
-                    dtTooltip="Cijferhistorie"></i>
+                <i class="klok" (click)="openCijferhistorie($event)" hmyIcon="klok" size="smallest" dtTooltip="Cijferhistorie"></i>
             }
             @if (heeftBestaandeOpmerking) {
-                <i
-                    class="fill-typography-4"
-                    (click)="opmerkingPopupOpenen($event)"
-                    hmyIcon="reacties"
-                    size="smallest"
-                    dtTooltip="Opmerking"></i>
+                <i class="reacties" (click)="opmerkingPopupOpenen($event)" hmyIcon="reacties" size="smallest" dtTooltip="Opmerking"></i>
             }
             @if (!heeftBestaandeOpmerking) {
                 <i
-                    class="fill-typography-4"
+                    class="reactie-toevoegen"
                     (click)="opmerkingPopupOpenen($event)"
                     hmyIcon="reactieToevoegen"
                     size="smallest"
@@ -43,17 +33,17 @@
         <div class="options show-for-tablet-only" [class.show-left]="showLeft" [class.opmerking-toegestaan]="opmerkingToevoegenToegestaan">
             @if (opmerkingToevoegenToegestaan && !heeftBestaandeOpmerking) {
                 <i
-                    class="fill-accent-positive-1 popout-option-icon"
+                    class="reactie-toevoegen popout-option-icon"
                     (click)="opmerkingPopupOpenen()"
                     hmyIcon="reactieToevoegen"
                     size="medium"></i>
             }
             @if (opmerkingToevoegenToegestaan && heeftBestaandeOpmerking) {
-                <i class="fill-primary-1 popout-option-icon" (click)="opmerkingPopupOpenen($event)" hmyIcon="reacties" size="medium"></i>
+                <i class="opmerking popout-option-icon" (click)="opmerkingPopupOpenen($event)" hmyIcon="reacties" size="medium"></i>
             }
             @if (cijferhistorieTonen) {
                 <i
-                    class="fill-primary-1 popout-option-icon"
+                    class="cijferhistorie popout-option-icon"
                     (click)="openCijferhistorie($event)"
                     hmyIcon="klok"
                     size="medium"
@@ -65,16 +55,16 @@
     <div class="icons">
         @if (invalid) {
             <i
-                class="fill-accent-negative-1"
+                class="error"
                 [hmyIcon]="errorIcon"
-                [dtTooltip]="errorMessage ?? 'Ongeldige waarde'"
+                [hmyTooltip]="errorMessage ?? 'Ongeldige waarde'"
                 [onTouchAllowed]="true"
                 size="smallest"></i>
         }
         @if (basisResultaat && toonMissendeToets && (resultaat?.toetsNietGemaakt || missendeToets)) {
             <i
-                class="let-op-icon fill-typography-4"
-                [dtTooltip]="gemiddeldeTooltip(resultaatkolom, basisResultaat, alternatiefNiveau)"
+                class="let-op-icon"
+                [hmyTooltip]="gemiddeldeTooltip(resultaatkolom, basisResultaat, alternatiefNiveau)"
                 [maxWidth]="230"
                 [onTouchAllowed]="true"
                 hmyIcon="letOp"
@@ -82,8 +72,8 @@
         }
         @if (overschrevenRapportcijfer) {
             <i
-                class="fill-typography-4 overschreven-icon"
-                [dtTooltip]="gemiddeldeTooltip(resultaatkolom, basisResultaat, alternatiefNiveau)"
+                class="overschreven-icon"
+                [hmyTooltip]="gemiddeldeTooltip(resultaatkolom, basisResultaat, alternatiefNiveau)"
                 [maxWidth]="230"
                 [onTouchAllowed]="true"
                 [tooltipDisplayable]="!!basisResultaat"
@@ -91,25 +81,25 @@
                 size="smallest"></i>
         }
         @if (!basisResultaat && toonMissendeToets && (resultaat?.toetsNietGemaakt || missendeToets)) {
-            <i class="let-op-icon fill-typography-4" hmyIcon="letOp" size="smallest"></i>
+            <i class="let-op-icon" hmyIcon="letOp" size="smallest"></i>
         }
     </div>
     <div class="icons right" [class.show-actions]="opmerkingPopupOpen || cijferHistoriePopupOpen">
         @if (!heeftBestaandeOpmerking && opmerkingToevoegenToegestaan && !invalid) {
             <i
-                class="action-positive show-on-hover show-for-desktop fill-typography-4"
-                [class.fill-accent-positive-1]="opmerkingPopupOpen"
+                class="action-positive action show-on-hover show-for-desktop"
                 [maxWidth]="230"
                 [onTouchAllowed]="true"
                 (click)="opmerkingPopupOpenen($event)"
                 hmyIcon="reactieToevoegen"
                 size="smallest"
-                dtTooltip="Opmerking"></i>
+                hmyTooltip="Opmerking"></i>
         }
         @if (heeftBestaandeOpmerking && !invalid) {
             <i
-                class="action fill-typography-4"
-                [dtTooltip]="opmerkingTooltip(resultaat)"
+                class="action bestaande-opmerking"
+                [class.active]="opmerkingPopupOpen"
+                [hmyTooltip]="opmerkingTooltip(resultaat)"
                 [maxWidth]="230"
                 [onTouchAllowed]="true"
                 [class.fill-primary-1]="opmerkingPopupOpen"
@@ -119,22 +109,22 @@
         }
         @if (!invalid && cijferhistorieTonen) {
             <i
-                class="fill-typography-4 show-on-hover action show-for-desktop"
-                [class.fill-primary-1]="cijferHistoriePopupOpen"
+                class="show-on-hover action show-for-desktop"
+                [class.active]="cijferHistoriePopupOpen"
                 (click)="openCijferhistorie($event)"
                 hmyIcon="klok"
                 size="smallest"
-                dtTooltip="Cijferhistorie"></i>
+                hmyTooltip="Cijferhistorie"></i>
         }
     </div>
     <span
-        class="resultaat text-content"
+        class="resultaat"
         [class.onvoldoende]="resultaatkolom.type !== 'ADVIES' && (resultaat | onvoldoende: alternatiefNiveau : resultaatUpdated)"
         [class.niet-opgeslagen]="!resultaat"
         [class.niet-gemaakt]="resultaat?.toetsNietGemaakt"
-        [class.vrijstelling]="resultaat?.vrijstelling"
-        >{{ formControl.value ?? formattedResultaat }}</span
-    >
+        [class.vrijstelling]="resultaat?.vrijstelling">
+        {{ formControl.value ?? formattedResultaat }}
+    </span>
 }
 @if (!readOnly) {
     <i

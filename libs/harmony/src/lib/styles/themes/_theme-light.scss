@@ -1,10 +1,10 @@
 /**
  * Do not edit directly
- * Generated on Fri, 28 Jun 2024 09:18:46 GMT
+ * Generated on Thu, 15 Aug 2024 11:54:24 GMT
  */
 
 :root {
-    --bg-mask-normal: rgba(24, 28, 32, 0.25);
+    --bg-mask-normal: rgba(0, 0, 0, 0.5);
     --shadow-right-strong: 3px 0 8px 0 rgba(24, 28, 32, 0.25); /* Sidebars */
     --shadow-left-strong: -4px 0 8px 0 rgba(24, 28, 32, 0.25); /* Sidebars */
     --shadow-centred-normal: 0 0 8px 0 rgba(24, 28, 32, 0.25); /* Active inputs */
@@ -51,12 +51,12 @@
     --border-negative-normal: var(--red-60);
     --border-warning-strong: var(--orange-80);
     --border-warning-normal: var(--orange-60);
-    --border-primary-strong: var(--blue-70);
-    --border-primary-normal: var(--blue-60);
+    --border-primary-strong: var(--blue-80);
+    --border-primary-normal: var(--blue-70);
     --border-primary-weak: var(--blue-0);
     --border-neutral-strongest: var(--grey-70); /* Checkbox, radio */
     --border-neutral-strong: var(--grey-60);
-    --border-neutral-normal: var(--grey-40);
+    --border-neutral-normal: var(--grey-50);
     --border-neutral-weak: var(--grey-30);
     --border-neutral-inverted: var(--grey-0);
     --fg-neutral-strong: var(--grey-80);
@@ -68,36 +68,36 @@
     --fg-positive-normal: var(--green-80);
     --fg-negative-normal: var(--red-60);
     --fg-warning-normal: var(--orange-60);
-    --fg-accent-normal: var(--yellow-60);
+    --fg-accent-normal: var(--yellow-50);
     --fg-primary-strongest: var(--blue-90);
     --fg-primary-normal: var(--blue-60);
     --fg-on-alternative-max: var(--purple-0);
-    --fg-on-alternative-strong: var(--purple-0);
-    --fg-on-alternative-normal: var(--purple-0);
-    --fg-on-alternative-weak: var(--purple-80);
+    --fg-on-alternative-strong: var(--grey-0);
+    --fg-on-alternative-normal: var(--grey-0);
+    --fg-on-alternative-weak: var(--purple-90);
     --fg-on-positive-max: var(--green-0);
-    --fg-on-positive-strong: var(--green-0);
-    --fg-on-positive-normal: var(--green-0);
+    --fg-on-positive-strong: var(--grey-0);
+    --fg-on-positive-normal: var(--grey-0);
     --fg-on-positive-weak: var(--green-90);
     --fg-on-negative-max: var(--red-0);
-    --fg-on-negative-strong: var(--red-0);
-    --fg-on-negative-normal: var(--red-0);
-    --fg-on-negative-weak: var(--red-80);
+    --fg-on-negative-strong: var(--grey-0);
+    --fg-on-negative-normal: var(--grey-0);
+    --fg-on-negative-weak: var(--red-90);
     --fg-on-warning-max: var(--orange-0);
-    --fg-on-warning-strong: var(--orange-0);
-    --fg-on-warning-normal: var(--orange-0);
-    --fg-on-warning-weak: var(--orange-80);
+    --fg-on-warning-strong: var(--grey-0);
+    --fg-on-warning-normal: var(--grey-0);
+    --fg-on-warning-weak: var(--orange-90);
     --fg-on-accent-max: var(--yellow-0);
-    --fg-on-accent-strong: var(--yellow-0);
-    --fg-on-accent-normal: var(--yellow-0);
-    --fg-on-accent-weak: var(--yellow-90);
+    --fg-on-accent-strong: var(--grey-150);
+    --fg-on-accent-normal: var(--grey-150);
+    --fg-on-accent-weak: var(--yellow-100);
     --fg-on-primary-max: var(--grey-0);
     --fg-on-primary-strongest: var(--blue-0);
-    --fg-on-primary-strong: var(--blue-0);
-    --fg-on-primary-normal: var(--blue-0);
-    --fg-on-primary-weak: var(--blue-70);
-    --fg-on-neutral-max: var(--grey-20);
-    --fg-on-neutral-strongest: var(--grey-20);
+    --fg-on-primary-strong: var(--grey-0);
+    --fg-on-primary-normal: var(--grey-0);
+    --fg-on-primary-weak: var(--blue-80);
+    --fg-on-neutral-max: var(--grey-0);
+    --fg-on-neutral-strongest: var(--grey-0);
     --fg-on-neutral-strong: var(--grey-80);
     --fg-on-neutral-moderate: var(--grey-80);
     --fg-on-neutral-weak: var(--grey-80);
@@ -121,7 +121,7 @@
     --bg-warning-weak: var(--orange-0);
     --bg-accent-max: var(--yellow-90);
     --bg-accent-strong: var(--yellow-80);
-    --bg-accent-normal: var(--yellow-60);
+    --bg-accent-normal: var(--yellow-50);
     --bg-accent-weak: var(--yellow-0);
     --bg-primary-strongest: var(--blue-90);
     --bg-primary-strong: var(--blue-80);

@@ -25,11 +25,15 @@
 ) {
     @if (data.context) {
         <dt-notitie-stream
-            [notitiestream$]="stream$"
+            [(selectedLeerlingTotalen)]="selectedLeerlingTotalen"
+            [(filterOptie)]="filterOptie"
+            [(searchValue)]="searchValue"
+            [(schooljaar)]="selectedSchooljaar"
+            [(tab)]="tab"
             [context]="data.context"
             [huidigeSchooljaarSelected]="selectedSchooljaarIsHuidig()"
-            [class.show-stream-for-mobile]="!data.detail && !data.edit"
-            (onSchooljaarSelected)="selectSchooljaar($event)"></dt-notitie-stream>
+            [notitieStream$]="stream$"
+            [class.show-stream-for-mobile]="!data.detail && !data.edit && (tab() === 'Tijdlijn' || !selectedLeerlingTotalen())" />
         @if (data.detail) {
             <dt-notitie-detail
                 [notitie]="data.detail.current"
@@ -37,7 +41,8 @@
                 [huidigeSchooljaarSelected]="selectedSchooljaarIsHuidig()"
                 [nextNotitie]="data.detail.next"
                 [prevNotitie]="data.detail.prev"
-                (onVerwijderNotitie)="verwijderNotitie($event)"></dt-notitie-detail>
+                (onVerwijderNotitie)="verwijderNotitie($event)">
+            </dt-notitie-detail>
         }
         @if (data.edit) {
             <dt-notitie-edit
@@ -48,49 +53,61 @@
             </dt-notitie-edit>
         }
         @if (!data.detail && !data.edit) {
-            <div class="geen-selectie text-content-semi">
-                <div class="text">
-                    <span class="text-weak">👈🏻 Selecteer een notitie {{ selectedSchooljaarIsHuidig() ? ' of' : '' }}</span
-                    ><br />
+            @if (tab() === 'Totalen per leerling') {
+                <dt-notitie-leerling-totalen
+                    [(filterOptie)]="filterOptie"
+                    [(schooljaar)]="selectedSchooljaar"
+                    [(searchValue)]="searchValue"
+                    [context]="data.context"
+                    [huidigeSchooljaarSelected]="selectedSchooljaarIsHuidig()"
+                    [totalen]="selectedLeerlingTotalen()"
+                    (onTerug)="selectedLeerlingTotalen.set(undefined)" />
+            } @else {
+                <div class="geen-selectie text-content-semi">
+                    <div class="text">
+                        <span class="text-weak">👈🏻 Selecteer een notitie {{ selectedSchooljaarIsHuidig() ? ' of' : '' }}</span
+                        ><br />
+                        @if (selectedSchooljaarIsHuidig()) {
+                            <span
+                                class="action-primary-normal pointer nieuwe-notitie"
+                                [routerLink]="['./']"
+                                [queryParams]="{
+                                    notitie: 'nieuw',
+                                    contextToevoegen: null,
+                                    edit: true,
+                                    leerlingBetrokkenenData: null,
+                                    scrollto: null
+                                }"
+                                data-gtm="notitieboek-notitie-toevoegen"
+                                queryParamsHandling="merge">
+                                Maak nieuwe notitie aan
+                            </span>
+                        }
+                    </div>
                     @if (selectedSchooljaarIsHuidig()) {
-                        <span
-                            class="action-primary-normal pointer nieuwe-notitie"
-                            [routerLink]="['./']"
-                            [queryParams]="{
-                                notitie: 'nieuw',
-                                contextToevoegen: null,
-                                edit: true,
-                                leerlingBetrokkenenData: null,
-                                scrollto: null
-                            }"
-                            data-gtm="notitieboek-notitie-toevoegen"
-                            queryParamsHandling="merge">
-                            Maak nieuwe notitie aan
-                        </span>
+                        <div class="footer">
+                            <dt-outline-button
+                                class="nieuw-button"
+                                [routerLink]="['./']"
+                                [queryParams]="{
+                                    notitie: 'nieuw',
+                                    contextToevoegen: null,
+                                    edit: true,
+                                    leerlingBetrokkenenData: null,
+                                    scrollto: null
+                                }"
+                                data-gtm="notitieboek-notitie-toevoegen"
+                                icon="toevoegen"
+                                color="positive"
+                                queryParamsHandling="merge">
+                                Nieuw
+                            </dt-outline-button>
+                        </div>
                     }
                 </div>
-                @if (selectedSchooljaarIsHuidig()) {
-                    <div class="footer">
-                        <dt-outline-button
-                            class="nieuw-button"
-                            [routerLink]="['./']"
-                            [queryParams]="{
-                                notitie: 'nieuw',
-                                contextToevoegen: null,
-                                edit: true,
-                                leerlingBetrokkenenData: null,
-                                scrollto: null
-                            }"
-                            data-gtm="notitieboek-notitie-toevoegen"
-                            icon="toevoegen"
-                            color="positive"
-                            queryParamsHandling="merge">
-                            Nieuw
-                        </dt-outline-button>
-                    </div>
-                }
-            </div>
+            }
         }
+
         @if (showOpgeslagenMessage) {
             <dt-message
                 class="message text-content-semi"

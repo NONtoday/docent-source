@@ -5,17 +5,17 @@
                 class="nav-item"
                 [class.is-selected]="(selectedNav$ | async) === afwezigheidNav"
                 (click)="selectedNav$.next(afwezigheidNav)">
-                <span class="naam text-small-content-semi">Nu afwezig</span>
+                <span class="naam text-content-small-semi">Nu afwezig</span>
             </div>
             <div
                 class="nav-item"
                 [class.is-selected]="(selectedNav$ | async) === signaleringenNav"
                 (click)="selectedNav$.next(signaleringenNav)">
-                <span class="naam text-small-content-semi">Signaleringen</span>
+                <span class="naam text-content-small-semi">Signaleringen</span>
             </div>
             @if (heeftNotitieboekToegang) {
                 <div class="nav-item" [class.is-selected]="(selectedNav$ | async) === notitiesNav" (click)="selectedNav$.next(notitiesNav)">
-                    <span class="naam text-small-content-semi">Notities</span>
+                    <span class="naam text-content-small-semi">Notities</span>
                 </div>
             }
         </div>

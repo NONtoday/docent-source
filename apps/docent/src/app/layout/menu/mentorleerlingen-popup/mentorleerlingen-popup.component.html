@@ -5,7 +5,10 @@
         </div>
         @if (mentorleerlingen$ | async; as mentorleerlingen) {
             <div class="scroll-container">
-                @for (stamgroepMentorleerlingen of mentorleerlingen.stamgroepMentorleerlingen; track stamgroepMentorleerlingen) {
+                @for (
+                    stamgroepMentorleerlingen of mentorleerlingen.stamgroepMentorleerlingen;
+                    track stamgroepMentorleerlingen.stamgroep.id
+                ) {
                     @if (!headerContext && showGroepsOverzicht()) {
                         <div class="header stamgroep">
                             <span
@@ -26,7 +29,7 @@
                             data-gtm="mentorleerlingen-popup-stamgroep-groepsoverzicht-nav"
                             text="Groepsoverzicht"></dt-mentorgroep-popup-element>
                     }
-                    @for (leerling of stamgroepMentorleerlingen.mentorleerlingen; track trackByLeerlingId($index, leerling)) {
+                    @for (leerling of stamgroepMentorleerlingen.mentorleerlingen; track leerling.id) {
                         <dt-mentorleerling-popup-element
                             class="mentormenu-element"
                             #mentorleerling
@@ -42,9 +45,9 @@
                 @if ({ value: isSearching$ | async }; as isSearching) {
                     @if (showIndividueelOverzicht() && !headerContext) {
                         <div class="header individueel">
-                            <span class="fg-primary-strongest text-content-semi" id="mentorgroep-gezamenlijk-overzicht" #mentorgroep
-                                >Individueel</span
-                            >
+                            <span class="fg-primary-strongest text-content-semi" id="mentorgroep-gezamenlijk-overzicht" #mentorgroep>
+                                Individueel
+                            </span>
                         </div>
                     }
                     @if (
@@ -66,7 +69,7 @@
                 }
                 @for (
                     individueleMentorLeerling of mentorleerlingen.individueleMentorleerlingen;
-                    track trackByIndividueleLeerlingId($index, individueleMentorLeerling)
+                    track individueleMentorLeerling.leerling.id
                 ) {
                     <dt-mentorleerling-popup-element
                         class="mentormenu-element"

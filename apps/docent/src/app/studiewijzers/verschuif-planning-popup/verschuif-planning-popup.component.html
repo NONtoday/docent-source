@@ -22,10 +22,10 @@
             <span class="optie" [class.selected]="selected === 5" (click)="selected = 5">5</span>
         </div>
         @if (selected >= showOmlaagWarningVanaf) {
-            <span class="text-small-content warning">Lesitems die buiten het schooljaar vallen worden gebundeld in de laatste week</span>
+            <span class="text-content-small warning">Lesitems die buiten het schooljaar vallen worden gebundeld in de laatste week</span>
         }
         @if (selected >= showOmhoogWarningVanaf) {
-            <span class="text-small-content warning">Lesitems die voor het schooljaar vallen worden gebundeld in de eerste week</span>
+            <span class="text-content-small warning">Lesitems die voor het schooljaar vallen worden gebundeld in de eerste week</span>
         }
         <div class="buttons">
             <dt-outline-button (click)="onAnnulerenClick()">Annuleren</dt-outline-button>

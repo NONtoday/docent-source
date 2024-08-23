@@ -1,3 +1,4 @@
+import { ColorToken } from 'harmony';
 import {
     CijferPeriode,
     KolomZichtbaarheidInput,
@@ -27,7 +28,7 @@ export interface ToetskolomOpties {
     kolomHeaderBackground: boolean;
     kolomCellenBackground: boolean;
     headerLetter: Kolomtype;
-    headerLetterClass: string | string[];
+    headerLetterClass: ColorToken | ColorToken[];
     showKolomAfkorting: boolean;
     showAantallen: boolean;
     hideGemiddelde: boolean;
@@ -51,7 +52,7 @@ export const toetskolommenConfig: Record<ResultaatkolomType, Partial<ToetskolomO
     },
     ADVIES: {
         headerLetter: 'A',
-        headerLetterClass: ['color-secondary-2', 'background-color-secondary-3'],
+        headerLetterClass: ['fg-on-accent-weak', 'bg-accent-weak'],
         showAantallen: true,
         hideGemiddelde: true,
         hideToetsinformatieTab: true
@@ -60,7 +61,7 @@ export const toetskolommenConfig: Record<ResultaatkolomType, Partial<ToetskolomO
         kolomHeaderBackground: true,
         kolomCellenBackground: true,
         headerLetter: 'P',
-        headerLetterClass: ['color-accent-alt-1', 'background-color-accent-alt-3'],
+        headerLetterClass: ['fg-on-alternative-weak', 'bg-alternative-weak'],
         showKolomAfkorting: false,
         showAantallen: false,
         hideToetsinformatieTab: true,
@@ -71,7 +72,7 @@ export const toetskolommenConfig: Record<ResultaatkolomType, Partial<ToetskolomO
         kolomHeaderBackground: true,
         kolomCellenBackground: true,
         headerLetter: 'r',
-        headerLetterClass: ['color-accent-positive-1', 'background-color-accent-positive-3'],
+        headerLetterClass: ['fg-on-positive-weak', 'bg-positive-weak'],
         showKolomAfkorting: false,
         showAantallen: false,
         hideToetsinformatieTab: true,
@@ -82,7 +83,7 @@ export const toetskolommenConfig: Record<ResultaatkolomType, Partial<ToetskolomO
         kolomHeaderBackground: true,
         kolomCellenBackground: true,
         headerLetter: 'R',
-        headerLetterClass: ['color-accent-positive-1', 'background-color-accent-positive-3'],
+        headerLetterClass: ['fg-on-positive-weak', 'bg-positive-weak'],
         showKolomAfkorting: false,
         showAantallen: false,
         hideToetsinformatieTab: true,

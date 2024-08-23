@@ -6,7 +6,6 @@ import { IconSettings, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
 import { LesRegistratie, PeriodeQuery, SignaleringenInstellingenQuery, SignaleringenQuery } from '../../../../generated/_types';
-import { IdObject } from '../../../core/models/shared.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { DeviceService, phoneQuery, tabletPortraitQuery, tabletQuery } from '../../../core/services/device.service';
@@ -71,10 +70,6 @@ export class SignaleringenComponent implements OnInit {
             startWith(this.deviceService.isPhoneOrTablet())
         );
         this.signaleringenInstellingen$ = this.registratieDataService.getSignaleringenInstellingen(this.medewerkerDataService.medewerkerId);
-    }
-
-    trackById(index: number, signalering: IdObject) {
-        return signalering.id;
     }
 
     onSettingsClicked(event: any) {

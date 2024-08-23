@@ -15,7 +15,7 @@
                         <div class="examenkolom-info">
                             <div class="kolom-icon">
                                 @if (ceResultaat.geldendResultaat.type === dbResultaatKolomType.CentraalExamenkolom) {
-                                    <div class="text-label-bold tijdvak tijdvak-{{ ceResultaat.geldendResultaat.volgnummer }}">
+                                    <div class="text-content-smallest-bold tijdvak tijdvak-{{ ceResultaat.geldendResultaat.volgnummer }}">
                                         CE{{ ceResultaat.geldendResultaat.volgnummer }}
                                     </div>
                                 }
@@ -26,8 +26,8 @@
                                     <i class="fill-typography-4" hmyIcon="examenVariant" size="small"></i>
                                 }
                             </div>
-                            <span class="text-small-content-semi color-typography-2">{{ ceResultaat.geldendResultaat.toetscode }}</span>
-                            <span class="text-small-content-semi color-typography-3 omschrijving">{{
+                            <span class="text-content-small-semi color-typography-2">{{ ceResultaat.geldendResultaat.toetscode }}</span>
+                            <span class="text-content-small-semi color-typography-3 omschrijving">{{
                                 ceResultaat.geldendResultaat.omschrijving
                             }}</span>
                         </div>

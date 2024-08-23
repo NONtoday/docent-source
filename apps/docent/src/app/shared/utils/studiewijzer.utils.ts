@@ -6,6 +6,7 @@ import { StudiewijzerContent } from '../../core/models/studiewijzers/studiewijze
 import { PopupService } from '../../core/popup/popup.service';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
+import { stripHtmlTags, stripWhitespace } from './html.utils';
 
 export function isToekenningOrEmpty(toekenning: any): toekenning is Toekenning {
     return !toekenning || 'studiewijzeritem' in toekenning;
@@ -26,35 +27,6 @@ export function isStudiewijzerContentContainer(contentContainer: StudiewijzerCon
                   !!(<StudiewijzerDag>contentContainer).afspraken ||
                   !!(<StudiewijzerAfspraak>contentContainer).afspraak)
         : true;
-}
-/**
- *
- *
- * Verwijdert html-tags uit de gegeven string.
- *
- * Dit is geen volwaardige plaintext conversie, doet nl. bijv. niets met html-entities, whitespace, etc.
- *
- *
- *
- * @param content de te filteren string
- * @returns content zonder html-tags
- */
-export function stripHtmlTags(content: string): Optional<string> {
-    return content ? content.replace(/<[^>]*>?/gm, '') : null;
-}
-
-/**
- *
- *
- * Verwijdert &nbsp;-tags uit de gegeven string.
- *
- *
- *
- * @param content de te filteren string
- * @returns content zonder &nbsp;-tags
- */
-function stripWhitespace(content: string): Optional<string> {
-    return content ? content.replace(/&nbsp;/g, '') : null;
 }
 
 // Plain text-content van de eerste regel tekst (p-element) of het eerste bolletje (li-element)

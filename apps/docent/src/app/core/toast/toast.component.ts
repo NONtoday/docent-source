@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Toast, ToastType } from '../models';
-import { DeviceService } from '../services/device.service';
 import { ToastService } from './toast.service';
 
 @Component({
@@ -12,7 +11,6 @@ import { ToastService } from './toast.service';
 export class ToastComponent implements OnInit {
     private toastService = inject(ToastService);
     private toastr = inject(ToastrService);
-    private deviceService = inject(DeviceService);
 
     public ngOnInit(): void {
         this.toastService.subject.subscribe((toast) => {

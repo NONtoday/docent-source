@@ -4,7 +4,7 @@
             <div class="terug pointer" (click)="onAnnuleerNotitie.emit()">
                 <i class="icon" [sizes]="['large', 'large', 'large', 'medium']" hmyIcon="pijlLinks"></i>
             </div>
-            <span class="titel text-content-bold text-ellipsis">{{ header }}</span>
+            <span class="titel text-content-bold ellipsis">{{ header }}</span>
             <dt-notitie-zichtbaarheid-button
                 class="show-for-tablet-portrait"
                 [docenten]="form.controls.gedeeldVoorDocenten.value"
@@ -44,7 +44,7 @@
                 [class.invalid-betrokkenen]="form.controls.betrokkenen.hasError('betrokkenen')"
                 formControlName="betrokkenen"></dt-betrokkene-selectie>
             @if (form.controls.betrokkenen.hasError('betrokkenen')) {
-                <span class="error text-label-semi action-negative-normal">
+                <span class="error text-content-smallest-semi action-negative-normal">
                     Voeg minimaal één leerling of groep toe waar je les aan geeft.
                 </span>
             }

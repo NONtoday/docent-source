@@ -28,7 +28,7 @@
             </div>
             <div class="text-content-small-semi subtitel">Toon categorieën</div>
             <div class="checkbox-group">
-                @for (vrijVeldDef of vrijVeldDefinities; track vrijVeldDef) {
+                @for (vrijVeldDef of vrijVeldDefinities; track vrijVeldDef.id) {
                     <div class="checkbox">
                         <dt-form-checkbox [formControlName]="vrijVeldDef.id"></dt-form-checkbox>
                         <label>{{ vrijVeldDef.naam }} </label>

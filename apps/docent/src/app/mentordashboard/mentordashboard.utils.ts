@@ -192,7 +192,7 @@ export const registratieDetailTooltip = (
 };
 
 const overigTooltip = (kolom: string, detail: RegistratieDetailQuery['registratieDetail'], periodeNummer: number, vakNaam: string) => `
-<div class="text-small-content">
+<div class="text-content-small">
     ${kolomRegel(kolom)}
     ${lesurenRegel(detail.aantal, detail.aantalLessen)}
     ${aantalToetsmomentenRegel(detail.aantalToetsmomenten)}
@@ -202,7 +202,7 @@ const overigTooltip = (kolom: string, detail: RegistratieDetailQuery['registrati
 `;
 
 const afwezigTooltip = (kolom: string, detail: RegistratieDetailQuery['registratieDetail'], periodeNummer: number, vakNaam: string) => `
-<div class="text-small-content">
+<div class="text-content-small">
     ${kolomRegel(kolom)}
     ${lesurenRegel(detail.aantal, detail.aantalLessen)}
     ${duurRegel(detail.totaalMinuten)}
@@ -235,7 +235,7 @@ export const formatPercentage = (aantal: number, totaal: number) => {
 
 const lesurenRegel = (aantal: number, totaal: number) => {
     const percentageLesuren = formatPercentage(aantal, totaal);
-    return `<span class="text-small-content-semi">${aantal}/${totaal}</span> lesuren • ${percentageLesuren}%<br>`;
+    return `<span class="text-content-small-semi">${aantal}/${totaal}</span> lesuren • ${percentageLesuren}%<br>`;
 };
 
 export const formatMinutenAlsUren = (minuten: Optional<number>) => {
@@ -249,18 +249,18 @@ const duurRegel = (minuten: Optional<number>) => {
     if (!minuten) return '';
 
     const formattedUren = formatMinutenAlsUren(minuten);
-    return `<span class="text-small-content-semi">${formattedUren} uur</span> totaal<br>`;
+    return `<span class="text-content-small-semi">${formattedUren} uur</span> totaal<br>`;
 };
 
-const kolomRegel = (kolom: string) => `<span class="text-small-content-semi">${kolom}</span><br>`;
+const kolomRegel = (kolom: string) => `<span class="text-content-small-semi">${kolom}</span><br>`;
 const aantalKeerZiekRegel = (aantal: Optional<number>) =>
-    aantal ? `<span class="text-small-content-semi">${aantal}x</span> ziek<br>` : '';
-const aantalToetsmomentenRegel = (aantal: number) => `${divider}<span class="text-small-content-semi">${aantal}x</span> op toetsmoment<br>`;
+    aantal ? `<span class="text-content-small-semi">${aantal}x</span> ziek<br>` : '';
+const aantalToetsmomentenRegel = (aantal: number) => `${divider}<span class="text-content-small-semi">${aantal}x</span> op toetsmoment<br>`;
 const vakPeriodeRegel = (naam: string, periodeNummer: number) =>
-    `${divider}<span class="text-small-content-semi">${naam} • periode ${periodeNummer}</span><br>`;
+    `${divider}<span class="text-content-small-semi">${naam} • periode ${periodeNummer}</span><br>`;
 const rapportCijferRegel = (cijfer: string) =>
     !!cijfer && cijfer !== '-'
-        ? `${divider}<span class="text-small-content-semi">${cijfer}</span> • Rapportcijfer<br>`
+        ? `${divider}<span class="text-content-small-semi">${cijfer}</span> • Rapportcijfer<br>`
         : `${divider}Geen rapportcijfer<br>`;
 const divider = `<br><span style="border-bottom: 1px solid #627186; display: block; margin: -10px 0px"></span><br>`;
 

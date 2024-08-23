@@ -16,10 +16,10 @@
     @if (!berichtOpstellen) {
         <div class="detail-header" [class.show-for-tablet]="leerling">
             @if (leerling) {
-                <div class="naam show-for-tablet text-head">{{ leerling | volledigeNaam }}</div>
+                <div class="naam show-for-tablet text-heading-2">{{ leerling | volledigeNaam }}</div>
             }
             @if (projectgroep) {
-                <div class="naam show-for-tablet text-head">{{ projectgroep.naam }}</div>
+                <div class="naam show-for-tablet text-heading-2">{{ projectgroep.naam }}</div>
                 @if (projectgroep.leerlingen && projectgroep.leerlingen.length > 0) {
                     <div class="projectgroep-leerlingen">
                         @for (projectgroepLeerling of projectgroep.leerlingen; track projectgroepLeerling) {

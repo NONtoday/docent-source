@@ -12,7 +12,7 @@
     @if (isRapportCijferkolom) {
         <div class="show-for-tablet">
             @if (vastgezet || (toetskolomGesloten && !bekoeldEnBewerkbaar)) {
-                <i class="vastgezet fill-accent-warning-1" hmyIcon="slot" size="smallest"></i>
+                <i class="vastgezet" hmyIcon="slot" size="smallest"></i>
             }
             @if (!vastgezet && bekoeldEnBewerkbaar) {
                 <i class="fill-accent-warning-1" hmyIcon="slotOpen" size="smallest"></i>
@@ -24,17 +24,17 @@
             <div class="letter" [class]="headerLetterClass">{{ headerLetter }}</div>
         }
         @if (kolomIcon === 'icon-samengesteldeToets') {
-            <i class="fill-primary-1" hmyIcon="samengesteldeToets" size="smallest"></i>
+            <i color="fg-primary-normal" hmyIcon="samengesteldeToets" size="smallest"></i>
         }
         @if (kolomIcon === 'icon-deeltoets') {
-            <i class="fill-primary-1" hmyIcon="deeltoets" size="smallest"></i>
+            <i color="fg-primary-normal" hmyIcon="deeltoets" size="smallest"></i>
         }
         @if (!isRapportCijferkolom) {
             @if (toetskolomGesloten && !bekoeldEnBewerkbaar) {
-                <i class="fill-accent-warning-1" hmyIcon="slot" size="smallest"></i>
+                <i color="fg-warning-normal" hmyIcon="slot" size="smallest"></i>
             }
             @if (bekoeldEnBewerkbaar) {
-                <i class="fill-accent-warning-1" hmyIcon="slotOpen" size="smallest"></i>
+                <i color="fg-warning-normal" hmyIcon="slotOpen" size="smallest"></i>
             }
         }
     </div>
@@ -42,24 +42,24 @@
         <div class="afkorting">
             <span class="code">{{ kolom.resultaatkolom.code }}</span>
             @if (categorie$ | async; as adviescategorie) {
-                <span class="color-typography-3"> • {{ adviescategorie }}</span>
+                <span class="text-strong"> • {{ adviescategorie }}</span>
             }
         </div>
     }
     @if (kolom.herkansingsNummer! > 0) {
-        <div class="text-label-semi color-primary-1 herkansingsnummer show-for-tablet">Her {{ kolom.herkansingsNummer }}</div>
+        <div class="text-content-smallest-semi fg-primary-normal herkansingsnummer show-for-tablet">Her {{ kolom.herkansingsNummer }}</div>
     }
 </div>
 @if (headerLetter) {
     <div class="letter hide-for-tablet" [class]="headerLetterClass">{{ headerLetter }}</div>
 }
 @if (!kolom.herkansingsNummer) {
-    <div class="omschrijving text-small-content-semi color-typography-3 hide-for-tablet">
+    <div class="omschrijving text-content-small-semi text-weak hide-for-tablet">
         {{ kolom.resultaatkolom.omschrijving }}
     </div>
 }
 @if (kolom.herkansingsNummer) {
-    <div class="herkansing text-small-content-semi color-primary-1 hide-for-tablet">Her {{ kolom.herkansingsNummer }}</div>
+    <div class="herkansing text-content-small-semi fg-primary-normal hide-for-tablet">Her {{ kolom.herkansingsNummer }}</div>
 }
 @if (isRapportCijferkolom && (vastgezet || toetskolomGesloten || bekoeldEnBewerkbaar)) {
     <hmy-icon-pill

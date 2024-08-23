@@ -219,17 +219,6 @@ export class MentorleerlingenPopupComponent implements OnInit, Popup {
         this.popup.onClose();
     }
 
-    trackByLeerlingId(
-        index: number,
-        item: MentorleerlingenQuery['mentorleerlingen']['stamgroepMentorleerlingen'][number]['mentorleerlingen'][number]
-    ) {
-        return item.id;
-    }
-
-    trackByIndividueleLeerlingId(index: number, item: MentorleerlingenQuery['mentorleerlingen']['individueleMentorleerlingen'][number]) {
-        return item.leerling.id;
-    }
-
     public static get defaultPopupSettings() {
         const popupSettings = new PopupSettings();
 

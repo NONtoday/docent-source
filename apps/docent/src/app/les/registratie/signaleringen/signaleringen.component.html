@@ -10,7 +10,7 @@
         <span class="show-for-desktop" cy="signaleringen">Signaleringen</span>
         @if (periode?.naam) {
             <span
-                class="periode text-small-content-semi text-weak"
+                class="periode text-content-small-semi text-weak"
                 [onTouchAllowed]="true"
                 dtTooltip="{{ periode?.begin | dtDate: 'dagnummer_maand_kort' }}
         t/m
@@ -28,7 +28,7 @@
         [class.signaleringen]="signaleringen?.vrijVeldSignaleringen && signaleringen!.vrijVeldSignaleringen.length === 0"
         body>
         @if (!(signaleringen?.vrijVeldSignaleringen && signaleringen!.vrijVeldSignaleringen.length === 0)) {
-            @for (signalering of signaleringen?.vrijVeldSignaleringen; track signalering) {
+            @for (signalering of signaleringen?.vrijVeldSignaleringen; track signalering.vrijVeld.id) {
                 <dt-accordion [isSubAccordion]="true" [expanded]="true" [withShadow]="false" data-testid="subAccordion">
                     <div class="title-content" title>
                         <span data-testid="vrijveldNaam">
@@ -38,10 +38,7 @@
                     <div class="signaleringen" [class.no-borders]="!(signalering.keuzelijstWaardeSignaleringen.length === 0)" body>
                         @if (signalering.keuzelijstWaardeSignaleringen.length === 0) {
                             @if (signalering.leerlingSignaleringen.length > 0) {
-                                @for (
-                                    leerlingSignalering of signalering.leerlingSignaleringen;
-                                    track trackById($index, leerlingSignalering)
-                                ) {
+                                @for (leerlingSignalering of signalering.leerlingSignaleringen; track leerlingSignalering.id) {
                                     <dt-signalering
                                         class="signalering"
                                         [signalering]="leerlingSignalering"
@@ -57,7 +54,7 @@
                         } @else {
                             @for (
                                 keuzelijstWaardeSignalering of signalering.keuzelijstWaardeSignaleringen;
-                                track keuzelijstWaardeSignalering
+                                track keuzelijstWaardeSignalering.keuzelijstWaarde.id
                             ) {
                                 <div class="subtitle-content">
                                     <span class="text-content-semi"> {{ keuzelijstWaardeSignalering.keuzelijstWaarde.waarde }} </span>
@@ -65,7 +62,7 @@
                                 @if (keuzelijstWaardeSignalering.leerlingSignaleringen.length > 0) {
                                     @for (
                                         leerlingSignalering of keuzelijstWaardeSignalering.leerlingSignaleringen;
-                                        track trackById($index, leerlingSignalering)
+                                        track leerlingSignalering.id
                                     ) {
                                         <dt-signalering
                                             class="signalering"

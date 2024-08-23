@@ -81,7 +81,7 @@ export class IndicatiesSidebarComponent extends BaseSidebar implements OnInit {
         tooltip: hulpmiddel.extraInformatie
     });
 
-    tooltipRegel = ([titel, text]: [string, string]) => `<span class="text-small-content-semi">${titel}</span> <br> ${text}`;
+    tooltipRegel = ([titel, text]: [string, string]) => `<span class="text-content-small-semi">${titel}</span> <br> ${text}`;
 
     interventieDatum = (start: Date, eind: Date | undefined | null) => {
         if (!eind) {

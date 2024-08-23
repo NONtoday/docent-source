@@ -81,7 +81,7 @@
                             @for (adviesContext of kolom.kolomContexten; track adviesContext) {
                                 <div class="header-item resultaat-kolom advies-header-container">
                                     <span
-                                        class="text-small-content-semi item advies"
+                                        class="text-content-small-semi item advies"
                                         [hmyTooltip]="
                                             '<b>Adviescategorie</b><br>' +
                                             adviesContext.adviesCategorieNaam +
@@ -97,7 +97,7 @@
                             <!-- P / R headers -->
                             <div class="header-item resultaat-kolom p-container">
                                 <span
-                                    class="name text-small-content-semi color-typography-2 p item"
+                                    class="name text-content-small-semi color-typography-2 p item"
                                     [onTouchAllowed]="true"
                                     hmyTooltip="Periodegemiddelde">
                                     P
@@ -105,7 +105,7 @@
                             </div>
                             <div class="header-item resultaat-kolom r-container">
                                 <span
-                                    class="name text-small-content-semi color-typography-2 r item"
+                                    class="name text-content-small-semi color-typography-2 r item"
                                     [onTouchAllowed]="true"
                                     hmyTooltip="Rapportcijfer">
                                     R
@@ -230,7 +230,7 @@
                 class="resultaten"
                 [class.met-trend]="heeftMentordashboardCompleet$ | async"
                 (click)="openDetailsSidebar(vakPeriode, resultaten.relevanteCijferperiode, resultaten.adviesKolommenPerPeriode)">
-                <span class="color-typography-2 text-content-semi text-ellipsis vaknaam">{{ vakPeriode.vak.naam }}</span>
+                <span class="color-typography-2 text-content-semi ellipsis vaknaam">{{ vakPeriode.vak.naam }}</span>
                 @if (getTrendVoorNormering(vakPeriode, alternatieveNormering); as normeringTrend) {
                     @if (!normeringTrend.trend) {
                         <hmy-pill

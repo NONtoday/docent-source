@@ -26,15 +26,15 @@
     @if (headerLetter) {
         <div class="letter hide-for-tablet" [class]="headerLetterClass">{{ headerLetter }}</div>
     }
-    <div class="omschrijving text-small-content-semi color-typography-3 hide-for-tablet">
+    <div class="omschrijving text-content-small-semi text-weak hide-for-tablet">
         {{ omschrijving }}
     </div>
     <div class="klasgemiddelde" [class.dark-background]="darkBackground">
         <span class="text-content-semi" [class.hidden]="hideGemiddelde">-</span>
     </div>
     @if (deviceService.isTabletOrDesktop$ | async) {
-        @for (leerling of leerlingen; track trackByLeerlingId(i, leerling); let i = $index) {
-            <div class="resultaat-cell" [class.pinned]="pinned === i" [style.background-color]="backgroundColor"></div>
+        @for (leerling of leerlingen; track leerling.id; let i = $index) {
+            <div class="resultaat-cell {{ backgroundColor }}" [class.pinned]="pinned === i"></div>
         }
     }
 }

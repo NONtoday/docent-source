@@ -6,17 +6,17 @@
             </dt-avatar-stack>
         }
         @if (groepView) {
-            <span class="betrokkenen text-ellipsis text-content-semi text-strong">{{ betrokkenen }}</span>
+            <span class="betrokkenen ellipsis text-content-semi text-strong">{{ betrokkenen }}</span>
         }
         @if (leerlingView) {
-            <span class="onderwerp text-ellipsis text-content-semi text-strong">
+            <span class="onderwerp ellipsis text-content-semi text-strong">
                 {{ heeftTitel ? notitie.titel : 'Notitie' }}
             </span>
         }
     </div>
     <div class="right">
         <div class="on-hover header-icons">
-            <span class="aangemaakt-op text-weak text-small-content-semi show-for-desktop">
+            <span class="aangemaakt-op text-weak text-content-small-semi show-for-desktop">
                 {{ notitie.createdAt | dtDate: 'dag_kort_dagnummer_maand_kort' }}, {{ notitie.createdAt | dtDate: 'tijd' }}
             </span>
             @if (huidigeSchooljaarSelected()) {
@@ -81,17 +81,17 @@
 </header>
 <div class="preview">
     @if (!leerlingView && heeftTitel) {
-        <span class="titel text-ellipsis text-content-semi text-moderate">{{ notitie.titel }}</span>
+        <span class="titel ellipsis text-content-semi text-moderate">{{ notitie.titel }}</span>
     }
     <span
-        class="inhoud text-ellipsis text-weak"
+        class="inhoud ellipsis text-weak"
         [class.text-weakest]="isPrivacygevoeligStyling"
         [class.multi-line]="leerlingView || !heeftTitel"
         >{{ isPrivacygevoeligStyling ? 'Gemarkeerd als privacygevoelig' : (notitie.inhoud | notitiePreview) }}</span
     >
     @if (expandOnActive) {
         <div class="bijlagen">
-            @for (bijlage of notitie.bijlagen; track bijlage) {
+            @for (bijlage of notitie.bijlagen; track bijlage.id) {
                 <dt-bijlage [bijlage]="bijlage" [toonZichtbaarheidToggle]="false"></dt-bijlage>
             }
         </div>

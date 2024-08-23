@@ -1,0 +1,9 @@
+@mixin ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ellipsis {
+    @include ellipsis;
+}

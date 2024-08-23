@@ -1,5 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, inject, output } from '@angular/core';
+import { BgColorToken } from 'harmony';
 import { IconPinned, provideIcons } from 'harmony-icons';
 import {
     LeerlingMissendeToets,
@@ -10,7 +11,6 @@ import {
 } from '../../../generated/_types';
 import { toetskolommenConfig } from '../../core/models/resultaten/resultaten.model';
 import { DeviceService } from '../../core/services/device.service';
-import { background_4, background_5, colorToHex } from '../../rooster-shared/colors';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { ToetskolomComponent } from '../toetskolom/toetskolom.component';
@@ -47,7 +47,7 @@ export class GemiddeldekolomComponent implements OnChanges {
 
     public omschrijving: string;
     public tooltip: Maybe<string>;
-    public backgroundColor: string;
+    public backgroundColor: BgColorToken;
 
     ngOnChanges(): void {
         this.heeftKolom = Boolean(this.kolom);
@@ -58,7 +58,8 @@ export class GemiddeldekolomComponent implements OnChanges {
         this.headerLetterClass = kolomConfig.headerLetterClass;
         this.hideGemiddelde = kolomConfig.hideGemiddelde;
         this.darkBackground = this.type === ResultaatkolomType.RAPPORT_CIJFER;
-        this.backgroundColor = this.darkBackground ? colorToHex(background_4) : colorToHex(background_5);
+
+        this.backgroundColor = this.darkBackground ? 'bg-neutral-weak' : 'bg-neutral-weakest';
 
         switch (this.type) {
             case ResultaatkolomType.PERIODE_GEMIDDELDE:
@@ -77,12 +78,5 @@ export class GemiddeldekolomComponent implements OnChanges {
                 this.omschrijving = '';
                 this.tooltip = null;
         }
-    }
-
-    trackByLeerlingId(
-        index: number,
-        item: VoortgangsdossierMatrixVanLesgroepQuery['voortgangsdossierMatrixVanLesgroep']['leerlingen'][number]
-    ) {
-        return item.id;
     }
 }

@@ -227,10 +227,10 @@ export class VoortgangsdossierComponent implements OnInit {
                 const startDatum: string = formatDateNL(periode.datumVan, 'dagnummer_maand_kort');
                 const eindDatum: string = formatDateNL(periode.datumTot, 'dagnummer_maand_kort');
 
-                return `<span class="text-small-content-semi">Cijferperiode</span><br><span text-small-content>${startDatum} tot ${eindDatum}</span>`;
+                return `<span class="text-content-small-semi">Cijferperiode</span><br><span text-content-small>${startDatum} tot ${eindDatum}</span>`;
             }
 
-            return `<span class="text-small-content-semi">Cijferperiode</span><br><span class="text-small-content">Geen data ingesteld voor periode ${periode.periode}</span>`;
+            return `<span class="text-content-small-semi">Cijferperiode</span><br><span class="text-content-small">Geen data ingesteld voor periode ${periode.periode}</span>`;
         },
         (...args) => JSON.stringify(args)
     );

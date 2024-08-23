@@ -2,7 +2,7 @@
     @if (!collapsed) {
         <div
             class="sticky-container show-for-tablet"
-            [dtTooltip]="periodeTooltip(periode.cijferPeriode)"
+            [hmyTooltip]="periodeTooltip(periode.cijferPeriode)"
             [alignCenter]="false"
             [maxWidth]="300">
             <div class="label-block show-for-tablet">P{{ periode.cijferPeriode.nummer }}</div>
@@ -10,7 +10,11 @@
         </div>
     }
     @if (collapsed) {
-        <div class="label-block show-for-tablet" [dtTooltip]="periodeTooltip(periode.cijferPeriode)" [alignCenter]="false" [maxWidth]="300">
+        <div
+            class="label-block show-for-tablet"
+            [hmyTooltip]="periodeTooltip(periode.cijferPeriode)"
+            [alignCenter]="false"
+            [maxWidth]="300">
             P{{ periode.cijferPeriode.nummer }}
         </div>
     }
@@ -54,7 +58,7 @@
         <div class="toetskolommen-container" [class.mag-bewerken]="magBewerken">
             @if (periode.resultaatkolommen.length > 0) {
                 <div class="toetskolommen">
-                    @for (matrixkolom of periode.resultaatkolommen; track trackByKolom($index, matrixkolom)) {
+                    @for (matrixkolom of periode.resultaatkolommen; track trackByKolom(matrixkolom)) {
                         <dt-toetskolom
                             [kolom]="matrixkolom"
                             [alternatiefNiveau]="alternatiefNiveau"
@@ -80,7 +84,7 @@
                             cy="kolom-toevoegen"
                             dtTooltip="Toetskolom toevoegen">
                             <dt-background-icon [sizes]="['small', 'medium']" icon="toevoegen" color="positive"> </dt-background-icon>
-                            <span class="hide-for-tablet color-accent-positive-1 text-small-content-semi">Toetskolom toevoegen</span>
+                            <span class="hide-for-tablet action-positive-normal text-content-small-semi">Toetskolom toevoegen</span>
                         </div>
                     }
                     @if (!magKolomToevoegenInPeriode) {
@@ -90,14 +94,14 @@
                             [maxWidth]="288"
                             [alignCenter]="false"
                             position="bottom"
-                            dtTooltip="<b>Rapportperiode is bevroren/bekoeld</b><br />
+                            hmyTooltip="<b>Rapportperiode is bevroren/bekoeld</b><br />
               Het is niet mogelijk om een toetskolom
               toe te voegen.">
                             <dt-background-icon [sizes]="['small', 'medium']" icon="toevoegen" color="neutral"> </dt-background-icon>
-                            <span class="hide-for-tablet color-typography-4 text-small-content-semi">Toetskolom toevoegen</span>
+                            <span class="hide-for-tablet kolom-toevoegen">Toetskolom toevoegen</span>
                         </div>
                     }
-                    <div class="klasgemiddelde background-color-background-4 show-for-tablet"></div>
+                    <div class="klasgemiddelde bg-neutral-weak show-for-tablet"></div>
                     @for (cijfercell of leerlingen; track cijfercell; let i = $index) {
                         <div
                             class="resultaat-cell show-for-tablet"
@@ -110,7 +114,7 @@
             }
             <div class="filler-kolom show-for-tablet">
                 <div class="kolom-header"></div>
-                <div class="klasgemiddelde background-color-background-4"></div>
+                <div class="klasgemiddelde bg-neutral-none"></div>
                 @for (cijfercell of leerlingen; track cijfercell; let i = $index) {
                     <div
                         class="resultaat-cell"
@@ -126,7 +130,7 @@
         @if (kolomZichtbaarheid['A'] || device.isPhoneOrTablet) {
             @for (advieskolom of periode.advieskolommen; track trackById($index, advieskolom)) {
                 <dt-toetskolom
-                    class="advieskolom"
+                    class="advieskolom geen-background-mobile"
                     [highlight]="highlight"
                     [kolom]="advieskolom"
                     [leerlingen]="leerlingen"
@@ -139,7 +143,7 @@
         }
         @if (kolomZichtbaarheid['P'] || device.isPhoneOrTablet) {
             <dt-gemiddeldekolom
-                class="periode-gemiddelde-kolom"
+                class="periode-gemiddelde-kolom geen-background-mobile"
                 [kolom]="periode.periodeGemiddeldeKolom!"
                 [type]="gemiddeldetypes.periodeGemiddelde"
                 [pinned]="pinned"
@@ -151,7 +155,7 @@
         }
         @if (kolomZichtbaarheid['r'] || device.isPhoneOrTablet) {
             <dt-gemiddeldekolom
-                class="rapport-gemiddelde-kolom"
+                class="rapport-gemiddelde-kolom geen-background-mobile"
                 [kolom]="periode.rapportGemiddeldeKolom!"
                 [type]="gemiddeldetypes.rapportGemiddelde"
                 [pinned]="pinned"
@@ -162,8 +166,7 @@
             </dt-gemiddeldekolom>
         }
         <dt-gemiddeldekolom
-            class="rapport-gemiddelde-kolom"
-            class="geen-border-right rapport-cijfer-kolom"
+            class="geen-background-mobile geen-border-right rapport-cijfer-kolom"
             [kolom]="periode.rapportCijferkolom!"
             [type]="gemiddeldetypes.rapportCijfer"
             [leerlingMissendeToetsen]="periode.leerlingMissendeToetsen"

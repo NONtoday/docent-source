@@ -1,0 +1,37 @@
+@if (stream() | async; as stream) {
+    @for (leerlingTotalen of stream; track leerlingTotalen.leerlingBetrokkene.id) {
+        <button
+            class="leerling-notities-card"
+            [class.selected]="selectedLeerlingTotalenId() === leerlingTotalen.leerlingBetrokkene.id"
+            (click)="selectLeerlingTotalen(leerlingTotalen)">
+            @if (leerlingTotalen.heeftOngelezenNotities) {
+                <div class="notificatie notificatie-smallest-alt"></div>
+            }
+            <dt-avatar
+                [initialen]="leerlingTotalen.leerlingBetrokkene.leerling.initialen"
+                [lazyLoaded]="false"
+                [src]="leerlingTotalen.leerlingBetrokkene.leerling.pasfoto"
+                [size]="32"
+                [fontsize]="11"
+                [allowPhotoPopup]="false" />
+            <span class="leerling-notities-card-naam">{{ leerlingTotalen.leerlingBetrokkene.leerling | volledigeNaam }}</span>
+            <div class="tag-container">
+                <hmy-tag [label]="leerlingTotalen.notitiesCount + ' notities'" icon="none" color="alternative" />
+                @if (leerlingTotalen.belangrijkCount > 0) {
+                    <hmy-tag [label]="leerlingTotalen.belangrijkCount + ' belangrijk'" icon="none" color="warning" />
+                }
+                @if (leerlingTotalen.gemarkeerdCount > 0) {
+                    <hmy-tag [label]="leerlingTotalen.gemarkeerdCount + ' gemarkeerd'" icon="none" color="accent" />
+                }
+                @if (leerlingTotalen.vastgepriktCount > 0) {
+                    <hmy-tag [label]="leerlingTotalen.vastgepriktCount + ' vastgeprikt'" icon="none" color="primary-strong" />
+                }
+            </div>
+        </button>
+    }
+    @if (noTotalen()) {
+        <span class="geen-notities text-content-semi text-weak">Geen notities gevonden</span>
+    }
+} @else {
+    <hmy-spinner [centeredInParent]="true" />
+}

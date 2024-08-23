@@ -17,7 +17,7 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
 import { getYear } from 'date-fns';
-import { IconDirective } from 'harmony';
+import { IconDirective, TooltipDirective } from 'harmony';
 import {
     IconChevronBoven,
     IconKlok,
@@ -51,7 +51,6 @@ import { PopupDirection } from '../../core/popup/popup.settings';
 import { DeviceService, desktopQuery } from '../../core/services/device.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { AutoSelectDirective } from '../../rooster-shared/directives/auto-select.directive';
-import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { getSchooljaar } from '../../rooster-shared/utils/date.utils';
 import { Optional, equalsId, isPresent, isStringNullOrEmpty } from '../../rooster-shared/utils/utils';
 import { CijferhistoriePopupComponent } from '../cijferhistorie-popup/cijferhistorie-popup.component';
@@ -202,7 +201,6 @@ export class ResultaatCellComponent implements OnInit, OnChanges, OnDestroy {
         this.resultaatService.activeCell$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((ref: ElementRef) => {
             this.active = ref.nativeElement.id === this.elementRef?.nativeElement.id;
             const grootstePopupBreedte = 90;
-
             if (this.active) {
                 const leerlingUUID = parseCellId(this.elementRef?.nativeElement.id)?.leerlingUUID;
                 this.resultaatService.activeLeerlingUUID = leerlingUUID;

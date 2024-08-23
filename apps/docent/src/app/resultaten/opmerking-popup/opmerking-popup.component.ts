@@ -1,14 +1,12 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { IconDirective } from 'harmony';
+import { ButtonComponent, IconDirective } from 'harmony';
 import { IconBewerken, IconNietZichtbaar, IconReacties, IconZichtbaar, provideIcons } from 'harmony-icons';
 import { memoize } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import { Resultaat } from '../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
-import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
-import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { VerwijderButtonComponent } from '../../rooster-shared/components/verwijder-button/verwijder-button.component';
 import { AutofocusDirective } from '../../rooster-shared/directives/autofocus.directive';
@@ -25,9 +23,8 @@ import { ZichtbaarheidsToggleFormControlComponent } from '../../shared/component
         ReactiveFormsModule,
         ZichtbaarheidsToggleFormControlComponent,
         AutofocusDirective,
-        OutlineButtonComponent,
-        ButtonComponent,
         VerwijderButtonComponent,
+        ButtonComponent,
         AsyncPipe,
         IconDirective
     ],
@@ -76,7 +73,7 @@ export class OpmerkingPopupComponent implements OnInit, Popup {
     public static get defaultPopupsettings() {
         const popupSettings = new PopupSettings();
 
-        popupSettings.width = 360;
+        popupSettings.width = 400;
         popupSettings.showCloseButton = false;
         popupSettings.headerClass = 'none';
         popupSettings.showHeader = false;

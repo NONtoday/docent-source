@@ -59,7 +59,7 @@ export const mapDifferentiatieToKleurenStackElements = (
         })) ?? [];
     if (leerlingen.length > 0) {
         kleuren.push({
-            kleur: 'fg-primary-normal',
+            kleur: 'bg-neutral-strong',
             border: 'border-neutral-inverted',
             content: leerlingen.map(getVolledigeNaam).join(', ')
         });

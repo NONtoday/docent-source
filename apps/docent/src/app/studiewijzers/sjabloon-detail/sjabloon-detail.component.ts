@@ -298,10 +298,6 @@ export class SjabloonDetailComponent extends DeactivatableComponentDirective imp
         this.sidebarService.openSidebar(JaarbijlagenSidebarComponent, { abstractSwId: sjabloonId, isSjabloon: true });
     }
 
-    trackByWeeknummer(index: number, item: SjabloonViewQuery['sjabloonView']['weken'][number]) {
-        return item.weeknummer;
-    }
-
     canDeactivate(): boolean {
         return this.jaarbijlagenSidebar ? !this.jaarbijlagenSidebar.jaarbijlagen?.isUploading() : true;
     }

@@ -1,7 +1,7 @@
 @if (selectieControle$ | async; as selectieData) {
     <div class="controle">
         <div class="controles">
-            @for (selectie of selectieData.selecties; track selectie; let i = $index) {
+            @for (selectie of selectieData.selecties; track $index; let i = $index) {
                 <dt-methode-controle [form]="selectieData.forms[i]" [methodeSelectie]="selectie"></dt-methode-controle>
             }
         </div>
@@ -14,7 +14,7 @@
 } @else {
     <div class="selectie">
         <div class="hoofdstukken">
-            @for (hoofdstuk of methode.hoofdstukken; track hoofdstuk; let i = $index) {
+            @for (hoofdstuk of methode.hoofdstukken; track hoofdstuk.id; let i = $index) {
                 <div class="hoofdstuk">
                     <div class="header" (click)="toggleHoofdstukOpen(hoofdstuk.id)">
                         <span class="label text-content-bold color-background-5">{{ i + 1 }}</span>
@@ -29,7 +29,7 @@
                         class="sub-hoofstukken"
                         [@collapse]="{ value: !!isHoofdstukGesloten(hoofdstuk.id) }"
                         [formGroup]="geselecteerdeSubHoofdstukkenForm">
-                        @for (subHoofdstuk of hoofdstuk.subHoofdstukken; track subHoofdstuk) {
+                        @for (subHoofdstuk of hoofdstuk.subHoofdstukken; track subHoofdstuk.id) {
                             <div class="sub-hoofdstuk" [class.selected]="geselecteerdeSubHoofdstukkenForm.controls[subHoofdstuk.id].value">
                                 <dt-form-checkbox [formControlName]="subHoofdstuk.id"> </dt-form-checkbox>
                                 <span class="sub-naam">{{ subHoofdstuk.naam }}</span>

@@ -17,8 +17,8 @@ import {
     IconTerugNaarSomtoday,
     provideIcons
 } from 'harmony-icons';
-import { Observable, Subject } from 'rxjs';
-import { first, map, switchMap, take, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, identity } from 'rxjs';
+import { filter, first, map, switchMap, take, takeUntil } from 'rxjs/operators';
 import { Afspraak } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { PopupOpenDirective } from '../../core/popup/popup-open.directive';
@@ -78,8 +78,8 @@ export class MenuComponent extends BaseMenu implements OnDestroy {
     private router = inject(Router);
     private uriService = inject(UriService);
     private popupService = inject(PopupService);
-    private appRef = inject(ApplicationRef);
     private headerService = inject(HeaderService);
+    private appRef = inject(ApplicationRef);
     @ViewChild('notitieboek', { read: ViewContainerRef }) notitieboekRef: ViewContainerRef;
 
     @HostBinding('class.is-open') menuOpen: boolean;
@@ -114,30 +114,25 @@ export class MenuComponent extends BaseMenu implements OnDestroy {
             this.menuOpen = this.menuState.get('Main') ?? false;
         });
 
-        this.heeftNotitieboekToegang$.pipe(take(1)).subscribe((heeftToegang) => {
-            if (heeftToegang) {
-                this.setupOngelezenNotitiePolling();
-            }
+        this.heeftNotitieboekToegang$.pipe(take(1), filter(identity)).subscribe(() => {
+            const heeftOngelezenNotitieQuery$ = this.headerService.heeftOngelezenNotitieQuery$;
+
+            // start polling als de applicatie er klaar voor is.
+            this.appRef.isStable
+                .pipe(
+                    first((isStable) => isStable === true),
+                    switchMap(() => heeftOngelezenNotitieQuery$.valueChanges),
+                    map((result) => result.data.ongelezenNotitiesAanwezig)
+                )
+                .subscribe((heeftOngelezenNotitie) => {
+                    this.heeftOngelezenNotitie = heeftOngelezenNotitie;
+                    if (heeftOngelezenNotitie) {
+                        heeftOngelezenNotitieQuery$.stopPolling();
+                    } else {
+                        heeftOngelezenNotitieQuery$.startPolling(1000 * 60 * 15);
+                    }
+                });
         });
-    }
-
-    private setupOngelezenNotitiePolling() {
-        const heeftOngelezenNotitieQuery$ = this.headerService.heeftOngelezenNotitieQuery$;
-
-        this.appRef.isStable
-            .pipe(
-                first((isStable) => isStable === true),
-                switchMap(() => heeftOngelezenNotitieQuery$.valueChanges),
-                map((result) => result.data.ongelezenNotitiesAanwezig)
-            )
-            .subscribe((heeftOngelezenNotitie) => {
-                this.heeftOngelezenNotitie = heeftOngelezenNotitie;
-                if (heeftOngelezenNotitie) {
-                    heeftOngelezenNotitieQuery$.stopPolling();
-                } else {
-                    heeftOngelezenNotitieQuery$.startPolling(1000 * 60 * 15);
-                }
-            });
     }
 
     ngOnDestroy(): void {

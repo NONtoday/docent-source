@@ -13,15 +13,15 @@
         [fontsize]="12"
         dtTooltip="Notitie van de mentor">
     </dt-avatar>
-    <div class="leerling-naam text-ellipsis" [class.naam-groepen]="showGroepen">
+    <div class="leerling-naam ellipsis" [class.naam-groepen]="showGroepen">
         <span class="naam text-content-semi text-strong">{{ leerlingItem.leerling | volledigeNaam }}</span>
         @if (showGroepen === 'Lesgroepen' && leerlingItem.leerlingGroepNamen) {
-            <span class="groep-naam text-small-content-semi text-weak">
+            <span class="groep-naam text-content-small-semi text-weak">
                 {{ leerlingItem.leerlingGroepNamen }}
             </span>
         }
         @if (showGroepen === 'Stamgroep' && leerlingItem.leerlingStamgroepNaam) {
-            <span class="groep-naam text-small-content-semi text-weak">
+            <span class="groep-naam text-content-small-semi text-weak">
                 {{ leerlingItem.leerlingStamgroepNaam }}
             </span>
         }

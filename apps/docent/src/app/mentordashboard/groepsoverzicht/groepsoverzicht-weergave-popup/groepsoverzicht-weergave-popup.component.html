@@ -3,14 +3,14 @@
         <div class="content">
             <header>
                 <span class="text-content-semi text-strong">Weergave</span>
-                <span class="text-small-content-semi text-weak">Toon of verberg categorieën en stel een signaleerwaarde in.</span>
+                <span class="text-content-small-semi text-weak">Toon of verberg categorieën en stel een signaleerwaarde in.</span>
             </header>
             <div class="form" [formGroup]="form">
                 <div class="form-header">
                     <span class="text-content-semi text-moderate">Registraties</span>
                     <span class="text-content-semi text-moderate">Tonen na</span>
                 </div>
-                @for (rcat of categorieen; track rcat) {
+                @for (rcat of categorieen; track rcat.categorie.id) {
                     <div class="optie" [formGroupName]="rcat.categorie.id">
                         <dt-form-checkbox [label]="rcat.categorie | registratieCategorieNaam" formControlName="selected" />
                         <i

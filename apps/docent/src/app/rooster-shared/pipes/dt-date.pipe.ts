@@ -52,7 +52,10 @@ export type DateFormat =
     | 'dag_kort_dagnummer_maand_kort_tijd'
 
     /** voorbeeld: 'wo 19 aug, 19:00' / 'wo 19 aug, 2023, 19:00' / vandaag 19 aug, 19:00' */
-    | 'dag_kort_dagnummer_maand_kort_tijd_lowercase';
+    | 'dag_kort_dagnummer_maand_kort_tijd_lowercase'
+
+    /** voorbeeld: 'Juni 2023' */
+    | 'maand_jaar';
 
 @Pipe({ name: 'dtDate', standalone: true })
 export class DtDatePipe implements PipeTransform {

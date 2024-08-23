@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { stripHtmlTags } from '../utils/studiewijzer.utils';
+import { stripHtmlTags, translateHtmlEntities } from '../utils/html.utils';
 
 @Pipe({
     name: 'notitiePreview',
@@ -7,6 +7,6 @@ import { stripHtmlTags } from '../utils/studiewijzer.utils';
 })
 export class NotitiePreviewPipe implements PipeTransform {
     transform(inhoud: string): string {
-        return stripHtmlTags(inhoud) || '';
+        return translateHtmlEntities(stripHtmlTags(inhoud)) || '';
     }
 }

@@ -1,6 +1,6 @@
 <dt-header titel="Studiewijzers" icon="studiewijzer"></dt-header>
 @if ({ view: studiewijzerView$ | async }; as data) {
-    <div class="toolbar text-small-content" #toolbar>
+    <div class="toolbar text-content-small" #toolbar>
         <div class="terug" [routerLink]="['/studiewijzers']">
             <i hmyIcon="pijlLinks" size="medium"></i>
             <span class="show-for-tablet text-content-semi">Terug</span>
@@ -79,12 +79,7 @@
     </div>
     @if (data.view) {
         <div class="kalender" cdkDropListGroup>
-            @for (
-                studiewijzerWeek of data.view.weken;
-                track trackByWeeknummer($index, studiewijzerWeek);
-                let isFirst = $first;
-                let isLast = $last
-            ) {
+            @for (studiewijzerWeek of data.view.weken; track studiewijzerWeek.weeknummer; let isFirst = $first; let isLast = $last) {
                 <dt-studiewijzer-week
                     [studiewijzerWeek]="$any(studiewijzerWeek)"
                     [disableDragDrop]="!!(disableDragAndDrop$ | async)"

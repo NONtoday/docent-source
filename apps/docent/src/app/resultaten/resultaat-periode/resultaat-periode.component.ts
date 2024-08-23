@@ -11,7 +11,7 @@ import {
     inject,
     output
 } from '@angular/core';
-import { IconDirective } from 'harmony';
+import { IconDirective, TooltipDirective } from 'harmony';
 import { IconNormaleToets, IconSamengesteldeToets, IconToevoegen, IconUitklappenLinks, provideIcons } from 'harmony-icons';
 import { memoize } from 'lodash-es';
 import { Observable } from 'rxjs';
@@ -33,7 +33,6 @@ import { DeviceService, phoneQuery, tabletPortraitQuery } from '../../core/servi
 import { SidebarService } from '../../core/services/sidebar.service';
 import { ActionsPopupComponent, primaryButton } from '../../rooster-shared/components/actions-popup/actions-popup.component';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
-import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { formatDateNL } from '../../rooster-shared/utils/date.utils';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { GemiddeldekolomComponent } from '../gemiddeldekolom/gemiddeldekolom.component';
@@ -179,7 +178,6 @@ export class ResultaatPeriodeComponent implements OnInit {
     }
 
     trackByKolom(
-        index: number,
         kolom: VoortgangsdossierMatrixVanLesgroepQuery['voortgangsdossierMatrixVanLesgroep']['periodes'][number]['resultaatkolommen'][number]
     ) {
         const toetsKolom = <Toetskolom>kolom.resultaatkolom;
@@ -190,7 +188,8 @@ export class ResultaatPeriodeComponent implements OnInit {
             ${toetsKolom.code}-
             ${toetsKolom.weging}-
             ${toetsKolom.periode}-
-            ${toetsKolom.resultaatLabelLijst?.id}`;
+            ${toetsKolom.resultaatLabelLijst?.id}-
+            ${kolom.herkansingsNummer}`;
     }
 
     periodeTooltip = memoize(
@@ -199,10 +198,10 @@ export class ResultaatPeriodeComponent implements OnInit {
                 const startDatum = formatDateNL(periode.begin, 'dagnummer_maand_kort');
                 const eindDatum = formatDateNL(periode.eind!, 'dagnummer_maand_kort');
 
-                return `<span class="text-small-content-semi">Cijferperiode</span><br><span text-small-content>${startDatum} tot ${eindDatum}</span>`;
+                return `<span class="text-content-small-semi">Cijferperiode</span><br><span text-content-small>${startDatum} tot ${eindDatum}</span>`;
             }
 
-            return `<span class="text-small-content-semi">Cijferperiode</span><br><span class="text-small-content">Geen data ingesteld voor periode ${periode.nummer}</span>`;
+            return `<span class="text-content-small-semi">Cijferperiode</span><br><span class="text-content-small">Geen data ingesteld voor periode ${periode.nummer}</span>`;
         },
         (...args) => JSON.stringify(args)
     );

@@ -260,6 +260,9 @@ export const formatDateNL = (date: Date, format: DateFormat) => {
             }
             return removePeriod(formatNL(date, isSameYear(date, new Date()) ? 'eeeeee d MMM, HH:mm' : 'eeeeee d MMM, yyyy, HH:mm'));
         }
+        case 'maand_jaar': {
+            return capitalize(removePeriod(formatNL(date, 'MMMM yyyy')));
+        }
         default:
             return 'Onbekend format';
     }

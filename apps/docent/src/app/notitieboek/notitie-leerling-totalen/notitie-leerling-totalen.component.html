@@ -1,0 +1,85 @@
+@if (totalen(); as leerlingTotalen) {
+    <div class="totalen-header show-content-on-mobile">
+        <div class="nav-header">
+            <button class="back-button" (click)="onTerug.emit()">
+                <i hmyIcon="pijlLinks" color="action-neutral-normal" size="medium"></i>
+            </button>
+            @if (leerlingTotalen.leerlingBetrokkene.leerling; as leerling) {
+                <div class="nav-header-leerling">
+                    <dt-avatar [initialen]="leerling.initialen" [src]="leerling.pasfoto" [size]="24" [fontsize]="9" />
+                    <span class="nav-header-leerling-name ellipsis">{{ leerling | volledigeNaam }}</span>
+                </div>
+            }
+        </div>
+        <dt-notitieboek-filter
+            [(filterOptie)]="filterOptie"
+            [(schooljaar)]="schooljaar"
+            [(searchValue)]="searchValue"
+            [context]="context()"
+            [showSchooljaarSelector]="true" />
+    </div>
+    <div class="periodes-container">
+        @for (periode of leerlingTotalen.periodes; track periode.start) {
+            <div class="periode">
+                <div class="periode-header">
+                    <span class="text-content-semi text-moderate">{{ periode.start | dtDate: 'maand_jaar' }}</span>
+                    @if ($first) {
+                        <div
+                            class="notitie-toevoegen pointer hide-for-desktop-only"
+                            [routerLink]="['./']"
+                            [queryParams]="{ notitie: 'nieuw', leerlingBetrokkenenIds: leerlingId(), direct: null, edit: true }"
+                            queryParamsHandling="merge">
+                            <dt-background-icon icon="toevoegen" color="positive" size="smallest" iconSize="smallest" />
+                        </div>
+                    }
+                </div>
+                @for (notitie of periode.notities; track notitie.id) {
+                    <dt-notitie-kaart
+                        class="in-totalen"
+                        [notitie]="notitie"
+                        [huidigeSchooljaarSelected]="huidigeSchooljaarSelected()"
+                        [routerLink]="['./']"
+                        [queryParams]="{ notitie: notitie.id, edit: null, scrollto: null }"
+                        [context]="context()"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        (notitieBewerken)="notitieBewerken($event)"
+                        meerOptiesPopupChildSelector="#notitie-stream"
+                        routerLinkActive="is-active"
+                        queryParamsHandling="merge" />
+                }
+            </div>
+        }
+    </div>
+} @else {
+    <div class="geen-selectie text-content-semi">
+        <div class="text">
+            <span class="text-weak">👈🏻 Selecteer een leerling {{ huidigeSchooljaarSelected() ? ' of' : '' }}</span
+            ><br />
+            @if (huidigeSchooljaarSelected()) {
+                <span
+                    class="action-primary-normal pointer nieuwe-notitie"
+                    [routerLink]="['./']"
+                    [queryParams]="{ notitie: 'nieuw', leerlingBetrokkenenIds: leerlingId(), direct: null, edit: true }"
+                    data-gtm="notitieboek-notitie-toevoegen"
+                    queryParamsHandling="merge">
+                    Maak nieuwe notitie aan
+                </span>
+            }
+        </div>
+    </div>
+}
+@if (huidigeSchooljaarSelected()) {
+    <div class="footer" [class.show-content-on-mobile]="totalen()">
+        <dt-outline-button
+            class="nieuw-button"
+            [routerLink]="['./']"
+            [queryParams]="{ notitie: 'nieuw', leerlingBetrokkenenIds: leerlingId(), direct: null, edit: true }"
+            [wordWrap]="true"
+            data-gtm="notitieboek-notitie-toevoegen"
+            icon="toevoegen"
+            color="positive"
+            queryParamsHandling="merge">
+            Nieuw
+        </dt-outline-button>
+    </div>
+}

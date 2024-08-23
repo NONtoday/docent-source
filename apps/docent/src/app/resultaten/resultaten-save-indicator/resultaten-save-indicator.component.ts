@@ -1,9 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
-import { IconDirective, IconPillComponent, SpinnerComponent } from 'harmony';
+import { IconDirective, IconPillComponent, SpinnerComponent, TooltipDirective } from 'harmony';
 import { IconNoRadio, IconVerversen, IconYesRadio, provideIcons } from 'harmony-icons';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
-import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { ResultaatService } from '../resultaat.service';
 
 @Component({

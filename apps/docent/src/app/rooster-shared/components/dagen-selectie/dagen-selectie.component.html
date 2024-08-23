@@ -1,4 +1,4 @@
-@for (dag of dagenSelectie | keyvalue: keepObjectOrder; track dag) {
+@for (dag of dagenSelectie | keyvalue: keepObjectOrder; track dag.key) {
     <div class="dag" [class.is-disabled]="disabled" [class.is-selected]="dag.value" (click)="toggleDag(dag)">
         <span class="text-content-small-semi">{{ dag.key | slice: 0 : 2 | ucfirst }}</span>
     </div>

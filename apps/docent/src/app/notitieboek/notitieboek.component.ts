@@ -8,14 +8,16 @@ import {
     OnInit,
     ViewChild,
     ViewContainerRef,
-    inject
+    computed,
+    inject,
+    signal
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { IconNotitieboek, IconToevoegen, provideIcons } from 'harmony-icons';
 import { isEqual } from 'lodash-es';
-import { BehaviorSubject, Observable, Subject, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
+import { Observable, Subject, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { P, match } from 'ts-pattern';
 import {
@@ -24,12 +26,13 @@ import {
     NotitieContext,
     NotitieFieldsFragment,
     NotitieInput,
+    NotitieStreamGroepering,
     NotitiestreamQuery,
     StamgroepFieldsFragment
 } from '../../generated/_types';
 import { UriService } from '../auth/uri-service';
 import { allowChildAnimations } from '../core/core-animations';
-import { NotitieboekContext, NotitieboekDetail, NotitieboekRouteContext } from '../core/models/notitieboek.model';
+import { NotitieLeerlingTotalen, NotitieboekContext, NotitieboekDetail, NotitieboekRouteContext } from '../core/models/notitieboek.model';
 import { shareReplayLastValue } from '../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../core/popup/popup.service';
 import { PopupDirection, defaultPopupOffsets } from '../core/popup/popup.settings';
@@ -55,7 +58,9 @@ import {
 } from '../shared/components/groep-leerling-header-navigatie/groep-leerling-header-navigatie.component';
 import { NotitieDetailComponent } from './notitie-detail/notitie-detail.component';
 import { NotitieEditComponent } from './notitie-edit/notitie-edit.component';
-import { NotitieStreamComponent } from './notitie-stream/notitie-stream.component';
+import { NotitieLeerlingTotalenComponent } from './notitie-leerling-totalen/notitie-leerling-totalen.component';
+import { NotitieStreamComponent, NotitieboekTab } from './notitie-stream/notitie-stream.component';
+import { NotitieFilter } from './notitieboek-filter/notitieboek-filter.component';
 import {
     NotitieboekHeaderLeerlingSelectiePopupComponent,
     NotitieboekHeaderLeerlingSelectiePopupInput
@@ -79,6 +84,7 @@ interface NotitieboekRouteParams {
         NotitieStreamComponent,
         NotitieEditComponent,
         NotitieDetailComponent,
+        NotitieLeerlingTotalenComponent,
         HeaderComponent,
         GroepLeerlingHeaderNavigatieComponent,
         AfspraakSidebarComponent,
@@ -105,6 +111,7 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
     public sidebarService = inject(SidebarService);
     private uriService = inject(UriService);
     private tableService = inject(TableService);
+
     @ViewChild(NotitieEditComponent) editComponent: NotitieEditComponent;
     public edit$: Observable<Optional<NotitieFieldsFragment> | NotitieInput>;
     public detail$: Observable<Optional<NotitieboekDetail>>;
@@ -113,16 +120,14 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
     public navigatie$: Observable<GroepLeerlingHeaderNavigatieItem>;
     public afspraakSidebar$: SidebarInputs<AfspraakSidebarComponent>;
     public showHeaderNavigation$: Observable<boolean>;
-    public selectedSchooljaar$ = new BehaviorSubject<number | undefined>(undefined);
-    public selectedSchooljaarIsHuidig = toSignal(
-        this.selectedSchooljaar$.pipe(
-            map((selectedSchooljaar) => {
-                const huidigSchooljaar = getSchooljaar(new Date()).start.getFullYear();
-                return selectedSchooljaar === huidigSchooljaar || selectedSchooljaar === undefined;
-            })
-        ),
-        { initialValue: false }
-    );
+    public selectedSchooljaar = signal<number | undefined>(undefined);
+    public selectedSchooljaarIsHuidig = computed(() => this.isHuidigSchooljaar(this.selectedSchooljaar()));
+    public selectedSchooljaar$ = toObservable(this.selectedSchooljaar);
+    public selectedLeerlingTotalen = signal<NotitieLeerlingTotalen | undefined>(undefined);
+    public selectedLeerlingTotalen$ = toObservable(this.selectedLeerlingTotalen);
+    public filterOptie = signal<NotitieFilter | undefined>(undefined);
+    public searchValue = signal<string>('');
+    public tab = signal<NotitieboekTab>('Tijdlijn');
 
     // Wordt ook getoond in mentordashboard
     @HostBinding('class.zonder-header') public zonderHeader = false;
@@ -174,6 +179,11 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
         return observable$.pipe(tap(() => (this._openEerstOngelezenNotitie = true)));
     }
 
+    private isHuidigSchooljaar(selectedSchooljaar: number | undefined) {
+        const huidigSchooljaar = getSchooljaar(new Date()).start.getFullYear();
+        return selectedSchooljaar === huidigSchooljaar || selectedSchooljaar === undefined;
+    }
+
     ngOnInit() {
         this.afspraakSidebar$ = this.sidebarService.watchFor(AfspraakSidebarComponent);
 
@@ -211,6 +221,10 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
                         .otherwise(() => of([]))
                 })
             ),
+            tap(() => {
+                this.selectedLeerlingTotalen.set(undefined);
+                this.tab.set('Tijdlijn');
+            }),
             shareReplayLastValue()
         );
 
@@ -231,7 +245,14 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
         );
 
         this.stream$ = combineLatest([routeContext$, this.selectedSchooljaar$]).pipe(
-            switchMap(([context, schooljaar]) => this.notitieDataService.notitiestream(context.context, context.id, schooljaar)),
+            switchMap(([context, schooljaar]) =>
+                this.notitieDataService.notitiestream(
+                    context.context,
+                    context.id,
+                    schooljaar ?? undefined,
+                    this.isHuidigSchooljaar(schooljaar ?? undefined) ? NotitieStreamGroepering.WEEK : NotitieStreamGroepering.MAAND
+                )
+            ),
             tap((stream) => {
                 if (!this._openEerstOngelezenNotitie) {
                     return;
@@ -254,6 +275,8 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
 
         this.detail$ = combineLatest([this.route.queryParams, this.stream$]).pipe(
             map(([qparams, stream]) => {
+                const leerlingTotalen = this.selectedLeerlingTotalen();
+                const prevNextStream = (this.tab() === 'Totalen per leerling' ? leerlingTotalen?.periodes : stream) ?? stream;
                 if (qparams.notitie && !qparams.edit) {
                     const current = stream.flatMap((s) => s.notities).find(equalsId(qparams.notitie));
                     if (!current) {
@@ -261,8 +284,12 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
                     }
                     return {
                         current,
-                        next: stream.flatMap((s) => s.notities)[stream.flatMap((s) => s.notities).findIndex(equalsId(qparams.notitie)) + 1],
-                        prev: stream.flatMap((s) => s.notities)[stream.flatMap((s) => s.notities).findIndex(equalsId(qparams.notitie)) - 1]
+                        next: prevNextStream.flatMap((s) => s.notities)[
+                            prevNextStream.flatMap((s) => s.notities).findIndex(equalsId(qparams.notitie)) + 1
+                        ],
+                        prev: prevNextStream.flatMap((s) => s.notities)[
+                            prevNextStream.flatMap((s) => s.notities).findIndex(equalsId(qparams.notitie)) - 1
+                        ]
                     };
                 }
                 return null;
@@ -280,8 +307,16 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
             })
         );
 
-        this.showHeaderNavigation$ = combineLatest([this.deviceService.isPhone$, this.detail$, this.edit$]).pipe(
-            map(([isPhone, detail, edit]) => (isPhone ? !detail && !edit : true)),
+        this.showHeaderNavigation$ = combineLatest([
+            this.deviceService.isPhoneOrTablet$,
+            this.deviceService.isTabletOrDesktop$,
+            this.detail$,
+            this.edit$,
+            this.selectedLeerlingTotalen$
+        ]).pipe(
+            map(([isPhoneOrTablet, isTabletOrDesktop, detail, edit, totalen]) =>
+                isPhoneOrTablet && !isTabletOrDesktop ? !detail && !edit && !totalen : true
+            ),
             tap((value) => (this.detailView = !value)),
             shareReplayLastValue(),
             takeUntil(this.destroy$)
@@ -302,6 +337,7 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
             queryParams: { leerling: null },
             queryParamsHandling: 'merge'
         });
+        this.selectedLeerlingTotalen.set(undefined);
     }
 
     navigeerNaarLeerling(id: Optional<string>) {
@@ -311,6 +347,7 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
                 queryParams: { leerling: id, notitie: null },
                 queryParamsHandling: 'merge'
             });
+            this.selectedLeerlingTotalen.set(undefined);
         }
     }
 
@@ -396,9 +433,5 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
         this.succesMessageAfspraak = message;
         this.showSuccesMessageAfspraak = true;
         this.changeDetector.detectChanges();
-    }
-
-    selectSchooljaar(schooljaar: number) {
-        this.selectedSchooljaar$.next(schooljaar);
     }
 }

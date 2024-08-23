@@ -1,6 +1,7 @@
 @import './styles/_normalize.css';
-@import './styles/fonts';
+@import 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
 @import './styles/mixins';
+@import './styles/breakpoints';
 @import './styles/visibility';
 @import './styles/global-variables';
 @import './styles/forms';
@@ -11,13 +12,24 @@
 @import './styles/_quil.snow_1.2.2.css';
 @import './styles/_appcues-widget.css';
 @import 'harmony-styles';
+@include foundation-visibility-classes;
 
 :root {
     --toastr-tablet-desktop-top: 86px;
 }
 
 body {
-    @include text-content;
+    // Voorkomt verspringen van de pagina wanneer de data groter is dan de pagina
+    margin-right: calc(-100vw + 100%);
+
+    color: var(--text-moderate);
+    font: var(--body-content-regular);
+    font-family: 'Open Sans', sans-serif;
+    line-height: 20px;
+
+    background-color: var(--bg-neutral-weakest);
+    overflow-x: hidden;
+    overflow-anchor: none;
 
     // Oude sidebar/popup header styling
     --bg-sidebar-header: #{$primary-1};
@@ -32,17 +44,7 @@ body {
     // Oude mobile groep-leerling-header-navigatie styling
     --bg-groep-leerling-header: #{$primary-1};
     --fg-groep-leerling-header: var(--fg-on-primary-normal);
-
-    // Voorkomt verspringen van de pagina wanneer de data groter is dan de pagina
-    margin-right: calc(-100vw + 100%);
-
-    color: var(--text-moderate);
-    font-family: 'Open Sans', sans-serif;
-    line-height: 20px;
-
-    background-color: var(--bg-neutral-weakest);
-    overflow-x: hidden;
-    overflow-anchor: none;
+    --text-groep-leerling-header: var(--text-inverted);
 
     .mask-overlay {
         cursor: pointer;
@@ -62,7 +64,7 @@ body {
         -webkit-overflow-scrolling: touch;
     }
 
-    // Verberg tap hightlights op touch die de browser toepast
+    // Verberg tap highlights op touch die de browser toepast
     * {
         -webkit-tap-highlight-color: transparent;
     }
@@ -155,10 +157,6 @@ p {
 
 .no-selection {
     user-select: none;
-}
-
-.text-ellipsis {
-    @include text-ellipsis;
 }
 
 input {

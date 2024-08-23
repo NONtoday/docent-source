@@ -1,10 +1,10 @@
 <dt-popup>
     <div class="popup-content" popup-content>
         <div class="geadresseerden">
-            @for (leerling of leerlingen; track leerling) {
+            @for (leerling of leerlingen; track leerling.id) {
                 <hmy-tag [label]="leerling | volledigeNaam" (iconClick)="verwijderGeadresseerde(leerling.id)"></hmy-tag>
             }
-            @for (projectgroep of projectgroepen; track projectgroep) {
+            @for (projectgroep of projectgroepen; track projectgroep.id) {
                 <hmy-tag [label]="projectgroep.naam" (iconClick)="verwijderGeadresseerde(projectgroep.id)"></hmy-tag>
             }
         </div>
@@ -56,9 +56,9 @@
             <dt-button
                 [attr.data-gtm]="herinnering ? 'bulk-inlever-herinnering' : 'bulk-inlever-bericht'"
                 [disabled]="verzendenDisabled$ | async"
-                (click)="onBerichtVersturenClick()"
-                >Verzenden</dt-button
-            >
+                (click)="onBerichtVersturenClick()">
+                Verzenden
+            </dt-button>
         </div>
     </div>
 </dt-popup>

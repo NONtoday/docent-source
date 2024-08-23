@@ -5,7 +5,7 @@
     @if (page !== 2) {
         <i class="somtoday-icon" [sizeInPx]="36" hmyIcon="somtoday"></i>
     }
-    <span class="titel text-head">{{ page === 2 ? 'Lesitem toevoegen' : 'somtoday' }}</span>
+    <span class="titel text-heading-2">{{ page === 2 ? 'Lesitem toevoegen' : 'somtoday' }}</span>
     @if (medewerker$ | async; as medewerker) {
         <dt-avatar
             class="avatar"

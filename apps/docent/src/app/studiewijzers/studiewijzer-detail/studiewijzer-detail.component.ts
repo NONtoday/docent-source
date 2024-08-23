@@ -420,10 +420,6 @@ export class StudiewijzerDetailComponent extends DeactivatableComponentDirective
         this.scrollToStudiewijzerWeek(studiewijzerWeek, 'smooth');
     }
 
-    trackByWeeknummer(index: number, item: StudiewijzerViewQuery['studiewijzerView']['weken'][number]) {
-        return item.weeknummer;
-    }
-
     canDeactivate(): boolean {
         return this.jaarbijlagenSidebar ? !this.jaarbijlagenSidebar.jaarbijlagen?.isUploading() : true;
     }

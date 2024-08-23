@@ -1220,8 +1220,8 @@ ${partialLeerling}
 ${lesgroepFields}
 ${vestigingFields}
 ${stamgroepFields}`;
-export const notitieStreamWeekFields = gql`
-    fragment notitieStreamWeekFields on NotitieStreamWeek {
+export const notitieStreamPeriodeFields = gql`
+    fragment notitieStreamPeriodeFields on NotitieStreamPeriode {
   start
   eind
   notities {
@@ -1517,6 +1517,11 @@ export const resultaatLabelLijstFields = gql`
 export const voortgangsdossierFields = gql`
     fragment voortgangsdossierFields on Voortgangsdossier {
   id
+  toetsdossier {
+    id
+    naam
+    isDefaultDossier
+  }
   onderwijssoortLeerjaar
   meervoudigeToetsnorm
   opmerkingen
@@ -4327,16 +4332,17 @@ export const recenteMethodes = gql`
 }
     `;
 export const notitiestream = gql`
-    query notitiestream($notitieContext: NotitieContext!, $contextId: String!, $startSchooljaar: Int) {
+    query notitiestream($notitieContext: NotitieContext!, $contextId: String!, $startSchooljaar: Int, $groepering: NotitieStreamGroepering) {
   notitiestream(
     notitieContext: $notitieContext
     contextId: $contextId
     startSchooljaar: $startSchooljaar
+    groepering: $groepering
   ) {
-    ...notitieStreamWeekFields
+    ...notitieStreamPeriodeFields
   }
 }
-    ${notitieStreamWeekFields}`;
+    ${notitieStreamPeriodeFields}`;
 export const zoekBetrokkenen = gql`
     query zoekBetrokkenen($zoekterm: String, $stamgroepId: String, $lesgroepId: String) {
   zoekBetrokkenen(
@@ -4474,12 +4480,12 @@ export const actueleNotities = gql`
       ...notitieFields
     }
     vandaagOfOngelezenNotitiestream {
-      ...notitieStreamWeekFields
+      ...notitieStreamPeriodeFields
     }
   }
 }
     ${notitieFields}
-${notitieStreamWeekFields}`;
+${notitieStreamPeriodeFields}`;
 export const projectgroepen = gql`
     query projectgroepen($studiewijzeritem: String!) {
   projectgroepen(studiewijzeritem: $studiewijzeritem) {

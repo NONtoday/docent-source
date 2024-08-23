@@ -1,0 +1,51 @@
+@if (stream() | async; as periodes) {
+    @for (periode of periodes; track periode.start) {
+        @if (periode.notities.length > 0) {
+            <div class="periode">
+                <div class="periode-header">
+                    @if ($first && isHuidigeWeek(periode)) {
+                        <span class="text-content-semi">Deze week</span>
+                    } @else {
+                        <span class="text-content-semi">{{
+                            periode.start | dtDate: (huidigeSchooljaarSelected() ? 'week' : 'maand_jaar')
+                        }}</span>
+                    }
+                    @if (huidigeSchooljaarSelected()) {
+                        <span class="text-small-content-semi text-weakest">
+                            {{ periode.start | dtDate: 'dagnummer_maand_kort_zonder_jaar' }} -
+                            {{ periode.eind | dtDate: 'dagnummer_maand_kort_zonder_jaar' }}
+                        </span>
+                        @if ($first) {
+                            <div
+                                class="notitie-toevoegen pointer"
+                                [routerLink]="['./']"
+                                [queryParams]="{ notitie: 'nieuw', direct: null, edit: true, scrollto: null }"
+                                queryParamsHandling="merge">
+                                <dt-background-icon icon="toevoegen" color="positive" size="smallest" iconSize="smallest" />
+                                <span class="text-content-semi action-positive-normal show-for-desktop">Notitie toevoegen</span>
+                            </div>
+                        }
+                    }
+                </div>
+                @for (notitie of periode.notities; track notitie.id) {
+                    <dt-notitie-kaart
+                        [notitie]="notitie"
+                        [huidigeSchooljaarSelected]="huidigeSchooljaarSelected()"
+                        [routerLink]="['./']"
+                        [queryParams]="{ notitie: notitie.id, edit: null, scrollto: null }"
+                        [context]="context()"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        (notitieBewerken)="notitieBewerken($event)"
+                        meerOptiesPopupChildSelector="#notitie-stream"
+                        routerLinkActive="is-active"
+                        queryParamsHandling="merge" />
+                }
+            </div>
+        }
+    }
+    @if (noNotities()) {
+        <span class="geen-notities text-content-semi text-weak">Geen notities gevonden</span>
+    }
+} @else {
+    <hmy-spinner [centeredInParent]="true" />
+}

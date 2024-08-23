@@ -5,12 +5,12 @@
                 @if (nonMatchingLabels$ | async; as notMatching) {
                     @for (label of normaleLabels; track label) {
                         <div
-                            class="label text-content-semi color-primary-1 pointer"
+                            class="label text-content-semi action-primary-normal pointer"
                             [class.active]="label.id === activeLabel?.id"
                             [class.fade]="notMatching | contains: label"
                             (click)="labelSelected(label)"
                             data-gtm="resultaatlabel-geselecteerd">
-                            <span class="text-ellipsis">{{ label.naam }}</span>
+                            <span class="ellipsis">{{ label.naam }}</span>
                             <span>({{ label.afkorting }})</span>
                         </div>
                     }
@@ -20,14 +20,14 @@
         @if (labels) {
             <div class="divider"></div>
         }
-        <div class="text-content-semi color-primary-1">
+        <div class="text-content-semi action-primary-normal">
             @for (label of specialeWaardeLabels; track label) {
                 <div
-                    class="label text-content-semi color-primary-1 pointer"
+                    class="label text-content-semi action-primary-normal pointer"
                     [class.active]="label.id === activeLabel?.id"
                     (click)="labelSelected(label)"
                     data-gtm="resultaatlabel-geselecteerd">
-                    <span class="text-ellipsis">{{ label.naam }}</span>
+                    <span class="ellipsis">{{ label.naam }}</span>
                     <span>({{ label.afkorting }})</span>
                 </div>
             }
@@ -54,8 +54,8 @@
         </div>
         @if (toonImporteerButton) {
             <div class="divider"></div>
-            <div class="text-content-semi color-primary-1 importeren" (click)="onImporteren()">
-                <i class="fill-primary-1" hmyIcon="downloaden" size="small"></i>
+            <div class="text-content-semi action-primary-normal importeren" (click)="onImporteren()">
+                <i color="action-primary-normal" hmyIcon="downloaden" size="small"></i>
                 Resultaten importeren
             </div>
         }

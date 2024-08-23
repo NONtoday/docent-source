@@ -11,7 +11,7 @@
                 }
             </div>
             @if (sortedGroepen.length > 1 && !mentorLeerlingen) {
-                @for (groep of sortedGroepen; track groep) {
+                @for (groep of sortedGroepen; track groep.id) {
                     <div class="item lesgroep">
                         <dt-form-checkbox [formControlName]="groep.id"> </dt-form-checkbox>
                         <dt-background-icon [color]="$any(groep.color)" icon="groep" size="small"> </dt-background-icon>
@@ -20,7 +20,7 @@
                 }
             }
             @if (!toonAlleenLesgroepen) {
-                @for (selectedLeerling of selectedLeerlingen; track selectedLeerling) {
+                @for (selectedLeerling of selectedLeerlingen; track selectedLeerling.leerling.id) {
                     <div class="item indiv-mentorleerling leerling" [class.checked]="formState[selectedLeerling.leerling.id].selected">
                         <dt-form-checkbox [formControlName]="selectedLeerling.leerling.id"> </dt-form-checkbox>
                         <dt-avatar
@@ -30,13 +30,13 @@
                             [fontsize]="12"
                             [allowPhotoPopup]="false">
                         </dt-avatar>
-                        <span class="text-ellipsis text-content-semi text-moderate">{{ selectedLeerling.leerling | volledigeNaam }}</span>
+                        <span class="ellipsis text-content-semi text-moderate">{{ selectedLeerling.leerling | volledigeNaam }}</span>
                         @if (selectedLeerling.stamgroep) {
                             <span class="text-content-small-semi text-weak">{{ selectedLeerling.stamgroep.naam }}</span>
                         }
                     </div>
                 }
-                @for (groep of sortedGroepen; track groep) {
+                @for (groep of sortedGroepen; track groep.id) {
                     <div>
                         @if (!formState[groep.id].selected) {
                             @if (
@@ -53,7 +53,7 @@
                                     >
                                 </div>
                             }
-                            @for (differentiatiegroep of groep.differentiatieGroepen; track differentiatiegroep) {
+                            @for (differentiatiegroep of groep.differentiatieGroepen; track differentiatiegroep.id) {
                                 <div class="item differentiatiegroep" [class.checked]="formState[differentiatiegroep.id].selected">
                                     <dt-form-checkbox [formControlName]="differentiatiegroep.id"> </dt-form-checkbox>
                                     <dt-kleur-keuze
@@ -62,12 +62,10 @@
                                         [dtTooltip]="differentiatiegroep.leerlingen ?? [] | personenNamen"
                                         [onTouchAllowed]="true">
                                     </dt-kleur-keuze>
-                                    <span class="text-ellipsis text-content-semi action-primary-normal">{{
-                                        differentiatiegroep.naam
-                                    }}</span>
+                                    <span class="ellipsis text-content-semi action-primary-normal">{{ differentiatiegroep.naam }}</span>
                                 </div>
                             }
-                            @for (leerling of groep.leerlingen; track leerling) {
+                            @for (leerling of groep.leerlingen; track leerling.id) {
                                 @if (!selectedDiffGroepLeerlingIds.includes(leerling.id)) {
                                     <div class="item leerling" [class.checked]="$any(formGroup)[leerling.id]">
                                         <dt-form-checkbox [formControlName]="leerling.id"> </dt-form-checkbox>
@@ -78,7 +76,7 @@
                                             [fontsize]="12"
                                             [allowPhotoPopup]="false">
                                         </dt-avatar>
-                                        <span class="text-ellipsis text-content-semi text-moderate">{{ leerling | volledigeNaam }}</span>
+                                        <span class="ellipsis text-content-semi text-moderate">{{ leerling | volledigeNaam }}</span>
                                     </div>
                                 }
                             }
@@ -88,7 +86,7 @@
                 @if (mentorLeerlingen && unselectedIndividueleLeerlingen.length > 0) {
                     <div class="individuele-mentorleerlingen">
                         <div class="header lesgroep">Individueel</div>
-                        @for (individueleMentorleerling of unselectedIndividueleLeerlingen; track individueleMentorleerling) {
+                        @for (individueleMentorleerling of unselectedIndividueleLeerlingen; track individueleMentorleerling.leerling.id) {
                             <div
                                 class="item indiv-mentorleerling leerling"
                                 [class.checked]="formState[individueleMentorleerling.leerling.id].selected">
@@ -100,7 +98,7 @@
                                     [fontsize]="12"
                                     [allowPhotoPopup]="false">
                                 </dt-avatar>
-                                <span class="text-ellipsis text-content-semi text-moderate">{{
+                                <span class="ellipsis text-content-semi text-moderate">{{
                                     individueleMentorleerling.leerling | volledigeNaam
                                 }}</span>
                                 @if (individueleMentorleerling.stamgroep) {

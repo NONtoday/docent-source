@@ -1,72 +1,12 @@
-@import 'breakpoints';
-@import 'visibility';
-@include foundation-visibility-classes;
-
-@mixin text-head {
-    font-weight: 700;
-    font-size: 20px;
-}
-
-@mixin text-content-bold {
-    font-weight: 700;
-    font-size: 16px;
-}
-
-@mixin text-content-semi {
-    font-weight: 600;
-    font-size: 16px;
-}
-
-@mixin text-content {
-    font-weight: 400;
-    font-size: 16px;
-}
-
-@mixin text-small-content-bold {
-    font-weight: 700;
-    font-size: 14px;
-}
-
-@mixin text-small-content-semi {
-    font-weight: 600;
-    font-size: 14px;
-}
-
-@mixin text-small-content {
-    font-weight: 400;
-    font-size: 14px;
-}
-
-@mixin text-label-bold {
-    font-weight: 700;
-    font-size: 11px;
-}
-
-@mixin text-label-semi {
-    font-weight: 600;
-    font-size: 11px;
-}
-
-@mixin text-label {
-    font-weight: 400;
-    font-size: 11px;
-}
-
-@mixin text-ellipsis {
-    overflow: hidden;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
 @mixin label-pill {
-    @include text-label-semi;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 24px;
     padding: 4px 10px;
+
+    font: var(--body-content-smallest-semi);
 
     border-radius: $br-label;
 }

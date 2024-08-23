@@ -15,7 +15,7 @@
                 @for (leerling of leerlingen; track leerling) {
                     <div class="leerling" (click)="onLeerlingClick(leerling)">
                         <dt-avatar [src]="leerling.pasfoto" [initialen]="leerling.initialen" [size]="32" [fontsize]="12"> </dt-avatar>
-                        <span class="text-ellipsis text-content-semi">{{ leerling | volledigeNaam }}</span>
+                        <span class="ellipsis text-content-semi">{{ leerling | volledigeNaam }}</span>
                     </div>
                 }
             </div>

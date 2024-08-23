@@ -46,7 +46,7 @@
                                 [class.selected]="isKeuzelijstSelected(keuzelijst, optie)"
                                 (click)="updateKeuzelijst(keuzelijst, optie); $event.stopPropagation()">
                                 <i [hmyIcon]="isKeuzelijstSelected(keuzelijst, optie) ? 'radioSelect' : 'radio'" size="large"></i>
-                                <span class="text-small-content-semi">{{ optie.waarde }}</span>
+                                <span class="text-content-small-semi">{{ optie.waarde }}</span>
                             </div>
                         }
                     </div>

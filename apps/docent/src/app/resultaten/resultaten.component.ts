@@ -3,16 +3,21 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Injector,
     OnDestroy,
     OnInit,
+    Signal,
     ViewChild,
     ViewContainerRef,
-    inject
+    computed,
+    inject,
+    runInInjectionContext
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { isWithinInterval, subWeeks } from 'date-fns';
-import { IconDirective, SpinnerComponent } from 'harmony';
+import { DropdownComponent, DropdownItem, IconDirective, SpinnerComponent } from 'harmony';
 import {
     IconAZ,
     IconChevronOnder,
@@ -24,9 +29,10 @@ import {
     IconZA,
     provideIcons
 } from 'harmony-icons';
+import { uniqBy } from 'lodash-es';
 import { NgStringPipesModule } from 'ngx-pipes';
 import { BehaviorSubject, Observable, Subject, combineLatest, identity } from 'rxjs';
-import { map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import {
     CijferPeriode,
     KolomZichtbaarheid,
@@ -38,7 +44,8 @@ import {
     SorteringVeld,
     Toetskolom,
     VoortgangsdossierKolomZichtbaarheidQuery,
-    VoortgangsdossierMatrixVanLesgroepQuery
+    VoortgangsdossierMatrixVanLesgroepQuery,
+    VoortgangsdossiersQuery
 } from '../../generated/_types';
 import { allowChildAnimations } from '../core/core-animations';
 import { SorteerOrder } from '../core/models/inleveropdrachten/inleveropdrachten.model';
@@ -62,7 +69,6 @@ import { MessageComponent } from '../rooster-shared/components/message/message.c
 import { Optional, sortLocale } from '../rooster-shared/utils/utils';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { DeactivatableComponentDirective } from '../shared/components/deactivatable.component';
-import { FloatingOption, FloatingOptionsComponent } from '../shared/components/floating-options/floating-options.component';
 import { LeerlingComponent } from '../shared/components/leerling/leerling.component';
 import { replaceInArray } from '../shared/utils/array.utils';
 import { LeerlingResultatenSidebarComponent } from './leerling-resultaten-sidebar/leerling-resultaten-sidebar.component';
@@ -80,14 +86,16 @@ const defaultSortering: Sortering = {
 };
 
 export interface VoortgangsdossierNiveau {
-    voortgangsdossierId: string;
-    isStandaardNiveau: boolean;
+    voortgangsdossier: VoortgangsdossiersQuery['voortgangsdossiers'][number];
     omschrijving: string;
+    isStandaardNiveau: boolean;
+    active: boolean;
 }
 
 interface ResultatenComponentData {
     matrix: VoortgangsdossierMatrixVanLesgroepQuery['voortgangsdossierMatrixVanLesgroep'];
-    niveaus: FloatingOption[];
+    onderwijssoorten: string[];
+    niveaus: VoortgangsdossierNiveau[];
     magKolomBewerken: boolean;
     magBekoeldePeriodeBewerken: boolean;
     cijferPeriodes: CijferPeriode[];
@@ -116,14 +124,14 @@ interface ResultatenComponentData {
         NgClass,
         LeerlingComponent,
         ResultaatPeriodeComponent,
-        FloatingOptionsComponent,
         ToetskolomSidebarComponent,
         LeerlingResultatenSidebarComponent,
         MessageComponent,
         SpinnerComponent,
         AsyncPipe,
         NgStringPipesModule,
-        IconDirective
+        IconDirective,
+        DropdownComponent
     ]
 })
 export class ResultatenComponent extends DeactivatableComponentDirective implements OnInit, OnDestroy {
@@ -141,12 +149,10 @@ export class ResultatenComponent extends DeactivatableComponentDirective impleme
     @ViewChild('lesgroep', { read: ViewContainerRef }) lesgroepRef: ViewContainerRef;
     @ViewChild('sorteerheader', { read: ViewContainerRef }) sorteerheader: ViewContainerRef;
 
-    metNiveaus = false;
-
     public templateColumns = '240px';
     public defaultPeriodeKolomZichtbaarheid = defaultPeriodeKolomZichtbaarheid;
 
-    public data$: Observable<ResultatenComponentData>;
+    public viewModel: Signal<ResultatenComponentData | undefined>;
 
     public selectedTab$ = new BehaviorSubject<'leerlingen' | 'toetsen'>('leerlingen');
     public highlight$: Observable<Optional<number>>;
@@ -164,6 +170,7 @@ export class ResultatenComponent extends DeactivatableComponentDirective impleme
     public toonToetsen: boolean;
     public isPhoneOrTabletPortrait: boolean;
     private destroy$ = new Subject<void>();
+    private injector = inject(Injector);
 
     ngOnInit() {
         const lesgroepId$ = this.route.paramMap.pipe(
@@ -176,98 +183,76 @@ export class ResultatenComponent extends DeactivatableComponentDirective impleme
         );
         this.resultatenOpgeslagenOp$ = this.resultaatService.laatstOpgeslagenOp$;
 
-        this.data$ = combineLatest([lesgroepId$, voortgangsdossierId$]).pipe(
-            switchMap(([lesgroepId, voortgangsdossierId]) =>
-                combineLatest([
-                    this.resultaatDataService.getVoortgangsdossierMatrixVanLesgroep(lesgroepId, voortgangsdossierId).pipe(
-                        // na het ophalen van de matrix, maar voordat alle data klaar is, moeten de juiste periodes
-                        // worden (in/uit)geklapt en wordt het echte voortgangsdossierId in de service gezet.
-                        tap((matrix) => {
-                            this.resultaatService.nextIndexToPin(null);
-                            this.resultaatService.setVoortgangsdossierId(matrix.voortgangsdossier.id, false);
-                            this.resultaatService.laatstOpgeslagen = matrix.laatstGewijzigdDatum;
+        runInInjectionContext(this.injector, () => {
+            this.viewModel = toSignal(
+                combineLatest([lesgroepId$, voortgangsdossierId$]).pipe(
+                    switchMap(([lesgroepId, voortgangsdossierId]) =>
+                        combineLatest([
+                            this.resultaatDataService.getVoortgangsdossierMatrixVanLesgroep(lesgroepId, voortgangsdossierId).pipe(
+                                filter((matrix) => !!matrix.id),
+                                // na het ophalen van de matrix, maar voordat alle data klaar is, moeten de juiste periodes
+                                // worden (in/uit)geklapt en wordt het echte voortgangsdossierId in de service gezet.
+                                tap((matrix) => {
+                                    this.resultaatService.nextIndexToPin(null);
+                                    this.resultaatService.setVoortgangsdossierId(matrix.voortgangsdossier.id, false);
+                                    this.resultaatService.laatstOpgeslagen = matrix.laatstGewijzigdDatum;
 
-                            if (this.resultaatService.periodeCollapsedStatus$.value === defaultPeriodeStatus) {
-                                const statussen: PeriodeStatus = {};
-                                matrix.periodes
-                                    .map((periode) => periode.cijferPeriode)
-                                    .forEach((periode) => (statussen[periode.nummer] = !periode.isHuidig));
+                                    if (this.resultaatService.periodeCollapsedStatus$.value === defaultPeriodeStatus) {
+                                        const statussen: PeriodeStatus = {};
+                                        matrix.periodes
+                                            .map((periode) => periode.cijferPeriode)
+                                            .forEach((periode) => (statussen[periode.nummer] = !periode.isHuidig));
 
-                                // wanneer alle periodes dicht zijn, zet dan periode 1 open
-                                const allesDicht = Object.values(statussen).every(identity);
-                                statussen[1] = allesDicht ? false : statussen[1];
+                                        // wanneer alle periodes dicht zijn, zet dan periode 1 open
+                                        const allesDicht = Object.values(statussen).every(identity);
+                                        statussen[1] = allesDicht ? false : statussen[1];
 
-                                this.resultaatService.periodeCollapsedStatus$.next(statussen);
-                            }
-                        })
+                                        this.resultaatService.periodeCollapsedStatus$.next(statussen);
+                                    }
+                                })
+                            ),
+                            this.resultaatService.alternatiefNiveau$,
+                            this.medewerkerDataService.getSorteringVanMedewerker('resultaten'),
+                            this.medewerkerDataService.getMedewerker(),
+                            this.resultaatDataService.getVoortgangsdossiers(lesgroepId),
+                            this.resultaatDataService.getVoortgangsdossierKolomZichtbaarheid(lesgroepId)
+                        ])
                     ),
-                    this.resultaatService.alternatiefNiveau$,
-                    this.medewerkerDataService.getSorteringVanMedewerker('resultaten'),
-                    this.medewerkerDataService.getMedewerker(),
-                    this.resultaatDataService.getVoortgangsdossiers(lesgroepId),
-                    this.resultaatDataService.getVoortgangsdossierKolomZichtbaarheid(lesgroepId)
-                ])
-            ),
-            map(([matrix, alternatiefNiveau, sorteringVanMedewerker, medewerker, dossiers, kolomZichtbaarheid]) => {
-                const lesgroepId = this.route.snapshot.paramMap.get('id')!;
-                // we halen het voortgangsdossier uit de service, omdat het id niet altijd in de url staat en dit id na het ophalen
-                // van het voortgangsdossier (obv lesgroepId) in de service is gezet.
-                const voortgangsdossierId = this.resultaatService.voortgangsdossierId;
-                const sortering = sorteringVanMedewerker ?? defaultSortering;
-                return {
-                    matrix,
-                    niveaus: dossiers
-                        .flatMap((dossier) => {
-                            const dossiers: VoortgangsdossierNiveau[] = [
-                                {
-                                    voortgangsdossierId: dossier.id,
-                                    isStandaardNiveau: true,
-                                    omschrijving: dossier.meervoudigeToetsnorm
-                                        ? `${String(dossier.onderwijssoortLeerjaar)} - ${dossier.toetsNormering1 ?? 'Standaard'}`
-                                        : dossier.onderwijssoortLeerjaar
-                                }
-                            ];
-                            if (dossier.meervoudigeToetsnorm) {
-                                dossiers.push({
-                                    voortgangsdossierId: dossier.id,
-                                    isStandaardNiveau: false,
-                                    omschrijving: `${String(dossier.onderwijssoortLeerjaar)} - ${dossier.toetsNormering2 ?? 'Alternatief'}`
-                                });
-                            }
-                            return dossiers;
-                        })
-                        .map(
-                            (niveau): FloatingOption => ({
-                                text: niveau.omschrijving,
-                                active:
-                                    voortgangsdossierId === niveau.voortgangsdossierId && !alternatiefNiveau === niveau.isStandaardNiveau,
-                                onClickFn: () => this.onNiveauClick(niveau),
-                                gtmTag: 'voortgangsdossier-wisselen-niveau-onderwijssoort'
-                            })
-                        ),
-                    magKolomBewerken: Boolean(
-                        medewerker.settings.heeftVoortgangsdossierLesgroepToetsenBewerkenRecht &&
-                            matrix.voortgangsdossier.lesgroepToetsenToegestaan
-                    ),
-                    magBekoeldePeriodeBewerken: Boolean(medewerker.settings.heeftBekoeldeResultatenBewerkenRecht),
-                    cijferPeriodes: matrix.periodes.map((periode) => periode.cijferPeriode),
-                    leerlingSortering: sorteringVanMedewerker ?? defaultSortering,
-                    sortedLeerlingen: sortering
-                        ? sortLocale(
-                              matrix.leerlingen,
-                              [sortering.veld.toLowerCase() as any],
-                              [sortering.order.toLowerCase() as SorteerOrder]
-                          )
-                        : matrix.leerlingen,
-                    kolommenzichtbaarheid: matrix.periodes.map((_, i) => kolomZichtbaarheid[i] ?? defaultPeriodeKolomZichtbaarheid),
-                    lesgroepId,
-                    alternatiefNiveau
-                };
-            }),
-            tap((data) => {
-                this.metNiveaus = data.niveaus.length > 1;
-            })
-        );
+                    map(([matrix, alternatiefNiveau, sorteringVanMedewerker, medewerker, dossiers, kolomZichtbaarheid]) => {
+                        const lesgroepId = this.route.snapshot.paramMap.get('id')!;
+                        // we halen het voortgangsdossier uit de service, omdat het id niet altijd in de url staat en dit id na het ophalen
+                        // van het voortgangsdossier (obv lesgroepId) in de service is gezet.
+                        const voortgangsdossierId = this.resultaatService.voortgangsdossierId;
+                        const sortering = sorteringVanMedewerker ?? defaultSortering;
+                        const niveaus = this.mapVoortgangsdossierNiveaus(dossiers, voortgangsdossierId, alternatiefNiveau);
+                        return {
+                            matrix,
+                            niveaus,
+                            onderwijssoorten: uniqBy(niveaus, 'voortgangsdossier.onderwijssoortLeerjaar').map(
+                                (niveau) => niveau.voortgangsdossier.onderwijssoortLeerjaar
+                            ),
+                            magKolomBewerken: Boolean(
+                                medewerker.settings.heeftVoortgangsdossierLesgroepToetsenBewerkenRecht &&
+                                    matrix.voortgangsdossier.lesgroepToetsenToegestaan
+                            ),
+                            magBekoeldePeriodeBewerken: Boolean(medewerker.settings.heeftBekoeldeResultatenBewerkenRecht),
+                            cijferPeriodes: matrix.periodes.map((periode) => periode.cijferPeriode),
+                            leerlingSortering: sorteringVanMedewerker ?? defaultSortering,
+                            sortedLeerlingen: sortering
+                                ? sortLocale(
+                                      matrix.leerlingen,
+                                      [sortering.veld.toLowerCase() as any],
+                                      [sortering.order.toLowerCase() as SorteerOrder]
+                                  )
+                                : matrix.leerlingen,
+                            kolommenzichtbaarheid: matrix.periodes.map((_, i) => kolomZichtbaarheid[i] ?? defaultPeriodeKolomZichtbaarheid),
+                            lesgroepId,
+                            alternatiefNiveau
+                        };
+                    })
+                )
+            );
+        });
 
         combineLatest([this.deviceService.onDeviceChange$, this.resultaatService.periodeCollapsedStatus$])
             .pipe(takeUntil(this.destroy$))
@@ -315,7 +300,7 @@ export class ResultatenComponent extends DeactivatableComponentDirective impleme
     navigateToNiveau(niveau: VoortgangsdossierNiveau) {
         this.router.navigate([], {
             queryParams: {
-                voortgangsdossier: niveau.voortgangsdossierId,
+                voortgangsdossier: niveau.voortgangsdossier.id,
                 alternatiefNiveau: niveau.isStandaardNiveau ? null : true
             },
             queryParamsHandling: 'merge'
@@ -385,17 +370,6 @@ export class ResultatenComponent extends DeactivatableComponentDirective impleme
         this.showSuccesMessage = true;
     }
 
-    trackById(index: number, item: VoortgangsdossierMatrixVanLesgroepQuery['voortgangsdossierMatrixVanLesgroep']['leerlingen'][number]) {
-        return item.id;
-    }
-
-    trackByCijferperiodeId(
-        _index: any,
-        item: VoortgangsdossierMatrixVanLesgroepQuery['voortgangsdossierMatrixVanLesgroep']['periodes'][number]
-    ) {
-        return item?.cijferPeriode.id;
-    }
-
     isDeactivationAllowed() {
         const popup = this.popupService.popup(
             this.viewContainerRef,
@@ -434,4 +408,62 @@ export class ResultatenComponent extends DeactivatableComponentDirective impleme
             this.popupService.popup(this.lesgroepRef, settings, ResultaatMenuPopupComponent);
         }
     }
+    mapVoortgangsdossierNiveaus(
+        dossiers: VoortgangsdossiersQuery['voortgangsdossiers'],
+        selectedVoortgangsdossierId: string,
+        selectedAlternatiefNiveau: boolean
+    ): VoortgangsdossierNiveau[] {
+        return dossiers.flatMap((dossier) => {
+            const niveaus: VoortgangsdossierNiveau[] = [
+                {
+                    voortgangsdossier: dossier,
+                    isStandaardNiveau: true,
+                    omschrijving: dossier.meervoudigeToetsnorm
+                        ? `${dossier.toetsdossier.naam} - ${dossier.toetsNormering1 ?? 'Standaard'}`
+                        : dossier.toetsdossier.naam,
+                    active: selectedVoortgangsdossierId === dossier.id && !selectedAlternatiefNiveau
+                }
+            ];
+            if (dossier.meervoudigeToetsnorm) {
+                niveaus.push({
+                    voortgangsdossier: dossier,
+                    isStandaardNiveau: false,
+                    omschrijving: `${dossier.toetsdossier.naam} - ${dossier.toetsNormering2 ?? 'Alternatief'}`,
+                    active: selectedVoortgangsdossierId === dossier.id && selectedAlternatiefNiveau
+                });
+            }
+            return niveaus;
+        });
+    }
+
+    onderwijssoortOpties: () => DropdownItem<string>[] = computed(() => {
+        return this.viewModel()?.onderwijssoorten.map((onderwijssoort) => ({ label: onderwijssoort, data: onderwijssoort })) || [];
+    });
+
+    selectedOnderwijssoort = computed(() => {
+        const onderwijssoortVanDossier = this.viewModel()?.matrix.voortgangsdossier.onderwijssoortLeerjaar;
+        return this.onderwijssoortOpties().find((option) => option.data === onderwijssoortVanDossier);
+    });
+
+    selectOnderwijssoort(onderwijssoort: string, niveaus: VoortgangsdossierNiveau[]) {
+        const eersteDossierMetNiveau = niveaus.find((niveau) => niveau.voortgangsdossier.onderwijssoortLeerjaar === onderwijssoort)!;
+        this.onNiveauClick(eersteDossierMetNiveau);
+    }
+
+    onderwijssoortVoortgangsdossierNiveauOpties: () => DropdownItem<VoortgangsdossierNiveau>[] = computed(() => {
+        const onderwijssoortVanDossier = this.viewModel()?.matrix.voortgangsdossier.onderwijssoortLeerjaar;
+        return (
+            this.viewModel()
+                ?.niveaus.filter((niveau) => niveau.voortgangsdossier.onderwijssoortLeerjaar === onderwijssoortVanDossier)
+                .map((niveau) => ({ label: niveau.omschrijving, data: niveau })) || []
+        );
+    });
+
+    selectedVoortgangsdossierNiveau = computed(() => {
+        const voortgangsdossierId = this.viewModel()?.matrix.voortgangsdossier.id;
+        const alternatiefNiveau = this.viewModel()?.alternatiefNiveau;
+        return this.onderwijssoortVoortgangsdossierNiveauOpties().find(
+            (option) => option.data.voortgangsdossier.id === voortgangsdossierId && option.data.isStandaardNiveau === !alternatiefNiveau
+        );
+    });
 }

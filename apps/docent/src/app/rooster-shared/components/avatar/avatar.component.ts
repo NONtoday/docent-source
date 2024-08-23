@@ -12,7 +12,7 @@ import {
     ViewContainerRef,
     inject
 } from '@angular/core';
-import { IconDirective, OverlayService, createPopupSettings } from 'harmony';
+import { IconDirective, OverlayService } from 'harmony';
 import { IconOnderwijs, IconTaart, IconVideo, provideIcons } from 'harmony-icons';
 import { LazyLoadImageModule, StateChange } from 'ng-lazyload-image';
 import { DeviceService } from '../../../core/services/device.service';
@@ -97,11 +97,11 @@ export class AvatarComponent implements OnChanges {
     }
 
     openPopup() {
-        this.overlayService.popupOrModal(
-            PasfotoPopupComponent,
-            this.fotoRef,
-            { src: this.src! },
-            createPopupSettings({ animation: 'fade', width: '104px', position: 'right' })
-        );
+        this.overlayService.popupOrModal({
+            component: PasfotoPopupComponent,
+            element: this.fotoRef,
+            inputs: { src: this.src! },
+            popupSettings: { animation: 'fade', width: '104px', position: 'right' }
+        });
     }
 }

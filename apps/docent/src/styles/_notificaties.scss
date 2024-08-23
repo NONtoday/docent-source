@@ -23,11 +23,12 @@
 }
 
 @mixin nt-counter {
-    @include text-label-semi;
     display: flex;
     align-items: center;
     align-self: center;
     justify-content: center;
+
+    font: var(--body-content-smallest-semi);
 }
 
 .notificatie-counter {

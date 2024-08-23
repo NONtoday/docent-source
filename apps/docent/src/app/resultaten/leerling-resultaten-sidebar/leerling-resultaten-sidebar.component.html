@@ -6,7 +6,7 @@
                 <span class="naam text-content-bold">{{ leerling | volledigeNaam }}</span>
             </div>
             <dt-resultaten-save-indicator [withBackground]="true"></dt-resultaten-save-indicator>
-            <i class="fill-background-6" (click)="closeSidebar()" hmyIcon="sluiten" size="large" cy="sluit-sidebar-icon"></i>
+            <i (click)="closeSidebar()" color="action-neutral-weak" hmyIcon="sluiten" size="medium" cy="sluit-sidebar-icon"></i>
         </header>
         @for (periodeResultaten of leerlingPeriodeResultaten$ | async; track trackByPeriodeKolomId($index, periodeResultaten)) {
             <div class="periodes">
@@ -25,19 +25,19 @@
                         "
                         [class.herkansing]="kolomResultaat.matrixKolom.herkansingsNummer">
                         <div
-                            class="text-ellipsis text-small-content-semi kolom-info"
+                            class="ellipsis text-content-small-semi kolom-info"
                             [class.herkansing]="!!kolomResultaat.matrixKolom.herkansingsNummer">
                             @if (!kolomResultaat.matrixKolom.herkansingsNummer) {
-                                <span>{{ kolomResultaat.matrixKolom.resultaatkolom.code }}<br /></span>
-                            }
-                            @if (!kolomResultaat.matrixKolom.herkansingsNummer) {
-                                <span class="color-typography-3">{{ kolomResultaat.matrixKolom.resultaatkolom.omschrijving }}</span>
+                                <span class="code">{{ kolomResultaat.matrixKolom.resultaatkolom.code }}<br /></span>
+                                <span class="text-weak">{{ kolomResultaat.matrixKolom.resultaatkolom.omschrijving }}</span>
                             }
                             @if (kolomResultaat.matrixKolom.herkansingsNummer) {
-                                <i class="fill-typography-4 icon-pijl-afslaan-rechts" hmyIcon="pijlAfslaanRechts" size="medium"></i>
-                            }
-                            @if (kolomResultaat.matrixKolom.herkansingsNummer) {
-                                <span class="herkansing color-typography-2"> Her {{ kolomResultaat.matrixKolom.herkansingsNummer }}</span>
+                                <i
+                                    class="icon-pijl-afslaan-rechts"
+                                    color="bg-neutral-strongest"
+                                    hmyIcon="pijlAfslaanRechts"
+                                    size="medium"></i>
+                                <span class="herkansing text-moderate"> Her {{ kolomResultaat.matrixKolom.herkansingsNummer }}</span>
                             }
                         </div>
                         <dt-toetskolom-icons
@@ -95,12 +95,12 @@
                                     | resultaatKey: leerling.uuid : kolomResultaat.matrixKolom.herkansingsNummer
                             )
                         ">
-                        <div class="kolom-letter text-content-bold color-secondary-2 background-color-secondary-3">A</div>
-                        <div class="text-ellipsis text-small-content-semi">
+                        <div class="kolom-letter text-content-bold bg-accent-weak fg-on-accent-weak">A</div>
+                        <div class="ellipsis text-content-small-semi">
                             <span>{{ kolomResultaat.matrixKolom.resultaatkolom.code }}</span
-                            ><span class="color-typography-3"> • {{ $any(kolomResultaat.matrixKolom.resultaatkolom).categorie }}</span>
+                            ><span class="text-weak"> • {{ $any(kolomResultaat.matrixKolom.resultaatkolom).categorie }}</span>
                             <br />
-                            <span class="color-typography-3">{{ kolomResultaat.matrixKolom.resultaatkolom.omschrijving }}</span>
+                            <span class="text-weak">{{ kolomResultaat.matrixKolom.resultaatkolom.omschrijving }}</span>
                         </div>
                         <dt-toetskolom-icons
                             [basisResultaat]="kolomResultaat"
@@ -148,8 +148,8 @@
                     </div>
                 }
                 <div class="gemiddeldekolommen periodegemiddelde">
-                    <span class="kolom-letter text-content-bold color-accent-alt-1 background-color-accent-alt-3">P</span>
-                    <span class="text-small-content-semi">Periodegemiddelde</span>
+                    <span class="kolom-letter text-content-bold bg-alternative-weak fg-on-alternative-weak">P</span>
+                    <span class="text-content-small-semi">Periodegemiddelde</span>
                     <span class="resultaat text-content-semi">
                         {{
                             alternatiefNiveau
@@ -159,8 +159,8 @@
                     </span>
                 </div>
                 <div class="gemiddeldekolommen rapportgemiddelde">
-                    <span class="kolom-letter text-content-bold color-accent-positive-1 background-color-accent-positive-3">r</span>
-                    <span class="text-small-content-semi">Berekend rapportcijfer</span>
+                    <span class="kolom-letter text-content-bold bg-positive-weak fg-on-positive-weak">r</span>
+                    <span class="text-content-small-semi">Berekend rapportcijfer</span>
                     <span class="resultaat text-content-semi">
                         {{
                             alternatiefNiveau
@@ -178,8 +178,8 @@
                                 | resultaatKey: leerling.uuid : periodeResultaten.rapportCijfer?.matrixKolom?.herkansingsNummer
                         )
                     ">
-                    <span class="kolom-letter text-content-bold color-accent-positive-1 background-color-accent-positive-3">R</span>
-                    <span class="text-small-content-semi">Rapportcijfer</span>
+                    <span class="kolom-letter text-content-bold bg-positive-weak fg-on-positive-weak">R</span>
+                    <span class="text-content-small-semi">Rapportcijfer</span>
                     @if (periodeResultaten.rapportCijfer) {
                         <dt-toetskolom-icons
                             [basisResultaat]="periodeResultaten.rapportCijfer"
@@ -240,10 +240,17 @@
                 </div>
             </div>
         }
-        @if (niveauOptions$ | async; as niveaus) {
-            @if (niveaus.length > 1) {
-                <dt-floating-options class="hide-for-tablet" [options]="niveaus"> </dt-floating-options>
-            }
+        @if (onderwijssoortVoortgangsdossierNiveauOpties().length > 1) {
+            <hmy-dropdown
+                class="toetsdossier-selectie floating-options hide-for-tablet"
+                [modalOnMobile]="true"
+                [buttonHeight]="40"
+                [withBorder]="false"
+                [items]="onderwijssoortVoortgangsdossierNiveauOpties()"
+                [selected]="selectedVoortgangsdossierNiveau()"
+                (onSelectionChanged)="onNiveauClick($event)"
+                data-gtm="voortgangsdossier-wisselen-niveau-onderwijssoort"
+                listWidth="fit-options" />
         }
     </div>
 </dt-sidebar>

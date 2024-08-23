@@ -4,7 +4,7 @@
 @if (iconClass) {
     <i class="hide-for-phone-only type-icon" [hmyIcon]="iconClass"></i>
 }
-<span class="omschrijving text-small-content" (click)="onOnderwerpClick()">{{ studiewijzeritem | studiewijzeritemTitel }}</span>
+<span class="omschrijving text-content-small" (click)="onOnderwerpClick()">{{ studiewijzeritem | studiewijzeritemTitel }}</span>
 @if (kleuren.length! > 0) {
     <dt-kleuren-stack
         class="kleuren-stack"

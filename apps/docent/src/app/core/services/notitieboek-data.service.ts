@@ -17,6 +17,7 @@ import {
     NotitieFieldsFragment,
     NotitieInput,
     NotitieLeerlingBetrokkeneFieldsFragmentDoc,
+    NotitieStreamGroepering,
     NotitieVastprikkenDocument,
     NotitieZichtbaarheidInput,
     NotitieboekMenuDocument,
@@ -48,14 +49,15 @@ import { NotitieboekContext } from '../models/notitieboek.model';
 export class NotitieboekDataService {
     private apollo = inject(Apollo);
 
-    public notitiestream(context: NotitieContext, contextId: string, startSchooljaar?: number) {
+    public notitiestream(context: NotitieContext, contextId: string, startSchooljaar?: number, groepering?: NotitieStreamGroepering) {
         return this.apollo
             .watchQuery({
                 query: NotitiestreamDocument,
                 variables: {
                     notitieContext: context,
                     contextId,
-                    startSchooljaar
+                    startSchooljaar,
+                    groepering
                 }
             })
             .valueChanges.pipe(map((result) => result.data.notitiestream));

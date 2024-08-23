@@ -161,7 +161,7 @@
                             <div class="keuze-optie" [class.disabled]="disabled" (click)="openKeuzePopup(vrijveldDefinities[i], i)">
                                 @if ({ value: vrijveldDefinities[i] | keuzeVrijVeldActive: registratie }; as actief) {
                                     <div
-                                        class="actieve-keuze text-content-semi text-ellipsis action-primary-normal"
+                                        class="actieve-keuze text-content-semi ellipsis action-primary-normal"
                                         [dtTooltip]="actief.value"
                                         [showIfEllipsed]="true">
                                         {{ actief.value }}
@@ -207,7 +207,7 @@
                     @if (flexibeleRegistratiesGeselecteerd) {
                         <div class="active-container">
                             <span
-                                class="text-small-content-semi flexibele-registraties-label"
+                                class="text-content-small-semi flexibele-registraties-label"
                                 data-testid="flexibele-registraties-label-desktop"
                                 >{{ flexibeleRegistratiesLabel }}</span
                             >

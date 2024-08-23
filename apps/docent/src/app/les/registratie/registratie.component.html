@@ -77,7 +77,7 @@
                             [class.disabled]="heeftIedereenExterneRegistratie || isIedereenAfwezig"
                             (mouseenter)="bepaalBulkStatusVerwijderd()"
                             (click)="openBulkVerwijderdMeldingPopup()">
-                            <span class="text-ellipsis" [showIfEllipsed]="true" dtTooltip="Verwijderd"> Verwijderd </span>
+                            <span class="ellipsis" [showIfEllipsed]="true" dtTooltip="Verwijderd"> Verwijderd </span>
                             <i
                                 [color]="heeftIedereenRegistratieVerwijderd ? 'action-negative-normal' : 'action-primary-normal'"
                                 [hmyIcon]="heeftIedereenRegistratieVerwijderd ? 'bulkUncheck' : 'bulkCheck'"></i>
@@ -89,7 +89,7 @@
                         [class.deselect-all]="heeftIedereenRegistratieHuiswerk"
                         (mouseenter)="bepaalBulkStatusHuiswerk()"
                         (click)="openBulkHuiswerkPopup()">
-                        <span class="show-for-desktop text-ellipsis" [showIfEllipsed]="true" dtTooltip="Huiswerk niet in orde">
+                        <span class="show-for-desktop ellipsis" [showIfEllipsed]="true" dtTooltip="Huiswerk niet in orde">
                             Huiswerk niet in orde
                         </span>
                         <i
@@ -102,7 +102,7 @@
                         [class.deselect-all]="heeftIedereenRegistratieMateriaal"
                         (mouseenter)="bepaalBulkStatusMateriaal()"
                         (click)="openBulkMateriaalPopup()">
-                        <span class="show-for-desktop text-ellipsis" [showIfEllipsed]="true" dtTooltip="Materiaal niet in orde">
+                        <span class="show-for-desktop ellipsis" [showIfEllipsed]="true" dtTooltip="Materiaal niet in orde">
                             Materiaal niet in orde
                         </span>
                         <i
@@ -290,7 +290,7 @@
                     </div>
                     <div class="status phone-and-tablet-portrait">
                         @if (afspraak.presentieRegistratieVerwerkt) {
-                            <span class="status-text saved-text text-label-semi">
+                            <span class="status-text saved-text text-content-smallest-semi">
                                 @if (laatstGewijzigdDatum) {
                                     <span>{{ laatstGewijzigdDatum | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}</span>
                                 }

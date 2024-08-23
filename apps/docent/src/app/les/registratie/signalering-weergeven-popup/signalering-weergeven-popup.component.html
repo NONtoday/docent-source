@@ -22,7 +22,7 @@
                         }
                     </div>
                     @if (absentieMelding.ingevoerdDoor || absentieMelding.ingevoerdDoorVerzorger) {
-                        <span class="gemeld-door text-label-semi text-weak"
+                        <span class="gemeld-door text-content-smallest-semi text-weak"
                             >Gemeld door {{ absentieMelding.ingevoerdDoorVerzorger ?? absentieMelding.ingevoerdDoor | volledigeNaam }}
                         </span>
                     }

@@ -1,9 +1,9 @@
 <div class="info">
-    <div class="text-content-semi text-strong text-ellipsis">{{ maatregeltoekenning.maatregel.omschrijving }}</div>
+    <div class="text-content-semi text-strong ellipsis">{{ maatregeltoekenning.maatregel.omschrijving }}</div>
     @if (editMode && maatregeltoekenning.heeftFormulier) {
         <i class="action" (click)="printFormulier()" hmyIcon="printen" size="medium" dtTooltip="Formulier afdrukken"></i>
     }
-    <div class="text-small-content-semi text-weak datum">
+    <div class="text-content-small-semi text-weak datum">
         {{ maatregeltoekenning.maatregelDatum | dtDate: 'dag_kort_dagnummer_maand_kort' }}
     </div>
     @if (editMode) {
@@ -18,10 +18,12 @@
     }
 </div>
 @if (maatregeltoekenning.opmerkingen) {
-    <div class="opmerking text-small-content text-moderate">
+    <div class="opmerking text-content-small text-moderate">
         {{ maatregeltoekenning.opmerkingen }}
     </div>
 }
 @if (maatregeltoekenning.veroorzaaktDoor) {
-    <div class="veroorzaakt-door text-label-semi text-weakest">Automatisch toegekend wegens: {{ maatregeltoekenning.veroorzaaktDoor }}</div>
+    <div class="veroorzaakt-door text-content-smallest-semi text-weakest">
+        Automatisch toegekend wegens: {{ maatregeltoekenning.veroorzaaktDoor }}
+    </div>
 }

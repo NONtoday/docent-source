@@ -6,7 +6,7 @@ import { formatBeginEindTijd } from '../utils/date.utils';
 export type RoosterToetsTooltipType = 'titelOmschrijving' | 'tijdLocatie';
 
 const roosterToetsHeaderRegel = (vak?: Maybe<Vak>) =>
-    `<span class="text-small-content-semi">Roostertoets${vak ? ' · ' + vak.naam : ''}</span><br>`;
+    `<span class="text-content-small-semi">Roostertoets${vak ? ' · ' + vak.naam : ''}</span><br>`;
 const roosterToetsTijdLocatieRegel = (afspraak: BaseAfspraakFragment) =>
     `${formatBeginEindTijd(afspraak.begin, afspraak.eind)}${afspraak.locatie ? ', ' + afspraak.locatie : ''}<br>`;
 

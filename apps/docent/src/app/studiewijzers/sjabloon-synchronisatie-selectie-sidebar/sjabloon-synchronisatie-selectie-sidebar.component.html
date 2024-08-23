@@ -7,7 +7,7 @@
     (onIconClick)="annuleer()">
     @if (toonOverzicht) {
         <div>
-            @for (sjabloon of studiewijzer.gesynchroniseerdeSjablonen; track sjabloon) {
+            @for (sjabloon of studiewijzer.gesynchroniseerdeSjablonen; track sjabloon.id) {
                 <div class="sjabloon">
                     <span class="naam text-content-semi">{{ sjabloon.naam }}</span>
                     <hmy-pill
@@ -33,7 +33,7 @@
             }
             @if (geselecteerdeSjablonenMap.size > 0) {
                 <div class="header text-content-semi">Geselecteerde sjablonen</div>
-                @for (entry of geselecteerdeSjablonenMap | keyvalue; track entry; let i = $index) {
+                @for (entry of geselecteerdeSjablonenMap | keyvalue; track entry.key; let i = $index) {
                     <div class="sjabloon">
                         <span class="naam text-content-semi">{{ entry.key.naam }}</span>
                         @if (entry.key.synchronisatieStartweek) {

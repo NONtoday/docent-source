@@ -3,13 +3,13 @@
         @if (activeTab$ | async; as activeTab) {
             <div class="tabs text-content-semi" [class.in-share-content]="inShareContent">
                 <div class="tab laatst-bekeken" [class.selected]="activeTab === 'recent'" (click)="setTab('recent')">
-                    <span class="text-ellipsis">Laatst bekeken</span>
+                    <span class="ellipsis">Laatst bekeken</span>
                 </div>
                 <div class="tab mijn-vakken" [class.selected]="activeTab === 'mijnVakken'" (click)="setTab('mijnVakken')">
-                    <span class="text-ellipsis">Mijn vakken</span>
+                    <span class="ellipsis">Mijn vakken</span>
                 </div>
                 <div class="tab alle-methoden" [class.selected]="activeTab === 'alleMethoden'" (click)="setTab('alleMethoden')">
-                    <span class="text-ellipsis">Alle methoden</span>
+                    <span class="ellipsis">Alle methoden</span>
                 </div>
             </div>
         }

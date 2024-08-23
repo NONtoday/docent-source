@@ -3,16 +3,21 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
+    Injector,
     Input,
     OnDestroy,
     OnInit,
     QueryList,
+    Signal,
     ViewChildren,
     ViewContainerRef,
-    inject
+    computed,
+    inject,
+    runInInjectionContext
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { IconDirective } from 'harmony';
+import { DropdownComponent, DropdownItem, IconDirective } from 'harmony';
 import { IconPijlAfslaanRechts, IconSluiten, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
@@ -32,12 +37,12 @@ import { BaseSidebar } from '../../rooster-shared/directives/base-sidebar.direct
 import { VolledigeNaamPipe } from '../../rooster-shared/pipes/volledige-naam.pipe';
 import { Optional, isPresent } from '../../rooster-shared/utils/utils';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { FloatingOption, FloatingOptionsComponent } from '../../shared/components/floating-options/floating-options.component';
 import { ResultaatKeyPipe } from '../pipes/resultaat-key.pipe';
 import { ResultaatCellComponent } from '../resultaat-cell/resultaat-cell.component';
 import { ResultaatDataService } from '../resultaat-data.service';
 import { ResultaatService, SelecteerCellNaOpslaan } from '../resultaat.service';
 import { ResultatenSaveIndicatorComponent } from '../resultaten-save-indicator/resultaten-save-indicator.component';
+import { VoortgangsdossierNiveau } from '../resultaten.component';
 import { KolomResultaat, getKolomResultaat, resultatenOpslaanGuardProperties } from '../resultaten.utils';
 import { ToetskolomIconsComponent } from '../toetskolom-icons/toetskolom-icons.component';
 
@@ -70,11 +75,11 @@ type MatrixResultaatKolom =
         ResultatenSaveIndicatorComponent,
         ToetskolomIconsComponent,
         ResultaatCellComponent,
-        FloatingOptionsComponent,
         AsyncPipe,
         VolledigeNaamPipe,
         ResultaatKeyPipe,
-        IconDirective
+        IconDirective,
+        DropdownComponent
     ],
     providers: [provideIcons(IconSluiten, IconPijlAfslaanRechts)]
 })
@@ -90,6 +95,7 @@ export class LeerlingResultatenSidebarComponent extends BaseSidebar implements O
     @Input() initialVoortgangsdossierMatrix: VoortgangsdossierMatrixVanLesgroepQuery['voortgangsdossierMatrixVanLesgroep'];
     @Input() leerling: VoortgangsdossierMatrixVanLesgroepQuery['voortgangsdossierMatrixVanLesgroep']['leerlingen'][number];
     @Input() lesgroepId: string;
+    @Input() alternatiefNiveau = false;
 
     public activeDossierId$ = new BehaviorSubject<string>('');
     public voortgangsdossierMatrix$ = new BehaviorSubject<
@@ -97,13 +103,13 @@ export class LeerlingResultatenSidebarComponent extends BaseSidebar implements O
     >(null);
     public leerlingVoortgangsdossierMatrix$: Observable<LeerlingVoortgangsdossiersQuery['leerlingVoortgangsdossiers']>;
     public leerlingPeriodeResultaten$: Observable<PeriodeKolomResultaten[]>;
-    public niveauOptions$: Observable<FloatingOption[]>;
+    public niveauOptions: Signal<VoortgangsdossierNiveau[] | undefined>;
 
     public resultatenOpgeslagenOp$: Observable<Maybe<string>>;
     public activeCell$: BehaviorSubject<Maybe<ElementRef>>;
-    public alternatiefNiveau = false;
 
     private onDestroy$ = new Subject<void>();
+    private injector = inject(Injector);
 
     ngOnInit(): void {
         this.activeCell$ = this.resultaatService.activeCell$;
@@ -120,31 +126,36 @@ export class LeerlingResultatenSidebarComponent extends BaseSidebar implements O
             )
             .subscribe(this.voortgangsdossierMatrix$);
 
-        this.niveauOptions$ = this.resultaatDataService.getLeerlingVoortgangsdossiers(this.lesgroepId, this.leerling.id).pipe(
-            map((dossiers: Voortgangsdossier[]) => {
-                return dossiers.flatMap((dossier) => {
-                    const isActiveDossier = (isAlternatief: boolean) =>
-                        this.activeDossierId$.value === dossier.id && this.alternatiefNiveau === isAlternatief;
-                    const niveau1: FloatingOption = {
-                        onClickFn: () => this.onNiveauClick(dossier, false),
-                        text: `${dossier.onderwijssoortLeerjaar} - ${dossier.toetsNormering1}`,
-                        active: () => isActiveDossier(false)
-                    };
-
-                    if (dossier.meervoudigeToetsnorm) {
-                        const niveau2: FloatingOption = {
-                            icon: undefined,
-                            onClickFn: () => this.onNiveauClick(dossier, true),
-                            text: `${dossier.onderwijssoortLeerjaar} - ${dossier.toetsNormering2}`,
-                            active: () => isActiveDossier(true)
-                        };
-                        return [niveau1, niveau2];
-                    }
-
-                    return [niveau1];
-                });
-            })
-        );
+        runInInjectionContext(this.injector, () => {
+            this.niveauOptions = toSignal(
+                this.resultaatDataService.getLeerlingVoortgangsdossiers(this.lesgroepId, this.leerling.id).pipe(
+                    map((dossiers: Voortgangsdossier[]) => {
+                        const selectedVoortgangsdossierId = this.activeDossierId$.getValue();
+                        return dossiers.flatMap((dossier) => {
+                            const niveaus: VoortgangsdossierNiveau[] = [
+                                {
+                                    voortgangsdossier: dossier,
+                                    isStandaardNiveau: true,
+                                    omschrijving: dossier.meervoudigeToetsnorm
+                                        ? `${dossier.toetsdossier.naam} - ${dossier.toetsNormering1 ?? 'Standaard'}`
+                                        : dossier.toetsdossier.naam,
+                                    active: selectedVoortgangsdossierId === dossier.id && !this.alternatiefNiveau
+                                }
+                            ];
+                            if (dossier.meervoudigeToetsnorm) {
+                                niveaus.push({
+                                    voortgangsdossier: dossier,
+                                    isStandaardNiveau: false,
+                                    omschrijving: `${dossier.toetsdossier.naam} - ${dossier.toetsNormering2 ?? 'Alternatief'}`,
+                                    active: selectedVoortgangsdossierId === dossier.id && this.alternatiefNiveau
+                                });
+                            }
+                            return niveaus;
+                        });
+                    })
+                )
+            );
+        });
 
         this.leerlingPeriodeResultaten$ = this.voortgangsdossierMatrix$.pipe(
             filter(isPresent),
@@ -181,11 +192,12 @@ export class LeerlingResultatenSidebarComponent extends BaseSidebar implements O
         this.onDestroy$.complete();
     }
 
-    onNiveauClick = (dossier: Voortgangsdossier, alternatiefNiveau: boolean) => {
+    onNiveauClick = (dossierNiveau: VoortgangsdossierNiveau) => {
         // Wanneer we switchen van niveau willen we de ingevoerde resultaten opslaan
         // We doen een setTimeout zodat de huidige cell met focus wordt meegenomen
         // foutieve invoer/errors wordt genegeerd/weggehaald
-
+        const dossier = dossierNiveau.voortgangsdossier;
+        const alternatiefNiveau = !dossierNiveau.isStandaardNiveau;
         const onClick = () => {
             if (this.resultaatService.isAllSaved) {
                 this.switchActiveDossier(dossier.id, alternatiefNiveau);
@@ -275,4 +287,16 @@ export class LeerlingResultatenSidebarComponent extends BaseSidebar implements O
     trackByPeriodeKolomId(index: number, item: PeriodeKolomResultaten) {
         return item?.matrixPeriode.cijferPeriode.id;
     }
+
+    onderwijssoortVoortgangsdossierNiveauOpties: () => DropdownItem<VoortgangsdossierNiveau>[] = computed(() => {
+        return this.niveauOptions()?.map((niveau: VoortgangsdossierNiveau) => ({ label: niveau.omschrijving, data: niveau })) || [];
+    });
+
+    selectedVoortgangsdossierNiveau = computed(() => {
+        const voortgangsdossierId = this.activeDossierId$.getValue();
+        const alternatiefNiveau = this.alternatiefNiveau;
+        return this.onderwijssoortVoortgangsdossierNiveauOpties()?.find(
+            (option) => option.data.voortgangsdossier.id === voortgangsdossierId && option.data.isStandaardNiveau === !alternatiefNiveau
+        );
+    });
 }

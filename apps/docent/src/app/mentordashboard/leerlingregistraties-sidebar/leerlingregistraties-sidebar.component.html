@@ -8,8 +8,8 @@
             <div class="periodes">
                 @for (periode of periodes; track trackByNummer($index, periode)) {
                     <div class="periode" [class.is-selected]="selectedPeriode === periode" (click)="selectedPeriode$.next(periode)">
-                        <span class="nummer text-small-content-semi show-for-tablet">Periode {{ periode.nummer }}</span>
-                        <span class="nummer text-small-content-semi hide-for-tablet">P{{ periode.nummer }}</span>
+                        <span class="nummer text-content-small-semi show-for-tablet">Periode {{ periode.nummer }}</span>
+                        <span class="nummer text-content-small-semi hide-for-tablet">P{{ periode.nummer }}</span>
                     </div>
                 }
             </div>

@@ -34,7 +34,7 @@
     }
 </div>
 <div class="inleveringen" [@collapse]="{ value: !isOpen }">
-    @for (inlevering of inleveringen; track inlevering) {
+    @for (inlevering of inleveringen; track inlevering.id) {
         <dt-inlevering
             [inlevering]="inlevering"
             [deadline]="eindeInleverperiode"

@@ -5,7 +5,7 @@
     [src]="registratieLeerling.leerling.pasfoto"
     [initialen]="registratieLeerling.leerling.initialen"
     [size]="avatarSize"></dt-avatar>
-<span class="leerling-naam text-small-content-semi text-ellipsis text-strong">{{ registratieLeerling.leerling | volledigeNaam }}</span>
+<span class="leerling-naam text-content-small-semi ellipsis text-strong">{{ registratieLeerling.leerling | volledigeNaam }}</span>
 <div
     class="trend-aantal"
     [hmyTooltip]="registratieLeerling.trend | mentordashboardRegistratieTrendTooltip: tijdspan"

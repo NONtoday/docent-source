@@ -1,13 +1,14 @@
-<div class="header text-head">
+<div class="header text-heading-2">
     <i [sizeInPx]="28" hmyIcon="inleveropdracht"></i>
 </div>
 
 <div class="title-schooljaar-selectie">
-    <span class="text-content-bold title text-ellipsis" cy="header-leerling-title">Inleveropdrachten</span>
+    <span class="text-content-bold title ellipsis" cy="header-leerling-title">Inleveropdrachten</span>
     <span class="text-content-small-semi schooljaar-selectie">{{ schooljaar }} - {{ schooljaar + 1 }}</span>
 </div>
 
 <dt-header-navigatie-buttons
+    [nieuweStyling]="true"
     [heeftVolgende]="heeftVolgende"
     [heeftVorige]="heeftVorige"
     [showMoreOptions]="false"

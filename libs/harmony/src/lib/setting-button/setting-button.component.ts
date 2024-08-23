@@ -3,9 +3,7 @@ import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild, ViewContain
 import { IconCheck, IconName, provideIcons } from 'harmony-icons';
 import { AddAttributeDirective } from '../directives/add-attribute.directive';
 import { IconDirective } from '../icon/icon.directive';
-import { createModalSettings } from '../overlay/modal/component/modal.settings';
 import { OverlayService } from '../overlay/overlay.service';
-import { createPopupSettings } from '../overlay/popup/settings/popup-settings';
 import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
@@ -47,13 +45,12 @@ export class SettingButtonComponent<T> {
 
     openOverlay() {
         this.initieleSelectie = this.selected();
-        this.overlayService.popupOrModal(
-            this.buttons,
-            this.viewContainerRef,
-            undefined,
-            createPopupSettings({ animation: 'slide', width: `${this.popupWidth()}px` }),
-            createModalSettings({ title: this.titel() })
-        );
+        this.overlayService.popupOrModal({
+            template: this.buttons,
+            element: this.viewContainerRef,
+            popupSettings: { animation: 'slide', width: `${this.popupWidth()}px` },
+            modalSettings: { title: this.titel() }
+        });
     }
 
     select(optie: T | undefined) {

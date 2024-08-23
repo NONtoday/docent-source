@@ -1,7 +1,7 @@
 <dt-popup>
     <div class="popup-content" #content popup-content>
         @if (!loading) {
-            @for (lesgroep of lesgroepen; track lesgroep) {
+            @for (lesgroep of lesgroepen; track lesgroep.id) {
                 <div class="lesgroep-container">
                     @if (toonLesgroep) {
                         <div class="lesgroep">
@@ -63,7 +63,7 @@
                             </dt-popup-button>
                         }
                         @if (toonCustomButtons) {
-                            @for (customButton of customButtons; track customButton) {
+                            @for (customButton of customButtons; track $index) {
                                 <dt-popup-button
                                     [icon]="customButton.icon!"
                                     [text]="customButton.text"

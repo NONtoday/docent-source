@@ -13,13 +13,11 @@ export class HeaderService {
     private medewerkerDataService = inject(MedewerkerDataService);
     private sharedService = inject(SharedDataService);
     medewerker$: Observable<IngelogdeMedewerkerQuery['ingelogdeMedewerker']>;
-    aantalOngelezenBerichten$: Observable<number>;
     isUpdateBeschikbaar$: Observable<boolean>;
 
     heeftOngelezenNotitieQuery$: QueryRef<OngelezenNotitiesAanwezigQuery>;
 
     constructor() {
-        this.aantalOngelezenBerichten$ = this.medewerkerDataService.getAantalOngelezenBerichten();
         this.medewerker$ = this.medewerkerDataService.getMedewerker();
         this.isUpdateBeschikbaar$ = this.sharedService.isUpdateBeschikbaar().pipe(startWith(false), shareReplayLastValue());
         this.heeftOngelezenNotitieQuery$ = this.medewerkerDataService.ongelezenNotitiesAanwezigWatchQuery();

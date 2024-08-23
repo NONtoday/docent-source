@@ -12,11 +12,11 @@
         }
         @if (opgeslagenOp !== 'saving' && !withBackground) {
             <i
-                class="fill-accent-negative-1"
+                class="niet-gelukt"
                 [onTouchAllowed]="true"
                 hmyIcon="noRadio"
                 size="medium"
-                dtTooltip="Het automatisch opslaan is niet gelukt."></i>
+                hmyTooltip="Het automatisch opslaan is niet gelukt."></i>
         }
         @if (opgeslagenOp !== 'saving' && withBackground) {
             <dt-background-icon
@@ -26,14 +26,14 @@
                 color="negative"
                 fontsize="24"
                 lineheight="26"
-                dtTooltip="Het automatisch opslaan is niet gelukt."
+                hmyTooltip="Het automatisch opslaan is niet gelukt."
                 position="bottom">
             </dt-background-icon>
         }
     } @else {
         @if (opgeslagenOp !== 'saving' && withBackground) {
             <dt-background-icon
-                [dtTooltip]="opgeslagenOp"
+                [hmyTooltip]="opgeslagenOp"
                 [onTouchAllowed]="true"
                 icon="yesRadio"
                 size="small"
@@ -44,7 +44,7 @@
             </dt-background-icon>
         }
         @if (opgeslagenOp !== 'saving' && !withBackground) {
-            <i [dtTooltip]="opgeslagenOp" [onTouchAllowed]="true" color="action-positive-normal" hmyIcon="yesRadio" size="medium"></i>
+            <i [hmyTooltip]="opgeslagenOp" [onTouchAllowed]="true" color="action-positive-normal" hmyIcon="yesRadio" size="medium"></i>
         }
     }
     @if (opgeslagenOp === 'saving') {

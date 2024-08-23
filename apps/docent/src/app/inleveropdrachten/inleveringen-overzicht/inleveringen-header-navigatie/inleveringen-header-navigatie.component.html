@@ -7,16 +7,17 @@
     position="bottom"></i>
 @if (inleveringenOverzicht) {
     <div class="titel-deadline">
-        <span class="text-content-bold titel text-ellipsis">
+        <span class="text-content-bold titel ellipsis">
             {{ inleveringenOverzicht.toekenning.studiewijzeritem | studiewijzeritemTitel }}
         </span>
-        <span class="text-content-small-semi deadline text-ellipsis">
+        <span class="text-content-small-semi deadline ellipsis">
             <i hmyIcon="historie" size="smallest"></i>
             {{ inleveringenOverzicht.toekenning.studiewijzeritem.inleverperiode?.eind | dtDate: 'dag_kort_dagnummer_maand_kort_tijd' }}
         </span>
     </div>
 }
 <dt-header-navigatie-buttons
+    [nieuweStyling]="true"
     [heeftVolgende]="heeftVolgende"
     [heeftVorige]="heeftVorige"
     (meerOptiesClick)="meerOptiesClick.emit($event)"

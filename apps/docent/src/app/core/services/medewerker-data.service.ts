@@ -4,12 +4,12 @@ import { Apollo, QueryRef } from 'apollo-angular';
 import { isNil } from 'lodash-es';
 import { Observable, firstValueFrom, of } from 'rxjs';
 
-import { first, map, switchMap, take, tap } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { first, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { all, set } from 'shades';
 import { VERSION } from 'version-generator';
 import {
     AantalOngelezenBerichtenDocument,
-    AantalOngelezenBerichtenQuery,
     BerichtenVanMedewerkerDocument,
     BerichtenVanMedewerkerQuery,
     IngelogdeMedewerkerDocument,
@@ -43,7 +43,6 @@ import {
 import { MedewerkerRechten, Operation } from '../../rooster-shared/directives/heeft-recht.directive';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { SorteringNaam } from '../models/shared.model';
-import { shareReplayLastValue } from '../operators/shareReplayLastValue.operator';
 
 const BERICHTEN_LIMIT = 29; // Aantal berichten per request - 1
 export const AANTAL_BERICHTEN_PER_REQUEST = 30;
@@ -53,9 +52,27 @@ export const AANTAL_BERICHTEN_PER_REQUEST = 30;
 })
 export class MedewerkerDataService {
     private apollo = inject(Apollo);
-    private appRef = inject(ApplicationRef);
     private _medewerkerId: string;
     private _medewerkerUuid: string;
+    private appRef = inject(ApplicationRef);
+
+    public aantalOngelezenBerichten$ = this.appRef.isStable.pipe(
+        first((isStable) => isStable === true),
+        switchMap(
+            () =>
+                this.apollo.watchQuery({
+                    query: AantalOngelezenBerichtenDocument,
+                    fetchPolicy: 'network-only',
+                    pollInterval: 1000 * 60 * 15
+                }).valueChanges
+        ),
+        map((result) => result.data.aantalOngelezenBerichten),
+        takeUntilDestroyed(),
+        // belangrijk dat deze observable geshared blijft, ook als er geen subscribers meer zijn.
+        // Anders heb je bij het switchen van pagina dat deze observable stopt, omdat er dan geen suscribers meer zijn.
+        // Op de nieuwe pagina kan deze observable dan niet opnieuw worden gestart, vanwege de isStable (app wordt niet meer stable vanwege notitie polling).
+        shareReplay({ bufferSize: 1, refCount: false })
+    );
 
     public get medewerkerId(): string {
         return this._medewerkerId;
@@ -340,22 +357,6 @@ export class MedewerkerDataService {
         return this.getMedewerker().pipe(
             take(1),
             map((medewerker) => Boolean(medewerker.settings.heeftLeerlingPlaatsingenRegistratiesInzienRecht))
-        );
-    }
-
-    public getAantalOngelezenBerichten(): Observable<AantalOngelezenBerichtenQuery['aantalOngelezenBerichten']> {
-        return this.appRef.isStable.pipe(
-            first((isStable) => isStable === true),
-            switchMap(
-                () =>
-                    this.apollo.watchQuery({
-                        query: AantalOngelezenBerichtenDocument,
-                        fetchPolicy: 'network-only',
-                        pollInterval: 1000 * 60 * 15
-                    }).valueChanges
-            ),
-            map((result) => result.data.aantalOngelezenBerichten),
-            shareReplayLastValue()
         );
     }
 

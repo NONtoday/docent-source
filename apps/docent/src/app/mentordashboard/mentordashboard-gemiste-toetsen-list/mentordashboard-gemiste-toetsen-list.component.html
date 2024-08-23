@@ -1,4 +1,4 @@
-@for (toets of orderedToetsenView; track toets) {
+@for (toets of orderedToetsenView; track $index) {
     <div class="gemiste-toets">
         <div class="row-1">
             <div class="vak-info">
@@ -14,7 +14,7 @@
                 @if (toets.omschrijvingSamengesteldeToets) {
                     <i class="deeltoets-icon" [hmyTooltip]="toets.tooltipDeeltoets" hmyIcon="deeltoets" size="smallest"></i>
                 }
-                <span class="toets-omschrijving text-ellipsis">{{ toets.resultaat.toetssoort }}</span>
+                <span class="toets-omschrijving ellipsis">{{ toets.resultaat.toetssoort }}</span>
                 <div class="weging">
                     <i hmyIcon="weging" size="smallest" color="text-weak"></i>
                     <span>{{ toets.resultaat.weging }}x</span>

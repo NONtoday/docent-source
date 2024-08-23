@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    EmbeddedViewRef,
     TemplateRef,
     ViewContainerRef,
     computed,
@@ -43,7 +42,8 @@ const DEFAULT_TABINDEX = '0';
     styleUrl: './dropdown.component.scss',
     host: {
         '[class.small]': "size() === 'small'",
-        '[class.medium]': "size() === 'medium'"
+        '[class.medium]': "size() === 'medium'",
+        '[class.with-border]': 'withBorder()'
     },
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -68,6 +68,7 @@ export class DropdownComponent<T> {
     public listAlignment = input<PopupSettings['alignment']>(DEFAULT_LIST_ALIGNMENT);
     public mobileModalTitle = input<string | undefined>();
     public buttonHeight = input<number>(48);
+    public withBorder = input<boolean>(true);
 
     public onSelectionChanged = output<T>();
 
@@ -94,11 +95,11 @@ export class DropdownComponent<T> {
         dropdownBoxRef: ViewContainerRef,
         popupSettings: PopupSettings,
         modalSettings: ModalSettings
-    ): EmbeddedViewRef<any> {
+    ) {
         if (modalOnMobile) {
-            return this.overlayService.popupOrModal(template, dropdownBoxRef, { context: {} }, popupSettings, modalSettings);
+            return this.overlayService.popupOrModal({ template, element: dropdownBoxRef, popupSettings, modalSettings });
         }
-        return this.popupService.popup(template, dropdownBoxRef, { context: {} }, popupSettings);
+        return this.popupService.popup({ template, element: dropdownBoxRef });
     }
 
     private scrollToSelected(hostElement: HTMLElement) {
@@ -151,6 +152,7 @@ export class DropdownComponent<T> {
             }),
             createModalSettings({
                 title: this.mobileModalTitle(),
+                showClose: !!this.mobileModalTitle(),
                 onClose: () => this.isOpen.set(false)
             })
         );

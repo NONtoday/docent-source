@@ -1,4 +1,0 @@
-@if (activeOption) {
-    <span class="action-primary-normal text-content-semi">{{ activeOption.text }}</span>
-    <i [hmyIcon]="(isPopupOpen$ | async) ? 'chevronBoven' : 'chevronOnder'" [class.close]="!(isPopupOpen$ | async)" size="smallest"></i>
-}

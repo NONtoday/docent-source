@@ -1,10 +1,10 @@
 /**
  * Do not edit directly
- * Generated on Fri, 28 Jun 2024 09:18:46 GMT
+ * Generated on Thu, 15 Aug 2024 11:54:24 GMT
  */
 
 :root.dark {
-    --bg-mask-normal: rgba(24, 28, 32, 0.75);
+    --bg-mask-normal: rgba(0, 0, 0, 0.5);
     --shadow-right-strong: 3px 0 8px 0 rgba(24, 28, 32, 1); /* Sidebars */
     --shadow-left-strong: -4px 0 8px 0 rgba(24, 28, 32, 1); /* Sidebars */
     --shadow-centred-normal: 0 0 8px 0 rgba(24, 28, 32, 1); /* Active inputs */
@@ -55,9 +55,9 @@
     --border-primary-normal: var(--blue-20);
     --border-primary-weak: var(--blue-100);
     --border-neutral-strongest: var(--grey-60); /* Checkbox, Radio */
-    --border-neutral-strong: var(--grey-90);
-    --border-neutral-normal: var(--grey-100);
-    --border-neutral-weak: var(--grey-120);
+    --border-neutral-strong: var(--grey-70);
+    --border-neutral-normal: var(--grey-80);
+    --border-neutral-weak: var(--grey-90);
     --border-neutral-inverted: var(--grey-150);
     --fg-neutral-strong: var(--grey-10);
     --fg-neutral-moderate: var(--grey-30);
@@ -72,32 +72,32 @@
     --fg-primary-strongest: var(--blue-10);
     --fg-primary-normal: var(--blue-30);
     --fg-on-alternative-max: var(--grey-120);
-    --fg-on-alternative-strong: var(--grey-120);
-    --fg-on-alternative-normal: var(--grey-120);
+    --fg-on-alternative-strong: var(--grey-150);
+    --fg-on-alternative-normal: var(--grey-150);
     --fg-on-alternative-weak: var(--purple-10);
     --fg-on-positive-max: var(--grey-120);
-    --fg-on-positive-strong: var(--grey-120);
-    --fg-on-positive-normal: var(--grey-120);
+    --fg-on-positive-strong: var(--grey-150);
+    --fg-on-positive-normal: var(--grey-150);
     --fg-on-positive-weak: var(--green-10);
     --fg-on-negative-max: var(--grey-120);
-    --fg-on-negative-strong: var(--grey-120);
-    --fg-on-negative-normal: var(--grey-120);
+    --fg-on-negative-strong: var(--grey-150);
+    --fg-on-negative-normal: var(--grey-150);
     --fg-on-negative-weak: var(--red-20);
     --fg-on-warning-max: var(--grey-120);
-    --fg-on-warning-strong: var(--grey-120);
-    --fg-on-warning-normal: var(--grey-120);
+    --fg-on-warning-strong: var(--grey-150);
+    --fg-on-warning-normal: var(--grey-150);
     --fg-on-warning-weak: var(--orange-20);
     --fg-on-accent-max: var(--grey-120);
-    --fg-on-accent-strong: var(--grey-120);
-    --fg-on-accent-normal: var(--grey-120);
+    --fg-on-accent-strong: var(--grey-150);
+    --fg-on-accent-normal: var(--grey-150);
     --fg-on-accent-weak: var(--yellow-0);
     --fg-on-primary-max: var(--grey-120);
     --fg-on-primary-strongest: var(--grey-120);
-    --fg-on-primary-strong: var(--grey-120);
-    --fg-on-primary-normal: var(--grey-110);
+    --fg-on-primary-strong: var(--grey-150);
+    --fg-on-primary-normal: var(--grey-150);
     --fg-on-primary-weak: var(--blue-0);
-    --fg-on-neutral-max: var(--grey-120);
-    --fg-on-neutral-strongest: var(--grey-120);
+    --fg-on-neutral-max: var(--grey-150);
+    --fg-on-neutral-strongest: var(--grey-150);
     --fg-on-neutral-strong: var(--grey-20);
     --fg-on-neutral-moderate: var(--grey-20);
     --fg-on-neutral-weak: var(--grey-20);
@@ -128,8 +128,8 @@
     --bg-primary-normal: var(--blue-30);
     --bg-primary-weak: var(--blue-100);
     --bg-elevated-strong: var(--grey-80);
-    --bg-elevated-weak: var(--grey-110);
-    --bg-elevated-weakest: var(--grey-120);
+    --bg-elevated-weak: var(--grey-90);
+    --bg-elevated-weakest: var(--grey-110);
     --bg-elevated-none: var(--grey-130);
     --bg-neutral-max: var(--grey-50);
     --bg-neutral-strongest: var(--grey-60);

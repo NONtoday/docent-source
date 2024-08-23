@@ -13,7 +13,7 @@
         } @else {
             <hmy-spinner [centeredInParent]="true" />
         }
-        @for (week of cijferPeriodeWeken$ | async; track week) {
+        @for (week of cijferPeriodeWeken$ | async; track week.weeknummer) {
             <div
                 class="week text-content-small-semi"
                 [class.selected]="week.weeknummer === geselecteerdeWeek"

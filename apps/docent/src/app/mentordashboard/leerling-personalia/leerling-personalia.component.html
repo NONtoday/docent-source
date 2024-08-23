@@ -14,12 +14,12 @@
         [fontsize]="28"
         [lazyLoaded]="false">
     </dt-avatar>
-    <span class="naam text-head">{{ leerling | volledigeNaam }}</span>
+    <span class="naam text-heading-2">{{ leerling | volledigeNaam }}</span>
     <span class="adres text-content-semi color-typography-2">
         {{ leerling.adres | adres: '• ' }}{{ leerling.geboortedatum | dtDate: 'dagnummer_maand_kort' }}
     </span>
     <div class="labels">
-        @for (label of labels; track label) {
+        @for (label of labels; track $index) {
             <hmy-pill
                 class="label"
                 [attr.data-gtm]="label.gtmTag"

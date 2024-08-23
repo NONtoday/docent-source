@@ -68,7 +68,7 @@
             }
         </div>
         <form [formGroup]="bulkactiesForm">
-            @for (overzichtStatus of overzichtStatussen; track overzichtStatus) {
+            @for (overzichtStatus of overzichtStatussen; track $index) {
                 @if (inleveringenOverzicht[overzichtStatus.property] && inleveringenOverzicht[overzichtStatus.property].length > 0) {
                     <dt-inleveringen-overzicht-selectie
                         class="{{ overzichtStatus.property }} selectie"
@@ -94,7 +94,7 @@
                             </dt-inleveringen-overzicht-item>
                         }
                     } @else {
-                        @for (leerling of inleveringenOverzicht[overzichtStatus.property]; track leerling) {
+                        @for (leerling of inleveringenOverzicht[overzichtStatus.property]; track leerling.id) {
                             <dt-inleveringen-overzicht-item
                                 class="overzichtitem leerling"
                                 [leerling]="$any(leerling)"
