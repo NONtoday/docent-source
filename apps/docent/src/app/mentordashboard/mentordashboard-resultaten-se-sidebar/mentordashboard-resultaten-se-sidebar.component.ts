@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { GetMentorDashboardSeResultatenQuery, ResultaatBijzonderheid, Vak } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
-import { GetMentorDashboardSeResultatenQuery, ResultaatBijzonderheid, Vak } from '../../../generated/_types';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';
 import { BaseSidebar } from '../../rooster-shared/directives/base-sidebar.directive';

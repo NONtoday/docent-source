@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { NotitieboekMenuQuery } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { P, match } from 'ts-pattern';
-import { NotitieboekMenuQuery } from '../../generated/_types';
-import { getVolledigeNaam } from '../shared/utils/leerling.utils';
 
 @Pipe({
     name: 'notitieboekMenuItemNaam',

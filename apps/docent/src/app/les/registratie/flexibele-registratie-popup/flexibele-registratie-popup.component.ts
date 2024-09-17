@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { KeuzelijstWaardeMogelijkheid, LesRegistratieQuery, VrijVeld, VrijVeldWaarde } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconNoCheckbox, IconRadio, IconRadioSelect, provideIcons } from 'harmony-icons';
-import { KeuzelijstWaardeMogelijkheid, LesRegistratieQuery, VrijVeld, VrijVeldWaarde } from '../../../../generated/_types';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../../rooster-shared/components/popup/popup.component';

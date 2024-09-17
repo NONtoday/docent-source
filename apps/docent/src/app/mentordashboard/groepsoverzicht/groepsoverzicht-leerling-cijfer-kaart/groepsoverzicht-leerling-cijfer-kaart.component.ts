@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { MentordashboardResultatenInstellingen } from '@docent/codegen';
 import { IconDirective, TooltipDirective } from 'harmony';
 import { IconPijlRechts, IconPijlRechtsBeneden, IconPijlRechtsBoven, provideIcons } from 'harmony-icons';
 import { NgPipesModule } from 'ngx-pipes';
-import { MentordashboardResultatenInstellingen } from '../../../../generated/_types';
 import { LeerlingCijferOverzicht } from '../../../core/models/mentordashboard.model';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';

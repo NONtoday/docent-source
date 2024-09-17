@@ -13,8 +13,7 @@
             }
             <span class="titel">{{ title }}</span>
             @if (headerLabel) {
-                <!-- FIXME: hier hmy-pill gebruiken zodra we de blauwe headers vervangen. Dan kunnen alle label-pill scss classes en mixins ook opgeruimd worden. -->
-                <span class="label label-pill-lightest">{{ headerLabel }}</span>
+                <hmy-pill class="label" [text]="headerLabel" />
             }
             @if (showCloseButton()) {
                 <i class="sluiten-icon" [sizes]="['medium', 'medium', 'medium', 'large']" (click)="onClose('cross')" hmyIcon="sluiten"></i>

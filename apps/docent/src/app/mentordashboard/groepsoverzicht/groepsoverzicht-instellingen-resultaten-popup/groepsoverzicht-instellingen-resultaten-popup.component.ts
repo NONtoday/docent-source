@@ -1,10 +1,10 @@
 import { Component, DestroyRef, Input, OnInit, Signal, ViewChild, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
+import { GroepsoverzichtResultatenInstellingenInput, MentordashboardResultatenInstellingen } from '@docent/codegen';
 import { ButtonComponent, IconDirective, ManualCounterComponent, NotificationSolidComponent } from 'harmony';
 import { IconChevronRechts, IconInformatie, IconLijst, IconNoRadio, provideIcons } from 'harmony-icons';
 import { map, pairwise, startWith } from 'rxjs';
-import { GroepsoverzichtResultatenInstellingenInput, MentordashboardResultatenInstellingen } from '../../../../generated/_types';
 import { Appearance, PopupDirection } from '../../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../../rooster-shared/components/popup/popup.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';

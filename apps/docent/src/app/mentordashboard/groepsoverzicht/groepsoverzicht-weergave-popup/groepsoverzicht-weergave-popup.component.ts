@@ -1,11 +1,10 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ButtonComponent, IconDirective, NumbersOnlyDirective } from 'harmony';
+import { GroepsoverzichtWeergaveInstelling, GroepsoverzichtWeergaveInstellingInput } from '@docent/codegen';
+import { ButtonComponent, CheckboxComponent, IconDirective, NumbersOnlyDirective } from 'harmony';
 import { IconNoRadio, provideIcons } from 'harmony-icons';
 import { NgStringPipesModule } from 'ngx-pipes';
-import { GroepsoverzichtWeergaveInstelling, GroepsoverzichtWeergaveInstellingInput } from '../../../../generated/_types';
 import { GroepoverzichtRegistratieWithContent } from '../../../core/models/mentordashboard.model';
-import { FormCheckboxComponent } from '../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../../rooster-shared/components/popup/popup.component';
 import { RegistratieCategorieNaamPipe } from '../../pipes/registratie-categorie-naam.pipe';
@@ -20,7 +19,7 @@ import { RegistratieCategorieNaamPipe } from '../../pipes/registratie-categorie-
         NumbersOnlyDirective,
         NgStringPipesModule,
         OutlineButtonComponent,
-        FormCheckboxComponent,
+        CheckboxComponent,
         IconDirective,
         ButtonComponent
     ],

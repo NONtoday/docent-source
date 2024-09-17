@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Persoon } from '../../../generated/_types';
+import { Persoon } from '@docent/codegen';
 import { getVolledigeNaam } from './volledige-naam.pipe';
 
 @Pipe({

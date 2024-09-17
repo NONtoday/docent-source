@@ -1,11 +1,11 @@
 import { NgClass } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { AbstractControl, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { BijlageFieldsFragment, BijlageType } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconLink, IconNietZichtbaarCheckbox, IconWaarschuwing, IconZichtbaarCheckbox, provideIcons } from 'harmony-icons';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { BijlageFieldsFragment, BijlageType } from '../../../../../generated/_types';
 import { ButtonComponent } from '../../../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../../../rooster-shared/components/popup/popup.component';

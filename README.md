@@ -1,7 +1,3 @@
-automatically releases Somtoday Docent source whenever there's a new version 
-\
-\
-\
 graphql:
 - [./apps/docent/src/generated/_operations.ts](https://github.com/NONtoday/docent-source/blob/main/apps/docent/src/generated/_operations.ts)
 

@@ -10,15 +10,15 @@ import {
     inject,
     output
 } from '@angular/core';
+import { Leerling } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { IconOpties, IconReactieToevoegen, provideIcons } from 'harmony-icons';
-import { Leerling } from '../../../../generated/_types';
 import { PopupService } from '../../../core/popup/popup.service';
 import { LeerlingDeeplinkPopupComponent } from '../../../les/leerling-deeplink-popup/leerling-deeplink-popup.component';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { IconComponent } from '../../../rooster-shared/components/icon/icon.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';
-import { getVolledigeNaam } from '../../utils/leerling.utils';
 
 @Component({
     selector: 'dt-leerling',

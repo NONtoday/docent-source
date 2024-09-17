@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, inject } from '@angular/core';
+import { MentordashboardOverzichtRegistratieVrijVeldCategorie } from '@docent/codegen';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
 import { NotificationSolidComponent } from 'harmony';
-import { MentordashboardOverzichtRegistratieVrijVeldCategorie } from '../../../../generated/_types';
 import {
     GroepoverzichtRegistratieWithContent,
     GroepsoverzichtRegistratieTellingen,

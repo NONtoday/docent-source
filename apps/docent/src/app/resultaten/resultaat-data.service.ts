@@ -1,9 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { gql } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { deleteToetsKolom } from '../../generated/_operations';
 import {
     BevrorenStatus,
     CijferPeriodesVanLesgroepDocument,
@@ -36,7 +32,11 @@ import {
     VoortgangsdossierMatrixVanLesgroepQuery,
     VoortgangsdossiersDocument,
     namedOperations
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { deleteToetsKolom } from '../../generated/_operations';
 import { convertToLocalDate } from '../rooster-shared/utils/date.utils';
 import { Optional, isPresent } from '../rooster-shared/utils/utils';
 import { docentQuery } from '../shared/utils/apollo.utils';

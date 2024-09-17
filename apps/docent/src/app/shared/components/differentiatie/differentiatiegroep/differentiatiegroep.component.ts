@@ -1,9 +1,9 @@
 import { CdkDrag, CdkDragHandle, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
 
 import { ChangeDetectionStrategy, Component, Input, output } from '@angular/core';
+import { Differentiatiegroep, Leerling } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconDraggable, IconToevoegen, provideIcons } from 'harmony-icons';
-import { Differentiatiegroep, Leerling } from '../../../../../generated/_types';
 import { IconComponent } from '../../../../rooster-shared/components/icon/icon.component';
 import { LeerlingGroepComponent } from '../../leerling-groep/leerling-groep.component';
 import { DifferentiatiegroepHeaderComponent } from '../differentiatiegroep-header/differentiatiegroep-header.component';

@@ -2,7 +2,7 @@
 @if ({ view: studiewijzerView$ | async }; as data) {
     <div class="toolbar text-content-small" #toolbar>
         <div class="terug" [routerLink]="['/studiewijzers']">
-            <i hmyIcon="pijlLinks" size="medium"></i>
+            <i hmyIcon="pijlLinks" color="action-primary-normal" size="medium"></i>
             <span class="show-for-tablet text-content-semi">Terug</span>
         </div>
         @if (!data.view) {

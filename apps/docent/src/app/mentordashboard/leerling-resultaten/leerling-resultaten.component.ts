@@ -1,15 +1,15 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SpinnerComponent } from 'harmony';
-import { IconResultaten, provideIcons } from 'harmony-icons';
-import { Observable, combineLatest, distinctUntilChanged, map, switchMap } from 'rxjs';
 import {
     GetMentorDashboardExamendossierVoorPlaatsingQuery,
     GetMentorDashboardResultatenContextQuery,
     GetMentorDashboardVoortgangsdossierVoorLeerlingQuery,
     Maybe
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { SpinnerComponent } from 'harmony';
+import { IconResultaten, provideIcons } from 'harmony-icons';
+import { Observable, combineLatest, distinctUntilChanged, map, switchMap } from 'rxjs';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { DeviceService } from '../../core/services/device.service';
 import { Optional, toId } from '../../rooster-shared/utils/utils';

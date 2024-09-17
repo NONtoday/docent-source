@@ -1,4 +1,4 @@
-<dt-header [metNavigatie]="vakLeerlingGroepHeaderMenuEnabled" titel="Mentorleerlingen" icon="groepAlt">
+<dt-header class="met-border" [metNavigatie]="vakLeerlingGroepHeaderMenuEnabled" titel="Mentorleerlingen" icon="groepAlt">
     @if (vakLeerlingGroepHeaderMenuEnabled) {
         @if (vakNavigatie$ | async; as navigatie) {
             <dt-vak-navigatie-header

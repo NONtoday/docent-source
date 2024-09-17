@@ -1,7 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { map } from 'rxjs/operators';
-import { matching, mod, set, updateAll } from 'shades';
 import {
     CachedStudiewijzeritemDocument,
     CachedStudiewijzeritemQuery,
@@ -15,9 +12,12 @@ import {
     SaveProjectgroepMutationVariables,
     VerplaatsProjectgroepLeerlingDocument,
     namedOperations
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { sortLeerlingByAchternaamVoornaam } from '@shared/utils/persoon-utils';
+import { Apollo } from 'apollo-angular';
+import { map } from 'rxjs/operators';
+import { matching, mod, set, updateAll } from 'shades';
 import { addItem, equalsId, removeItem } from '../../rooster-shared/utils/utils';
-import { sortLeerlingByAchternaamVoornaam } from '../../shared/utils/leerling.utils';
 
 @Injectable({
     providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Leerling } from '../../../../generated/_types';
+import { Leerling } from '@docent/codegen';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 
 @Component({

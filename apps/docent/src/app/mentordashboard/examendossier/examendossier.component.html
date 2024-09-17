@@ -40,37 +40,33 @@
                         <div class="vaknaam no-border-right">{{ vak.vak.naam }}</div>
                         <div class="labels">
                             @if (vak.anderNiveau) {
-                                <div
-                                    class="show-for-tablet label no-hover secondary small text-content-smallest-semi hoger-niveau"
+                                <hmy-icon-pill
+                                    class="ander-niveau-pill"
                                     [hmyTooltip]="'Volgt vak op hoger niveau: ' + vak.anderNiveau"
-                                    [onTouchAllowed]="true">
-                                    <i hmyIcon="hogerNiveau" size="smallest"></i>
-                                    {{ vak.anderNiveau }}
-                                </div>
-                            }
-                            @if (vak.anderNiveau) {
-                                <div
-                                    class="hide-for-tablet label icon-only secondary small"
-                                    [hmyTooltip]="'Volgt vak op hoger niveau: ' + vak.anderNiveau"
-                                    [onTouchAllowed]="true">
-                                    <i hmyIcon="hogerNiveau" size="medium"></i>
-                                </div>
+                                    [onTouchAllowed]="true"
+                                    [text]="isPhoneOrTabletPortrait() ? '' : vak.anderNiveau"
+                                    [iconSize]="isPhoneOrTabletPortrait() ? 'small' : 'smallest'"
+                                    [iconOnly]="isPhoneOrTabletPortrait()"
+                                    [width]="isPhoneOrTabletPortrait() ? '24px' : ''"
+                                    color="accent"
+                                    icon="hogerNiveau" />
                             }
                             @if (vak.vrijstelling && !vak.ontheffing) {
-                                <div
-                                    class="label no-hover positive small text-content-smallest-semi"
+                                <hmy-pill
+                                    class="vrijstelling-pill"
                                     [hmyTooltip]="'Vrijgesteld van het examen'"
-                                    [onTouchAllowed]="true">
-                                    VR
-                                </div>
+                                    [onTouchAllowed]="true"
+                                    width="34px"
+                                    color="positive"
+                                    text="VR" />
                             }
                             @if (vak.ontheffing) {
-                                <div
-                                    class="label no-hover positive small text-content-smallest-semi"
+                                <hmy-pill
+                                    class="ontheffing-pill"
                                     [hmyTooltip]="'Ontheffing voor vak'"
-                                    [onTouchAllowed]="true">
-                                    ONT
-                                </div>
+                                    [onTouchAllowed]="true"
+                                    color="positive"
+                                    text="ONT" />
                             }
                         </div>
                     </div>
@@ -119,7 +115,7 @@
                         data-gtm="mentordashboard-examenresultaat-details-sidebar">
                         {{ vak.seCijfer?.labelAfkorting ?? vak.seCijfer?.formattedResultaat }}
                         @if (vak.seCijfer?.bijzonderheid === ontbrekendResultaat) {
-                            <i class="fill-typography-4 t3-on-hover waarschuwing" hmyIcon="waarschuwing" size="smallest"></i>
+                            <i class="waarschuwing-icon" color="action-neutral-weak" hmyIcon="waarschuwing" size="smallest"></i>
                         }
                     </div>
                     @if (!toonTrends.value) {
@@ -141,13 +137,15 @@
                             {{ vak.ceCijfer?.labelAfkorting ?? vak.ceCijfer?.formattedResultaat }}
                             @if (vak.ceType === variantenCE) {
                                 <i
-                                    class="fill-typography-4 t3-on-hover examenMetVarianten"
+                                    class="t3-on-hover examenMetVarianten"
+                                    color="text-weakest"
                                     hmyIcon="examenMetVarianten"
                                     size="smallest"></i>
                             }
                             @if (vak.ceType === samengesteldCE) {
                                 <i
-                                    class="fill-typography-4 t3-on-hover samengesteldeToets"
+                                    class="t3-on-hover samengesteldeToets"
+                                    color="text-weakest"
                                     hmyIcon="samengesteldeToets"
                                     size="smallest"></i>
                             }

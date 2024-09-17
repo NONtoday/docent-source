@@ -1,13 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ActueleNotitieItemsQuery, LesRegistratie, LesRegistratieQuery, PeriodeQuery, SignaleringenQuery } from '@docent/codegen';
 import { Subject } from 'rxjs';
-import {
-    ActueleNotitieItemsQuery,
-    LesRegistratie,
-    LesRegistratieQuery,
-    PeriodeQuery,
-    SignaleringenQuery
-} from '../../../../generated/_types';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { SidebarComponent } from '../../../rooster-shared/components/sidebar/sidebar.component';
 import { BaseSidebar } from '../../../rooster-shared/directives/base-sidebar.directive';

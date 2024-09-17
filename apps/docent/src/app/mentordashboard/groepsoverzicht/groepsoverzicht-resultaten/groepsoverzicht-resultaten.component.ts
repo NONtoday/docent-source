@@ -1,17 +1,17 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ViewContainerRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { IconDirective, SwitchComponent, SwitchGroupComponent, TooltipDirective, shareReplayLastValue } from 'harmony';
-import { IconInformatie, IconResultaten, IconSettings, provideIcons } from 'harmony-icons';
-import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
-import { match } from 'ts-pattern';
 import {
     GroepsoverzichtInstellingen,
     GroepsoverzichtResultatenSorteringsContext,
     MentordashboardResultatenInstellingen,
     SorteringOrder
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
+import { IconDirective, SwitchComponent, SwitchGroupComponent, TooltipDirective, shareReplayLastValue } from 'harmony';
+import { IconInformatie, IconResultaten, IconSettings, provideIcons } from 'harmony-icons';
+import { Observable, combineLatest, map, of, switchMap } from 'rxjs';
+import { match } from 'ts-pattern';
 import { GroepsoverzichtResultaten, GroepsoverzichtResultatenKolomNaam } from '../../../core/models/mentordashboard.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';

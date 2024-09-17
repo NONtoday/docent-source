@@ -11,6 +11,7 @@ import {
     inject,
     output
 } from '@angular/core';
+import { Bijlage, BijlageType } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import {
     IconBewerken,
@@ -22,7 +23,6 @@ import {
     IconZichtbaarCheckbox,
     provideIcons
 } from 'harmony-icons';
-import { Bijlage, BijlageType } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import {
     ActionButton,

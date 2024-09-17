@@ -1,7 +1,9 @@
 <header class="header">
     <div class="tabs">
-        <div class="tab active" cy="registraties-totaal"><span class="name">Totalen</span></div>
-        <div class="tab pointer" [routerLink]="['vakken']" cy="registraties-per-vak"><span class="name">Per vak</span></div>
+        <div class="tab active action-neutral-normal" cy="registraties-totaal"><span class="name">Totalen</span></div>
+        <div class="tab pointer action-neutral-normal" [routerLink]="['vakken']" cy="registraties-per-vak">
+            <span class="name">Per vak</span>
+        </div>
     </div>
     @if (weergaveInstellingen$ | async; as zichtbareCategorieen) {
         @if (totaaloverzichtRegistraties$ | async; as totaalRegistraties) {
@@ -10,10 +12,10 @@
                 #filterButton
                 (click)="openFilterPopup(totaalRegistraties, zichtbareCategorieen)"
                 cy="filter-button">
-                <i class="fill-primary-1" hmyIcon="blokken" size="medium"></i>
-                <span class="text-content-semi color-primary-1">Weergave</span>
+                <i color="action-primary-normal" hmyIcon="blokken" size="medium"></i>
+                <span class="text-content-semi action-primary-normal">Weergave</span>
                 @if (aantalZichtbareCategorieen) {
-                    <hmy-pill class="show-for-tablet aantal-kolommen" [text]="aantalZichtbareCategorieen"></hmy-pill>
+                    <hmy-pill class="show-for-tablet aantal-kolommen" [text]="aantalZichtbareCategorieen" />
                 }
             </div>
         }
@@ -21,10 +23,10 @@
 </header>
 <div class="content">
     <div class="schooljaar">
-        <span class="text-content-semi schooljaar-text">{{ schooljaarString }}</span>
+        <span class="text-content-semi text-strong">{{ schooljaarString }}</span>
         <i
-            class="fill-typography-4"
             [onTouchAllowed]="true"
+            color="action-neutral-weak"
             hmyIcon="informatie"
             size="small"
             dtTooltip="Alle registraties (vak en vakloos) binnen het huidig schooljaar. Klik op een tegel voor meer details."></i>
@@ -61,8 +63,8 @@
     }
     @if (alleRegistratiesVerborgen) {
         <div class="geen-registraties">
-            <span class="text-content-semi color-typography-3">Geen registraties geselecteerd</span>
-            <span class="color-typography-3">Selecteer een registratie via het filter om de aantallen van dit schooljaar te bekijken.</span>
+            <span class="text-content-semi text-strong">Geen registraties geselecteerd</span>
+            <span class="text-strong">Selecteer een registratie via het filter om de aantallen van dit schooljaar te bekijken.</span>
         </div>
     }
 </div>

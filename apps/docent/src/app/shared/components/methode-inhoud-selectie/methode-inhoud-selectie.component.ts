@@ -1,17 +1,16 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, inject, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { Methode } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { flatMap } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
-import { Methode } from '../../../../generated/_types';
 
 import { AsyncPipe } from '@angular/common';
-import { IconDirective } from 'harmony';
+import { CheckboxComponent, IconDirective } from 'harmony';
 import { IconChevronBoven, IconPijlLinks, provideIcons } from 'harmony-icons';
 import { MethodeSelectie, ToSaveMethode } from '../../../core/models/studiewijzers/methode.model';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';
-import { FormCheckboxComponent } from '../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { MethodeControleComponent } from '../../../studiewijzers/methode-controle/methode-controle.component';
@@ -34,7 +33,7 @@ interface SelectieControleData {
         ButtonComponent,
         FormsModule,
         ReactiveFormsModule,
-        FormCheckboxComponent,
+        CheckboxComponent,
         AsyncPipe,
         IconDirective
     ],

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, ViewContainerRef, inject, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MentordashboardResultatenInstellingen, PartialLeerlingFragment, SorteringOrder } from '@docent/codegen';
 import { CssVarPipe, DeviceService, IconDirective, NotificationColor, NotificationCounterComponent } from 'harmony';
 import { IconInformatie, IconName, IconSort19, IconSort91, provideIcons } from 'harmony-icons';
 import { filter, fromEvent } from 'rxjs';
 import { match } from 'ts-pattern';
-import { MentordashboardResultatenInstellingen, PartialLeerlingFragment, SorteringOrder } from '../../../../generated/_types';
 import { GroepsoverzichtResultatenKolomNaam, LeerlingCijferOverzicht } from '../../../core/models/mentordashboard.model';
 import { PopupOpenDirective } from '../../../core/popup/popup-open.directive';
 import { PopupService } from '../../../core/popup/popup.service';

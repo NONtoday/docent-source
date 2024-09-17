@@ -1,8 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { matching, mod, set, updateAll } from 'shades';
 import {
     DeleteDifferentiatiegroepDocument,
     Differentiatiegroep,
@@ -14,9 +10,13 @@ import {
     SaveDifferentiatiegroepDocument,
     SaveDifferentiatiegroepMutation,
     VerplaatsLeerlingDocument
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { sortLeerlingByAchternaamVoornaam } from '@shared/utils/persoon-utils';
+import { Apollo } from 'apollo-angular';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { matching, mod, set, updateAll } from 'shades';
 import { addItem, equalsId, removeItem } from '../../rooster-shared/utils/utils';
-import { sortLeerlingByAchternaamVoornaam } from '../../shared/utils/leerling.utils';
 import { toDifferentiatiegroepInput } from '../converters/differentiatiegroep.converter';
 
 @Injectable({

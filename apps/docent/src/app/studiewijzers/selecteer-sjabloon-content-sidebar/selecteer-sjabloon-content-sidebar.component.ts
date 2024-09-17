@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, inject, output } from '@angular/core';
+import { Sjabloon } from '@docent/codegen';
 import { IconName, IconPijlLinks, IconSjabloon, provideIcons } from 'harmony-icons';
-import { Sjabloon } from '../../../generated/_types';
 import { StudiewijzerContent } from '../../core/models/studiewijzers/studiewijzer.model';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';

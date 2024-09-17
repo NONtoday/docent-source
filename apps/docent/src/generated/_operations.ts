@@ -1229,6 +1229,13 @@ export const notitieStreamPeriodeFields = gql`
   }
 }
     ${notitieFields}`;
+export const notitieStreamSchooljaarFields = gql`
+    fragment notitieStreamSchooljaarFields on NotitieStreamSchooljaar {
+  naam
+  vanafDatum
+  totDatum
+}
+    `;
 export const ingevoerdDoor = gql`
     fragment ingevoerdDoor on Medewerker {
   id
@@ -1500,6 +1507,7 @@ export const cijferPeriodeFields = gql`
   nummer
   begin
   eind
+  afkorting
   isHuidig
 }
     `;
@@ -1603,6 +1611,7 @@ export const periodeAdviesKolomContextFields = gql`
 export const periodeAdviesKolomFields = gql`
     fragment periodeAdviesKolomFields on PeriodeAdviesKolom {
   periode
+  afkorting
   datumVan
   datumTot
   kolomContexten {
@@ -1965,6 +1974,11 @@ export const verplaatsLeerling = gql`
     vanDifferentiatiegroepId: $vanDifferentiatiegroepId
     naarDifferentiatiegroepId: $naarDifferentiatiegroepId
   )
+}
+    `;
+export const updateThemeSettings = gql`
+    mutation updateThemeSettings($medewerkerUuid: ID!, $settings: ThemeSettingsInput!) {
+  updateThemeSettings(medewerkerUuid: $medewerkerUuid, settings: $settings)
 }
     `;
 export const sendFeedback = gql`
@@ -3786,6 +3800,7 @@ export const ingelogdeMedewerker = gql`
     id
     uuid
     nummer
+    afkorting
     initialen
     voornaam
     tussenvoegsels
@@ -3801,6 +3816,7 @@ export const ingelogdeMedewerker = gql`
       ...organisatieFields
     }
     googleAnalyticsRolNaam
+    rollen
     settings {
       id
       vestigingRechten {
@@ -3817,6 +3833,10 @@ export const ingelogdeMedewerker = gql`
         heeftToegangTotNotitieboek
       }
       dagBegintijd
+      themeSettings {
+        theme
+        useSystemTheme
+      }
       heeftBerichtenInzienRecht
       heeftBerichtenWijzigenRecht
       toegangTotMSTeams
@@ -4339,10 +4359,16 @@ export const notitiestream = gql`
     startSchooljaar: $startSchooljaar
     groepering: $groepering
   ) {
-    ...notitieStreamPeriodeFields
+    notitiePeriodes {
+      ...notitieStreamPeriodeFields
+    }
+    schooljaren {
+      ...notitieStreamSchooljaarFields
+    }
   }
 }
-    ${notitieStreamPeriodeFields}`;
+    ${notitieStreamPeriodeFields}
+${notitieStreamSchooljaarFields}`;
 export const zoekBetrokkenen = gql`
     query zoekBetrokkenen($zoekterm: String, $stamgroepId: String, $lesgroepId: String) {
   zoekBetrokkenen(

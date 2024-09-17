@@ -13,6 +13,15 @@ import {
     inject
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import {
+    Afrondingsoverzicht,
+    AfspraakToekenning,
+    DagToekenning,
+    Lesgroep,
+    Projectgroep,
+    Toekenning,
+    ToekenningFieldsFragment
+} from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { getYear, isBefore } from 'date-fns';
 import { IconDirective, PillComponent, SpinnerComponent } from 'harmony';
@@ -22,15 +31,6 @@ import { NgStringPipesModule } from 'ngx-pipes';
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { toekenningMutationFields } from '../../../generated/_operations';
-import {
-    Afrondingsoverzicht,
-    AfspraakToekenning,
-    DagToekenning,
-    Lesgroep,
-    Projectgroep,
-    Toekenning,
-    ToekenningFieldsFragment
-} from '../../../generated/_types';
 import { localOrCookieStorage } from '../../auth/storage-config';
 import { allowChildAnimations } from '../../core/core-animations';
 import {

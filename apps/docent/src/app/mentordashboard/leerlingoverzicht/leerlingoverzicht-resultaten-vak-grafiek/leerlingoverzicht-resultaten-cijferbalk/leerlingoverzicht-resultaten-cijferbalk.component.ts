@@ -68,7 +68,7 @@ export class LeerlingoverzichtResultatenCijferbalkComponent {
 
     translateY = computed(() => {
         const cijfer = this.cijfer();
-        const translateY = this.validCijfer() && cijfer ? 100 - cijfer * 10 + (cijfer * 10) / 2 - this.cijferLabelHoogte : 50;
+        const translateY = this.validCijfer() && cijfer ? Math.min(100 - cijfer * 10 + this.cijferLabelHoogte, 90) : 50;
         return 'translateY(' + translateY + '%)';
     });
 

@@ -25,8 +25,9 @@
     size="medium"></i>
 <div class="kalender">
     <i
-        class="fill-primary-1 link-dezeweek icon show-for-desktop"
+        class="link-dezeweek icon show-for-desktop"
         [routerLink]="[path(datumHuidigeWeek)]"
+        color="action-primary-normal"
         hmyIcon="kalenderDag"
         cy="rooster-deze-week"
         dtTooltip="Toon deze week"
@@ -67,16 +68,17 @@
         size="medium"
         cy="rooster-more-options"></i>
     <div class="hide-for-phone-only" (click)="openJarigPopup()">
-        <i class="fill-primary-1 icon" #jarigIcon hmyIcon="taart" dtTooltip="Jarige leerlingen" size="medium"> </i>
+        <i class="icon" #jarigIcon color="action-primary-normal" hmyIcon="taart" dtTooltip="Jarige leerlingen" size="medium"> </i>
         @if (aantalVerjaardagen$ | async; as aantalJarigen) {
             <div class="jarigencounter">{{ aantalJarigen }}</div>
         }
     </div>
     <div class="werkdruk hide-for-phone-only">
         <i
-            class="werkdruk-link fill-primary-1 icon"
+            class="werkdruk-link icon"
             #werkdrukIcon
             (click)="openWerkdruk()"
+            color="action-primary-normal"
             dtTooltip="Toon werkdruk"
             hmyIcon="werkdruk"
             size="medium"
@@ -99,10 +101,10 @@
         [attr.data-gtm]="showWeekend ? 'verberg-weekend' : 'toon-weekend'"
         (click)="onWeekendClick()">
         @if (this.showWeekend) {
-            <i class="icon fill-primary-1" hmyIcon="uitklappenRechts" size="medium"></i>
+            <i class="icon" color="action-primary-normal" hmyIcon="uitklappenRechts" size="medium"></i>
         }
         @if (!this.showWeekend) {
-            <i class="icon fill-primary-1" hmyIcon="uitklappenLinks" size="medium"></i>
+            <i class="icon" color="action-primary-normal" hmyIcon="uitklappenLinks" size="medium"></i>
         }
     </div>
 </div>

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MedewerkerFieldsFragment } from '@docent/codegen';
 import { TagComponent } from 'harmony';
-import { MedewerkerFieldsFragment } from '../../../../../generated/_types';
 import { VolledigeNaamPipe } from '../../../../rooster-shared/pipes/volledige-naam.pipe';
 import { Optional } from '../../../../rooster-shared/utils/utils';
 

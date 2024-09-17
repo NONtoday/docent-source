@@ -1,10 +1,10 @@
 import { HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject, output } from '@angular/core';
+import { TransloaditParamsMutation } from '@docent/codegen';
 import { IconVideo, provideIcons } from 'harmony-icons';
 import without from 'lodash-es/without';
 import { Subject } from 'rxjs';
 import { mergeMap, takeUntil } from 'rxjs/operators';
-import { TransloaditParamsMutation } from '../../../../../generated/_types';
 import { ComponentUploadService } from '../../../../core/services/component-upload.service';
 import { UploadDataService } from '../../../../core/services/upload-data.service';
 import { ENVIRONMENT_CONFIG } from '../../../../environment.config';

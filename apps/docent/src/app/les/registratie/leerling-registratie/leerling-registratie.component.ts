@@ -12,8 +12,6 @@ import {
     inject,
     output
 } from '@angular/core';
-import { isBefore, isSameDay } from 'date-fns';
-import { Observable, Subject } from 'rxjs';
 import {
     AbsentieMelding,
     AbsentieSoort,
@@ -22,7 +20,9 @@ import {
     LesRegistratieQuery,
     NotitieContext,
     VrijVeldWaarde
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { isBefore, isSameDay } from 'date-fns';
+import { Observable, Subject } from 'rxjs';
 import { ExterneRegistratieType } from '../../../core/models/lesregistratie.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';

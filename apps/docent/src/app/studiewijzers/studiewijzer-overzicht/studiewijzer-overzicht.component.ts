@@ -2,6 +2,7 @@ import { CdkDrag, CdkDragHandle, CdkDragPlaceholder, CdkDropList, CdkDropListGro
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { GetLesgroepenQuery, Lesgroep, Studiewijzer, StudiewijzerCategorie, StudiewijzerOverzichtViewQuery } from '@docent/codegen';
 import { getYear } from 'date-fns';
 import { IconDirective, SpinnerComponent, SwitchComponent, SwitchGroupComponent } from 'harmony';
 import {
@@ -17,13 +18,6 @@ import {
 import flatMap from 'lodash-es/flatMap';
 import { Observable, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import {
-    GetLesgroepenQuery,
-    Lesgroep,
-    Studiewijzer,
-    StudiewijzerCategorie,
-    StudiewijzerOverzichtViewQuery
-} from '../../../generated/_types';
 import { allowChildAnimations } from '../../core/core-animations';
 import { startLoading, stopLoading } from '../../core/operators/loading.operators';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';

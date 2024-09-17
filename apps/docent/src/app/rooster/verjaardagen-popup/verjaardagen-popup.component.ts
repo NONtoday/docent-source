@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { LeerlingVerjaardagen } from '@docent/codegen';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { LeerlingVerjaardagen } from '../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { JarigeLeerlingComponent } from '../jarige-leerling/jarige-leerling.component';

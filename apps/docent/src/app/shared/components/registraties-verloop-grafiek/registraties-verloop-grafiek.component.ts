@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, computed, effect, input } from '@angular/core';
+import { HuiswerkType, Registratie } from '@docent/codegen';
 import { eachDayOfInterval, eachWeekOfInterval, endOfDay, endOfWeek, isAfter, isBefore, isSameDay, startOfWeek } from 'date-fns';
 import { HorizontalScrollButtonsDirective, IconDirective, TooltipDirective } from 'harmony';
 import { IconInformatie, provideIcons } from 'harmony-icons';
 import { groupBy, partition } from 'lodash-es';
-import { HuiswerkType, Registratie } from '../../../../generated/_types';
 import { formatDateNL } from '../../../rooster-shared/utils/date.utils';
 import { isPresent } from '../../../rooster-shared/utils/utils';
 import { RegistratieVerloopWeek, RegistratiesVerloopWeekComponent } from './registraties-verloop-week/registraties-verloop-week.component';

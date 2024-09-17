@@ -1,17 +1,15 @@
 <div class="header-buttons">
     <div class="header-left">
-        <dt-outline-button
-            class="tijdspan-button"
-            #tijdspan
-            [iconRight]="true"
-            [iconSizes]="['smallest']"
-            (click)="openTijdspanPopup(instellingen().tijdspan)"
+        <hmy-dropdown
+            [items]="tijdspanOpties()"
+            [modalOnMobile]="true"
+            [buttonHeight]="40"
+            [selected]="selectedTijdspan()"
+            (onSelectionChanged)="selectTijdspanOptie($event)"
             data-gtm="leerlingoverzicht-tijdspan-selectie"
             cy="tijdspan-button"
-            icon="chevronOnder"
-            color="neutral">
-            {{ instellingen().tijdspan }}
-        </dt-outline-button>
+            mobileModalTitle="Notities per schooljaar"
+            listWidth="fit-options" />
         <div class="show-for-tablet periode-text">
             {{ periodeText() }}
         </div>

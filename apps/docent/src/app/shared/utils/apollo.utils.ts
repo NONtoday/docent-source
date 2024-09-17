@@ -1,7 +1,7 @@
 import { ApolloError, ApolloQueryResult, NetworkStatus } from '@apollo/client/core';
+import { Maybe } from '@docent/codegen';
 import { Observable, catchError, map, of, pipe, startWith } from 'rxjs';
 import { match } from 'ts-pattern';
-import { Maybe } from '../../../generated/_types';
 import { parseErrorMessage } from '../../core/error-parser';
 
 interface DocentApolloGraphqlError {

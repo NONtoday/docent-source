@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { Projectgroep } from '@docent/codegen';
 import { ColorToken, CssVarPipe } from 'harmony';
-import { Projectgroep } from '../../../generated/_types';
 
 @Component({
     selector: 'dt-projectgroep-naam',

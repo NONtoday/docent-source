@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, OnChanges, inject } from '@angular/core';
+import { LesgroepFieldsFragment, Maybe, PartialLeerlingFragment, StamgroepFieldsFragment } from '@docent/codegen';
 import { IconGroep, provideIcons } from 'harmony-icons';
 import { orderBy } from 'lodash-es';
-import { LesgroepFieldsFragment, Maybe, PartialLeerlingFragment, StamgroepFieldsFragment } from '../../../../generated/_types';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
 import { BackgroundIconColor } from '../../../rooster-shared/utils/color-token-utils';

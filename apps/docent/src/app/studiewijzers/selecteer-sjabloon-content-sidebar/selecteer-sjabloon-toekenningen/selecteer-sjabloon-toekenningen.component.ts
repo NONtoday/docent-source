@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject, output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { Sjabloon, SjabloonViewQuery, WeekToekenning } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconChevronOnder, provideIcons } from 'harmony-icons';
 import { uniq } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { debounceTime, map, startWith, takeUntil } from 'rxjs/operators';
-import { Sjabloon, SjabloonViewQuery, WeekToekenning } from '../../../../generated/_types';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { SelectableItemComponent } from '../../../shared-studiewijzer-les/selectable-item/selectable-item.component';

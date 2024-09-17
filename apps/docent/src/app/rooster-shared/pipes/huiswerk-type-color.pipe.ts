@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { HuiswerkType } from '../../../generated/_types';
+import { HuiswerkType } from '@docent/codegen';
 import { BackgroundIconColor } from '../utils/color-token-utils';
 
 @Pipe({

@@ -11,11 +11,6 @@ import {
     inject,
     output
 } from '@angular/core';
-import { IconDirective, TooltipDirective } from 'harmony';
-import { IconNormaleToets, IconSamengesteldeToets, IconToevoegen, IconUitklappenLinks, provideIcons } from 'harmony-icons';
-import { memoize } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
     BevrorenStatus,
     LeerlingMissendeToets,
@@ -26,7 +21,12 @@ import {
     Toetskolom,
     VoortgangsdossierKolomZichtbaarheidQuery,
     VoortgangsdossierMatrixVanLesgroepQuery
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { IconDirective, TooltipDirective } from 'harmony';
+import { IconNormaleToets, IconSamengesteldeToets, IconToevoegen, IconUitklappenLinks, provideIcons } from 'harmony-icons';
+import { memoize } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { KolomZichtbaarheidKey } from '../../core/models/resultaten/resultaten.model';
 import { PopupService } from '../../core/popup/popup.service';
 import { DeviceService, phoneQuery, tabletPortraitQuery } from '../../core/services/device.service';
@@ -35,6 +35,7 @@ import { ActionsPopupComponent, primaryButton } from '../../rooster-shared/compo
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
 import { formatDateNL } from '../../rooster-shared/utils/date.utils';
 import { Optional } from '../../rooster-shared/utils/utils';
+import { CijferPeriodeNaamPipe } from '../../shared/pipes/cijfer-periode-naam.pipe';
 import { GemiddeldekolomComponent } from '../gemiddeldekolom/gemiddeldekolom.component';
 import { ResultaatService } from '../resultaat.service';
 import { isKolomOfType } from '../resultaten.utils';
@@ -47,7 +48,15 @@ import { ToetskolomComponent } from '../toetskolom/toetskolom.component';
     styleUrls: ['./resultaat-periode.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [TooltipDirective, ToetskolomComponent, BackgroundIconComponent, GemiddeldekolomComponent, AsyncPipe, IconDirective],
+    imports: [
+        TooltipDirective,
+        ToetskolomComponent,
+        BackgroundIconComponent,
+        GemiddeldekolomComponent,
+        AsyncPipe,
+        IconDirective,
+        CijferPeriodeNaamPipe
+    ],
     providers: [provideIcons(IconUitklappenLinks, IconToevoegen, IconNormaleToets, IconSamengesteldeToets)]
 })
 export class ResultaatPeriodeComponent implements OnInit {

@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { MaatregeltoekenningenQuery } from '@docent/codegen';
 import { SpinnerComponent, TabInput, TabRowComponent, createNotificationCounterTab } from 'harmony';
 import { IconLoader, provideIcons } from 'harmony-icons';
 import { Observable, map, startWith } from 'rxjs';
-import { MaatregeltoekenningenQuery } from '../../../../generated/_types';
 import { MentordashboardOverzichtLeerlingRegistratieWithContent } from '../../../core/models/mentordashboard.model';
 import { MaatregelToekenningDataService, MaatregelToekenningenMetStatus } from '../../../core/services/maatregeltoekenning-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';

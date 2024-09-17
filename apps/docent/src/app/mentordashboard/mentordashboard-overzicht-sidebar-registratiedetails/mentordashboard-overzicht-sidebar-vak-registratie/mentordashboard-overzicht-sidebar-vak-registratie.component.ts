@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { HuiswerkType, PeriodeVakRegistratieDetails } from '@docent/codegen';
 import { IconDirective, IconPillComponent, NotificationColor, NotificationSolidComponent, TooltipDirective } from 'harmony';
 import { IconToets, IconToetsGroot, IconTrendBeneden, IconTrendBoven, provideIcons } from 'harmony-icons';
-import { HuiswerkType, PeriodeVakRegistratieDetails } from '../../../../generated/_types';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { UrenDurationPipe } from '../../../shared/pipes/uren-duration.pipe';
 

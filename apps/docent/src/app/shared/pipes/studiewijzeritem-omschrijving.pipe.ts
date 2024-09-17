@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ItemFieldsFragment, Studiewijzeritem } from '../../../generated/_types';
+import { ItemFieldsFragment, Studiewijzeritem } from '@docent/codegen';
 
 @Pipe({
     name: 'studiewijzeritemOmschrijving',

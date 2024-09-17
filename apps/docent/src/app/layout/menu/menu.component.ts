@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ApplicationRef, Component, HostBinding, OnDestroy, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { Afspraak } from '@docent/codegen';
 import { IconDirective, PillComponent } from 'harmony';
 import {
     IconChevronRechts,
@@ -19,7 +20,6 @@ import {
 } from 'harmony-icons';
 import { Observable, Subject, identity } from 'rxjs';
 import { filter, first, map, switchMap, take, takeUntil } from 'rxjs/operators';
-import { Afspraak } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { PopupOpenDirective } from '../../core/popup/popup-open.directive';
 import { PopupService } from '../../core/popup/popup.service';

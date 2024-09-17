@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { ActueleNotitieItemFieldsFragment, OngelezenNotitieIndicatie } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconGroep, IconPinned, provideIcons } from 'harmony-icons';
-import { ActueleNotitieItemFieldsFragment, OngelezenNotitieIndicatie } from '../../../../../generated/_types';
 import { BackgroundIconComponent } from '../../../../rooster-shared/components/background-icon/background-icon.component';
 import { TooltipDirective } from '../../../../rooster-shared/directives/tooltip.directive';
 

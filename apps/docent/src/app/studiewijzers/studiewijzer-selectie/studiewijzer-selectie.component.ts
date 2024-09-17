@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, inject, output } from '@angular/core';
+import { Studiewijzer, StudiewijzerOverzichtViewQuery } from '@docent/codegen';
 import { getYear } from 'date-fns';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconChevronLinks, IconChevronRechts, IconGroep, IconToevoegen, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, startWith, switchMap } from 'rxjs/operators';
-import { Studiewijzer, StudiewijzerOverzichtViewQuery } from '../../../generated/_types';
 import { startLoading, stopLoading } from '../../core/operators/loading.operators';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';

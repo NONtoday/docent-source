@@ -13,6 +13,15 @@ import {
     inject
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import {
+    HuiswerkType,
+    Sjabloon,
+    SjabloonFieldsFragment,
+    SjabloonViewQuery,
+    Studiewijzer,
+    Toekenning,
+    WeekToekenning
+} from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { getYear } from 'date-fns';
 import { IconDirective, SpinnerComponent } from 'harmony';
@@ -30,15 +39,6 @@ import {
 import { get } from 'lodash-es';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import {
-    HuiswerkType,
-    Sjabloon,
-    SjabloonFieldsFragment,
-    SjabloonViewQuery,
-    Studiewijzer,
-    Toekenning,
-    WeekToekenning
-} from '../../../generated/_types';
 import { allowChildAnimations } from '../../core/core-animations';
 import { SaveToekenningContainer } from '../../core/models';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';

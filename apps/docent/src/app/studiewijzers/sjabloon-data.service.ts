@@ -1,11 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloCache, Reference, WatchQueryFetchPolicy } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { curry, flatMap } from 'lodash-es';
-import orderBy from 'lodash-es/orderBy';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { all, get, into, matching, mod, not, set, filter as shadesFilter, updateAll } from 'shades';
 import {
     AddLabelToSjabloonWeekDocument,
     CategorieEditModeFragmentDoc,
@@ -50,7 +44,13 @@ import {
     VerwijderToekenningDocument,
     WeekToekenning,
     namedOperations
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { curry, flatMap } from 'lodash-es';
+import orderBy from 'lodash-es/orderBy';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { all, get, into, matching, mod, not, set, filter as shadesFilter, updateAll } from 'shades';
 import { convertToWeekToekenningInput } from '../core/converters/toekenningen.converters';
 import { EditAction } from '../core/models/shared.model';
 import { MedewerkerDataService } from '../core/services/medewerker-data.service';

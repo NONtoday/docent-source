@@ -1,11 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IconDirective, SpinnerComponent, StackitemComponent, TableHeaderComponent } from 'harmony';
-import { IconChevronRechts, provideIcons } from 'harmony-icons';
-import { isNil, orderBy } from 'lodash-es';
-import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
-import { match } from 'ts-pattern';
 import {
     ExamenDossierContextTrend,
     ExamendossierContext,
@@ -16,7 +11,12 @@ import {
     MentorDashboardExamenVakSamenvattendeResultaten,
     MentordashboardResultatenInstellingen,
     SorteringOrder
-} from '../../../../../generated/_types';
+} from '@docent/codegen';
+import { IconDirective, SpinnerComponent, StackitemComponent, TableHeaderComponent } from 'harmony';
+import { IconChevronRechts, provideIcons } from 'harmony-icons';
+import { isNil, orderBy } from 'lodash-es';
+import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
+import { match } from 'ts-pattern';
 import { flipSortering, isPresent } from '../../../../rooster-shared/utils/utils';
 import { MentordashboardDataService } from '../../../mentordashboard-data.service';
 import { GroepsoverzichtSidebarExamenVakResultaatComponent } from '../groepsoverzicht-sidebar-examen-vak-resultaat/groepsoverzicht-sidebar-examen-vak-resultaat.component';

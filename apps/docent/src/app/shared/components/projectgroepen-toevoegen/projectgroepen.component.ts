@@ -2,26 +2,20 @@ import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, ViewChildren, inject, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { CachedStudiewijzeritemQuery, Differentiatiegroep, Leerling, Projectgroep, ProjectgroepFieldsFragment } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { IconDirective } from 'harmony';
 import { IconPijlKleinOnder, IconToevoegen, provideIcons } from 'harmony-icons';
 import flatMap from 'lodash-es/flatMap';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { map, shareReplay, tap } from 'rxjs/operators';
-import {
-    CachedStudiewijzeritemQuery,
-    Differentiatiegroep,
-    Leerling,
-    Projectgroep,
-    ProjectgroepFieldsFragment
-} from '../../../../generated/_types';
 import { ProjectgroepenDataService } from '../../../core/services/projectgroepen-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { Optional, equalsId, toId } from '../../../rooster-shared/utils/utils';
-import { getVolledigeNaam } from '../../utils/leerling.utils';
 import { LeerlingGroepFormControlComponent } from '../leerling-groep-form-control/leerling-groep-form-control.component';
 import { ProjectgroepComponent } from '../projectgroep/projectgroep.component';
 

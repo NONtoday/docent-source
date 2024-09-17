@@ -13,10 +13,10 @@ import {
     output
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AfspraakToekenning, DagToekenning } from '@docent/codegen';
 import { isAfter, isBefore } from 'date-fns';
 import { IconDirective, IconPillComponent } from 'harmony';
 import { IconChevronOnder, IconGroep, IconInleveropdracht, IconOpties, provideIcons } from 'harmony-icons';
-import { AfspraakToekenning, DagToekenning } from '../../../generated/_types';
 import { PopupService } from '../../core/popup/popup.service';
 import { DeviceService } from '../../core/services/device.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';

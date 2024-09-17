@@ -5,15 +5,16 @@
         }
         @for (beperking of beperkingenMetTooltip; track beperking) {
             <div class="bijzonderheid item">
-                <i class="fill-primary-1" hmyIcon="zorgindicaties" size="medium"></i>
+                <i color="fg-primary-normal" hmyIcon="zorgindicaties" size="medium"></i>
                 <span class="naam">{{ beperking.naam }}</span>
                 @if (beperking.tooltip) {
                     <i
-                        class="informatie fill-typography-4"
+                        class="informatie"
                         [dtTooltip]="beperking.tooltip"
                         [alignCenter]="false"
                         [onTouchAllowed]="true"
                         [position]="'left'"
+                        color="action-neutral-weak"
                         hmyIcon="informatie"
                         size="small"></i>
                 }
@@ -24,15 +25,16 @@
         }
         @for (hulpmiddel of hulpmiddelenMetTooltip; track hulpmiddel) {
             <div class="hulpmiddel item">
-                <i class="fill-accent-positive-1" hmyIcon="oOhulpmiddelen" size="medium"></i>
+                <i color="fg-positive-normal" hmyIcon="oOhulpmiddelen" size="medium"></i>
                 <span class="naam">{{ hulpmiddel.naam }}</span>
                 @if (hulpmiddel.tooltip) {
                     <i
-                        class="informatie fill-typography-4"
+                        class="informatie"
                         [dtTooltip]="hulpmiddel.tooltip"
                         [alignCenter]="false"
                         [onTouchAllowed]="true"
                         [position]="'left'"
+                        color="action-neutral-weak"
                         hmyIcon="informatie"
                         size="small"></i>
                 }
@@ -43,14 +45,15 @@
         }
         @for (interventie of interventiesMetTooltip; track interventie) {
             <div class="interventie item">
-                <i class="fill-accent-warning-1" hmyIcon="interventies" size="medium"></i>
+                <i color="fg-accent-normal" hmyIcon="interventies" size="medium"></i>
                 <span class="naam">{{ interventie.naam }}</span>
                 <i
-                    class="informatie fill-typography-4"
+                    class="informatie"
                     [dtTooltip]="interventie.tooltip"
                     [alignCenter]="false"
                     [onTouchAllowed]="true"
                     [position]="'left'"
+                    color="action-neutral-weak"
                     hmyIcon="informatie"
                     size="small"></i>
             </div>

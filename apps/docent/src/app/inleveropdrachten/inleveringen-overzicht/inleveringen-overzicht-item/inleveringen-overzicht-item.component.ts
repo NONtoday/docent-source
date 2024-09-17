@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Leerling, Projectgroep } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconPlagiaat, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Leerling, Projectgroep } from '../../../../generated/_types';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { LeerlingComponent } from '../../../shared/components/leerling/leerling.component';

@@ -1,9 +1,8 @@
-import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { ButtonComponent } from 'harmony';
+import { ButtonComponent, CheckboxComponent } from 'harmony';
 import { RegistratieCategorieFilter } from '../../core/models/mentordashboard.model';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
-import { FormCheckboxComponent } from '../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { LeerlingoverzichtDataService } from '../leerlingoverzicht/leerlingoverzicht-data.service';
 
@@ -12,7 +11,7 @@ import { LeerlingoverzichtDataService } from '../leerlingoverzicht/leerlingoverz
     templateUrl: './leerlingregistraties-weergave-popup.component.html',
     styleUrls: ['./leerlingregistraties-weergave-popup.component.scss'],
     standalone: true,
-    imports: [PopupComponent, FormsModule, ReactiveFormsModule, FormCheckboxComponent, ButtonComponent]
+    imports: [PopupComponent, FormsModule, ReactiveFormsModule, ButtonComponent, CheckboxComponent]
 })
 export class LeerlingregistratiesWeergavePopupComponent implements OnInit, Popup {
     @ViewChild(PopupComponent, { static: true }) popup: PopupComponent;
@@ -21,6 +20,8 @@ export class LeerlingregistratiesWeergavePopupComponent implements OnInit, Popup
     @Input() gtmTag: string;
     @Input() leerlingId: string;
     @Input() afterOpslaan: () => void;
+
+    private cdr = inject(ChangeDetectorRef);
 
     selectedColumnsForm: FormGroup<Record<string, FormControl<boolean>>>;
 
@@ -48,7 +49,6 @@ export class LeerlingregistratiesWeergavePopupComponent implements OnInit, Popup
     }
 
     toggleSelectAll = () => (this.allSelected ? this.deselectAll() : this.selectAll());
-    toggleControl = (id: string) => (this.controlSelected(id) ? this.deselectControl(id) : this.selectControl(id));
 
     onSubmit() {
         const weergaves = Object.entries(this.selectedColumnsForm.value)
@@ -63,7 +63,6 @@ export class LeerlingregistratiesWeergavePopupComponent implements OnInit, Popup
     private selectAll = () => this.columns.forEach((column) => this.selectControl(column.id));
     private deselectAll = () => this.columns.forEach((column) => this.deselectControl(column.id));
     private selectedControls = () => this.columns.filter((column) => this.selectedColumnsForm.controls[column.id]?.value);
-    private controlSelected = (controlName: string) => this.selectedColumnsForm.controls[controlName].value;
     private selectControl = (controlName: string) => this.selectedColumnsForm.controls[controlName].setValue(true);
     private deselectControl = (controlName: string) => this.selectedColumnsForm.controls[controlName].setValue(false);
 

@@ -15,27 +15,6 @@ import {
     inject
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { addWeeks, differenceInCalendarDays, getISOWeek, isBefore, isSameDay } from 'date-fns';
-import { IconDirective, PillComponent } from 'harmony';
-import {
-    IconAZ,
-    IconBlokken,
-    IconBulkCheck,
-    IconBulkUncheck,
-    IconCheck,
-    IconKlok,
-    IconLijst,
-    IconNoRadio,
-    IconWaarschuwing,
-    IconYesRadio,
-    IconZA,
-    provideIcons
-} from 'harmony-icons';
-import { get, intersection, some } from 'lodash-es';
-import { NgStringPipesModule } from 'ngx-pipes';
-import { Observable, Subject, Subscription, combineLatest, fromEvent, timer } from 'rxjs';
-import { debounceTime, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import {
     AbsentieMelding,
     AbsentieRedenFieldsFragment,
@@ -59,7 +38,28 @@ import {
     VrijVeld,
     VrijVeldSignalering,
     VrijVeldWaarde
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
+import { addWeeks, differenceInCalendarDays, getISOWeek, isBefore, isSameDay } from 'date-fns';
+import { IconDirective, PillComponent } from 'harmony';
+import {
+    IconAZ,
+    IconBlokken,
+    IconBulkCheck,
+    IconBulkUncheck,
+    IconCheck,
+    IconKlok,
+    IconLijst,
+    IconNoRadio,
+    IconWaarschuwing,
+    IconYesRadio,
+    IconZA,
+    provideIcons
+} from 'harmony-icons';
+import { get, intersection, some } from 'lodash-es';
+import { NgStringPipesModule } from 'ngx-pipes';
+import { Observable, Subject, Subscription, combineLatest, fromEvent, timer } from 'rxjs';
+import { debounceTime, filter, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { localOrCookieStorage } from '../../auth/storage-config';
 import { allowChildAnimations } from '../../core/core-animations';
 import { SorteerOrder } from '../../core/models/inleveropdrachten/inleveropdrachten.model';

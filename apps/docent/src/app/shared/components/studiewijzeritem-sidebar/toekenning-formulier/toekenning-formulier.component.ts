@@ -23,9 +23,28 @@ import {
     UntypedFormGroup,
     Validators
 } from '@angular/forms';
+import {
+    Afspraak,
+    AfspraakQuery,
+    AfspraakToekenning,
+    BasisSjabloonFieldsFragment,
+    BijlageFieldsFragment,
+    DagToekenning,
+    Differentiatiegroep,
+    HuiswerkType,
+    Leerling,
+    Lesgroep,
+    Methode,
+    MethodenQuery,
+    RecenteMethode,
+    Sjabloon,
+    Toekenning,
+    ToekomendeAfsprakenQuery,
+    WeekToekenning
+} from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { getHours, getMinutes, isBefore, isEqual as isEqualDate, isSameDay, isSameMinute, setHours, startOfDay } from 'date-fns';
-import { CounterTagComponent, IconDirective, SpinnerComponent, TagComponent, TooltipDirective } from 'harmony';
+import { CheckboxComponent, CounterTagComponent, IconDirective, SpinnerComponent, TagComponent, TooltipDirective } from 'harmony';
 import {
     IconChevronBoven,
     IconGroep,
@@ -49,25 +68,6 @@ import {
 import { flatMap, isEqual, orderBy } from 'lodash-es';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter, map, startWith, switchMap, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import {
-    Afspraak,
-    AfspraakQuery,
-    AfspraakToekenning,
-    BasisSjabloonFieldsFragment,
-    BijlageFieldsFragment,
-    DagToekenning,
-    Differentiatiegroep,
-    HuiswerkType,
-    Leerling,
-    Lesgroep,
-    Methode,
-    MethodenQuery,
-    RecenteMethode,
-    Sjabloon,
-    Toekenning,
-    ToekomendeAfsprakenQuery,
-    WeekToekenning
-} from '../../../../../generated/_types';
 import { methodeInhoudToBijlage } from '../../../../core/converters/bijlage.converters';
 import { SaveToekenningContainer } from '../../../../core/models';
 import { Schooljaar } from '../../../../core/models/schooljaar.model';
@@ -84,7 +84,6 @@ import { ActionsPopupComponent, opslaanEnKopieerButton } from '../../../../roost
 import { BackgroundIconComponent } from '../../../../rooster-shared/components/background-icon/background-icon.component';
 import { ButtonComponent } from '../../../../rooster-shared/components/button/button.component';
 import { DatepickerComponent, DatepickerHighlightDay } from '../../../../rooster-shared/components/datepicker/datepicker.component';
-import { FormCheckboxComponent } from '../../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { FormDropdownComponent } from '../../../../rooster-shared/components/form-dropdown/form-dropdown.component';
 import { LesuurComponent } from '../../../../rooster-shared/components/lesuur/lesuur.component';
 import { OmschrijvingEnBijlageComponent } from '../../../../rooster-shared/components/omschrijving-en-bijlage/omschrijving-en-bijlage.component';
@@ -142,7 +141,7 @@ import { ZichtbaarheidsToggleFormControlComponent } from '../../zichtbaarheids-t
         CounterTagComponent,
         FormDropdownComponent,
         TimeInputHelperDirective,
-        FormCheckboxComponent,
+        CheckboxComponent,
         RangedDatepickerComponent,
         DatepickerComponent,
         BackgroundIconComponent,

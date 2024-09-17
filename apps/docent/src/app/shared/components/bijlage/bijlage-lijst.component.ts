@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { Bijlage } from '@docent/codegen';
 import { IconBijlage, provideIcons } from 'harmony-icons';
-import { Bijlage } from '../../../../generated/_types';
 import { BijlageComponent } from './bijlage/bijlage.component';
 
 @Component({

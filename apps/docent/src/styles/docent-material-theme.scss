@@ -1,128 +1,236 @@
 @use '@angular/material' as mat;
-@import 'global-variables';
 
+/* stylelint-disable scss/no-global-function-names */
 /* stylelint-disable-next-line scss/at-mixin-argumentless-call-parentheses */
 @include mat.core();
 
-$docent-primary-pallette: (
-    50: #e5edfa,
-    100: #bfd3f3,
-    200: #94b5eb,
-    300: #6997e3,
-    400: #4981dd,
-    500: $primary-1,
-    600: #2463d3,
-    700: #1f58cd,
-    800: #194ec7,
-    900: #0f3cbe,
+@function create-palette($base-colors, $contrast-colors) {
+    @return (50: map-get($base-colors, 50),
+        100: map-get($base-colors, 100),
+        200: map-get($base-colors, 200),
+        300: map-get($base-colors, 300),
+        400: map-get($base-colors, 400),
+        500: map-get($base-colors, 500),
+        600: map-get($base-colors, 600),
+        700: map-get($base-colors, 700),
+        800: map-get($base-colors, 800),
+        900: map-get($base-colors, 900),
+        A100: map-get($base-colors, A100),
+        A200: map-get($base-colors, A200),
+        A400: map-get($base-colors, A400),
+        A700: map-get($base-colors, A700),
+        contrast: (50: map-get($contrast-colors, 50),
+            100: map-get($contrast-colors, 100),
+            200: map-get($contrast-colors, 200),
+            300: map-get($contrast-colors, 300),
+            400: map-get($contrast-colors, 400),
+            500: map-get($contrast-colors, 500),
+            600: map-get($contrast-colors, 600),
+            700: map-get($contrast-colors, 700),
+            800: map-get($contrast-colors, 800),
+            900: map-get($contrast-colors, 900),
+            A100: map-get($contrast-colors, A100),
+            A200: map-get($contrast-colors, A200),
+            A400: map-get($contrast-colors, A400),
+            A700: map-get($contrast-colors, A700)));
+}
+
+/* stylelint-enable scss/no-global-function-names */
+
+$light-primary-colors: (
+    50: var(--blue-0),
+    100: var(--blue-10),
+    200: var(--blue-20),
+    300: var(--blue-30),
+    400: var(--blue-40),
+    500: var(--blue-50),
+    600: var(--blue-60),
+    700: var(--blue-70),
+    800: var(--blue-80),
+    900: var(--blue-90),
     A100: #ebf0ff,
     A200: #b8c8ff,
     A400: #85a0ff,
-    A700: #6c8cff,
-    contrast: (
-        50: #fff,
-        100: #fff,
-        200: #000,
-        300: #000,
-        400: #fff,
-        500: #fff,
-        600: #fff,
-        700: #fff,
-        800: #fff,
-        900: #fff,
-        A100: #000,
-        A200: #000,
-        A400: #000,
-        A700: #000
-    )
+    A700: #6c8cff
 );
 
-$docent-secondary-pallette: (
-    50: #fcf5e9,
-    100: #f8e6c9,
-    200: #f3d5a5,
-    300: #eec480,
-    400: #eab865,
-    500: $secondary-1,
-    600: #e3a443,
-    700: #df9a3a,
-    800: #db9132,
-    900: #d58022,
+$light-secondary-colors: (
+    50: var(--orange-0),
+    100: var(--orange-10),
+    200: var(--orange-20),
+    300: var(--orange-30),
+    400: var(--orange-40),
+    500: var(--orange-50),
+    600: var(--orange-60),
+    700: var(--orange-70),
+    800: var(--orange-80),
+    900: var(--orange-90),
     A100: #fff,
     A200: #ffeddb,
     A400: #ffd4a8,
-    A700: #ffc78f,
-    contrast: (
-        50: #000,
-        100: #000,
-        200: #000,
-        300: #000,
-        400: #000,
-        500: #000,
-        600: #000,
-        700: #000,
-        800: #000,
-        900: #000,
-        A100: #000,
-        A200: #000,
-        A400: #000,
-        A700: #000
-    )
+    A700: #ffc78f
 );
 
-$docent-warning-pallette: (
-    50: #fbede2,
-    100: #f4d1b7,
-    200: #edb388,
-    300: #e59558,
-    400: #e07e34,
-    500: $accent-warning-1,
-    600: #d65f0e,
-    700: #d0540c,
-    800: #cb4a09,
-    900: #c23905,
+$light-warning-colors: (
+    50: var(--red-0),
+    100: var(--red-10),
+    200: var(--red-20),
+    300: var(--red-30),
+    400: var(--red-40),
+    500: var(--red-50),
+    600: var(--red-60),
+    700: var(--red-70),
+    800: var(--red-80),
+    900: var(--red-90),
     A100: #fff0ec,
     A200: #ffc8b9,
     A400: #ffa086,
-    A700: #ff8c6c,
-    contrast: (
-        50: #000,
-        100: #000,
-        200: #000,
-        300: #000,
-        400: #000,
-        500: #fff,
-        600: #fff,
-        700: #fff,
-        800: #fff,
-        900: #fff,
-        A100: #000,
-        A200: #000,
-        A400: #000,
-        A700: #000
-    )
+    A700: #ff8c6c
 );
 
-$docent-material-primary: mat.m2-define-palette($docent-primary-pallette);
-$docent-material-accent: mat.m2-define-palette($docent-secondary-pallette);
-$docent-material-warning: mat.m2-define-palette($docent-warning-pallette);
-$docent-material-typography: mat.m2-define-typography-config(
-    $font-family: 'Open Sans'
+$light-primary-contrast: (
+    50: #fff,
+    100: #fff,
+    200: #000,
+    300: #000,
+    400: #fff,
+    500: #fff,
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+    A100: #000,
+    A200: #000,
+    A400: #000,
+    A700: #000
 );
 
-$docent-material-theme: mat.m2-define-light-theme(
-    (
-        color: (
-            primary: $docent-material-primary,
-            accent: $docent-material-accent,
-            warn: $docent-material-warning
-        ),
-        typography: $docent-material-typography
-    )
+$light-secondary-contrast: (
+    50: #000,
+    100: #000,
+    200: #000,
+    300: #000,
+    400: #000,
+    500: #000,
+    600: #000,
+    700: #000,
+    800: #000,
+    900: #000,
+    A100: #000,
+    A200: #000,
+    A400: #000,
+    A700: #000
 );
 
-@include mat.core-theme($docent-material-theme);
-@include mat.button-theme($docent-material-theme);
-@include mat.fab-theme($docent-material-theme);
-@include mat.icon-button-theme($docent-material-theme);
-@include mat.datepicker-theme($docent-material-theme);
+$light-warning-contrast: (
+    50: #000,
+    100: #000,
+    200: #000,
+    300: #000,
+    400: #000,
+    500: #fff,
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+    A100: #000,
+    A200: #000,
+    A400: #000,
+    A700: #000
+);
+
+$dark-primary-colors: (
+    50: var(--blue-90),
+    100: var(--blue-80),
+    200: var(--blue-70),
+    300: var(--blue-60),
+    400: var(--blue-50),
+    500: var(--blue-40),
+    600: var(--blue-30),
+    700: var(--blue-20),
+    800: var(--blue-10),
+    900: var(--blue-0),
+    A100: #d0d8ff,
+    A200: #a0b0ff,
+    A400: #7088ff,
+    A700: #5068ff
+);
+
+$dark-secondary-colors: (
+    50: var(--orange-90),
+    100: var(--orange-80),
+    200: var(--orange-70),
+    300: var(--orange-60),
+    400: var(--orange-50),
+    500: var(--orange-40),
+    600: var(--orange-30),
+    700: var(--orange-20),
+    800: var(--orange-10),
+    900: var(--orange-0),
+    A100: #fff,
+    A200: #ffeddb,
+    A400: #ffd4a8,
+    A700: #ffc78f
+);
+
+$dark-warning-colors: (
+    50: var(--red-90),
+    100: var(--red-80),
+    200: var(--red-70),
+    300: var(--red-60),
+    400: var(--red-50),
+    500: var(--red-40),
+    600: var(--red-30),
+    700: var(--red-20),
+    800: var(--red-10),
+    900: var(--red-0),
+    A100: #fff0ec,
+    A200: #ffc8b9,
+    A400: #ffa086,
+    A700: #ff8c6c
+);
+
+$dark-primary-contrast: $light-primary-contrast;
+$dark-secondary-contrast: $light-secondary-contrast;
+$dark-warning-contrast: $light-warning-contrast;
+
+@mixin define-theme($mode, $primary-colors, $secondary-colors, $warning-colors, $primary-contrast, $secondary-contrast, $warning-contrast) {
+    $primary-palette: create-palette($primary-colors, $primary-contrast);
+    $secondary-palette: create-palette($secondary-colors, $secondary-contrast);
+    $warning-palette: create-palette($warning-colors, $warning-contrast);
+
+    $material-primary: mat.m2-define-palette($primary-palette);
+    $material-accent: mat.m2-define-palette($secondary-palette);
+    $material-warning: mat.m2-define-palette($warning-palette);
+    $material-typography: mat.m2-define-typography-config($font-family: 'Open Sans');
+
+    $material-theme: null;
+
+    @if $mode == 'dark' {
+        $material-theme: mat.m2-define-dark-theme((color: (primary: $material-primary,
+                        accent: $material-accent,
+                        warn: $material-warning ),
+                    typography: $material-typography ));
+
+
+    } @else {
+        $material-theme: mat.m2-define-light-theme((color: (primary: $material-primary,
+                        accent: $material-accent,
+                        warn: $material-warning ),
+                    typography: $material-typography ));
+    }
+
+    @include mat.core-theme($material-theme);
+    @include mat.button-theme($material-theme);
+    @include mat.fab-theme($material-theme);
+    @include mat.icon-button-theme($material-theme);
+    @include mat.datepicker-theme($material-theme);
+}
+
+:root:not(.dark) {
+    @include define-theme('light', $light-primary-colors, $light-secondary-colors, $light-warning-colors, $light-primary-contrast, $light-secondary-contrast, $light-warning-contrast);
+}
+
+:root.dark {
+    @include define-theme('dark', $dark-primary-colors, $dark-secondary-colors, $dark-warning-colors, $dark-primary-contrast, $dark-secondary-contrast, $dark-warning-contrast);
+}

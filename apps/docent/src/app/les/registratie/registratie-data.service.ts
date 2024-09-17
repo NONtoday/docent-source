@@ -1,18 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloCache, WatchQueryFetchPolicy } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { curry, eq, sortBy } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { matching, mod, set } from 'shades';
-import {
-    aanwezigheid,
-    leerlingMetIsJarig,
-    leerlingRegistratieFragment,
-    lesRegistratieFields,
-    lesRegistratieFragment,
-    registratieVerwerkt
-} from '../../../generated/_operations';
 import {
     AbsentieMelding,
     AbsentieMeldingFieldsFragment,
@@ -36,7 +23,20 @@ import {
     SignaleringenQuery,
     VrijVeldWaarde,
     VrijVeldWaardeInput
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { curry, eq, sortBy } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { matching, mod, set } from 'shades';
+import {
+    aanwezigheid,
+    leerlingMetIsJarig,
+    leerlingRegistratieFragment,
+    lesRegistratieFields,
+    lesRegistratieFragment,
+    registratieVerwerkt
+} from '../../../generated/_operations';
 import { getSignaleringId } from '../../core/models/signalering.model';
 import { convertToLocalDate } from '../../rooster-shared/utils/date.utils';
 import {

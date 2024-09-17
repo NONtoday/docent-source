@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Vak } from '@docent/codegen';
 import { IconDirective, TooltipDirective } from 'harmony';
 import { IconPijlRechts, provideIcons } from 'harmony-icons';
-import { Vak } from '../../../../generated/_types';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { CommaResultPipe } from '../../../shared/pipes/comma-result.pipe';
 import { MentordashboardResultaatTrendColorPipe } from '../../pipes/mentordashboard-resultaat-trend-color.pipe';

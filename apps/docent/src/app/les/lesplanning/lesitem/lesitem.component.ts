@@ -11,6 +11,7 @@ import {
     output
 } from '@angular/core';
 
+import { AfspraakQuery, AfspraakToekenning, HuiswerkType, Toekenning } from '@docent/codegen';
 import { ColorToken, IconDirective, IconPillComponent, PillComponent } from 'harmony';
 import {
     IconBewerken,
@@ -28,7 +29,6 @@ import {
     provideIcons
 } from 'harmony-icons';
 import { match } from 'ts-pattern';
-import { AfspraakQuery, AfspraakToekenning, HuiswerkType, Toekenning } from '../../../../generated/_types';
 import { PopupOpenDirective } from '../../../core/popup/popup-open.directive';
 import { PopupService } from '../../../core/popup/popup.service';
 import { PopupDirection } from '../../../core/popup/popup.settings';

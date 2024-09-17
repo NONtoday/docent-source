@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject, output } from '@angular/core';
 import { WatchQueryFetchPolicy } from '@apollo/client/core';
+import { Sjabloon, SjabloonCategorie, SjabloonFieldsFragment, Vaksectie, VaksectieView } from '@docent/codegen';
 import { IconSjabloon, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, startWith, take, tap } from 'rxjs/operators';
-import { Sjabloon, SjabloonCategorie, SjabloonFieldsFragment, Vaksectie, VaksectieView } from '../../../generated/_types';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { Optional } from '../../rooster-shared/utils/utils';

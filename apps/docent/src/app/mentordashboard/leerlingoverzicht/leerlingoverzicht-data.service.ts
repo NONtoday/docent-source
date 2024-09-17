@@ -1,7 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { map, switchMap } from 'rxjs/operators';
-import { match } from 'ts-pattern';
 import {
     GeldendResultaatFieldsFragment,
     LeerlingoverzichtExamenResultatenDocument,
@@ -24,7 +21,10 @@ import {
     SetLeerlingoverzichtTijdspanSelectieDocument,
     SetLeerlingoverzichtWeergaveInstellingenDocument,
     VakgemiddeldeFieldsFragment
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { map, switchMap } from 'rxjs/operators';
+import { match } from 'ts-pattern';
 import { MentordashboardOverzichtTijdspanOptie } from '../../core/models/mentordashboard.model';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { sortLocale } from '../../rooster-shared/utils/utils';

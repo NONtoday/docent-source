@@ -1,6 +1,6 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
+import { Maybe } from '@docent/codegen';
 import { BehaviorSubject } from 'rxjs';
-import { Maybe } from '../../../generated/_types';
 
 @Injectable({
     providedIn: 'root'

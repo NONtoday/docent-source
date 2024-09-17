@@ -12,7 +12,10 @@
                 </div>
                 @for (rcat of categorieen; track rcat.categorie.id) {
                     <div class="optie" [formGroupName]="rcat.categorie.id">
-                        <dt-form-checkbox [label]="rcat.categorie | registratieCategorieNaam" formControlName="selected" />
+                        <hmy-checkbox
+                            [label]="rcat.categorie | registratieCategorieNaam"
+                            maxWidthLabel="200px"
+                            formControlName="selected" />
                         <i
                             class="pointer reset"
                             [class.hidden]="

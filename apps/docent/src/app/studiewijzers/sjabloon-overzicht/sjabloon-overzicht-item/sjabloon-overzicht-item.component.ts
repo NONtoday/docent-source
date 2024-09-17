@@ -11,6 +11,7 @@ import {
     ViewContainerRef,
     inject
 } from '@angular/core';
+import { Sjabloon } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import {
     IconNietZichtbaarCheckbox,
@@ -21,7 +22,6 @@ import {
     provideIcons
 } from 'harmony-icons';
 import join from 'lodash-es/join';
-import { Sjabloon } from '../../../../generated/_types';
 import { PopupService } from '../../../core/popup/popup.service';
 import { Appearance, HorizontalOffset, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { DeviceService } from '../../../core/services/device.service';

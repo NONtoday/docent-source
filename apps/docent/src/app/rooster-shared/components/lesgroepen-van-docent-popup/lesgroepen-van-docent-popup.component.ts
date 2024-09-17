@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, ViewChild, inject } from '@angular/core';
+import { LesgroepenQuery } from '@docent/codegen';
 import { getYear } from 'date-fns';
 import { SpinnerComponent } from 'harmony';
 import { IconGroep, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
-import { LesgroepenQuery } from '../../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { getSchooljaar } from '../../utils/date.utils';

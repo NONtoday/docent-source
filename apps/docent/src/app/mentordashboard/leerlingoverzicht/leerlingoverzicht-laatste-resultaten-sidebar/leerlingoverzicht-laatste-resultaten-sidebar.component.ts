@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, computed, inject } from '@angular/core';
-import { Maybe, MentordashboardResultatenInstellingen, RecentResultaat } from '../../../../generated/_types';
+import { Maybe, MentordashboardResultatenInstellingen, RecentResultaat } from '@docent/codegen';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { SidebarComponent } from '../../../rooster-shared/components/sidebar/sidebar.component';
 import { BaseSidebar } from '../../../rooster-shared/directives/base-sidebar.directive';

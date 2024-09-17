@@ -4,7 +4,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { NgClickOutsideDelayOutsideDirective, NgClickOutsideDirective } from 'ng-click-outside2';
 import { filter, take, takeUntil } from 'rxjs/operators';
 
-import { IconDirective } from 'harmony';
+import { IconDirective, PillComponent } from 'harmony';
 import { IconSluiten, provideIcons } from 'harmony-icons';
 import { PopupPositionCalculator } from '../../../core/popup/popup-position-calculator';
 import { PopupService } from '../../../core/popup/popup.service';
@@ -26,7 +26,7 @@ export interface Popup {
     styleUrls: ['./popup.component.scss'],
     animations: [popupAnimation],
     standalone: true,
-    imports: [CommonModule, NgClickOutsideDirective, NgClickOutsideDelayOutsideDirective, IconDirective],
+    imports: [CommonModule, NgClickOutsideDirective, NgClickOutsideDelayOutsideDirective, IconDirective, PillComponent],
     providers: [provideIcons(IconSluiten)]
 })
 export class PopupComponent extends LifeCycleDirective implements OnInit {

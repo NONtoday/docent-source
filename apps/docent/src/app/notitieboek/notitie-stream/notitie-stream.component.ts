@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, computed, inject, input, model, output } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NotitiestreamQuery } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { endOfMonth, startOfMonth } from 'date-fns';
 import {
     DropdownComponent,
@@ -13,18 +16,17 @@ import {
     TooltipDirective
 } from 'harmony';
 import { IconChevronOnder, IconFilter, IconToevoegen, IconZoeken, provideIcons } from 'harmony-icons';
+import { isEqual } from 'lodash-es';
 import { derivedAsync } from 'ngxtension/derived-async';
-import { BehaviorSubject, Observable, combineLatest, map } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map, pairwise, startWith, tap } from 'rxjs';
 import { match } from 'ts-pattern';
-import { NotitiestreamQuery } from '../../../generated/_types';
-import { NotitieLeerlingTotalen, NotitieboekContext } from '../../core/models/notitieboek.model';
+import { NotitieLeerlingTotalen, NotitiePeriodeQuery, NotitiePeriodesQuery, NotitieboekContext } from '../../core/models/notitieboek.model';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
 import { Optional } from '../../rooster-shared/utils/utils';
-import { getVolledigeNaam } from '../../shared/utils/leerling.utils';
 import { NotitieKaartComponent } from '../notitie-kaart/notitie-kaart.component';
 import { NotitieFilter, NotitieboekFilterComponent } from '../notitieboek-filter/notitieboek-filter.component';
 import { NotitieStreamTijdlijnComponent } from './notitie-stream-tijdlijn/notitie-stream-tijdlijn.component';
@@ -58,39 +60,51 @@ import { NotitieStreamTotalenComponent } from './notitie-stream-totalen/notitie-
 })
 export class NotitieStreamComponent implements OnInit {
     private medewerkerDataService = inject(MedewerkerDataService);
+    private destroyRef = inject(DestroyRef);
 
     private filterOptie$ = new BehaviorSubject<NotitieFilter | undefined>(undefined);
     private searchValue$ = new BehaviorSubject<string>('');
 
     @Input() public notitieStream$: Observable<NotitiestreamQuery['notitiestream']>;
     public context = input.required<NotitieboekContext>();
+    private context$ = toObservable(this.context);
     public filterOptie = model.required<NotitieFilter | undefined>();
     public huidigeSchooljaarSelected = input.required<boolean>();
     public schooljaar = model.required<number | undefined>();
     public searchValue = model.required<string>();
     public selectedLeerlingTotalen = model.required<NotitieLeerlingTotalen | undefined>();
     public tab = model.required<NotitieboekTab>();
-
-    public readonly tabs: TabInput[] = [
-        { label: 'Tijdlijn', additionalAttributes: { 'data-gtm': 'notitieboek-tabs-navigeer-naar-tijdlijn' } },
-        { label: 'Totalen per leerling', additionalAttributes: { 'data-gtm': 'notitieboek-tabs-navigeer-naar-totalen' } }
-    ];
-    public displayTijdlijn = derivedAsync(() => this.tab() === 'Tijdlijn' || this.context().leerling);
-    public displayTotalen = derivedAsync(() => this.tab() === 'Totalen per leerling' && !this.context().leerling);
-    public filteredStream$: Observable<NotitiestreamQuery['notitiestream']>;
+    public tabs = model<TabInput[]>(Tabs);
+    public displayTijdlijn = computed(() => this.tab() === 'Tijdlijn' || this.context().leerling);
+    public displayTotalen = computed(() => this.tab() === 'Totalen per leerling' && !this.context().leerling);
+    public filteredStream = output<NotitiePeriodesQuery>();
+    public filteredStream$: Observable<NotitiePeriodesQuery>;
     public noNotities$: Observable<boolean>;
     public noTotalen$: Observable<boolean>;
-    public showTabs = derivedAsync(() => !this.context().leerling);
+    public showTabs = computed(() => !this.context().leerling);
     public totalenStream$: Observable<NotitieLeerlingTotalen[]>;
+    public schooljaarOpties = derivedAsync(() => this.getNotitieStreamSchooljaarStartOpties());
+    public heeftMeerdereSchooljaren = computed(() => (this.schooljaarOpties()?.length ?? 0) > 1);
 
-    private filterNotities(stream: NotitiestreamQuery['notitiestream'], filterOptie: Optional<NotitieFilter>, search: string) {
+    private filterNotities(stream: NotitiePeriodesQuery, filterOptie: Optional<NotitieFilter>, search: string) {
         return stream.map((periode) => ({
             ...periode,
             notities: periode.notities
-                .filter((notitie: QueriedNotitie) =>
+                .filter((notitie: NotitieQuery) =>
                     match(filterOptie)
                         .with('Mijn notities', () => notitie.auteur.id === this.medewerkerDataService.medewerkerId)
                         .with('Docenten', () => notitie.gedeeldVoorDocenten)
+                        .with('Groepsnotities', () => {
+                            const context = this.context();
+                            if (context.lesgroep) {
+                                return notitie.lesgroepBetrokkenen.some((betrokkene) => betrokkene.lesgroep.id === context.lesgroep?.id);
+                            }
+                            if (context.stamgroep) {
+                                return notitie.stamgroepBetrokkenen.some((betrokkene) => betrokkene.stamgroep.id === context.stamgroep?.id);
+                            }
+                            // Fallback - this should not actually happen.
+                            return true;
+                        })
                         .with('Mentor', () => notitie.gedeeldVoorMentoren)
                         .with('Belangrijk', () => notitie.belangrijk)
                         .with('Vastgeprikt', () => notitie.vastgeprikt)
@@ -98,11 +112,11 @@ export class NotitieStreamComponent implements OnInit {
                         .with(null, undefined, () => true)
                         .exhaustive()
                 )
-                .filter((notitie: QueriedNotitie) => (search.trim().length > 0 ? this.filterNotitieSearch(notitie, search) : true))
+                .filter((notitie: NotitieQuery) => (search.trim().length > 0 ? this.filterNotitieSearch(notitie, search) : true))
         }));
     }
 
-    private filterNotitieSearch(notitie: QueriedNotitie, search: string): boolean {
+    private filterNotitieSearch(notitie: NotitieQuery, search: string): boolean {
         const searchTexts = [
             getVolledigeNaam(notitie.auteur).toLowerCase(),
             notitie.inhoud.toLowerCase(),
@@ -123,10 +137,10 @@ export class NotitieStreamComponent implements OnInit {
      * @param stream De stream met notities om totalen uit te berekenen.
      * @returns De notities per periode gegroepeerd per leerling met totale aantallen notities, belangrijke notities en gemarkeerde notities.
      */
-    private aggregateNotitieTotalenLeerling(stream: NotitiestreamQuery['notitiestream']) {
+    private aggregateNotitieTotalenLeerling(stream: NotitiePeriodesQuery) {
         const result: NotitieLeerlingTotalen[] = [];
         const totalenMap = new Map<string, NotitieLeerlingTotalen>();
-        const periodeMap = new Map<string, Map<number, NotitiestreamQuery['notitiestream'][number]>>();
+        const periodeMap = new Map<string, Map<number, NotitiePeriodeQuery>>();
 
         stream.forEach((periode) =>
             periode.notities.forEach((notitie) => {
@@ -155,15 +169,15 @@ export class NotitieStreamComponent implements OnInit {
                         result.push(totalen);
                     }
 
-                    let periodeMonthMap: Map<number, NotitiestreamQuery['notitiestream'][number]>;
+                    let periodeMonthMap: Map<number, NotitiePeriodeQuery>;
                     if (periodeMap.has(id)) {
                         periodeMonthMap = periodeMap.get(id)!;
                     } else {
-                        periodeMonthMap = new Map<number, NotitiestreamQuery['notitiestream'][number]>();
+                        periodeMonthMap = new Map();
                         periodeMap.set(id, periodeMonthMap);
                     }
                     const month = notitie.createdAt.getMonth();
-                    let resultPeriode: NotitiestreamQuery['notitiestream'][number];
+                    let resultPeriode: NotitiePeriodeQuery;
                     if (periodeMonthMap.has(month)) {
                         resultPeriode = periodeMonthMap.get(month)!;
                     } else {
@@ -227,24 +241,85 @@ export class NotitieStreamComponent implements OnInit {
         this.searchValue.subscribe((value) => this.searchValue$.next(value));
 
         this.filteredStream$ = combineLatest([this.notitieStream$, this.filterOptie$, this.searchValue$]).pipe(
-            map(([stream, filterOptie, search]) => this.filterNotities(stream, filterOptie, search)),
+            map(([stream, filterOptie, search]) => this.filterNotities(stream.notitiePeriodes, filterOptie, search)),
             shareReplayLastValue()
         );
+        this.filteredStream$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((stream) => this.filteredStream.emit(stream));
         this.noNotities$ = this.filteredStream$.pipe(map((stream) => stream.flatMap((periode) => periode.notities).length === 0));
 
         this.totalenStream$ = this.filteredStream$.pipe(
-            map(this.aggregateNotitieTotalenLeerling),
+            map((stream) => this.aggregateNotitieTotalenLeerling(stream)),
             map((stream) => stream.sort(this.sortNotitieTotalenLeerling)),
             shareReplayLastValue()
         );
         this.noTotalen$ = this.totalenStream$.pipe(map((stream) => stream.length === 0));
+
+        this.schooljaar.subscribe((selectedSchooljaar) => {
+            const first = this.schooljaarOpties()?.[0];
+            if (first) {
+                if (selectedSchooljaar === first) {
+                    this.setTijdlijnTabDisabled(false);
+                } else {
+                    this.setTijdlijnTabDisabled(true);
+                    if (!this.context().leerling) {
+                        this.tab.set('Totalen per leerling');
+                    }
+                }
+            }
+        });
     }
 
     public onTabSelected(tab: string) {
         if (this.tab() === tab) return;
         this.tab.set(tab as NotitieboekTab);
     }
+
+    /**
+     * Voor het tonen van de schooljaar opties moeten we rekening houden met zowel de context als de stream data.
+     * Het kan zijn dat je binnen dezelfde context een nieuw schooljaar selecteert, op dat moment willen we niet opnieuw
+     * de opties genereren, want dan verlies je de selectie.
+     * Tegelijkertijd kunnen verschillende contexten (bijv. lesgroep en stamgroep) dezelfde schooljaren hebben, bijv.
+     * wanneer 1 leerling in beide groepen voorkomt.
+     */
+    private getNotitieStreamSchooljaarStartOpties(): Observable<number[]> {
+        return combineLatest({
+            context: this.context$,
+            schooljaren: this.notitieStream$.pipe(map((stream) => stream.schooljaren))
+        }).pipe(
+            // nodig voor werken met pairwise()
+            startWith(undefined),
+            pairwise(),
+            // enkel doorgaan als de context óf schooljaren zijn veranderd
+            filter(([previous, current]) => !isEqual(previous, current)),
+            map(([, current]) => current?.schooljaren),
+            map((schooljaren) => {
+                if (schooljaren?.length) {
+                    return schooljaren.map((schooljaar) => schooljaar.vanafDatum.getFullYear());
+                }
+                return [new Date().getFullYear()];
+            }),
+            tap((schooljaren) => {
+                // beschikbare schooljaren zijn veranderd: reset state
+                this.setTijdlijnTabDisabled(false);
+                this.schooljaar.set(schooljaren[0]);
+            })
+        );
+    }
+
+    private setTijdlijnTabDisabled(disabled: boolean) {
+        this.tabs.set(
+            [...Tabs].map((tab): TabInput => {
+                if (tab.label === 'Tijdlijn') return { ...tab, disabled };
+                return { ...tab };
+            })
+        );
+    }
 }
 
-export type NotitieboekTab = 'Tijdlijn' | 'Totalen per leerling';
-type QueriedNotitie = NotitiestreamQuery['notitiestream'][number]['notities'][number];
+const Tabs = [
+    { label: 'Tijdlijn', additionalAttributes: { 'data-gtm': 'notitieboek-tabs-navigeer-naar-tijdlijn' } },
+    { label: 'Totalen per leerling', additionalAttributes: { 'data-gtm': 'notitieboek-tabs-navigeer-naar-totalen' } }
+] as const satisfies TabInput[];
+
+export type NotitieboekTab = (typeof Tabs)[number]['label'];
+type NotitieQuery = NotitiePeriodeQuery['notities'][number];

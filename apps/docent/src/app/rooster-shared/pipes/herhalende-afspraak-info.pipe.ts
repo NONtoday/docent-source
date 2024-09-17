@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Afspraak, AfspraakHerhalingDag, AfspraakHerhalingType } from '@docent/codegen';
 import { isEqual } from 'lodash-es';
-import { Afspraak, AfspraakHerhalingDag, AfspraakHerhalingType } from '../../../generated/_types';
 import { formatDateNL } from '../utils/date.utils';
 
 @Pipe({

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LesRegistratieQuery } from '../../generated/_types';
+import { LesRegistratieQuery } from '@docent/codegen';
 import { Optional } from '../rooster-shared/utils/utils';
 
 @Pipe({

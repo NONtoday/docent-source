@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Maybe } from '../../../generated/_types';
+import { Maybe } from '@docent/codegen';
 
 @Pipe({
     name: 'mentordashboardResultaatTrendTooltip',

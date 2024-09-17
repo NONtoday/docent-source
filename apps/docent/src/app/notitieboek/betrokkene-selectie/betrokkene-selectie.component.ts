@@ -22,6 +22,7 @@ import {
     ReactiveFormsModule
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { LesgroepFieldsFragment, Maybe, PartialLeerlingFragment, StamgroepFieldsFragment, ZoekBetrokkenenQuery } from '@docent/codegen';
 import { AvatarComponent, AvatarTagComponent, IconDirective, IconTagComponent, PillComponent } from 'harmony';
 import { IconGroep, IconToevoegen, IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { isEmpty } from 'lodash-es';
@@ -40,13 +41,6 @@ import {
     switchMap,
     tap
 } from 'rxjs';
-import {
-    LesgroepFieldsFragment,
-    Maybe,
-    PartialLeerlingFragment,
-    StamgroepFieldsFragment,
-    ZoekBetrokkenenQuery
-} from '../../../generated/_types';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { DeviceService, desktopQuery } from '../../core/services/device.service';
 import { NotitieboekDataService } from '../../core/services/notitieboek-data.service';

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { BaseAfspraakFragment, Maybe, Vak } from '../../../generated/_types';
+import { BaseAfspraakFragment, Maybe, Vak } from '@docent/codegen';
 
 import { formatBeginEindTijd } from '../utils/date.utils';
 

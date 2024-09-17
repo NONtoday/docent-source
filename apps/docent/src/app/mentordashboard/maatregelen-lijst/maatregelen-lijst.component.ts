@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, output } from '@angular/core';
+import { MaatregelToekenning } from '@docent/codegen';
 import { IconActief, provideIcons } from 'harmony-icons';
-import { MaatregelToekenning } from '../../../generated/_types';
 import type { MaatregelToekenningenMetStatus } from '../../core/services/maatregeltoekenning-data.service';
 import { MaatregeltoekenningComponent } from '../maatregeltoekenning/maatregeltoekenning.component';
 

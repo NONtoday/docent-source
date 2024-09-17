@@ -17,7 +17,7 @@ import {
     Toetskolom,
     ToetsSoort,
     VoortgangsdossierMatrixVanLesgroepQuery
-} from '../../generated/_types';
+} from '@docent/codegen';
 import { toetskolommenConfig } from '../core/models/resultaten/resultaten.model';
 import { ActionColor } from '../rooster-shared/utils/color-token-utils';
 import { getSchooljaar } from '../rooster-shared/utils/date.utils';

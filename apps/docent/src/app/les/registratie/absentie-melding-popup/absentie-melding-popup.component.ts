@@ -9,19 +9,12 @@ import {
     ValidatorFn,
     Validators
 } from '@angular/forms';
+import { AbsentieMelding, AbsentieRedenFieldsFragment, AbsentieSoort, AfspraakQuery, LesRegistratieQuery, Maybe } from '@docent/codegen';
 import { addMinutes, isWithinInterval, startOfDay, subMinutes, subSeconds } from 'date-fns';
 import { IconDirective } from 'harmony';
 import { IconKlok, IconLeerlingVerwijderdCheckbox, IconName, IconNoRadio, IconTijd, provideIcons } from 'harmony-icons';
 import get from 'lodash-es/get';
 import { Subject, takeUntil } from 'rxjs';
-import {
-    AbsentieMelding,
-    AbsentieRedenFieldsFragment,
-    AbsentieSoort,
-    AfspraakQuery,
-    LesRegistratieQuery,
-    Maybe
-} from '../../../../generated/_types';
 import { DeviceService } from '../../../core/services/device.service';
 import { HarmonyColorName, toFillCssClass } from '../../../rooster-shared/colors';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';

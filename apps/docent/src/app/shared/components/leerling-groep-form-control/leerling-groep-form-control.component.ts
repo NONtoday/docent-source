@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { Differentiatiegroep, Leerling, Projectgroep } from '@docent/codegen';
+import { CheckboxComponent } from 'harmony';
 import { Observable } from 'rxjs';
-import { Differentiatiegroep, Leerling, Projectgroep } from '../../../../generated/_types';
-import { FormCheckboxComponent } from '../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';
 import { differentiatieKleurConverter } from '../../../rooster-shared/utils/color-token-utils';
 import { AvatarNaamComponent } from '../avatar-naam/avatar-naam.component';
@@ -15,15 +15,7 @@ import { KleurenStackComponent, KleurenStackElement } from '../kleuren-stack/kle
     styleUrls: ['./leerling-groep-form-control.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        FormCheckboxComponent,
-        AvatarNaamComponent,
-        KleurenStackComponent,
-        AsyncPipe,
-        VolledigeNaamPipe
-    ]
+    imports: [FormsModule, ReactiveFormsModule, CheckboxComponent, AvatarNaamComponent, KleurenStackComponent, AsyncPipe, VolledigeNaamPipe]
 })
 export class LeerlingGroepFormControlComponent implements OnInit {
     @Input() leerling: Leerling;

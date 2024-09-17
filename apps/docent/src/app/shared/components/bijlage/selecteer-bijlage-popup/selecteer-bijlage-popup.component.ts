@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { BijlageFieldsFragment } from '@docent/codegen';
 import { IconLink, IconUploaden, provideIcons } from 'harmony-icons';
-import { BijlageFieldsFragment } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { Appearance, PopupSettings } from '../../../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../../../rooster-shared/components/popup/popup.component';

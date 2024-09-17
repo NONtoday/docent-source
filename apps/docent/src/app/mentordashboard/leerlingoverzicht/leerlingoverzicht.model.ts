@@ -1,5 +1,5 @@
+import { LeerlingAfwezigheidsKolom, Vak, VakToetsTrend } from '@docent/codegen';
 import { NotificationColor } from 'harmony';
-import { LeerlingAfwezigheidsKolom, Vak, VakToetsTrend } from '../../../generated/_types';
 import { Optional } from '../../rooster-shared/utils/utils';
 
 export interface RegistratieTotaalContent {

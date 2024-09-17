@@ -15,9 +15,9 @@ import { ActivatedRoute } from '@angular/router';
 import { differenceInMinutes, getISOWeek, isSameWeek, setISOWeek } from 'date-fns';
 import { partial } from 'lodash-es';
 
+import { HuiswerkType, SjabloonViewQuery, SjabloonWeek, WeekToekenning } from '@docent/codegen';
 import { IconDirective, PillComponent, TagComponent } from 'harmony';
 import { IconLabelToevoegen, IconPijlBoven, IconPijlOnder, IconToevoegen, provideIcons } from 'harmony-icons';
-import { HuiswerkType, SjabloonViewQuery, SjabloonWeek, WeekToekenning } from '../../../../generated/_types';
 import { DragDropData } from '../../../core/models/studiewijzers/studiewijzer.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { DeviceService } from '../../../core/services/device.service';

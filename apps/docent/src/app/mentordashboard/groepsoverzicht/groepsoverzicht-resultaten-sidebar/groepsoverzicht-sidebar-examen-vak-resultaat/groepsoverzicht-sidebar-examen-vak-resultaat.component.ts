@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { MentorDashboardExamenVakSamenvattendeResultatenFieldsFragment, MentordashboardResultatenInstellingen } from '@docent/codegen';
 import { CssVarPipe, IconPillComponent, PillComponent, TooltipDirective } from 'harmony';
 import { IconHogerNiveau, IconTrend, provideIcons } from 'harmony-icons';
-import {
-    MentorDashboardExamenVakSamenvattendeResultatenFieldsFragment,
-    MentordashboardResultatenInstellingen
-} from '../../../../../generated/_types';
 import { createTrendwaardePill } from '../../../mentordashboard.utils';
 import { MentordashboardResultaatKleurPipe } from '../../../pipes/mentordashboard-resultaat-kleur.pipe';
 import { TrendwaardePill } from '../groepsoverzicht-sidebar-vak-resultaat/groepsoverzicht-sidebar-vak-resultaat.component';

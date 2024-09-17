@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, inject, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AfspraakQuery } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconInleveropdracht, IconLesplanning, IconYesRadio, provideIcons } from 'harmony-icons';
-import { AfspraakQuery } from '../../../generated/_types';
 import { SidebarInputs, SidebarService } from '../../core/services/sidebar.service';
 import { InleveropdrachtenOverzichtSidebarComponent } from '../lesplanning/inleveropdrachten-overzicht-sidebar/inleveropdrachten-overzicht-sidebar.component';
 

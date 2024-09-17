@@ -2,6 +2,12 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Injector, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
+    GroepsoverzichtSorteerKolom,
+    MentorDashboardExamenVakSamenvattendeResultaten,
+    SorteringOrder,
+    VakRapportCijfer
+} from '@docent/codegen';
+import {
     CssVarPipe,
     IconDirective,
     NotificationCounterComponent,
@@ -17,12 +23,6 @@ import { derivedAsync } from 'ngxtension/derived-async';
 import { derivedFrom } from 'ngxtension/derived-from';
 import { combineLatest, filter, map, of, pipe, startWith, switchMap, tap } from 'rxjs';
 import { P, match } from 'ts-pattern';
-import {
-    GroepsoverzichtSorteerKolom,
-    MentorDashboardExamenVakSamenvattendeResultaten,
-    SorteringOrder,
-    VakRapportCijfer
-} from '../../../../generated/_types';
 import { LeerlingDataService } from '../../../core/services/leerling-data.service';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';

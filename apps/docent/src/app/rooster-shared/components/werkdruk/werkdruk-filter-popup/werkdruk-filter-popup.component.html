@@ -13,7 +13,7 @@
             @if (sortedGroepen.length > 1 && !mentorLeerlingen) {
                 @for (groep of sortedGroepen; track groep.id) {
                     <div class="item lesgroep">
-                        <dt-form-checkbox [formControlName]="groep.id"> </dt-form-checkbox>
+                        <hmy-checkbox [formControlName]="groep.id" />
                         <dt-background-icon [color]="$any(groep.color)" icon="groep" size="small"> </dt-background-icon>
                         <span class="text-content-semi">{{ groep.naam }}</span>
                     </div>
@@ -22,7 +22,7 @@
             @if (!toonAlleenLesgroepen) {
                 @for (selectedLeerling of selectedLeerlingen; track selectedLeerling.leerling.id) {
                     <div class="item indiv-mentorleerling leerling" [class.checked]="formState[selectedLeerling.leerling.id].selected">
-                        <dt-form-checkbox [formControlName]="selectedLeerling.leerling.id"> </dt-form-checkbox>
+                        <hmy-checkbox [formControlName]="selectedLeerling.leerling.id" />
                         <dt-avatar
                             [src]="selectedLeerling.leerling.pasfoto"
                             [initialen]="selectedLeerling.leerling.initialen"
@@ -55,7 +55,7 @@
                             }
                             @for (differentiatiegroep of groep.differentiatieGroepen; track differentiatiegroep.id) {
                                 <div class="item differentiatiegroep" [class.checked]="formState[differentiatiegroep.id].selected">
-                                    <dt-form-checkbox [formControlName]="differentiatiegroep.id"> </dt-form-checkbox>
+                                    <hmy-checkbox [formControlName]="differentiatiegroep.id" />
                                     <dt-kleur-keuze
                                         [kleur]="differentiatiegroep.kleur"
                                         [content]="differentiatiegroep.leerlingen?.length"
@@ -68,7 +68,7 @@
                             @for (leerling of groep.leerlingen; track leerling.id) {
                                 @if (!selectedDiffGroepLeerlingIds.includes(leerling.id)) {
                                     <div class="item leerling" [class.checked]="$any(formGroup)[leerling.id]">
-                                        <dt-form-checkbox [formControlName]="leerling.id"> </dt-form-checkbox>
+                                        <hmy-checkbox [formControlName]="leerling.id" />
                                         <dt-avatar
                                             [src]="leerling.pasfoto"
                                             [initialen]="leerling.initialen"
@@ -90,7 +90,7 @@
                             <div
                                 class="item indiv-mentorleerling leerling"
                                 [class.checked]="formState[individueleMentorleerling.leerling.id].selected">
-                                <dt-form-checkbox [formControlName]="individueleMentorleerling.leerling.id"> </dt-form-checkbox>
+                                <hmy-checkbox [formControlName]="individueleMentorleerling.leerling.id" />
                                 <dt-avatar
                                     [src]="individueleMentorleerling.leerling.pasfoto"
                                     [initialen]="individueleMentorleerling.leerling.initialen"

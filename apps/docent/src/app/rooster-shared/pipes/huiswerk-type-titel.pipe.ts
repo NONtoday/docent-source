@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { HuiswerkType } from '../../../generated/_types';
+import { HuiswerkType } from '@docent/codegen';
 import { getHuiswerkTypeTitel } from '../utils/utils';
 
 @Pipe({

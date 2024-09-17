@@ -1,18 +1,16 @@
 @if (groepsoverzichtView$ | async; as viewModel) {
     <div class="header-buttons">
         <div class="header-left">
-            <dt-outline-button
-                class="tijdspan-button"
-                #filter
-                [iconRight]="true"
-                [iconSizes]="['smallest']"
-                (click)="openTijdspanPopup(viewModel.tijdspan)"
+            <hmy-dropdown
+                [modalOnMobile]="true"
+                [buttonHeight]="40"
+                [items]="tijdspanOptiesDropdown()"
+                [selected]="viewModel.tijdspan"
+                (onSelectionChanged)="selectTijdspanOptie($event)"
+                mobileModalTitle="Notities per schooljaar"
+                listWidth="fit-options"
                 data-gtm="groepsoverzicht-tijdspan-selectie"
-                cy="tijdspan-button"
-                icon="chevronOnder"
-                color="neutral">
-                {{ viewModel.tijdspan }}
-            </dt-outline-button>
+                cy="tijdspan-button" />
             <div class="show-for-tablet periode-text">
                 {{ viewModel.periodeText }}
             </div>
@@ -34,11 +32,11 @@
     @if (!(showLoader$ | async) && viewModel.filteredRegistraties; as registraties) {
         <div class="registraties">
             @for (registratie of registraties; track trackById($index, registratie)) {
-                <dt-groepsoverzicht-categorie-box [registratie]="registratie" [tijdspan]="viewModel.tijdspan" />
+                <dt-groepsoverzicht-categorie-box [registratie]="registratie" [tijdspan]="viewModel.tijdspan.data" />
             }
             @if (viewModel.showEmptyCategoriesToggle) {
                 <span
-                    class="hide-for-tablet category-toggle text-content-semi color-primary-2"
+                    class="hide-for-tablet category-toggle text-content-semi action-primary-strong"
                     (click)="toggleEmptyCategories()"
                     cy="lege-categorie-toggle"
                     data-gtm="groepsoverzicht-lege-categorie-toggle">
@@ -49,18 +47,18 @@
     }
     @if (viewModel.weergaves.length === 0) {
         <div class="geen-registraties text-content-semi">
-            <span class="color-typography-3">Geen categorieën geselecteerd</span>
+            <span class="text-weak">Geen categorieën geselecteerd</span>
             <span
-                class="weergave-wijzigen color-primary-1 pointer"
+                class="weergave-wijzigen action-primary-normal pointer"
                 (click)="openWeergavePopup(viewModel.registraties, viewModel.weergaves)">
-                <i class="fill-primary-1" hmyIcon="settings"> </i>Weergave wijzigen
+                <i class="action-primary-normal" hmyIcon="settings"> </i>Weergave wijzigen
             </span>
         </div>
     }
     @if (viewModel.geenCijferperiode && viewModel.weergaves.length > 0) {
         <div class="geen-registraties text-content-semi">
-            <span class="color-typography-3">Er zijn geen periodes beschikbaar.</span>
-            <span class="geen-periodes-alternatieven color-typography-3">
+            <span class="text-weak">Er zijn geen periodes beschikbaar.</span>
+            <span class="geen-periodes-alternatieven text-weak">
                 Bekijk <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Laatste 7 dagen')">de laatste 7 dagen</a>,
                 <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Laatste 30 dagen')">de laatste 30 dagen</a>,
                 <a [inline]="true" [useEllipsis]="false" (click)="selectTijdspanOptie('Huidig schooljaar')">dit schooljaar</a>

@@ -1,6 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, inject, output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LesplanNavigatieWeekQuery, Maybe } from '@docent/codegen';
 import {
     addWeeks,
     endOfISOWeek,
@@ -19,7 +20,6 @@ import {
 import { SpinnerComponent } from 'harmony';
 import { IconChevronLinks, IconChevronRechts, provideIcons } from 'harmony-icons';
 import { Observable, combineLatest, switchMap, tap } from 'rxjs';
-import { LesplanNavigatieWeekQuery, Maybe } from '../../../../generated/_types';
 import { Schooljaar } from '../../../core/models/schooljaar.model';
 import { startLoading, stopLoading } from '../../../core/operators/loading.operators';
 import { mapToSelectedAfspraakId } from '../../../core/operators/mapToSelectedAfspraakId.operator';

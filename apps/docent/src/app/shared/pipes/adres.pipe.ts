@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Adres } from '@docent/codegen';
 import { capitalize } from 'lodash-es';
-import { Adres } from '../../../generated/_types';
 import { Optional } from '../../rooster-shared/utils/utils';
 
 type BuitenlandsAdres = Pick<Adres, 'land' | 'buitenland1' | 'buitenland2' | 'buitenland3'>;

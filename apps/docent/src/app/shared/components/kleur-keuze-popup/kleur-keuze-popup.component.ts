@@ -1,9 +1,9 @@
 import { BreakpointState } from '@angular/cdk/layout';
 import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { DifferentiatiegroepKleur } from '@docent/codegen';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DifferentiatiegroepKleur } from '../../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { DeviceService, phoneQuery, tabletPortraitQuery, tabletQuery } from '../../../core/services/device.service';
 import { KleurKeuzeComponent } from '../../../rooster-shared/components/kleur-keuze/kleur-keuze.component';

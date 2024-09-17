@@ -3,6 +3,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     Component,
+    computed,
     DestroyRef,
     inject,
     input,
@@ -12,14 +13,15 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NotitieContext, NotitieFieldsFragment } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import { delay, filter, map, Observable, tap } from 'rxjs';
-import { NotitieFieldsFragment, NotitiestreamQuery } from '../../../../generated/_types';
-import { NotitieboekContext } from '../../../core/models/notitieboek.model';
+import { NotitieboekContext, NotitiePeriodeQuery, NotitiePeriodesQuery } from '../../../core/models/notitieboek.model';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
 import { DtDatePipe } from '../../../rooster-shared/pipes/dt-date.pipe';
 import { isPresent } from '../../../rooster-shared/utils/utils';
 import { NotitieKaartComponent } from '../../notitie-kaart/notitie-kaart.component';
+import { injectToonSchooljaarSelectie } from '../../notitieboek-providers';
 import { isHuidigeWeek as utilIsHuidigeWeek } from '../../notitieboek.util';
 
 @Component({
@@ -38,12 +40,16 @@ export class NotitieStreamTijdlijnComponent implements AfterViewInit {
     private destroyRef = inject(DestroyRef);
     private renderer = inject(Renderer2);
     private router = inject(Router);
+    private toonSchooljaarSelectie = injectToonSchooljaarSelectie();
     @ViewChildren(NotitieKaartComponent) kaarten: QueryList<NotitieKaartComponent>;
 
     public context = input.required<NotitieboekContext>();
     public huidigeSchooljaarSelected = input.required<boolean>();
-    public stream = input.required<Observable<NotitiestreamQuery['notitiestream'] | null>>();
+    public stream = input.required<Observable<NotitiePeriodesQuery>>();
     public noNotities = input.required<boolean | null>();
+    public heeftMeerdereSchooljaren = input.required<boolean>();
+
+    public isLeerlingContext = computed(() => this.context().context === NotitieContext.LEERLING);
 
     ngAfterViewInit(): void {
         this.kaarten.changes
@@ -62,7 +68,7 @@ export class NotitieStreamTijdlijnComponent implements AfterViewInit {
             });
     }
 
-    isHuidigeWeek(week: NotitiestreamQuery['notitiestream'][number]): boolean {
+    isHuidigeWeek(week: NotitiePeriodeQuery): boolean {
         return utilIsHuidigeWeek(week);
     }
 
@@ -77,5 +83,9 @@ export class NotitieStreamTijdlijnComponent implements AfterViewInit {
                 edit: 'true'
             }
         });
+    }
+
+    selecteerAnderSchooljaar() {
+        this.toonSchooljaarSelectie.emit();
     }
 }

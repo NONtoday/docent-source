@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, inject, output } from '@angular/core';
+import { CijferPeriodeWeek, Sjabloon } from '@docent/codegen';
 import { getISOWeek } from 'date-fns';
 import { IconPijlLinks, IconSjabloon, provideIcons } from 'harmony-icons';
 import { Observable, Subject } from 'rxjs';
-import { CijferPeriodeWeek, Sjabloon } from '../../../../generated/_types';
 import { SidebarPage } from '../../../core/models/studiewijzers/studiewijzer.model';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';

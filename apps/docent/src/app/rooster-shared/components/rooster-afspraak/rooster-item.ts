@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { Afspraak } from '../../../../generated/_types';
+import { Afspraak } from '@docent/codegen';
 
 @Directive()
 export abstract class RoosterItemBaseDirective {

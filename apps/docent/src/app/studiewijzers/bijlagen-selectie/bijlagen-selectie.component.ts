@@ -1,16 +1,15 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, inject, output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Bijlage, BijlageFieldsFragment, BijlageMap, BijlageMapFieldsFragment, BijlageType, Maybe } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
-import { IconDirective } from 'harmony';
+import { CheckboxComponent, IconDirective } from 'harmony';
 import { IconBijlage, IconChevronOnder, IconInformatie, IconMap, provideIcons } from 'harmony-icons';
 import flatMap from 'lodash-es/flatMap';
 import zip from 'lodash-es/zip';
 import { Observable, combineLatest } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
-import { Bijlage, BijlageFieldsFragment, BijlageMap, BijlageMapFieldsFragment, BijlageType, Maybe } from '../../../generated/_types';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
-import { FormCheckboxComponent } from '../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/utils/color-token-utils';
@@ -43,7 +42,7 @@ interface BijlagenForm {
         FormsModule,
         ReactiveFormsModule,
         TooltipDirective,
-        FormCheckboxComponent,
+        CheckboxComponent,
         KleurenStackComponent,
         BijlageExtensieComponent,
         OutlineButtonComponent,

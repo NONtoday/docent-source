@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { addDays, addWeeks, getDate, getISOWeek, getMonth, getYear, startOfWeek, subWeeks } from 'date-fns';
 import { IconDirective, SpinnerComponent, SwitchComponent, SwitchGroupComponent } from 'harmony';
 
+import { Lesgroep } from '@docent/codegen';
 import {
     IconChevronLinks,
     IconChevronRechts,
@@ -18,7 +19,6 @@ import {
     provideIcons
 } from 'harmony-icons';
 import { Observable } from 'rxjs';
-import { Lesgroep } from '../../../generated/_types';
 import { PopupService } from '../../core/popup/popup.service';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { ActionButton, ActionsPopupComponent } from '../../rooster-shared/components/actions-popup/actions-popup.component';

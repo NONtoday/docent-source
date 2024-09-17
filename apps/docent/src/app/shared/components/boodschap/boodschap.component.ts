@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { InleveringBerichtFieldsFragment } from '../../../../generated/_types';
+import { InleveringBerichtFieldsFragment } from '@docent/codegen';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { LinkComponent } from '../../../rooster-shared/components/link/link.component';
 import { DtDatePipe } from '../../../rooster-shared/pipes/dt-date.pipe';

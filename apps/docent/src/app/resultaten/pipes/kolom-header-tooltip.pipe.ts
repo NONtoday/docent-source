@@ -10,7 +10,7 @@ import {
     RapportGemiddeldekolom,
     RapportToetskolom,
     ResultaatkolomType
-} from '../../../generated/_types';
+} from '@docent/codegen';
 import { isKolomOfType, isToetskolom } from '../resultaten.utils';
 import { convertHerkansingToNaam } from './herkansing-naam.pipe';
 

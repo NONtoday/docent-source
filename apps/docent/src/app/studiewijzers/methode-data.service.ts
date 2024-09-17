@@ -1,7 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
     HoofdstukkenDocument,
     HoofdstukkenQuery,
@@ -11,7 +8,10 @@ import {
     RecenteMethodesDocument,
     RecenteMethodesQuery,
     UpdateRecenteMethodesDocument
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Optional } from '../rooster-shared/utils/utils';
 
 @Injectable({

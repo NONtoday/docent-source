@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Directive, inject, Input, OnChanges, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Settings } from '@docent/codegen';
 import { isEmpty } from 'lodash-es';
 import { take } from 'rxjs';
-import { Settings } from '../../../generated/_types';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { Optional } from '../utils/utils';
 

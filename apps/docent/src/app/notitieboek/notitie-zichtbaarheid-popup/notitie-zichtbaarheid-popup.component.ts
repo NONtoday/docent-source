@@ -2,10 +2,10 @@ import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
+import { CheckboxComponent } from 'harmony';
 import { IconInformatie, IconReacties, provideIcons } from 'harmony-icons';
 import { PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
-import { FormCheckboxComponent } from '../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { SwitchComponent } from '../../shared/components/switch/switch.component';
@@ -23,7 +23,7 @@ export interface NotitieZichtbaarheidForm {
         PopupComponent,
         FormsModule,
         ReactiveFormsModule,
-        FormCheckboxComponent,
+        CheckboxComponent,
         SwitchComponent,
         ButtonComponent,
         AsyncPipe

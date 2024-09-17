@@ -12,13 +12,6 @@ import {
     inject
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { collapseAnimation } from 'angular-animations';
-import { isEqual } from 'date-fns';
-import { IconDirective, PillComponent } from 'harmony';
-import { IconPijlLinks, provideIcons } from 'harmony-icons';
-import { sortBy } from 'lodash-es';
-import { Observable, Subject, Subscription, combineLatest, timer } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import {
     Inlevering,
     InleveringStatus,
@@ -30,7 +23,14 @@ import {
     Maybe,
     PlagiaatVerwerkingStatus,
     Projectgroep
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { collapseAnimation } from 'angular-animations';
+import { isEqual } from 'date-fns';
+import { IconDirective, PillComponent } from 'harmony';
+import { IconPijlLinks, provideIcons } from 'harmony-icons';
+import { sortBy } from 'lodash-es';
+import { Observable, Subject, Subscription, combineLatest, timer } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { InleveropdrachtenDataService } from '../../core/services/inleveropdrachten-data.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';

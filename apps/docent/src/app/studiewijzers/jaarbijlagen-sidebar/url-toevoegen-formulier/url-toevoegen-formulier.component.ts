@@ -11,11 +11,11 @@ import {
     output
 } from '@angular/core';
 import { AbstractControl, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Bijlage } from '@docent/codegen';
 import { ButtonComponent, IconDirective } from 'harmony';
 import { IconLink, IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Bijlage } from '../../../../generated/_types';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { BijlageService } from '../../../shared/components/bijlage/bijlage.service';

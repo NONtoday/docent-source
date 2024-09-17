@@ -2,14 +2,14 @@ import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { NotitieboekMenuGroepFieldsFragment } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { SpinnerComponent } from 'harmony';
 import { Observable, combineLatest, map, startWith } from 'rxjs';
 import { match } from 'ts-pattern';
-import { NotitieboekMenuGroepFieldsFragment } from '../../../generated/_types';
 import { NotitieboekDataService } from '../../core/services/notitieboek-data.service';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { SearchComponent } from '../../rooster-shared/components/search/search.component';
-import { getVolledigeNaam } from '../../shared/utils/leerling.utils';
 import { NotitieboekMenuLeerlingItemComponent } from '../notitieboek-menu-leerling-item/notitieboek-menu-leerling-item.component';
 
 export type NotitieboekHeaderLeerlingSelectiePopupType = 'Lesgroep' | 'Stamgroep' | 'Individueel';

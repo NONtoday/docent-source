@@ -44,7 +44,14 @@
         }
     }
     @if (noNotities()) {
-        <span class="geen-notities text-content-semi text-weak">Geen notities gevonden</span>
+        <span class="geen-notities text-content-semi text-weak">
+            Geen notities gevonden.
+            @if (heeftMeerdereSchooljaren() && isLeerlingContext()) {
+                <br />
+                <span class="hide-for-tablet"><a (click)="selecteerAnderSchooljaar()">Selecteer een ander jaar.</a></span>
+                <span class="show-for-tablet">Selecteer een ander jaar.</span>
+            }
+        </span>
     }
 } @else {
     <hmy-spinner [centeredInParent]="true" />

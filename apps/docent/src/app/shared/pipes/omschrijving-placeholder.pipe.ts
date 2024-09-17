@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { HuiswerkType, Studiewijzeritem } from '../../../generated/_types';
+import { HuiswerkType, Studiewijzeritem } from '@docent/codegen';
 
 @Pipe({
     name: 'omschrijvingPlaceholder',

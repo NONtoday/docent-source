@@ -1,13 +1,6 @@
 import { ChangeDetectionStrategy, Component, Signal, ViewChild, ViewContainerRef, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { IconDirective, NotificationCounterComponent, SpinnerComponent, StackitemComponent, StackitemGroupComponent } from 'harmony';
-import { IconBlokken, IconChevronOnder, IconPinned, IconSettings, IconZorgindicaties, provideIcons } from 'harmony-icons';
-import { sortBy } from 'lodash-es';
-import { derivedFrom } from 'ngxtension/derived-from';
-import { ObservedValueOf, filter, map, of, switchMap, tap } from 'rxjs';
-import { match } from 'ts-pattern';
 import {
     LeerlingAfwezigheidsKolom,
     LeerlingkaartQuery,
@@ -16,14 +9,27 @@ import {
     MentordashboardOverzichtPeriode,
     NotitieContext,
     VastgeprikteNotitiesQuery
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
+import {
+    DropdownComponent,
+    IconDirective,
+    NotificationCounterComponent,
+    SpinnerComponent,
+    StackitemComponent,
+    StackitemGroupComponent
+} from 'harmony';
+import { IconBlokken, IconChevronOnder, IconPinned, IconSettings, IconZorgindicaties, provideIcons } from 'harmony-icons';
+import { sortBy } from 'lodash-es';
+import { derivedFrom } from 'ngxtension/derived-from';
+import { ObservedValueOf, filter, map, of, switchMap, tap } from 'rxjs';
+import { match } from 'ts-pattern';
 import {
     MentordashboardOverzichtLeerlingRegistratieWithContent,
     MentordashboardOverzichtTijdspanOptie,
     overzichtTijdspanOpties
 } from '../../../core/models/mentordashboard.model';
 import { PopupService } from '../../../core/popup/popup.service';
-import { PopupSettings } from '../../../core/popup/popup.settings';
 import { MaatregelToekenningDataService, MaatregelToekenningenMetStatus } from '../../../core/services/maatregeltoekenning-data.service';
 import { NotitieboekDataService } from '../../../core/services/notitieboek-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';
@@ -34,7 +40,6 @@ import { OutlineButtonComponent } from '../../../rooster-shared/components/outli
 import { HeeftVestigingsRechtDirective } from '../../../rooster-shared/directives/heeft-vestigings-recht.directive';
 import { getSchooljaar } from '../../../rooster-shared/utils/date.utils';
 import { isPresent } from '../../../rooster-shared/utils/utils';
-import { FilterPopupComponent } from '../../../shared/components/filter-popup/filter-popup.component';
 import { DocentQuery, docentPendingQuery } from '../../../shared/utils/apollo.utils';
 import { IndicatiesSidebarComponent } from '../../indicaties-sidebar/indicaties-sidebar.component';
 import { LeerlingregistratieCategorieComponent } from '../../leerlingregistratie-categorie/leerlingregistratie-categorie.component';
@@ -69,7 +74,8 @@ import { RegistratieTotaalContent, registratieContent } from '../leerlingoverzic
         NotificationCounterComponent,
         HeeftVestigingsRechtDirective,
         StackitemGroupComponent,
-        SpinnerComponent
+        SpinnerComponent,
+        DropdownComponent
     ],
     templateUrl: './leerlingoverzicht-registraties.component.html',
     styleUrls: ['./leerlingoverzicht-registraties.component.scss'],
@@ -110,6 +116,8 @@ export class LeerlingoverzichtRegistratiesComponent {
     public vastgeprikteNotities: Signal<VastgeprikteNotitiesQuery['vastgeprikteNotities']>;
     public registratieResponse: Signal<DocentQuery<LeerlingoverzichtRegistratiesQuery['leerlingoverzichtRegistraties']>>;
     public aantalVastgeprikteNotities = computed(() => this.vastgeprikteNotities().length);
+    public tijdspanOpties = signal(overzichtTijdspanOpties);
+    public selectedTijdspan = computed(() => this.tijdspanOpties().find((optie) => optie.data === this.instellingen().tijdspan));
 
     constructor() {
         const leerlingId$ = of(this.activeRoute.parent).pipe(
@@ -194,24 +202,6 @@ export class LeerlingoverzichtRegistratiesComponent {
         this.geenCijferperiode = computed(
             () => this.instellingen().tijdspan === 'Deze periode' && !this.registratieResponse().data.cijferperiode
         );
-    }
-
-    openTijdspanPopup(selected: MentordashboardOverzichtTijdspanOptie) {
-        if (this.popupService.isPopupOpenFor(this.tijdspanRef)) {
-            this.popupService.closePopUp();
-            return;
-        }
-        const settings: PopupSettings = {
-            ...FilterPopupComponent.filterPopupsettings,
-            width: 188,
-            horizontalEdgeOffset: 92
-        };
-        const popup = this.popupService.popup(this.tijdspanRef, settings, FilterPopupComponent);
-        popup.filterOpties = overzichtTijdspanOpties;
-        popup.selected = selected;
-        popup.onSelection = (optie: MentordashboardOverzichtTijdspanOptie) => {
-            this.selectTijdspanOptie(optie);
-        };
     }
 
     openWeergavePopup(registraties: LeerlingoverzichtRegistratiesView['registratieCategorieen'], zichtbareCategorieen: string[]) {

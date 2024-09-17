@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { Studiewijzer, StudiewijzerFieldsFragment } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconGroep, IconOpties, provideIcons } from 'harmony-icons';
-import { Studiewijzer, StudiewijzerFieldsFragment } from '../../../../generated/_types';
 import { PopupService } from '../../../core/popup/popup.service';
 import { Appearance, PopupSettings } from '../../../core/popup/popup.settings';
 import { DeviceService } from '../../../core/services/device.service';

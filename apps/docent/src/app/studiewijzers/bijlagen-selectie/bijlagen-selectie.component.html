@@ -23,8 +23,7 @@
                             [class.disabled]="disableMappenSelectie"
                             (click)="expandedmappen[i] = !expandedmappen[i]">
                             @if (!disableMappenSelectie) {
-                                <dt-form-checkbox (click)="toggleMapBijlageSelectie(i); $event.stopPropagation()" formControlName="map">
-                                </dt-form-checkbox>
+                                <hmy-checkbox (click)="toggleMapBijlageSelectie(i); $event.stopPropagation()" formControlName="map" />
                             }
                             <i color="fg-primary-normal" hmyIcon="map" size="medium"></i>
                             <span class="naam text-content-semi">{{ bijlageMappen[i].naam }}</span>
@@ -47,7 +46,7 @@
                         <div class="map-bijlagen" [@collapse]="!expandedmappen[i]" formArrayName="mapbijlagen">
                             @for (bijlagecontrol of getMapbijlagen(i).controls; track bijlagecontrol; let j = $index) {
                                 <div class="selectie-item bijlage">
-                                    <dt-form-checkbox [formControl]="$any(bijlagecontrol)"></dt-form-checkbox>
+                                    <hmy-checkbox [formControl]="$any(bijlagecontrol)" />
                                     @if (bijlageMappen[i].bijlagen[j].extensie) {
                                         <dt-bijlage-extensie [extensie]="bijlageMappen[i].bijlagen[j].extensie!"></dt-bijlage-extensie>
                                     }
@@ -73,7 +72,7 @@
             </div>
             @for (control of formBijlagen.controls; track control; let i = $index) {
                 <div class="selectie-item bijlage" formArrayName="bijlagen">
-                    <dt-form-checkbox [formControl]="$any(control)"></dt-form-checkbox>
+                    <hmy-checkbox [formControl]="$any(control)" />
                     <dt-bijlage-extensie [class.hidden]="!bijlagen[i].extensie" [extensie]="bijlagen[i].extensie!"> </dt-bijlage-extensie>
                     <span class="naam" (click)="openBijlage(bijlagen[i])"> {{ bijlagen[i].titel }} </span>
                     @if (bijlageKleuren.get(bijlagen[i])?.length! > 0) {

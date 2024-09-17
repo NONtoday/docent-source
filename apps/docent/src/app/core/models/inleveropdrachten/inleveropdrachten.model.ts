@@ -1,4 +1,4 @@
-import { BijlageFieldsFragment, SubmissionError } from '../../../../generated/_types';
+import { BijlageFieldsFragment, SubmissionError } from '@docent/codegen';
 
 export type InleveropdrachtenTab = 'verlopen' | 'aankomend';
 export type InleveropdrachtSorteerHeader = 'deadline' | 'lesgroep';

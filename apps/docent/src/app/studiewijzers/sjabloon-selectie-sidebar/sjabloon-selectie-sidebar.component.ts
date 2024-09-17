@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, inject, output } from '@angular/core';
+import { Sjabloon, SjabloonFieldsFragment, Studiewijzeritem } from '@docent/codegen';
 import { fadeOutOnLeaveAnimation } from 'angular-animations';
 import { ButtonComponent } from 'harmony';
 import { IconName } from 'harmony-icons';
-import { Sjabloon, SjabloonFieldsFragment, Studiewijzeritem } from '../../../generated/_types';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';

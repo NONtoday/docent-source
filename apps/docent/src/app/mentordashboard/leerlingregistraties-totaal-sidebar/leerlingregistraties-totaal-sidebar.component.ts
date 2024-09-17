@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { TotaalRegistratieDetailsQuery } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconTrend, provideIcons } from 'harmony-icons';
 import { Observable, map, switchMap } from 'rxjs';
-import { TotaalRegistratieDetailsQuery } from '../../../generated/_types';
 import { Maand, Maanden } from '../../core/models/shared.model';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { SidebarAvatar, SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';

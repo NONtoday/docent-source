@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Resultaat } from '@docent/codegen';
 import { ButtonComponent, IconDirective } from 'harmony';
 import { IconBewerken, IconNietZichtbaar, IconReacties, IconZichtbaar, provideIcons } from 'harmony-icons';
 import { memoize } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
-import { Resultaat } from '../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { VerwijderButtonComponent } from '../../rooster-shared/components/verwijder-button/verwijder-button.component';

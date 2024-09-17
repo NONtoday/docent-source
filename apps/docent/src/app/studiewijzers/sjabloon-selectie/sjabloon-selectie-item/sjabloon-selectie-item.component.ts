@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, HostBinding, HostListener, Input, output } from '@angular/core';
-import { IconDirective, PillComponent } from 'harmony';
+import { Sjabloon } from '@docent/codegen';
+import { CheckboxComponent, IconDirective, PillComponent } from 'harmony';
 import { IconCheckbox, IconChevronRechts, IconSynchroniseren, IconToevoegen, provideIcons } from 'harmony-icons';
-import { Sjabloon } from '../../../../generated/_types';
 import { accent_positive_1 } from '../../../rooster-shared/colors';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
-import { CheckboxComponent } from '../../../rooster-shared/components/checkbox/checkbox.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';
 

@@ -24,13 +24,13 @@ import {
     UntypedFormControl,
     UntypedFormGroup
 } from '@angular/forms';
+import { AfspraakParticipant } from '@docent/codegen';
 import { ColorToken, IconDirective, TagComponent } from 'harmony';
 import { IconName, IconToevoegen, provideIcons } from 'harmony-icons';
 import { get, isEqual, pick } from 'lodash-es';
 import { NgClickOutsideDelayOutsideDirective, NgClickOutsideDirective } from 'ng-click-outside2';
 import { Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { AfspraakParticipant } from '../../../../generated/_types';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';
 import { DeviceService, phoneQuery, tabletPortraitQuery, tabletQuery } from '../../../core/services/device.service';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';

@@ -1,17 +1,17 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Lesgroep } from '@docent/codegen';
 import { getYear } from 'date-fns';
+import { CheckboxComponent } from 'harmony';
 import { IconGroep, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { Lesgroep } from '../../../../generated/_types';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';
-import { FormCheckboxComponent } from '../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { getSchooljaar } from '../../../rooster-shared/utils/date.utils';
 import { Optional, toId } from '../../../rooster-shared/utils/utils';
@@ -25,7 +25,7 @@ import { Optional, toId } from '../../../rooster-shared/utils/utils';
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        FormCheckboxComponent,
+        CheckboxComponent,
         BackgroundIconComponent,
         OutlineButtonComponent,
         ButtonComponent,

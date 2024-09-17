@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MaatregelInput, MaatregelToekenningFragment, MaatregelToekenningInput, MaatregelenQuery } from '../../../generated/_types';
+import { MaatregelInput, MaatregelToekenningFragment, MaatregelToekenningInput, MaatregelenQuery } from '@docent/codegen';
+import { CheckboxComponent } from 'harmony';
 import { Schooljaar } from '../../core/models/schooljaar.model';
 import { MaatregelToekenningDataService } from '../../core/services/maatregeltoekenning-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
 import { DatepickerComponent } from '../../rooster-shared/components/datepicker/datepicker.component';
-import { FormCheckboxComponent } from '../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { FormDropdownComponent } from '../../rooster-shared/components/form-dropdown/form-dropdown.component';
 import { MessageComponent } from '../../rooster-shared/components/message/message.component';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
@@ -30,7 +30,7 @@ type Maatregel = MaatregelenQuery['maatregelen'][number];
         ReactiveFormsModule,
         FormDropdownComponent,
         DatepickerComponent,
-        FormCheckboxComponent,
+        CheckboxComponent,
         OutlineButtonComponent,
         ButtonComponent,
         MessageComponent,

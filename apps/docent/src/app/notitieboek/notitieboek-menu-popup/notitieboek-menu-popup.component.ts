@@ -2,11 +2,6 @@ import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
-import { IconDirective, SpinnerComponent } from 'harmony';
-import { IconAllesMarkeren, IconCheck, IconChevronBoven, IconGroep, IconOnderwijs, IconSluiten, provideIcons } from 'harmony-icons';
-import { Observable, debounceTime, filter, map, of, switchMap, tap } from 'rxjs';
-import { P, match } from 'ts-pattern';
 import {
     NotitieboekMenuLeerlingItem,
     NotitieboekMenuLeerlingItemFieldsFragment,
@@ -14,7 +9,12 @@ import {
     NotitieboekMenuQuery,
     NotitieboekMenuSearchQuery,
     NotitieboekMenuStamgroepItem
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
+import { IconDirective, SpinnerComponent } from 'harmony';
+import { IconAllesMarkeren, IconCheck, IconChevronBoven, IconGroep, IconOnderwijs, IconSluiten, provideIcons } from 'harmony-icons';
+import { Observable, debounceTime, filter, map, of, switchMap, tap } from 'rxjs';
+import { P, match } from 'ts-pattern';
 import { IdObject } from '../../core/models/shared.model';
 import { startLoading, stopLoading } from '../../core/operators/loading.operators';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';

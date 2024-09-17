@@ -8,7 +8,8 @@ import {
     Registratie,
     VakoverzichtRegistratiesQuery,
     VrijVeld
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { DropdownItem } from 'harmony';
 import { RegistratieTotaalContent } from '../../mentordashboard/leerlingoverzicht/leerlingoverzicht.model';
 import { SignaleringPopupFilter } from '../../mentordashboard/signalering-aantal-popup/signalering-aantal-popup.component';
 import { Optional } from '../../rooster-shared/utils/utils';
@@ -87,10 +88,15 @@ export interface KeuzelijstRegistratiesPerWaarde {
 export type GroepsoverzichtRegistratie = GroepsoverzichtRegistratiesQuery['groepsoverzichtRegistraties']['registraties'][number];
 export type GroepsoverzichtRegistratieTellingen = GroepsoverzichtRegistratie['leerlingRegistratieTellingen'][number];
 export type GroepoverzichtRegistratieWithContent = GroepsoverzichtRegistratie & { categorieContent: RegistratieTotaalContent };
-export const overzichtTijdspanOpties = ['Laatste 7 dagen', 'Laatste 30 dagen', 'Deze periode', 'Huidig schooljaar'] as const;
+export const overzichtTijdspanOpties: DropdownItem<MentordashboardOverzichtTijdspanOptie>[] = [
+    { data: 'Laatste 7 dagen', label: 'Laatste 7 dagen' },
+    { data: 'Laatste 30 dagen', label: 'Laatste 30 dagen' },
+    { data: 'Deze periode', label: 'Deze periode' },
+    { data: 'Huidig schooljaar', label: 'Huidig schooljaar' }
+] as const;
 // de periode/tijdspan opties voor het gezamenlijke overzicht zijn hetzelfde als bij de stamgroep, behalve 'Deze periode'
-export const overzichtTijdspanOptiesIndividueel = overzichtTijdspanOpties.filter((optie) => optie !== 'Deze periode');
-export type MentordashboardOverzichtTijdspanOptie = (typeof overzichtTijdspanOpties)[number];
+export const overzichtTijdspanOptiesIndividueel = overzichtTijdspanOpties.filter((optie) => optie.data !== 'Deze periode');
+export type MentordashboardOverzichtTijdspanOptie = 'Laatste 7 dagen' | 'Laatste 30 dagen' | 'Deze periode' | 'Huidig schooljaar';
 export const defaultGroepsoverzichtCategories = [
     LeerlingAfwezigheidsKolom.GEOORLOOFD_AFWEZIG,
     LeerlingAfwezigheidsKolom.ONGEOORLOOFD_AFWEZIG,

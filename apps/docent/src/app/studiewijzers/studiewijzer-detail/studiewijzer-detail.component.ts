@@ -14,6 +14,24 @@ import {
     inject
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import {
+    AfspraakToekenning,
+    BasisSjabloonFieldsFragment,
+    CijferPeriode,
+    DagToekenning,
+    HuiswerkType,
+    Leerling,
+    Lesgroep,
+    Studiewijzer,
+    StudiewijzerAfspraak,
+    StudiewijzerDag,
+    StudiewijzerFieldsFragment,
+    StudiewijzerViewQuery,
+    StudiewijzerWeek,
+    Toekenning,
+    WeekToekenning,
+    namedOperations
+} from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { getISOWeek, getYear } from 'date-fns';
 import { BrowseComponent, IconDirective, PillComponent, SpinnerComponent } from 'harmony';
@@ -48,24 +66,6 @@ import {
     tap,
     withLatestFrom
 } from 'rxjs/operators';
-import {
-    AfspraakToekenning,
-    BasisSjabloonFieldsFragment,
-    CijferPeriode,
-    DagToekenning,
-    HuiswerkType,
-    Leerling,
-    Lesgroep,
-    Studiewijzer,
-    StudiewijzerAfspraak,
-    StudiewijzerDag,
-    StudiewijzerFieldsFragment,
-    StudiewijzerViewQuery,
-    StudiewijzerWeek,
-    Toekenning,
-    WeekToekenning,
-    namedOperations
-} from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { allowChildAnimations } from '../../core/core-animations';
 import { SaveToekenningContainer } from '../../core/models';

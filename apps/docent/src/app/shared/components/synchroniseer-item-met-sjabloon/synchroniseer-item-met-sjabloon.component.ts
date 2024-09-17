@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewChild, ViewContainerRef, inject, output } from '@angular/core';
+import { BasisSjabloonFieldsFragment, Sjabloon } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconOntkoppelen, IconSynchroniseren, provideIcons } from 'harmony-icons';
-import { BasisSjabloonFieldsFragment, Sjabloon } from '../../../../generated/_types';
 import { PopupService } from '../../../core/popup/popup.service';
 import { PopupDirection } from '../../../core/popup/popup.settings';
 import { DeviceService } from '../../../core/services/device.service';

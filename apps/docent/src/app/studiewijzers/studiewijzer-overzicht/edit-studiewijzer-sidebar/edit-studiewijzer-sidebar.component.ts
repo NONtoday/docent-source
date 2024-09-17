@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LesgroepFieldsFragment, Sjabloon, StudiewijzerOverzichtViewQuery } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import { IconBewerken, IconName, IconToevoegen, provideIcons } from 'harmony-icons';
 import { Subject } from 'rxjs';
-import { LesgroepFieldsFragment, Sjabloon, StudiewijzerOverzichtViewQuery } from '../../../../generated/_types';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';

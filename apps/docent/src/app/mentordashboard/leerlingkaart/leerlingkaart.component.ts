@@ -1,8 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LeerlingkaartQuery } from '@docent/codegen';
 import { Observable, filter, map, switchMap, tap } from 'rxjs';
-import { LeerlingkaartQuery } from '../../../generated/_types';
 import { allowChildAnimations } from '../../core/core-animations';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';

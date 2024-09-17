@@ -1,3 +1,4 @@
+import { Toekenning, ToekenningFieldsFragment, WeekToekenning } from '@docent/codegen';
 import {
     addDays,
     addWeeks,
@@ -25,7 +26,6 @@ import {
     subYears
 } from 'date-fns';
 import { nl } from 'date-fns/locale';
-import { Toekenning, ToekenningFieldsFragment, WeekToekenning } from '../../../generated/_types';
 import { Schooljaar } from '../../core/models/schooljaar.model';
 import { DateFormat } from '../pipes/dt-date.pipe';
 import { Optional, formatNL } from './utils';

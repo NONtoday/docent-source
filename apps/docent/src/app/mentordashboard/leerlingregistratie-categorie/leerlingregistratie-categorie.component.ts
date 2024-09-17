@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { LeerlingAfwezigheidsKolom } from '@docent/codegen';
 import { IconDirective, IconPillComponent, NotificationColor, NotificationSolidComponent, TooltipDirective } from 'harmony';
 import { IconTrendBeneden, IconTrendBoven, provideIcons } from 'harmony-icons';
-import { LeerlingAfwezigheidsKolom } from '../../../generated/_types';
 import { MentordashboardOverzichtTijdspanOptie } from '../../core/models/mentordashboard.model';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { registratieContent } from '../leerlingoverzicht/leerlingoverzicht.model';

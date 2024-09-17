@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { InboxBericht } from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { SpinnerComponent } from 'harmony';
 import { IconBericht, IconCheck, IconToevoegen, provideIcons } from 'harmony-icons';
 import { Observable, map, tap } from 'rxjs';
-import { InboxBericht } from '../../../../generated/_types';
 import { UriService } from '../../../auth/uri-service';
 import { AANTAL_BERICHTEN_PER_REQUEST, MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { InboxBerichtComponent } from '../bericht/inbox-bericht.component';

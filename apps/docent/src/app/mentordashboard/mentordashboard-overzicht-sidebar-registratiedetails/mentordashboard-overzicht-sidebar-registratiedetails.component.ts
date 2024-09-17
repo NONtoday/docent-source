@@ -2,6 +2,14 @@ import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+    MentordashboardOverzichtPeriode,
+    MentordashboardOverzichtPeriodeOptie,
+    MentordashboardOverzichtPeriodeOpties,
+    MentordashboardOverzichtRegistratieVrijVeldCategorie,
+    PeriodeRegistratieDetails,
+    Registratie
+} from '@docent/codegen';
+import {
     BrowseComponent,
     HeatmapComponent,
     HorizontalScrollButtonsDirective,
@@ -13,14 +21,6 @@ import { IconChevronRechts, provideIcons } from 'harmony-icons';
 import { orderBy } from 'lodash-es';
 import { Observable, Subject, combineLatest, map, switchMap, tap } from 'rxjs';
 import { match } from 'ts-pattern';
-import {
-    MentordashboardOverzichtPeriode,
-    MentordashboardOverzichtPeriodeOptie,
-    MentordashboardOverzichtPeriodeOpties,
-    MentordashboardOverzichtRegistratieVrijVeldCategorie,
-    PeriodeRegistratieDetails,
-    Registratie
-} from '../../../generated/_types';
 import { MentordashboardOverzichtLeerlingRegistratieWithContent } from '../../core/models/mentordashboard.model';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { formatDateNL } from '../../rooster-shared/utils/date.utils';

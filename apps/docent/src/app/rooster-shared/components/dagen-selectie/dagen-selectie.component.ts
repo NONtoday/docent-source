@@ -5,8 +5,8 @@ import { inject } from '@angular/core';
 import { KeyValue, KeyValuePipe, SlicePipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfspraakHerhalingDag } from '@docent/codegen';
 import { NgStringPipesModule } from 'ngx-pipes';
-import { AfspraakHerhalingDag } from '../../../../generated/_types';
 
 type Dag = 'MAANDAG' | 'DINSDAG' | 'WOENSDAG' | 'DONDERDAG' | 'VRIJDAG' | 'ZATERDAG' | 'ZONDAG';
 

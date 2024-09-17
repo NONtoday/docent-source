@@ -10,7 +10,7 @@
                         <td
                             class="vak-naam-cell no-hover text-content-semi align-left text-content-semi"
                             *cdkCellDef="let vakRow; let i = index"
-                            [class.color-primary-1]="highlightIndex === i"
+                            [class.action-primary-normal]="highlightIndex === i"
                             cdk-cell>
                             {{ vakRow.vak.naam }}
                         </td>
@@ -22,7 +22,7 @@
                         <td
                             class="vak-trend-cell no-hover text-content-semi align-left text-content-semi"
                             *cdkCellDef="let vakRow; let i = index"
-                            [class.color-primary-1]="highlightIndex === i"
+                            [class.action-primary-normal]="highlightIndex === i"
                             cdk-cell>
                             @if (getTrendVoorNormering(vakRow, alternatieveNormering); as normeringTrend) {
                                 @if (!normeringTrend.trend) {
@@ -68,12 +68,12 @@
             <div class="spacer" [style.width.px]="8"></div>
             <!-- periode tabel(len) -->
             @if (resultaten.adviesKolommenPerPeriode.length > 0) {
-                @for (kolom of resultaten.adviesKolommenPerPeriode; track kolom; let i = $index) {
+                @for (kolom of resultaten.adviesKolommenPerPeriode; track kolom.periode; let i = $index) {
                     <div class="table-with-header">
                         <!-- periodeheaders -->
                         <div class="header periode">
                             <span class="name text-content-semi no-selection" [hmyTooltip]="periodeTooltip(kolom)">
-                                Periode {{ kolom.periode }}
+                                {{ { nummer: kolom.periode, afkorting: kolom.afkorting } | cijferPeriodeNaam }}
                             </span>
                         </div>
                         <div class="header label-header">
@@ -97,7 +97,7 @@
                             <!-- P / R headers -->
                             <div class="header-item resultaat-kolom p-container">
                                 <span
-                                    class="name text-content-small-semi color-typography-2 p item"
+                                    class="name text-content-small-semi fg-on-alternative-weak p item"
                                     [onTouchAllowed]="true"
                                     hmyTooltip="Periodegemiddelde">
                                     P
@@ -105,7 +105,7 @@
                             </div>
                             <div class="header-item resultaat-kolom r-container">
                                 <span
-                                    class="name text-content-small-semi color-typography-2 r item"
+                                    class="name text-content-small-semi fg-on-positive-weak r item"
                                     [onTouchAllowed]="true"
                                     hmyTooltip="Rapportcijfer">
                                     R
@@ -132,9 +132,10 @@
                                                     as opmerking
                                                 ) {
                                                     <i
-                                                        class="fill-typography-4 opmerking"
+                                                        class="opmerking"
                                                         [hmyTooltip]="'<b>Opmerking</b></br>' + opmerking"
                                                         [alignCenter]="false"
+                                                        color="text-weakest"
                                                         hmyIcon="reacties"
                                                         size="smallest"></i>
                                                 }
@@ -159,9 +160,10 @@
                                         <div class="icons">
                                             @if (getPeriodeGeldendResultaatFor(vakPeriode, kolom.periode)?.opmerkingen; as opmerking) {
                                                 <i
-                                                    class="fill-typography-4 opmerking"
+                                                    class="opmerking"
                                                     [hmyTooltip]="opmerking"
                                                     [onTouchAllowed]="true"
+                                                    color="text-weakest"
                                                     hmyIcon="reacties"
                                                     size="smallest"></i>
                                             }
@@ -169,7 +171,7 @@
                                     </tr>
                                 }
                             </div>
-                            <div class="background-color-background-5 table-cell">
+                            <div class="table-cell">
                                 @for (vakPeriode of resultaten.vakPeriodes; track vakPeriode; let j = $index) {
                                     <tr
                                         class="header resultaat-kolom resultaat-cell pointer"
@@ -186,16 +188,18 @@
                                             @if (getRapportGeldendResultaatFor(vakPeriode, kolom.periode); as resultaat) {
                                                 @if (resultaat?.opmerkingen; as opmerking) {
                                                     <i
-                                                        class="fill-typography-4 opmerking"
+                                                        class="opmerking"
                                                         [hmyTooltip]="opmerking"
                                                         [onTouchAllowed]="true"
+                                                        color="text-weakest"
                                                         hmyIcon="reacties"
                                                         size="smallest"></i>
                                                 }
                                                 @if (resultaat.bijzonderheid === resultaatBijzonderheid.NietGemaakt) {
                                                     <i
-                                                        class="fill-typography-4 info-icon"
+                                                        class="info-icon"
                                                         [onTouchAllowed]="true"
+                                                        color="text-weakest"
                                                         hmyIcon="waarschuwing"
                                                         size="smallest"
                                                         hmyTooltip="Gemiddelde waarbij toetsen missen"></i>
@@ -210,7 +214,7 @@
                 }
             } @else {
                 <div class="geen-resultaten">
-                    <span class="text-content-semi color-typography-3">Voor deze leerling zijn geen resultaten beschikbaar.</span>
+                    <span class="text-content-semi text-strong">Voor deze leerling zijn geen resultaten beschikbaar.</span>
                 </div>
             }
         </div>
@@ -230,7 +234,7 @@
                 class="resultaten"
                 [class.met-trend]="heeftMentordashboardCompleet$ | async"
                 (click)="openDetailsSidebar(vakPeriode, resultaten.relevanteCijferperiode, resultaten.adviesKolommenPerPeriode)">
-                <span class="color-typography-2 text-content-semi ellipsis vaknaam">{{ vakPeriode.vak.naam }}</span>
+                <span class="text-strong text-content-semi ellipsis vaknaam">{{ vakPeriode.vak.naam }}</span>
                 @if (getTrendVoorNormering(vakPeriode, alternatieveNormering); as normeringTrend) {
                     @if (!normeringTrend.trend) {
                         <hmy-pill
@@ -264,7 +268,7 @@
                     <span
                         class="resultaat"
                         [class.onvoldoende]="resultaat.value && !resultaat.value.isVoldoende"
-                        [class.color-typography-4]="!resultaat.value"
+                        [class.text-weakest]="!resultaat.value"
                         data-gtm="mentordashboard-voortgangsresultaat-details-sidebar">
                         {{ resultaat.value ? getFormattedResultaat(resultaat.value) : '' }}
                     </span>
@@ -273,7 +277,7 @@
                     <span
                         class="resultaat"
                         [class.onvoldoende]="resultaat.value && !resultaat.value.isVoldoende"
-                        [class.color-typography-4]="!resultaat.value"
+                        [class.text-weakest]="!resultaat.value"
                         data-gtm="mentordashboard-voortgangsresultaat-details-sidebar">
                         {{ resultaat.value ? getFormattedResultaat(resultaat.value) : '' }}
                     </span>

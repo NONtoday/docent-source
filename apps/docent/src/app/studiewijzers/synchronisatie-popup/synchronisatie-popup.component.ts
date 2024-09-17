@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
+import { Studiewijzer } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBewerken, IconChevronRechts, IconGroep, provideIcons } from 'harmony-icons';
-import { Studiewijzer } from '../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';

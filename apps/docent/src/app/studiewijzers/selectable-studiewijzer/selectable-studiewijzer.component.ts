@@ -5,12 +5,11 @@ import { inject } from '@angular/core';
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { IconDirective } from 'harmony';
+import { Studiewijzer } from '@docent/codegen';
+import { CheckboxComponent, IconDirective } from 'harmony';
 import { IconCheckbox, IconCheckboxDisabled, IconGroep, provideIcons } from 'harmony-icons';
 import { isNil } from 'lodash-es';
-import { Studiewijzer } from '../../../generated/_types';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
-import { CheckboxComponent } from '../../rooster-shared/components/checkbox/checkbox.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 
 @Component({

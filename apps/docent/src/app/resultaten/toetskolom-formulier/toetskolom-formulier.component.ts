@@ -1,9 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, inject, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { IconHerkansing, IconWeging, provideIcons } from 'harmony-icons';
-import { isEqual } from 'lodash-es';
-import { Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
 import {
     Afnamevorm,
     CijferPeriode,
@@ -15,7 +11,11 @@ import {
     ToetsSoort,
     Toetskolom,
     Toetsvorm
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { IconHerkansing, IconWeging, provideIcons } from 'harmony-icons';
+import { isEqual } from 'lodash-es';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 import { Schooljaar } from '../../core/models/schooljaar.model';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
 import { DatepickerComponent } from '../../rooster-shared/components/datepicker/datepicker.component';
@@ -177,7 +177,7 @@ export class ToetskolomFormulierComponent implements OnInit, OnDestroy {
         const weging =
             (isKolomOfType<Deeltoetskolom>(this.kolom, ResultaatkolomType.DEELTOETS)
                 ? this.kolom.deeltoetsWeging
-                : (<Toetskolom>this.kolom)?.weging ?? this.selectedToetsSoort?.value?.defaultWeging) ?? 1;
+                : ((<Toetskolom>this.kolom)?.weging ?? this.selectedToetsSoort?.value?.defaultWeging)) ?? 1;
 
         this.initieleWaardenVoorHerberekening = {
             toetsSoort: this.selectedToetsSoort?.value,

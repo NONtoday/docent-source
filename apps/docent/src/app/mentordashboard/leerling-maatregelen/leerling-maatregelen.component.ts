@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { MaatregelToekenning } from '@docent/codegen';
 import { NotificationCounterComponent, SpinnerComponent } from 'harmony';
 import { IconBewerken, IconVerwijderen, provideIcons } from 'harmony-icons';
 import { switchMap, take, tap } from 'rxjs';
-import { MaatregelToekenning } from '../../../generated/_types';
 import { MaatregelToekenningDataService } from '../../core/services/maatregeltoekenning-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { AccordionComponent } from '../../shared/components/accordion/accordion.component';

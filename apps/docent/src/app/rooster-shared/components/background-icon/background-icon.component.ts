@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
+import { Maybe } from '@docent/codegen';
 import { IconDirective, IconSize } from 'harmony';
 import { IconName } from 'harmony-icons';
-import { Maybe } from '../../../../generated/_types';
 import { BackgroundIconColor } from '../../utils/color-token-utils';
 
 /**

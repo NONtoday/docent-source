@@ -1,5 +1,5 @@
 import { Component, ViewChild, inject } from '@angular/core';
-import { Sjabloon } from '../../../generated/_types';
+import { Sjabloon } from '@docent/codegen';
 
 import { IconDirective } from 'harmony';
 import { IconNietZichtbaarCheckbox, IconZichtbaarCheckbox, provideIcons } from 'harmony-icons';

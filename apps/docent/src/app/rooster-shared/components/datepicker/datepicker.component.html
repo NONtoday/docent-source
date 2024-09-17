@@ -2,6 +2,7 @@
     class="input-container pointer datepicker"
     [class.is-afspraak]="afspraak"
     [class.is-blokuur]="afspraak?.isBlokuur"
+    [class.is-toets]="afspraak?.isRoosterToets"
     [class.disabled]="disabled"
     (click)="datepicker.open()">
     @if (afspraak) {

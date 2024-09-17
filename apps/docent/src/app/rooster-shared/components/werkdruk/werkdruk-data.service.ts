@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
+import { WerkdrukVoorMentorLeerlingenDocument, WerkdrukVoorSelectieDocument } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
-import { WerkdrukVoorMentorLeerlingenDocument, WerkdrukVoorSelectieDocument } from '../../../../generated/_types';
 import { convertToLocalDate } from '../../utils/date.utils';
 
 @Injectable({

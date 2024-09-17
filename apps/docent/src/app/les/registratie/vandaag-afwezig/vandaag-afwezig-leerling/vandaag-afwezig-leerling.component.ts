@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, Input, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { AbsentieMeldingFieldsFragment, Leerling } from '@docent/codegen';
 import { IconInformatie, IconNoRadio, provideIcons } from 'harmony-icons';
-import { AbsentieMeldingFieldsFragment, Leerling } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../../core/popup/popup.settings';
 import { accent_negative_1 } from '../../../../rooster-shared/colors';

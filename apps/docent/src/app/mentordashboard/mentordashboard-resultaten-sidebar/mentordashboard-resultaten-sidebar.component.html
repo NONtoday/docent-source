@@ -1,9 +1,12 @@
 <dt-sidebar class="sidebar" #sidebar [title]="vak.naam + ' · Resultaten'" (onMaskClick)="closeSidebar()" (onCloseClick)="closeSidebar()">
     <div class="periodes">
-        @for (periode of periodes; track periode) {
-            <div class="periode pointer" [class.active]="periode === (selectedPeriode$ | async)" (click)="selectPeriode(periode)">
-                <span class="text-content-semi show-for-tablet color-background-6">Periode {{ periode }}</span>
-                <span class="text-content-semi hide-for-tablet color-background-6">P{{ periode }}</span>
+        @for (periode of periodes; track periode.nummer) {
+            <div
+                class="periode pointer"
+                [class.active]="periode.nummer === (selectedPeriode$ | async)"
+                (click)="selectPeriode(periode.nummer)">
+                <span class="text-content-semi show-for-tablet">Periode {{ periode.nummer }}</span>
+                <span class="text-content-semi hide-for-tablet">P{{ periode.nummer }}</span>
             </div>
         }
     </div>
@@ -61,11 +64,11 @@
                 @for (advies of vakResultaten.advieskolommen; track advies) {
                     <div class="advies">
                         <div class="top">
-                            <div class="letter color-secondary-1 background-color-secondary-3 text-content-bold">A</div>
+                            <div class="letter fg-on-accent-weak advies-letter text-content-bold">A</div>
                             <span class="text-content-semi afkorting">{{ advies.adviesKolomAfkorting }}</span>
                             @if (advies.geldendResultaat.opmerkingen) {
                                 <span
-                                    class="fill-typography-4 info-icon"
+                                    class="info-icon"
                                     [dtTooltip]="'<b>Opmerking</b><br>' + advies.geldendResultaat.opmerkingen"
                                     [alignCenter]="false"
                                     [onTouchAllowed]="true"
@@ -81,17 +84,17 @@
                             }}</span>
                         </div>
                         <div class="bottom">
-                            <span class="text-content-small-semi color-typography-3 omschrijving">{{ advies.adviesKolomNaam }}</span>
+                            <span class="text-content-small-semi text-weak omschrijving">{{ advies.adviesKolomNaam }}</span>
                         </div>
                     </div>
                 }
                 @if (vakResultaten.periodeGemiddeldeKolom; as periodeGemiddelde) {
                     <div class="periode-gemiddelde gemiddelde">
-                        <div class="letter color-accent-alt-1 background-color-accent-alt-3 text-content-bold">P</div>
+                        <div class="letter fg-on-alternative-weak periode-letter text-content-bold">P</div>
                         <span class="text-content-semi">Periodegemiddelde</span>
                         @if (periodeGemiddelde.opmerkingen) {
                             <i
-                                class="fill-typography-4 info-icon"
+                                class="info-icon"
                                 [dtTooltip]="periodeGemiddelde.opmerkingen"
                                 [onTouchAllowed]="true"
                                 hmyIcon="reacties"
@@ -114,11 +117,11 @@
                 }
                 @if (vakResultaten.rapportGemiddeldekolom; as rapportGemiddelde) {
                     <div class="rapport-gemiddelde gemiddelde">
-                        <div class="letter color-accent-positive-1 background-color-accent-positive-3 text-content-bold">r</div>
+                        <div class="letter fg-on-positive-weak rapport-letter text-content-bold">r</div>
                         <span class="text-content-semi">Berekend rapportcijfer</span>
                         @if (rapportGemiddelde.opmerkingen) {
                             <i
-                                class="fill-typography-4 info-icon"
+                                class="info-icon"
                                 [dtTooltip]="rapportGemiddelde.opmerkingen"
                                 [onTouchAllowed]="true"
                                 hmyIcon="reacties"
@@ -141,11 +144,11 @@
                 }
                 @if (vakResultaten.rapportCijferkolom; as rapportCijfer) {
                     <div class="rapportcijfer gemiddelde">
-                        <div class="letter color-accent-positive-1 background-color-accent-positive-3 text-content-bold">R</div>
+                        <div class="letter rapport-letter fg-on-positive-weak text-content-bold">R</div>
                         <span class="text-content-semi">Rapportcijfer</span>
                         @if (rapportCijfer.opmerkingen) {
                             <i
-                                class="fill-typography-4 info-icon"
+                                class="info-icon"
                                 [dtTooltip]="rapportCijfer.opmerkingen"
                                 [onTouchAllowed]="true"
                                 hmyIcon="reacties"
@@ -153,7 +156,7 @@
                         }
                         @if (rapportCijfer.bijzonderheid === resultaatBijzonderheid.NietGemaakt) {
                             <i
-                                class="fill-typography-4 info-icon"
+                                class="info-icon"
                                 [onTouchAllowed]="true"
                                 hmyIcon="waarschuwing"
                                 size="medium"
@@ -173,7 +176,7 @@
                     </div>
                 }
             } @else {
-                <span class="text-content-semi geen-resultaten color-typography-4">Geen resultaten</span>
+                <span class="text-content-semi geen-resultaten text-weak">Geen resultaten</span>
             }
         </div>
     } @else {

@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
+import { LeerlingRegistratie, LesRegistratieQuery } from '@docent/codegen';
 import { Observable, map, startWith } from 'rxjs';
-import { LeerlingRegistratie, LesRegistratieQuery } from '../../../../generated/_types';
 import { IdObject } from '../../../core/models/shared.model';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';
 import { DeviceService, phoneQuery, tabletPortraitQuery, tabletQuery } from '../../../core/services/device.service';

@@ -187,17 +187,15 @@
                         </dt-form-dropdown>
                     </div>
                     <div class="checkbox-options">
-                        <dt-form-checkbox
+                        <hmy-checkbox
                             class="stuur-bericht"
                             label="Ontvang berichten van inlevering"
-                            formControlName="stuurBerichtBijInlevering">
-                        </dt-form-checkbox>
+                            formControlName="stuurBerichtBijInlevering" />
                         @if (plagiaatControleerbaar$ | async) {
-                            <dt-form-checkbox
+                            <hmy-checkbox
                                 class="plagiaat-detectie"
                                 label="Plagiaat automatisch controleren"
-                                formControlName="plagiaatDetectie">
-                            </dt-form-checkbox>
+                                formControlName="plagiaatDetectie" />
                         }
                     </div>
                 </div>
@@ -230,17 +228,15 @@
                         </dt-form-dropdown>
                     </div>
                     <div class="checkbox-options">
-                        <dt-form-checkbox
+                        <hmy-checkbox
                             class="stuur-bericht"
                             label="Ontvang berichten van inlevering"
-                            formControlName="stuurBerichtBijInlevering">
-                        </dt-form-checkbox>
+                            formControlName="stuurBerichtBijInlevering" />
                         @if (plagiaatControleerbaar$ | async) {
-                            <dt-form-checkbox
+                            <hmy-checkbox
                                 class="plagiaat-detectie"
                                 label="Plagiaat automatisch controleren"
-                                formControlName="plagiaatDetectie">
-                            </dt-form-checkbox>
+                                formControlName="plagiaatDetectie" />
                         }
                     </div>
                     @if (!toekenning.studiewijzeritem.inleverperiode.id) {
@@ -323,6 +319,7 @@
                     </div>
                     <div [@collapse]="!isLeerdoelenOpen">
                         <dt-editor-form-control
+                            class="editor-only"
                             [formGroup]="studiewijzeritemForm"
                             [inSidebar]="true"
                             controlName="leerdoelen"
@@ -371,6 +368,7 @@
                         </div>
                         <div class="notitie" [@collapse]="!isNotitieOpen">
                             <dt-editor-form-control
+                                class="editor-only"
                                 [formGroup]="studiewijzeritemForm"
                                 [inSidebar]="true"
                                 controlName="notitie"
@@ -573,17 +571,15 @@
                         </dt-form-dropdown>
                     </div>
                     <div class="checkbox-options">
-                        <dt-form-checkbox
+                        <hmy-checkbox
                             class="stuur-bericht"
                             label="Ontvang berichten van inlevering"
-                            formControlName="stuurBerichtBijInlevering">
-                        </dt-form-checkbox>
+                            formControlName="stuurBerichtBijInlevering" />
                         @if (plagiaatControleerbaar$ | async) {
-                            <dt-form-checkbox
+                            <hmy-checkbox
                                 class="plagiaat-detectie"
                                 label="Plagiaat automatisch controleren"
-                                formControlName="plagiaatDetectie">
-                            </dt-form-checkbox>
+                                formControlName="plagiaatDetectie" />
                         }
                     </div>
                 </div>
@@ -616,17 +612,15 @@
                         </dt-form-dropdown>
                     </div>
                     <div class="checkbox-options">
-                        <dt-form-checkbox
+                        <hmy-checkbox
                             class="stuur-bericht"
                             label="Ontvang berichten van inlevering"
-                            formControlName="stuurBerichtBijInlevering">
-                        </dt-form-checkbox>
+                            formControlName="stuurBerichtBijInlevering" />
                         @if (plagiaatControleerbaar$ | async) {
-                            <dt-form-checkbox
+                            <hmy-checkbox
                                 class="plagiaat-detectie"
                                 label="Plagiaat automatisch controleren"
-                                formControlName="plagiaatDetectie">
-                            </dt-form-checkbox>
+                                formControlName="plagiaatDetectie" />
                         }
                     </div>
                     @if (!toekenning.studiewijzeritem.inleverperiode.id) {
@@ -709,6 +703,7 @@
                     </div>
                     <div [@collapse]="!isLeerdoelenOpen">
                         <dt-editor-form-control
+                            class="editor-only"
                             [formGroup]="studiewijzeritemForm"
                             [inSidebar]="true"
                             controlName="leerdoelen"
@@ -757,6 +752,7 @@
                         </div>
                         <div class="notitie" [@collapse]="!isNotitieOpen">
                             <dt-editor-form-control
+                                class="editor-only"
                                 [formGroup]="studiewijzeritemForm"
                                 [inSidebar]="true"
                                 controlName="notitie"
@@ -947,17 +943,15 @@
                     </dt-form-dropdown>
                 </div>
                 <div class="checkbox-options">
-                    <dt-form-checkbox
+                    <hmy-checkbox
                         class="stuur-bericht"
                         label="Ontvang berichten van inlevering"
-                        formControlName="stuurBerichtBijInlevering">
-                    </dt-form-checkbox>
+                        formControlName="stuurBerichtBijInlevering" />
                     @if (plagiaatControleerbaar$ | async) {
-                        <dt-form-checkbox
+                        <hmy-checkbox
                             class="plagiaat-detectie"
                             label="Plagiaat automatisch controleren"
-                            formControlName="plagiaatDetectie">
-                        </dt-form-checkbox>
+                            formControlName="plagiaatDetectie" />
                     }
                 </div>
             </div>
@@ -990,17 +984,15 @@
                     </dt-form-dropdown>
                 </div>
                 <div class="checkbox-options">
-                    <dt-form-checkbox
+                    <hmy-checkbox
                         class="stuur-bericht"
                         label="Ontvang berichten van inlevering"
-                        formControlName="stuurBerichtBijInlevering">
-                    </dt-form-checkbox>
+                        formControlName="stuurBerichtBijInlevering" />
                     @if (plagiaatControleerbaar$ | async) {
-                        <dt-form-checkbox
+                        <hmy-checkbox
                             class="plagiaat-detectie"
                             label="Plagiaat automatisch controleren"
-                            formControlName="plagiaatDetectie">
-                        </dt-form-checkbox>
+                            formControlName="plagiaatDetectie" />
                     }
                 </div>
                 @if (!toekenning.studiewijzeritem.inleverperiode.id) {
@@ -1080,6 +1072,7 @@
                 </div>
                 <div [@collapse]="!isLeerdoelenOpen">
                     <dt-editor-form-control
+                        class="editor-only"
                         [formGroup]="studiewijzeritemForm"
                         [inSidebar]="true"
                         controlName="leerdoelen"
@@ -1128,6 +1121,7 @@
                     </div>
                     <div class="notitie" [@collapse]="!isNotitieOpen">
                         <dt-editor-form-control
+                            class="editor-only"
                             [formGroup]="studiewijzeritemForm"
                             [inSidebar]="true"
                             controlName="notitie"

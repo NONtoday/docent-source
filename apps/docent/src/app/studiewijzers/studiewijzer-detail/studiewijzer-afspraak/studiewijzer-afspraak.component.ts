@@ -12,9 +12,6 @@ import {
     output
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IconDirective, IconPillComponent, TooltipDirective } from 'harmony';
-import { IconChevronOnder, IconGroep, IconToevoegen, provideIcons } from 'harmony-icons';
-import { partial } from 'lodash-es';
 import {
     Afspraak,
     HuiswerkType,
@@ -25,7 +22,10 @@ import {
     StudiewijzerDag,
     StudiewijzerWeek,
     Toekenning
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { IconDirective, IconPillComponent, TooltipDirective } from 'harmony';
+import { IconChevronOnder, IconGroep, IconToevoegen, provideIcons } from 'harmony-icons';
+import { partial } from 'lodash-es';
 import { DragDropData, StudiewijzerContent } from '../../../core/models/studiewijzers/studiewijzer.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';

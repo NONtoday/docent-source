@@ -15,6 +15,20 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+    CijferPeriode,
+    KolomZichtbaarheid,
+    Lesgroep,
+    LesgroepenQuery,
+    Maybe,
+    Sortering,
+    SorteringOrder,
+    SorteringVeld,
+    Toetskolom,
+    VoortgangsdossierKolomZichtbaarheidQuery,
+    VoortgangsdossierMatrixVanLesgroepQuery,
+    VoortgangsdossiersQuery
+} from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { isWithinInterval, subWeeks } from 'date-fns';
 import { DropdownComponent, DropdownItem, IconDirective, SpinnerComponent } from 'harmony';
@@ -33,20 +47,6 @@ import { uniqBy } from 'lodash-es';
 import { NgStringPipesModule } from 'ngx-pipes';
 import { BehaviorSubject, Observable, Subject, combineLatest, identity } from 'rxjs';
 import { filter, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
-import {
-    CijferPeriode,
-    KolomZichtbaarheid,
-    Lesgroep,
-    LesgroepenQuery,
-    Maybe,
-    Sortering,
-    SorteringOrder,
-    SorteringVeld,
-    Toetskolom,
-    VoortgangsdossierKolomZichtbaarheidQuery,
-    VoortgangsdossierMatrixVanLesgroepQuery,
-    VoortgangsdossiersQuery
-} from '../../generated/_types';
 import { allowChildAnimations } from '../core/core-animations';
 import { SorteerOrder } from '../core/models/inleveropdrachten/inleveropdrachten.model';
 import { KolomZichtbaarheidKey, LeerlingResultatenSidebarData, ToetskolomSidebarData } from '../core/models/resultaten/resultaten.model';
@@ -249,6 +249,20 @@ export class ResultatenComponent extends DeactivatableComponentDirective impleme
                             lesgroepId,
                             alternatiefNiveau
                         };
+                    }),
+                    tap((viewModel) => {
+                        if (viewModel.matrix.leerlingen.length === 0) {
+                            const anderNiveau = viewModel.niveaus.find(
+                                (niveau) =>
+                                    niveau.voortgangsdossier.onderwijssoortLeerjaar !==
+                                    viewModel.matrix.voortgangsdossier.onderwijssoortLeerjaar
+                            );
+                            // Het voortgangsdossier van de lesgroep bevat geen leerlingen, maar er is een ander niveau gevonden,
+                            // dus ga naar het voortgangsdossier van dat andere niveau (onderwijssoort).
+                            if (anderNiveau) {
+                                this.navigateToNiveau(anderNiveau);
+                            }
+                        }
                     })
                 )
             );

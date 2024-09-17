@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { NotitieFieldsFragment } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import { IconNaarNotitieboek, IconToevoegen, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
-import { NotitieFieldsFragment } from '../../../generated/_types';
 import { NotitieboekContext } from '../../core/models/notitieboek.model';
 import { NotitieboekDataService } from '../../core/services/notitieboek-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';

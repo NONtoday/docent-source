@@ -2,10 +2,6 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IconPillComponent, PillComponent, TooltipDirective, shareReplayLastValue } from 'harmony';
-import { IconReacties, IconTrend, IconTrendBeneden, IconTrendBoven, IconWaarschuwing, provideIcons } from 'harmony-icons';
-import { memoize } from 'lodash-es';
-import { Observable, map } from 'rxjs';
 import {
     GeldendVoortgangsdossierResultaat,
     GetMentorDashboardVoortgangsdossierVoorLeerlingQuery,
@@ -13,7 +9,11 @@ import {
     PeriodeAdviesKolom,
     PeriodeAdviesKolomContext,
     ResultaatBijzonderheid
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { IconPillComponent, PillComponent, TooltipDirective, shareReplayLastValue } from 'harmony';
+import { IconReacties, IconTrend, IconTrendBeneden, IconTrendBoven, IconWaarschuwing, provideIcons } from 'harmony-icons';
+import { memoize } from 'lodash-es';
+import { Observable, map } from 'rxjs';
 import { blockInitialRenderAnimation } from '../../core/core-animations';
 import { DeviceService } from '../../core/services/device.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
@@ -21,6 +21,7 @@ import { SidebarService } from '../../core/services/sidebar.service';
 import { formatDateNL } from '../../rooster-shared/utils/date.utils';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
+import { CijferPeriodeNaamPipe } from '../../shared/pipes/cijfer-periode-naam.pipe';
 import { CommaResultPipe } from '../../shared/pipes/comma-result.pipe';
 import { MathAbsPipe } from '../../shared/pipes/math-abs.pipe';
 import { MentordashboardDataService } from '../mentordashboard-data.service';
@@ -50,7 +51,8 @@ export enum Layout {
         PillComponent,
         MathAbsPipe,
         LeerlingResultatenTrendTooltipPipe,
-        TrendPillColorPipe
+        TrendPillColorPipe,
+        CijferPeriodeNaamPipe
     ],
     providers: [provideIcons(IconTrend, IconTrendBeneden, IconTrendBoven, IconReacties, IconWaarschuwing)]
 })
@@ -190,7 +192,10 @@ export class VoortgangsdossierComponent implements OnInit {
     }
 
     public openDetailsSidebar(vakPeriode: MentorDashboardVakPeriode, periode: number, kolommenPeriodes: PeriodeAdviesKolom[]) {
-        const periodes = kolommenPeriodes.filter(Boolean).map((kolom) => kolom.periode) ?? [];
+        const periodes =
+            kolommenPeriodes.filter(Boolean).map((kolom) => {
+                return { nummer: kolom.periode, afkorting: kolom.afkorting };
+            }) ?? [];
         this.sidebarService.openSidebar(MentordashboardResultatenSidebarComponent, {
             leerlingId: this.route.parent?.snapshot.params.id,
             vak: vakPeriode.vak,

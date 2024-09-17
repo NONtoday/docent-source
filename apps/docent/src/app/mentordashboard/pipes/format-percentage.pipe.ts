@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { PeriodeRegistratieDetails } from '../../../generated/_types';
+import { PeriodeRegistratieDetails } from '@docent/codegen';
 import { formatPercentage } from '../mentordashboard.utils';
 
 @Pipe({

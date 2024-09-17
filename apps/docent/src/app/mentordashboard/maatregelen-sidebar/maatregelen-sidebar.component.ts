@@ -1,8 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { MaatregelToekenning } from '@docent/codegen';
 import { IconToevoegen, provideIcons } from 'harmony-icons';
 import { Observable, take } from 'rxjs';
-import { MaatregelToekenning } from '../../../generated/_types';
 import { MaatregelToekenningDataService, MaatregelToekenningenMetStatus } from '../../core/services/maatregeltoekenning-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';

@@ -11,12 +11,6 @@
                 </div>
             }
         </div>
-        <dt-notitieboek-filter
-            [(filterOptie)]="filterOptie"
-            [(schooljaar)]="schooljaar"
-            [(searchValue)]="searchValue"
-            [context]="context()"
-            [showSchooljaarSelector]="true" />
     </div>
     <div class="periodes-container">
         @for (periode of leerlingTotalen.periodes; track periode.start) {
@@ -50,11 +44,11 @@
             </div>
         }
     </div>
-} @else {
+} @else if (schooljaarHeeftNotities() || huidigeSchooljaarSelected()) {
     <div class="geen-selectie text-content-semi">
         <div class="text">
-            <span class="text-weak">👈🏻 Selecteer een leerling {{ huidigeSchooljaarSelected() ? ' of' : '' }}</span
-            ><br />
+            <i hmyIcon="pijlKleinLinks" color="text-weak"></i>
+            <span class="text-weak">Selecteer een leerling {{ huidigeSchooljaarSelected() ? ' of' : '' }}</span>
             @if (huidigeSchooljaarSelected()) {
                 <span
                     class="action-primary-normal pointer nieuwe-notitie"
@@ -62,7 +56,7 @@
                     [queryParams]="{ notitie: 'nieuw', leerlingBetrokkenenIds: leerlingId(), direct: null, edit: true }"
                     data-gtm="notitieboek-notitie-toevoegen"
                     queryParamsHandling="merge">
-                    Maak nieuwe notitie aan
+                    maak nieuwe notitie aan
                 </span>
             }
         </div>

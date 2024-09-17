@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { SignaleringFilterInput } from '@docent/codegen';
 import { IconDirective, NumbersOnlyDirective } from 'harmony';
 import { IconNoRadio, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable, combineLatest, map, of } from 'rxjs';
-import { SignaleringFilterInput } from '../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';

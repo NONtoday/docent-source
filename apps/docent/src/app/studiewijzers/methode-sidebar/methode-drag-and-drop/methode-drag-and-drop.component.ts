@@ -3,11 +3,11 @@ import { inject } from '@angular/core';
 
 import { ChangeDetectionStrategy, Component, Input, output } from '@angular/core';
 import { Router } from '@angular/router';
+import { HuiswerkType, Methode, MethodeSubHoofdstuk, Toekenning } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { IconDirective } from 'harmony';
 import { IconChevronBoven, IconDraggable, provideIcons } from 'harmony-icons';
 import { partial } from 'lodash-es';
-import { HuiswerkType, Methode, MethodeSubHoofdstuk, Toekenning } from '../../../../generated/_types';
 import { MethodeSelectie } from '../../../core/models/studiewijzers/methode.model';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { SaveToekenningenCallback } from '../methode-sidebar.component';

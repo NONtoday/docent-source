@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
+import { Studiewijzer } from '@docent/codegen';
 import { IconCheck, IconSluiten, IconVerwijderen, provideIcons } from 'harmony-icons';
-import { Studiewijzer } from '../../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../../rooster-shared/components/popup/popup.component';
 import { PopupButtonComponent } from '../../../shared/components/popup-button/popup-button.component';

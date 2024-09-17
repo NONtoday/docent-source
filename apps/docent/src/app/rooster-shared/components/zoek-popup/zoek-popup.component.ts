@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
+import { AfspraakParticipant } from '@docent/codegen';
 import { IconName, IconZoeken, provideIcons } from 'harmony-icons';
 import { map, take } from 'rxjs/operators';
-import { AfspraakParticipant } from '../../../../generated/_types';
 import { UriService } from '../../../auth/uri-service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { DeelnemerSelectieComponent } from '../deelnemer-selectie/deelnemer-selectie.component';

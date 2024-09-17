@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { BevrorenStatus, RapportCijferkolom, Resultaatkolom } from '@docent/codegen';
 import { IconDirective, IconPillComponent } from 'harmony';
 import { IconName, IconSlot, IconSlotOpen, provideIcons } from 'harmony-icons';
-import { BevrorenStatus, RapportCijferkolom, Resultaatkolom } from '../../../generated/_types';
 import { Optional } from '../../rooster-shared/utils/utils';
 
 @Component({

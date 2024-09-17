@@ -16,28 +16,6 @@ import {
     inject,
     output
 } from '@angular/core';
-import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { getYear } from 'date-fns';
-import { IconDirective } from 'harmony';
-import {
-    IconAZ,
-    IconBewerken,
-    IconKlok,
-    IconLetOp,
-    IconPersoon,
-    IconPijlLinks,
-    IconReactieToevoegen,
-    IconReacties,
-    IconResultaten,
-    IconToevoegen,
-    IconWaarschuwing,
-    IconZA,
-    provideIcons
-} from 'harmony-icons';
-import { isEmpty, memoize } from 'lodash-es';
-import { NgStringPipesModule } from 'ngx-pipes';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, switchMap, takeUntil } from 'rxjs/operators';
 import {
     Advieskolom,
     BevrorenStatus,
@@ -62,7 +40,29 @@ import {
     SorteringVeld,
     ToetsSoort,
     Toetskolom
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
+import { getYear } from 'date-fns';
+import { IconDirective } from 'harmony';
+import {
+    IconAZ,
+    IconBewerken,
+    IconKlok,
+    IconLetOp,
+    IconPersoon,
+    IconPijlLinks,
+    IconReactieToevoegen,
+    IconReacties,
+    IconResultaten,
+    IconToevoegen,
+    IconWaarschuwing,
+    IconZA,
+    provideIcons
+} from 'harmony-icons';
+import { isEmpty, memoize } from 'lodash-es';
+import { NgStringPipesModule } from 'ngx-pipes';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { SorteerOrder } from '../../core/models/inleveropdrachten/inleveropdrachten.model';
 import { toetskolommenConfig } from '../../core/models/resultaten/resultaten.model';
 import { SidebarPage } from '../../core/models/studiewijzers/studiewijzer.model';

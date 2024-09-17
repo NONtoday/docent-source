@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { TransloaditParamsDocument, TransloaditParamsMutation } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { TransloaditParamsDocument, TransloaditParamsMutation } from '../../../generated/_types';
 
 @Injectable()
 export class UploadDataService {

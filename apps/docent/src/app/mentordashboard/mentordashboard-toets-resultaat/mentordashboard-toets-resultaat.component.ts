@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MentordashboardResultatenInstellingen, RecentResultaat } from '@docent/codegen';
 import { CssVarPipe, IconDirective, TooltipDirective } from 'harmony';
 import { IconHerkansing, IconReacties, IconWeging, provideIcons } from 'harmony-icons';
-import { MentordashboardResultatenInstellingen, RecentResultaat } from '../../../generated/_types';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { MentordashboardResultaatKleurPipe } from '../pipes/mentordashboard-resultaat-kleur.pipe';

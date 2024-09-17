@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { MentordashboardResultatenInstellingen } from '@docent/codegen';
 import { ColorToken } from 'harmony';
-import { MentordashboardResultatenInstellingen } from '../../../generated/_types';
 import { Optional } from '../../rooster-shared/utils/utils';
 
 @Pipe({

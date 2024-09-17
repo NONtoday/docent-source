@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ItemFieldsFragment, Studiewijzeritem } from '../../../generated/_types';
+import { ItemFieldsFragment, Studiewijzeritem } from '@docent/codegen';
 import { first } from '../../rooster-shared/utils/utils';
 import { berekenOnderwerp } from '../../shared/utils/studiewijzer.utils';
 

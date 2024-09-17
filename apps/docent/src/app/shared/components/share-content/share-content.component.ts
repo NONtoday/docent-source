@@ -2,6 +2,19 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import {
+    AfspraakToekenning,
+    BijlageFieldsFragment,
+    BijlageType,
+    DagToekenning,
+    HuiswerkType,
+    Inleverperiode,
+    Lesgroep,
+    Medewerker,
+    SharedLinkContext,
+    Studiewijzeritem,
+    ToekomendeAfsprakenVanLesgroepenQuery
+} from '@docent/codegen';
 import { getYear, setHours, setMinutes, startOfDay } from 'date-fns';
 import { IconDirective } from 'harmony';
 import {
@@ -18,19 +31,6 @@ import {
 } from 'harmony-icons';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { map, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import {
-    AfspraakToekenning,
-    BijlageFieldsFragment,
-    BijlageType,
-    DagToekenning,
-    HuiswerkType,
-    Inleverperiode,
-    Lesgroep,
-    Medewerker,
-    SharedLinkContext,
-    Studiewijzeritem,
-    ToekomendeAfsprakenVanLesgroepenQuery
-} from '../../../../generated/_types';
 import { SaveToekenningContainer } from '../../../core/models';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';
 import { ComponentUploadService } from '../../../core/services/component-upload.service';

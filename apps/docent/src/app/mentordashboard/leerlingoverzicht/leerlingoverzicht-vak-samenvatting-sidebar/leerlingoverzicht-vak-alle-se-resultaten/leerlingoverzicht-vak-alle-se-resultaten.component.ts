@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Vak, VakToetsTrend } from '@docent/codegen';
 import { SpinnerComponent, TooltipDirective } from 'harmony';
 import { derivedAsync } from 'ngxtension/derived-async';
 import { injectParams } from 'ngxtension/inject-params';
 import { map, switchMap } from 'rxjs';
-import { Vak, VakToetsTrend } from '../../../../../generated/_types';
 import { Optional } from '../../../../rooster-shared/utils/utils';
 import { docentPendingQuery } from '../../../../shared/utils/apollo.utils';
 import { MentordashboardDataService } from '../../../mentordashboard-data.service';

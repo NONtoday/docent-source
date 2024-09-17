@@ -1,4 +1,4 @@
-import { Afspraak } from '../../../generated/_types';
+import { Afspraak } from '@docent/codegen';
 
 export const isAfspraak = (item: RoosterItem): item is Afspraak => 'titel' in item;
 

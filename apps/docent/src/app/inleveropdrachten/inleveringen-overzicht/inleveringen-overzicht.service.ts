@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { Inlevering, InleveringStatus } from '@docent/codegen';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { Inlevering, InleveringStatus } from '../../../generated/_types';
 import { InleveropdrachtBericht } from '../../core/models/inleveropdrachten/inleveropdrachten.model';
 import { toId } from '../../rooster-shared/utils/utils';
 

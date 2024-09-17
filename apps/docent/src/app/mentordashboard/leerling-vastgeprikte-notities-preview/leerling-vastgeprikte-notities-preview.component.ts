@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { NotitieContext, VastgeprikteNotitiesPreviewQuery } from '@docent/codegen';
 import { NotificationCounterComponent, SpinnerComponent } from 'harmony';
 import { Observable, map, startWith } from 'rxjs';
-import { NotitieContext, VastgeprikteNotitiesPreviewQuery } from '../../../generated/_types';
 import { NotitieboekContext } from '../../core/models/notitieboek.model';
 import { NotitieboekDataService } from '../../core/services/notitieboek-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';

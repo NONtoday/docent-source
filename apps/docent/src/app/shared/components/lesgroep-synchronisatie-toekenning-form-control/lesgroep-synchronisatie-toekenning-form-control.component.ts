@@ -3,9 +3,9 @@
 
 import { ChangeDetectionStrategy, Component, forwardRef, HostBinding, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Lesgroep } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconKopieren, IconNietKopieren, IconSynchroniseren, provideIcons } from 'harmony-icons';
-import { Lesgroep } from '../../../../generated/_types';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 
 export interface LesgroepControl {

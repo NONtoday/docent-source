@@ -22,11 +22,11 @@
             [lazyLoaded]="false"
             (click)="onLeerlingClick()">
         </dt-avatar>
-        <div class="naam-beschrijving pointer" #popupRef [class.met-beschrijving]="beschrijving" [class.active]="isActive">
+        <div class="naam-beschrijving pointer" #popupRef [class.met-beschrijving]="beschrijving">
             <span class="text-content-bold naam ellipsis" cy="header-item-naam">
                 {{ leerling | volledigeNaam }}
             </span>
-            <i class="chevron action-neutral-normal" hmyIcon="chevronOnder" size="smallest"> </i>
+            <i class="chevron" hmyIcon="chevronOnder" size="smallest"> </i>
             @if (beschrijving) {
                 <span class="text-content-small-semi beschrijving ellipsis">{{ beschrijving }}</span>
             }
@@ -37,7 +37,7 @@
     @if (!leerling) {
         <div class="select-leerling naam-beschrijving pointer" #popupRef (click)="onLeerlingClick()">
             <span class="text-content-semi ellipsis"> Kies een leerling </span>
-            <i class="chevron action-neutral-normal" hmyIcon="chevronOnder" size="smallest"> </i>
+            <i class="chevron" hmyIcon="chevronOnder" size="smallest"> </i>
         </div>
     }
 </div>

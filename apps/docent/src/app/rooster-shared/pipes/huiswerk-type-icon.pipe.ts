@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { HuiswerkType } from '@docent/codegen';
 import { IconName } from 'harmony-icons';
-import { HuiswerkType } from '../../../generated/_types';
 
 @Pipe({
     name: 'huiswerkTypeIcon',

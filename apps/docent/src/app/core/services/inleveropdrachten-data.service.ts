@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloCache, ApolloQueryResult, FetchResult, WatchQueryFetchPolicy } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { getYear } from 'date-fns';
-import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
-import { matching, mod, set } from 'shades';
 import {
     AantalInleveropdrachtenVanSchooljaarVerlopenDocument,
     AantalInleveropdrachtenVanSchooljaarVerlopenQuery,
@@ -49,7 +44,12 @@ import {
     VerstuurInleveringReactiesMutationVariables,
     VerwijderOngelezenInleveringenDocument,
     namedOperations
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { getYear } from 'date-fns';
+import { Observable } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
+import { matching, mod, set } from 'shades';
 import { getSchooljaar } from '../../rooster-shared/utils/date.utils';
 import { addItem, equalsId, isPresent, notEqualsId, sortLocale, toId } from '../../rooster-shared/utils/utils';
 import { convertToAfspraakToekenningInput, convertToDagToekenningInput } from '../converters/toekenningen.converters';

@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { ToekomendeAfsprakenQuery } from '@docent/codegen';
 import { TooltipDirective } from 'harmony';
-import { ToekomendeAfsprakenQuery } from '../../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { CollegaAvatarsComponent } from '../../../rooster-shared/components/collega-avatars/collega-avatars.component';
 import { LesuurComponent } from '../../../rooster-shared/components/lesuur/lesuur.component';

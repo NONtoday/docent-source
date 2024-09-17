@@ -11,6 +11,7 @@ import {
     output
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Afrondingsoverzicht, Toekenning } from '@docent/codegen';
 import { IconDirective, IconPillComponent, PillComponent, TooltipDirective } from 'harmony';
 import {
     IconBewerken,
@@ -23,7 +24,6 @@ import {
     provideIcons
 } from 'harmony-icons';
 import { Observable, of } from 'rxjs';
-import { Afrondingsoverzicht, Toekenning } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import {
     ActionsPopupComponent,

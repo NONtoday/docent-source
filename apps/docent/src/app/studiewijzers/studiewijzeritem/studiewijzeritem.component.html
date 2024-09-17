@@ -1,5 +1,5 @@
 @if (!readOnly) {
-    <dt-checkbox class="checkbox" [checked]="isChecked" (click)="toggleChecked($event)"> </dt-checkbox>
+    <hmy-checkbox class="checkbox" [checked]="isChecked" (click)="toggleChecked($event)" />
 }
 @if (iconClass) {
     <i class="hide-for-phone-only type-icon" [hmyIcon]="iconClass"></i>

@@ -8,19 +8,19 @@
             [isRoosterToets]="registratie.roosterToets">
         </dt-lesuur>
     }
-    <div class="omschrijving color-typography-2 text-content-semi">
+    <div class="omschrijving text-strong text-content-semi">
         <span [dtTooltip]="omschrijving" [onTouchAllowed]="true">{{ omschrijving }}</span>
     </div>
-    <div class="tijdsindicatie color-typography-3 text-content-small-semi">{{ tijdsindicatie }}</div>
+    <div class="tijdsindicatie text-moderate text-content-small-semi">{{ tijdsindicatie }}</div>
 </div>
 <div class="icons">
     @if (toets) {
-        <i class="fill-accent-warning-1" hmyIcon="toets" size="medium"></i>
+        <i color="fg-warning-normal" hmyIcon="toets" size="medium"></i>
     }
     @if (groteToets) {
-        <i class="fill-accent-negative-1" hmyIcon="toetsGroot" size="medium"></i>
+        <i color="fg-negative-normal" hmyIcon="toetsGroot" size="medium"></i>
     }
     @if (registratie.opmerkingen) {
-        <i class="fill-typography-4" [dtTooltip]="registratie.opmerkingen" [onTouchAllowed]="true" hmyIcon="reacties" size="medium"></i>
+        <i [dtTooltip]="registratie.opmerkingen" [onTouchAllowed]="true" hmyIcon="reacties" size="medium"></i>
     }
 </div>

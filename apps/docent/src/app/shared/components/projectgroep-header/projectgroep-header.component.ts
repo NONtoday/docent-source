@@ -9,9 +9,9 @@ import {
     inject,
     output
 } from '@angular/core';
+import { DifferentiatiegroepKleur, ProjectgroepFieldsFragment } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBewerken, IconOpties, IconSlot, IconVerwijderen, provideIcons } from 'harmony-icons';
-import { DifferentiatiegroepKleur, ProjectgroepFieldsFragment } from '../../../../generated/_types';
 import { PopupService } from '../../../core/popup/popup.service';
 import {
     ActionsPopupComponent,

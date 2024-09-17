@@ -1,6 +1,6 @@
 @if (!editing) {
     @if (!readonly) {
-        <dt-checkbox class="checkbox" [checked]="!!bijlageMap.isSelected" (click)="toggleMapSelection($event)"> </dt-checkbox>
+        <hmy-checkbox class="checkbox" [checked]="!!bijlageMap.isSelected" (click)="toggleMapSelection($event); $event.stopPropagation()" />
     }
     <div class="map" [dtTooltip]="bijlageMap.synchroniseertMet">
         <i color="fg-primary-normal" hmyIcon="map" size="medium"></i>

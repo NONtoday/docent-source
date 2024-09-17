@@ -18,7 +18,7 @@
     [class.is-first]="isFirst()"
     [class.is-last]="isLast()"
     [style.--fg-color]="fgColor() | cssVar"
-    [style.--hover-border]="hoverBorder() | cssVar">
+    [style.--hover-border]="validCijfer() ? (hoverBorder() | cssVar) : 'unset'">
     <div class="color" [style.height.%]="height() * 100">
         <div class="fill neutral" [style.opacity]="color() === 'neutral' ? 100 : 0"></div>
         <div class="fill postive" [style.opacity]="color() === 'positive' ? 100 : 0"></div>

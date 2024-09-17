@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AfspraakParticipant, NotitieFieldsFragment } from '@docent/codegen';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
 import { IconBericht, IconGepland, IconKalenderToevoegen, IconToevoegen, provideIcons } from 'harmony-icons';
 import { match } from 'ts-pattern';
-import { AfspraakParticipant, NotitieFieldsFragment } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { Appearance, HorizontalOffset, PopupDirection, PopupSettings, VerticalOffset } from '../../core/popup/popup.settings';
 import { SidebarService } from '../../core/services/sidebar.service';

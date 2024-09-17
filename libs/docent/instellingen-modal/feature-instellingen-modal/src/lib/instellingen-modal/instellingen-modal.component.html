@@ -1,0 +1,48 @@
+<div class="navigation">
+    <div class="tab account" [class.selected]="currentTab() === 'Account'" (click)="setDetail('Account')">
+        <div class="icon bg-neutral-moderate">
+            <i hmyIcon="persoon" color="fg-on-neutral-moderate" size="small"></i>
+        </div>
+        <span class="label">Account</span>
+        <i class="chevron hide-for-tablet" hmyIcon="chevronRechts" color="action-neutral-weak"></i>
+    </div>
+    <div class="tab weergave" [class.selected]="currentTab() === 'Weergave'" (click)="setDetail('Weergave')">
+        <div class="icon bg-primary-weak">
+            <i hmyIcon="weergave" color="fg-on-primary-weak" size="small"></i>
+        </div>
+        <span class="label">Weergave</span>
+        <i class="chevron hide-for-tablet" hmyIcon="chevronRechts" color="action-neutral-weak"></i>
+    </div>
+    <div class="tab rooster" [class.selected]="currentTab() === 'Rooster'" (click)="setDetail('Rooster')">
+        <div class="icon bg-positive-weak">
+            <i hmyIcon="kalenderDag" color="fg-on-positive-weak" size="small"></i>
+        </div>
+        <span class="label">Rooster</span>
+        <i class="chevron hide-for-tablet" hmyIcon="chevronRechts" color="action-neutral-weak"></i>
+    </div>
+    <div class="filler"></div>
+    <div class="tab uitloggen show-for-tablet" (click)="uitloggen.emit()">
+        <div class="icon bg-negative-weak">
+            <i hmyIcon="uitloggen" color="fg-on-negative-weak" size="small"></i>
+        </div>
+        <span class="label" [hmyTooltip]="'v' + versie()" [tooltipDisplayDelay]="5000">Uitloggen</span>
+    </div>
+    <div class="uitloggen-mobile hide-for-tablet" (click)="uitloggen.emit()">
+        <hmy-button label="Uitloggen" mode="delete" color="action-negative-normal"></hmy-button>
+    </div>
+</div>
+<div class="main" [ngSwitch]="currentTab()">
+    <span class="titel show-for-tablet text-heading-2 text-strong">{{ currentTab() }}</span>
+    <div class="account-content" *ngSwitchCase="'Account'">
+        @if (heeftUpdate()) {
+            <dt-verouderde-versie-warning />
+        }
+        <dt-docent-account [docent]="docent()" />
+    </div>
+    <div class="weergave-content" *ngSwitchCase="'Weergave'">
+        <dt-weergave-instellingen [instellingen]="docent().settings.themeSettings" (updateSettings)="updateTheme($event)" />
+    </div>
+    <div class="rooster-content" *ngSwitchCase="'Rooster'">
+        <dt-rooster-instellingen [dagBegin]="docent().settings.dagBegintijd" (saveDagBeginTijd)="saveDagBeginTijd($event)" />
+    </div>
+</div>

@@ -1,7 +1,7 @@
 @if (studiewijzerOverzichtView$ | async; as studiewijzerOverzichtView) {
     @for (sw of studiewijzerOverzichtView.studiewijzers; track sw) {
         <div class="studiewijzer">
-            <dt-checkbox (click)="onSelect(sw, $event)"></dt-checkbox>
+            <hmy-checkbox (click)="onSelect(sw, $event)" />
             <dt-background-icon class="groep-icon" [color]="$any(sw.lesgroep.color)" [sizes]="['medium']" icon="groep">
             </dt-background-icon>
             <span class="naam text-content-semi">{{ sw.lesgroep.naam }}</span>
@@ -13,7 +13,7 @@
         }
         @for (sw of categorie.studiewijzers; track sw) {
             <div class="studiewijzer">
-                <dt-checkbox (click)="onSelect(sw, $event)"></dt-checkbox>
+                <hmy-checkbox (click)="onSelect(sw, $event)" />
                 <dt-background-icon class="groep-icon" [color]="$any(sw.lesgroep.color)" [sizes]="['medium']" icon="groep">
                 </dt-background-icon>
                 <span class="naam text-content-semi">{{ sw.lesgroep.naam }}</span>

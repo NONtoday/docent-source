@@ -10,7 +10,7 @@
             }
             <div class="sjabloon-info">
                 <div class="naam-container" [class.hidden]="editNaam">
-                    <span class="naam text-content-semi" (click)="onBewerkTitelClick()">{{ sjabloonView.sjabloon.naam }}</span>
+                    <span class="naam text-content-semi text-strong" (click)="onBewerkTitelClick()">{{ sjabloonView.sjabloon.naam }}</span>
                     @if (isEigenaar && !editNaam) {
                         <i
                             class="show-for-tablet-only"

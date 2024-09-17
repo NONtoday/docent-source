@@ -1,6 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Leerling } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import {
     IconArchief,
@@ -15,7 +16,6 @@ import {
 } from 'harmony-icons';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Leerling } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { Appearance } from '../../core/popup/popup.settings';
 import { LeerlingDataService } from '../../core/services/leerling-data.service';

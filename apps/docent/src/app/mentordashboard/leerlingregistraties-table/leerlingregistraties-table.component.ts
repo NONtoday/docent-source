@@ -2,6 +2,19 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { AsyncPipe, KeyValuePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ViewContainerRef, inject, output, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import {
+    KeuzelijstWaardeMogelijkheid,
+    LeerlingAfwezigheidsKolom,
+    PartialLeerlingFragment,
+    RegistratiePeriode,
+    SignaleringFilter,
+    SignaleringenFiltersQuery,
+    Vak,
+    VakRegistraties,
+    VakoverzichtRegistratiesQuery,
+    VrijVeld,
+    VrijveldRegistratiesFieldsFragment
+} from '@docent/codegen';
 import { IconDirective, PillComponent, SpinnerComponent, TooltipDirective } from 'harmony';
 import {
     IconBlokken,
@@ -18,19 +31,6 @@ import {
 import { identity, pickBy, times } from 'lodash-es';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { filter, map, startWith, switchMap, take, takeUntil, tap } from 'rxjs/operators';
-import {
-    KeuzelijstWaardeMogelijkheid,
-    LeerlingAfwezigheidsKolom,
-    PartialLeerlingFragment,
-    RegistratiePeriode,
-    SignaleringFilter,
-    SignaleringenFiltersQuery,
-    Vak,
-    VakRegistraties,
-    VakoverzichtRegistratiesQuery,
-    VrijVeld,
-    VrijveldRegistratiesFieldsFragment
-} from '../../../generated/_types';
 import { allowChildAnimations } from '../../core/core-animations';
 import { CellData, RegistratieTabel, TabelKolom, VakKolom } from '../../core/models/mentordashboard.model';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
@@ -468,6 +468,11 @@ export class LeerlingregistratiesTableComponent implements OnInit, OnDestroy {
         keuzelijstWaardeMogelijkheid: KeuzelijstWaardeMogelijkheid | undefined,
         periode: VakoverzichtRegistratiesQuery['vakoverzichtRegistraties']['periodes'][number]
     ) {
+        // Clear vorige delay
+        if (this.tooltipDelay) {
+            clearTimeout(this.tooltipDelay);
+        }
+
         // geen tooltip op een lege cell of totaal cell (zonder vak)
         if (!vak) {
             return;
@@ -484,6 +489,7 @@ export class LeerlingregistratiesTableComponent implements OnInit, OnDestroy {
             vrijVeld?.id,
             keuzelijstWaardeMogelijkheid?.id
         );
+
         if (cachedDetails) {
             this.detailTooltip.set(registratieDetailTooltip(cachedDetails.registratieDetail, kolom, periode.nummer, vak.naam));
             return;
@@ -492,30 +498,50 @@ export class LeerlingregistratiesTableComponent implements OnInit, OnDestroy {
         this.detailTooltip.set(loaderTooltip);
 
         this.tooltipDelay = setTimeout(() => {
-            this.mentordashboardDataService
-                .getRegistratiesDetail(
-                    leerlingId,
-                    vak.id,
-                    kolomEndpoint,
-                    periode.vanaf!,
-                    periode.tot!,
-                    vrijVeld?.id,
-                    keuzelijstWaardeMogelijkheid?.id
-                )
-                .pipe(take(1))
-                .subscribe({
-                    next: (detail) => {
-                        if (this.tooltipDelay) {
-                            this.detailTooltip.set(registratieDetailTooltip(detail, kolom, periode.nummer, vak.naam));
-                        }
-                    },
-                    error: () => this.removeTooltip()
-                });
+            this.fetchAndSetTooltip(
+                leerlingId,
+                vak.id,
+                kolomEndpoint,
+                periode.vanaf!,
+                periode.tot!,
+                vrijVeld?.id,
+                keuzelijstWaardeMogelijkheid?.id,
+                kolom,
+                periode.nummer,
+                vak.naam
+            );
         }, 2000);
     }
 
+    private fetchAndSetTooltip(
+        leerlingId: string,
+        vakId: string,
+        kolomEndpoint: string,
+        vanaf: Date,
+        tot: Date,
+        vrijVeldId: string | undefined,
+        keuzelijstWaardeMogelijkheidId: string | undefined,
+        kolom: string,
+        periodeNummer: number,
+        vakNaam: string
+    ) {
+        this.mentordashboardDataService
+            .getRegistratiesDetail(leerlingId, vakId, kolomEndpoint, vanaf, tot, vrijVeldId, keuzelijstWaardeMogelijkheidId)
+            .pipe(take(1))
+            .subscribe({
+                next: (detail) => {
+                    if (this.tooltipDelay) {
+                        this.detailTooltip.set(registratieDetailTooltip(detail, kolom, periodeNummer, vakNaam));
+                    }
+                },
+                error: () => this.removeTooltip()
+            });
+    }
+
     removeTooltip() {
-        clearTimeout(this.tooltipDelay);
+        if (this.tooltipDelay) {
+            clearTimeout(this.tooltipDelay);
+        }
         this.detailTooltip.set(loaderTooltip);
     }
 

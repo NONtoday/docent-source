@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewContainerRef, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LesplanNavigatieWeekQuery } from '@docent/codegen';
 import { IconDirective, TooltipDirective } from 'harmony';
 import { IconChevronOnder, provideIcons } from 'harmony-icons';
 import { Observable, Subject, combineLatest, of } from 'rxjs';
 import { concatMap, find, map, switchMap, takeUntil, withLatestFrom } from 'rxjs/operators';
-import { LesplanNavigatieWeekQuery } from '../../../../../generated/_types';
 import { mapToSelectedAfspraakId } from '../../../../core/operators/mapToSelectedAfspraakId.operator';
 import { shareReplayLastValue } from '../../../../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../../../../core/popup/popup.service';

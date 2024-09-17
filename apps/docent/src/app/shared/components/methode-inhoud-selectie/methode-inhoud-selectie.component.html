@@ -17,7 +17,7 @@
             @for (hoofdstuk of methode.hoofdstukken; track hoofdstuk.id; let i = $index) {
                 <div class="hoofdstuk">
                     <div class="header" (click)="toggleHoofdstukOpen(hoofdstuk.id)">
-                        <span class="label text-content-bold color-background-5">{{ i + 1 }}</span>
+                        <span class="label text-content-bold fg-on-alternative-normal">{{ i + 1 }}</span>
                         <span class="naam text-content-semi text-strong">{{ hoofdstuk.naam }}</span>
                         <i
                             class="icon-arrow-open-close"
@@ -31,7 +31,7 @@
                         [formGroup]="geselecteerdeSubHoofdstukkenForm">
                         @for (subHoofdstuk of hoofdstuk.subHoofdstukken; track subHoofdstuk.id) {
                             <div class="sub-hoofdstuk" [class.selected]="geselecteerdeSubHoofdstukkenForm.controls[subHoofdstuk.id].value">
-                                <dt-form-checkbox [formControlName]="subHoofdstuk.id"> </dt-form-checkbox>
+                                <hmy-checkbox [formControlName]="subHoofdstuk.id" />
                                 <span class="sub-naam">{{ subHoofdstuk.naam }}</span>
                             </div>
                         }

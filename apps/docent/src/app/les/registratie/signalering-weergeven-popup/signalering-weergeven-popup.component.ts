@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
+import { AbsentieMeldingFieldsFragment } from '@docent/codegen';
 import { IconDirective, PillComponent } from 'harmony';
 import { IconName } from 'harmony-icons';
-import { AbsentieMeldingFieldsFragment } from '../../../../generated/_types';
 import { HarmonyColor, secondary_1 } from '../../../rooster-shared/colors';
 import { ButtonComponent } from '../../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';

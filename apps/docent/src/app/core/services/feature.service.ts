@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
+import { IsFeatureDisabledDocument, IsFeatureDisabledQuery } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
 import { map, Observable } from 'rxjs';
-import { IsFeatureDisabledDocument, IsFeatureDisabledQuery } from '../../../generated/_types';
 
 @Injectable({
     providedIn: 'root'

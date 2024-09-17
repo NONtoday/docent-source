@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { InleveringStatus } from '@docent/codegen';
 import { PillComponent, PillTagColor } from 'harmony';
-import { InleveringStatus } from '../../../generated/_types';
 
 @Component({
     selector: 'dt-inlever-status-pill',

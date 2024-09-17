@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { GemistResultaat } from '@docent/codegen';
 import { IconDirective, PillComponent, TooltipDirective } from 'harmony';
 import { orderBy } from 'lodash-es';
-import { GemistResultaat } from '../../../generated/_types';
 
 import { IconDeeltoets, IconReacties, IconWeging, provideIcons } from 'harmony-icons';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
@@ -30,19 +30,20 @@ export class MentordashboardGemisteToetsenListComponent implements OnInit {
                 const opmerkingText = resultaat.resultaat.opmerkingen
                     ? resultaat.resultaat.opmerkingen
                     : resultaat.resultaat.opmerkingenEerstePoging;
+
+                const periodeDate = resultaat.geplandeDatumToets || resultaat.laatstGewijzigdDatum;
+                const periodeDateText = periodeDate ? formatDateNL(new Date(periodeDate), 'dag_kort_dagnummer_maand_kort') : null;
+
                 return {
                     ...resultaat,
                     tooltipDeeltoets: resultaat.toetscodeSamengesteldeToets
                         ? `<b>Deeltoets van</b><br>${resultaat.toetscodeSamengesteldeToets} • ${resultaat.omschrijvingSamengesteldeToets}`
                         : undefined,
                     tooltipOpmerking: opmerkingText ? `<b>Opmerking</b><br>${opmerkingText}` : undefined,
-                    periodeText: `P${resultaat.resultaat.periode} • ${formatDateNL(
-                        resultaat.geplandeDatumToets ? new Date(resultaat.geplandeDatumToets) : new Date(resultaat.laatstGewijzigdDatum),
-                        'dag_kort_dagnummer_maand_kort'
-                    )}`
+                    periodeText: 'P' + resultaat.resultaat.periode + (periodeDateText ? ` • ${periodeDateText}` : '')
                 };
             }),
-            [(t) => (t.geplandeDatumToets ? t.geplandeDatumToets : t.laatstGewijzigdDatum)],
+            [(t) => (t.geplandeDatumToets ? t.geplandeDatumToets : t.laatstGewijzigdDatum || -1)],
             ['desc']
         );
     }

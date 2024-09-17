@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { AfspraakParticipant, Leerling, MentorleerlingenQuery, PartialLeerlingFragment } from '@docent/codegen';
 import { addHours, getISOWeek, startOfHour } from 'date-fns';
 import { IconBericht, IconKalenderToevoegen, IconWerkdruk, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
-import { AfspraakParticipant, Leerling, MentorleerlingenQuery, PartialLeerlingFragment } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { PopupService } from '../../core/popup/popup.service';
 import { Appearance } from '../../core/popup/popup.settings';

@@ -14,12 +14,12 @@
         <i class="icon" [hmyIcon]="navigatieItem.icon" [sizes]="['large', 'large', 'medium']"></i>
         <span class="titel text-content-semi show-for-tablet">{{ navigatieItem.titel }}</span>
         @if (navigatieItem.deeplink) {
-            <i class="deeplink show-for-tablet fill-typography-4" hmyIcon="link" size="small"></i>
+            <i class="deeplink show-for-tablet" color="text-weakest" hmyIcon="link" size="small"></i>
         }
         @if (badge$ && badge$ | async; as value) {
             <div class="badge-indication hide-for-tablet"></div>
             <div class="badge-value show-for-tablet">
-                <div class="number text-content-smallest color-typography-5">{{ value }}</div>
+                <div class="number text-content-smallest-bold fg-on-warning-normal">{{ value }}</div>
             </div>
         }
     </div>

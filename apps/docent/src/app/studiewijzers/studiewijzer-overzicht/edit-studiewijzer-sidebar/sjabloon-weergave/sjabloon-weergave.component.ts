@@ -10,10 +10,10 @@ import {
     inject,
     output
 } from '@angular/core';
+import { CijferPeriodeWeek, Sjabloon } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconReeks, IconToevoegen, IconVerwijderen, provideIcons } from 'harmony-icons';
 import { of } from 'rxjs';
-import { CijferPeriodeWeek, Sjabloon } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { PopupDirection } from '../../../../core/popup/popup.settings';
 import { DeviceService } from '../../../../core/services/device.service';

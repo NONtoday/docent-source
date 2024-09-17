@@ -10,11 +10,6 @@ import {
     inject,
     output
 } from '@angular/core';
-import { fadeInUpOnEnterAnimation } from 'angular-animations';
-import { differenceInCalendarDays, isPast, isSameDay, isSameWeek } from 'date-fns';
-import { IconDirective } from 'harmony';
-import { IconToevoegen, provideIcons } from 'harmony-icons';
-import { countBy, identity, join, maxBy, memoize, minBy, sum } from 'lodash-es';
 import {
     Afspraak,
     Differentiatiegroep,
@@ -24,7 +19,12 @@ import {
     StudiewijzerAfspraak,
     StudiewijzerDag,
     StudiewijzerWeek
-} from '../../../../../generated/_types';
+} from '@docent/codegen';
+import { fadeInUpOnEnterAnimation } from 'angular-animations';
+import { differenceInCalendarDays, isPast, isSameDay, isSameWeek } from 'date-fns';
+import { IconDirective } from 'harmony';
+import { IconToevoegen, provideIcons } from 'harmony-icons';
+import { countBy, identity, join, maxBy, memoize, minBy, sum } from 'lodash-es';
 import { LesitemType } from '../../../../core/models/studiewijzers/shared.model';
 import {
     LesmomentDag,

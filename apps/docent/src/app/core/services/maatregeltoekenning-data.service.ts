@@ -1,9 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import { orderBy, partition } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { mod, updateAll } from 'shades';
 import {
     DeleteMaatregeltoekenningDocument,
     MaatregelToekenningInput,
@@ -14,7 +9,12 @@ import {
     MarkeerMaatregeltoekenningAfgehandeldDocument,
     UpdateMaatregeltoekenningDocument,
     namedOperations
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { orderBy, partition } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { mod, updateAll } from 'shades';
 import { addItem, removeItem } from '../../rooster-shared/utils/utils';
 
 @Injectable({

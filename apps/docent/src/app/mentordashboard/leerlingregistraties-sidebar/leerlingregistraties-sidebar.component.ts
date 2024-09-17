@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, inject } from '@angular/core';
+import { KeuzelijstWaardeMogelijkheid, RegistratieDetailQuery, VakoverzichtRegistratiesQuery, VrijVeld } from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { SpinnerComponent } from 'harmony';
 import { IconLoader, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable, Subject, of, switchMap, takeUntil } from 'rxjs';
-import { KeuzelijstWaardeMogelijkheid, RegistratieDetailQuery, VakoverzichtRegistratiesQuery, VrijVeld } from '../../../generated/_types';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { SidebarAvatar, SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';
 import { BaseSidebar } from '../../rooster-shared/directives/base-sidebar.directive';

@@ -1,4 +1,3 @@
-import { setHours, setMinutes, startOfDay } from 'date-fns';
 import {
     AfspraakToekenning,
     ConceptInleveropdracht,
@@ -11,7 +10,8 @@ import {
     ToekenningFieldsFragment,
     ToekenningSortering,
     WeekToekenning
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { setHours, setMinutes, startOfDay } from 'date-fns';
 import { DragDropData } from '../../core/models/studiewijzers/studiewijzer.model';
 import { HuiswerkTypeIconPipe } from '../../rooster-shared/pipes/huiswerk-type-icon.pipe';
 import { MAX_INT_VALUE, Optional } from '../../rooster-shared/utils/utils';

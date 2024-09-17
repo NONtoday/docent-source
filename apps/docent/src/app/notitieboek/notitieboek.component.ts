@@ -12,27 +12,37 @@ import {
     inject,
     signal
 } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { IconNotitieboek, IconToevoegen, provideIcons } from 'harmony-icons';
-import { isEqual } from 'lodash-es';
-import { Observable, Subject, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
-import { P, match } from 'ts-pattern';
 import {
     LesgroepFieldsFragment,
     Maybe,
     NotitieContext,
     NotitieFieldsFragment,
     NotitieInput,
+    NotitieLeerlingBetrokkeneFieldsFragment,
+    NotitieLesgroepBetrokkene,
+    NotitieStamgroepBetrokkene,
     NotitieStreamGroepering,
     NotitiestreamQuery,
     StamgroepFieldsFragment
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
+import { IconDirective, ModalService, isPresent } from 'harmony';
+import { IconNotitieboek, IconPijlKleinLinks, IconToevoegen, provideIcons } from 'harmony-icons';
+import { isEqual } from 'lodash-es';
+import { BehaviorSubject, Observable, Subject, combineLatest, distinctUntilChanged, map, of, switchMap } from 'rxjs';
+import { filter, take, takeUntil, tap } from 'rxjs/operators';
+import { P, match } from 'ts-pattern';
 import { UriService } from '../auth/uri-service';
 import { allowChildAnimations } from '../core/core-animations';
-import { NotitieLeerlingTotalen, NotitieboekContext, NotitieboekDetail, NotitieboekRouteContext } from '../core/models/notitieboek.model';
+import {
+    NotitieLeerlingTotalen,
+    NotitiePeriodesQuery,
+    NotitieboekContext,
+    NotitieboekDetail,
+    NotitieboekRouteContext
+} from '../core/models/notitieboek.model';
 import { shareReplayLastValue } from '../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../core/popup/popup.service';
 import { PopupDirection, defaultPopupOffsets } from '../core/popup/popup.settings';
@@ -48,6 +58,7 @@ import { HeaderComponent } from '../layout/header/header.component';
 import { AfspraakSidebarComponent } from '../rooster-shared/components/afspraak-sidebar/afspraak-sidebar.component';
 import { MessageComponent } from '../rooster-shared/components/message/message.component';
 import { OutlineButtonComponent } from '../rooster-shared/components/outline-button/outline-button.component';
+import { toDtDate } from '../rooster-shared/pipes/dt-date.pipe';
 import { getSchooljaar } from '../rooster-shared/utils/date.utils';
 import { Optional, equalsId } from '../rooster-shared/utils/utils';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -56,6 +67,7 @@ import {
     GroepLeerlingHeaderNavigatieComponent,
     GroepLeerlingHeaderNavigatieItem
 } from '../shared/components/groep-leerling-header-navigatie/groep-leerling-header-navigatie.component';
+import { NotitieDetailMobileRollupComponent } from './notitie-detail-mobile-rollup/notitie-detail-mobile-rollup.component';
 import { NotitieDetailComponent } from './notitie-detail/notitie-detail.component';
 import { NotitieEditComponent } from './notitie-edit/notitie-edit.component';
 import { NotitieLeerlingTotalenComponent } from './notitie-leerling-totalen/notitie-leerling-totalen.component';
@@ -66,6 +78,7 @@ import {
     NotitieboekHeaderLeerlingSelectiePopupInput
 } from './notitieboek-header-leerling-selectie-popup/notitieboek-header-leerling-selectie-popup.component';
 import { NotitieboekMenuPopupComponent } from './notitieboek-menu-popup/notitieboek-menu-popup.component';
+import { provideToonSchooljaarSelectie } from './notitieboek-providers';
 import { defaultNieuweNotitie } from './notitieboek.util';
 
 interface NotitieboekRouteParams {
@@ -89,13 +102,14 @@ interface NotitieboekRouteParams {
         GroepLeerlingHeaderNavigatieComponent,
         AfspraakSidebarComponent,
         MessageComponent,
-        OutlineButtonComponent
+        OutlineButtonComponent,
+        IconDirective
     ],
     templateUrl: './notitieboek.component.html',
     styleUrls: ['./notitieboek.component.scss'],
     animations: [slideInUpOnEnterAnimation({ duration: 400 }), slideOutDownOnLeaveAnimation({ duration: 200 }), allowChildAnimations],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [provideIcons(IconNotitieboek, IconToevoegen), UploadDataService]
+    providers: [provideIcons(IconNotitieboek, IconToevoegen, IconPijlKleinLinks), UploadDataService, provideToonSchooljaarSelectie()]
 })
 export class NotitieboekComponent extends DeactivatableComponentDirective implements OnInit, OnDestroy {
     private deviceService = inject(DeviceService);
@@ -108,9 +122,10 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
     private sharedDataService = inject(SharedDataService);
     private leerlingDataService = inject(LeerlingDataService);
     private changeDetector = inject(ChangeDetectorRef);
-    public sidebarService = inject(SidebarService);
+    private sidebarService = inject(SidebarService);
     private uriService = inject(UriService);
     private tableService = inject(TableService);
+    private modalService = inject(ModalService);
 
     @ViewChild(NotitieEditComponent) editComponent: NotitieEditComponent;
     public edit$: Observable<Optional<NotitieFieldsFragment> | NotitieInput>;
@@ -120,14 +135,17 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
     public navigatie$: Observable<GroepLeerlingHeaderNavigatieItem>;
     public afspraakSidebar$: SidebarInputs<AfspraakSidebarComponent>;
     public showHeaderNavigation$: Observable<boolean>;
-    public selectedSchooljaar = signal<number | undefined>(undefined);
+    public selectedSchooljaar = signal<number>(new Date().getFullYear());
     public selectedSchooljaarIsHuidig = computed(() => this.isHuidigSchooljaar(this.selectedSchooljaar()));
     public selectedSchooljaar$ = toObservable(this.selectedSchooljaar);
     public selectedLeerlingTotalen = signal<NotitieLeerlingTotalen | undefined>(undefined);
     public selectedLeerlingTotalen$ = toObservable(this.selectedLeerlingTotalen);
+    public filteredPeriodes = new BehaviorSubject<NotitiePeriodesQuery | undefined>(undefined);
     public filterOptie = signal<NotitieFilter | undefined>(undefined);
     public searchValue = signal<string>('');
     public tab = signal<NotitieboekTab>('Tijdlijn');
+    public isTabletOrDesktop = toSignal(this.deviceService.isTabletOrDesktop$);
+    private notitiePeriodes$: Observable<NotitiePeriodesQuery>;
 
     // Wordt ook getoond in mentordashboard
     @HostBinding('class.zonder-header') public zonderHeader = false;
@@ -135,6 +153,11 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
     @HostBinding('class.detail-view') public detailView = true;
 
     private destroy$ = new Subject<void>();
+
+    private detailRollup: NotitieDetailMobileRollupComponent | undefined = undefined;
+    private notitieDeletedFromRollup = false;
+    // Stop routing changes when rollup closes.
+    private rollupNavigationHandled = false;
 
     showOpgeslagenMessage = false;
     showSuccesMessageAfspraak: boolean;
@@ -176,7 +199,7 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
 
     private getContextObservable(isNotitieboekEntry: boolean): Observable<NotitieboekRouteContext> {
         const observable$ = isNotitieboekEntry ? this.notitieboekContextObservable() : this.mentordashboardContextObservable();
-        return observable$.pipe(tap(() => (this._openEerstOngelezenNotitie = true)));
+        return observable$.pipe(tap(() => (this._openEerstOngelezenNotitie = this.deviceService.isDesktopOrTabletLandscape())));
     }
 
     private isHuidigSchooljaar(selectedSchooljaar: number | undefined) {
@@ -245,6 +268,7 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
         );
 
         this.stream$ = combineLatest([routeContext$, this.selectedSchooljaar$]).pipe(
+            filter(([context, schooljaar]) => context && !!schooljaar),
             switchMap(([context, schooljaar]) =>
                 this.notitieDataService.notitiestream(
                     context.context,
@@ -265,7 +289,7 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
                 if (notitieParam || scrollTo) {
                     return;
                 }
-                const ongelezenNotitie = stream.flatMap((s) => s.notities).find((notitie) => !notitie.gelezenOp);
+                const ongelezenNotitie = stream.notitiePeriodes.flatMap((s) => s.notities).find((notitie) => !notitie.gelezenOp);
                 if (ongelezenNotitie) {
                     this.router.navigate([], { queryParams: { notitie: ongelezenNotitie.id }, queryParamsHandling: 'merge' });
                 }
@@ -273,10 +297,13 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
             shareReplayLastValue()
         );
 
-        this.detail$ = combineLatest([this.route.queryParams, this.stream$]).pipe(
-            map(([qparams, stream]) => {
+        this.notitiePeriodes$ = this.stream$.pipe(map((stream) => stream.notitiePeriodes));
+
+        this.detail$ = combineLatest([this.route.queryParams, this.notitiePeriodes$, this.filteredPeriodes]).pipe(
+            map(([qparams, stream, filteredStream]) => {
                 const leerlingTotalen = this.selectedLeerlingTotalen();
-                const prevNextStream = (this.tab() === 'Totalen per leerling' ? leerlingTotalen?.periodes : stream) ?? stream;
+                let prevNextStream = filteredStream ?? stream;
+                if (this.tab() === 'Totalen per leerling' && leerlingTotalen?.periodes) prevNextStream = leerlingTotalen.periodes;
                 if (qparams.notitie && !qparams.edit) {
                     const current = stream.flatMap((s) => s.notities).find(equalsId(qparams.notitie));
                     if (!current) {
@@ -296,7 +323,53 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
             })
         );
 
-        this.edit$ = combineLatest([this.route.queryParams, this.stream$]).pipe(
+        combineLatest([this.detail$, this.context$, this.deviceService.isTabletOrDesktop$])
+            .pipe(
+                map(([detail, context, isTabletOrDesktop]) => {
+                    const notitie = !isTabletOrDesktop ? detail?.current : undefined;
+                    if (notitie) return { notitie: notitie, context: context };
+                    return null;
+                }),
+                filter(isPresent),
+                takeUntil(this.destroy$)
+            )
+            .subscribe(({ notitie, context }) => {
+                if (this.detailRollup && this.detailRollup.notitie().id === notitie.id) return;
+
+                if (this.modalService.isOpen()) {
+                    this.modalService.animateAndClose();
+                }
+
+                this.detailRollup = this.modalService.modal({
+                    component: NotitieDetailMobileRollupComponent,
+                    inputs: {
+                        context: context,
+                        notitie: notitie
+                    },
+                    settings: {
+                        keepOnNavigation: true,
+                        maxHeightRollup: '90vh',
+                        showClose: true,
+                        title:
+                            toDtDate(notitie.createdAt, 'dag_uitgeschreven_dagnummer_maand') + ', ' + toDtDate(notitie.createdAt, 'tijd'),
+                        onClose: () => this.closeDetailRollup(notitie, context)
+                    }
+                });
+
+                this.detailRollup.onNewNotitie.subscribe(() => (this.rollupNavigationHandled = true));
+                this.detailRollup.onNotitieEdit.subscribe(() => (this.rollupNavigationHandled = true));
+                this.detailRollup.onNotitieDeleted.subscribe((notitie) => {
+                    this.notitieDeletedFromRollup = true;
+                    this.rollupNavigationHandled = true;
+                    this.verwijderNotitie(notitie);
+                    this.modalService.animateAndClose();
+                });
+
+                this.detailRollup.onGroepLabelClick.subscribe((groep) => this.onRollupGroepLabelClick(groep));
+                this.detailRollup.onLeerlingLabelClick.subscribe((leerling) => this.onRollupLeerlingLabelClick(leerling));
+            });
+
+        this.edit$ = combineLatest([this.route.queryParams, this.notitiePeriodes$]).pipe(
             map(([qparams, stream]) => {
                 if (!qparams.notitie || !qparams.edit) {
                     return null;
@@ -307,16 +380,14 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
             })
         );
 
-        this.showHeaderNavigation$ = combineLatest([
-            this.deviceService.isPhoneOrTablet$,
-            this.deviceService.isTabletOrDesktop$,
-            this.detail$,
-            this.edit$,
-            this.selectedLeerlingTotalen$
-        ]).pipe(
-            map(([isPhoneOrTablet, isTabletOrDesktop, detail, edit, totalen]) =>
-                isPhoneOrTablet && !isTabletOrDesktop ? !detail && !edit && !totalen : true
-            ),
+        this.edit$.pipe(filter(isPresent), takeUntil(this.destroy$)).subscribe(() => {
+            if (this.modalService.isOpen()) {
+                this.modalService.animateAndClose();
+            }
+        });
+
+        this.showHeaderNavigation$ = combineLatest([this.deviceService.isTabletOrDesktop$, this.edit$, this.selectedLeerlingTotalen$]).pipe(
+            map(([isTabletOrDesktop, edit, totalen]) => (!isTabletOrDesktop ? !edit && !totalen : true)),
             tap((value) => (this.detailView = !value)),
             shareReplayLastValue(),
             takeUntil(this.destroy$)
@@ -329,6 +400,13 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
                 ? this.tableService.showAllMenus()
                 : this.tableService.hideMenus(['mentordashboard-vak-groep-leerling-navigatie', 'mentordashboard-navigatie']);
             this.changeDetector.markForCheck();
+        });
+
+        this.selectedSchooljaar$.pipe(takeUntil(this.destroy$)).subscribe(() => this.selectedLeerlingTotalen.set(undefined));
+        this.deviceService.isTabletOrDesktop$.pipe(takeUntil(this.destroy$)).subscribe((isTabletOrDesktop) => {
+            if (isTabletOrDesktop && this.modalService.isOpen()) {
+                this.modalService.animateAndClose();
+            }
         });
     }
 
@@ -402,6 +480,22 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
         this.destroy$.complete();
     }
 
+    closeDetailRollup(notitie: NotitieFieldsFragment, context: NotitieboekContext) {
+        this.detailRollup = undefined;
+
+        if (!this.notitieDeletedFromRollup) {
+            this.notitieDataService.markeerGelezen(notitie, context);
+        }
+
+        // Navigation is already handled in these cases
+        if (!this.rollupNavigationHandled) {
+            this.router.navigate([], { relativeTo: this.route, queryParams: { notitie: null, edit: null }, queryParamsHandling: 'merge' });
+        }
+
+        this.rollupNavigationHandled = false;
+        this.notitieDeletedFromRollup = false;
+    }
+
     verwijderNotitie(notitie: NotitieFieldsFragment) {
         this.notitieDataService.verwijderNotitie(notitie.id);
         this.router.navigate([], { relativeTo: this.route, queryParams: { notitie: null, edit: null }, queryParamsHandling: 'merge' });
@@ -433,5 +527,77 @@ export class NotitieboekComponent extends DeactivatableComponentDirective implem
         this.succesMessageAfspraak = message;
         this.showSuccesMessageAfspraak = true;
         this.changeDetector.detectChanges();
+    }
+
+    onRollupGroepLabelClick(betrokkene: NotitieStamgroepBetrokkene | NotitieLesgroepBetrokkene) {
+        const isMobielOfTabletPortrait = this.deviceService.isPhoneOrTabletPortrait();
+        const notitie = this.route.snapshot.queryParams.notitie;
+
+        if (this.router.routerState.snapshot.url.includes('mentordashboard')) {
+            if (betrokkene.__typename === 'NotitieStamgroepBetrokkene') {
+                betrokkene.geschrevenInMentorContext
+                    ? this.router.navigate(['/mentordashboard/stamgroep/', betrokkene.stamgroep.id, 'notitieboek'], {
+                          queryParams: { scrollto: isMobielOfTabletPortrait ? notitie : null }
+                      })
+                    : this.router.navigate(['/notitieboek'], {
+                          queryParams: { stamgroep: betrokkene.stamgroep.id, scrollto: isMobielOfTabletPortrait ? notitie : null }
+                      });
+                return;
+            }
+        }
+
+        const groepQueryParam = match(betrokkene)
+            .with({ lesgroep: P.any }, (groep) => ({ lesgroep: groep.lesgroep.id }))
+            .with({ stamgroep: P.any }, (groep) => ({ stamgroep: groep.stamgroep.id }))
+            .exhaustive();
+
+        this.router.navigate(['/notitieboek'], {
+            queryParams: { ...groepQueryParam, scrollto: isMobielOfTabletPortrait ? notitie : null }
+        });
+
+        this.rollupNavigationHandled = true;
+        this.modalService.animateAndClose();
+    }
+
+    onRollupLeerlingLabelClick(leerlingBetrokkene: NotitieLeerlingBetrokkeneFieldsFragment) {
+        const isPhoneOrTabletPortrait = this.deviceService.isPhoneOrTabletPortrait();
+        const notitie = this.route.snapshot.queryParams.notitie;
+        if (this.router.routerState.snapshot.url.includes('mentordashboard')) {
+            leerlingBetrokkene.geschrevenInMentorContext
+                ? this.router.navigate(['/mentordashboard/leerling/', leerlingBetrokkene.leerling.id, 'notitieboek'], {
+                      queryParams: { scrollto: isPhoneOrTabletPortrait ? notitie : null }
+                  })
+                : this.router.navigate(['/notitieboek'], {
+                      queryParams: { leerling: leerlingBetrokkene.leerling.id, scrollto: isPhoneOrTabletPortrait ? notitie : null }
+                  });
+            return;
+        }
+
+        const contextLesgroepId = this.route.snapshot.queryParams.lesgroep ?? null;
+        const contextStamgroepId = this.route.snapshot.queryParams.stamgroep ?? null;
+
+        this.notitieDataService
+            .zoekBetrokkenen(undefined, contextStamgroepId, contextLesgroepId)
+            .pipe(
+                take(1),
+                map((zoekresults) => zoekresults.leerlingen.some((leerlingZr) => leerlingZr.leerling.id === leerlingBetrokkene.leerling.id))
+            )
+            .subscribe((leerlingInDezelfdeGroep) => {
+                const queryParams = {
+                    leerling: leerlingBetrokkene.leerling.id,
+                    lesgroep: leerlingInDezelfdeGroep ? contextLesgroepId : null,
+                    stamgroep: leerlingInDezelfdeGroep ? contextStamgroepId : null,
+                    notitie: isPhoneOrTabletPortrait ? null : notitie,
+                    scrollto: isPhoneOrTabletPortrait ? notitie : null
+                };
+
+                this.router.navigate([], {
+                    relativeTo: this.route,
+                    queryParams
+                });
+
+                this.rollupNavigationHandled = true;
+                this.modalService.animateAndClose();
+            });
     }
 }

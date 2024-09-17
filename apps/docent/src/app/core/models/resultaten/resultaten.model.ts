@@ -1,4 +1,3 @@
-import { ColorToken } from 'harmony';
 import {
     CijferPeriode,
     KolomZichtbaarheidInput,
@@ -6,7 +5,8 @@ import {
     PartialLeerlingFragment,
     ResultaatkolomType,
     VoortgangsdossierMatrixVanLesgroepQuery
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { ColorToken } from 'harmony';
 
 export type KolomZichtbaarheidKey = keyof KolomZichtbaarheidInput;
 export type Kolomtype = 'P' | 'r' | 'R' | 'A';

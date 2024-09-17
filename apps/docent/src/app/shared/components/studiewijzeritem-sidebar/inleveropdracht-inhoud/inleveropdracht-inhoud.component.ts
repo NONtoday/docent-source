@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, inject, output } from '@angular/core';
+import { Afrondingsoverzicht, LesgroepFieldsFragment, Studiewijzeritem } from '@docent/codegen';
 import { IconDirective, IconPillComponent, PillComponent, TooltipDirective } from 'harmony';
 import {
     IconCheck,
@@ -14,7 +15,6 @@ import {
     provideIcons
 } from 'harmony-icons';
 import { Observable, of } from 'rxjs';
-import { Afrondingsoverzicht, LesgroepFieldsFragment, Studiewijzeritem } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { OutlineButtonComponent } from '../../../../rooster-shared/components/outline-button/outline-button.component';
 import { DtDatePipe } from '../../../../rooster-shared/pipes/dt-date.pipe';

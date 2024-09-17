@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MentorleerlingenQuery } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconInformatie, provideIcons } from 'harmony-icons';
-import { MentorleerlingenQuery } from '../../../../../generated/_types';
 import { AvatarComponent } from '../../../../rooster-shared/components/avatar/avatar.component';
 import { TooltipDirective } from '../../../../rooster-shared/directives/tooltip.directive';
 import { VolledigeNaamPipe } from '../../../../rooster-shared/pipes/volledige-naam.pipe';

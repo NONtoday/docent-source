@@ -1,6 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ViewContainerRef, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { GemistResultaat, MentordashboardResultatenInstellingen } from '@docent/codegen';
 import {
     ColorToken,
     CssVarPipe,
@@ -14,7 +15,6 @@ import {
 import { IconInformatie, IconPijlRechts, IconPijlRechtsBeneden, IconPijlRechtsBoven, IconResultaten, provideIcons } from 'harmony-icons';
 import { Observable, combineLatest, map } from 'rxjs';
 import { match } from 'ts-pattern';
-import { GemistResultaat, MentordashboardResultatenInstellingen } from '../../../../generated/_types';
 import { LeerlingCijferOverzicht } from '../../../core/models/mentordashboard.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { SidebarService } from '../../../core/services/sidebar.service';

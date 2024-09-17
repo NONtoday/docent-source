@@ -1,8 +1,8 @@
 <div class="personalia">
     @if (indicatiesCounter > 0) {
         <div class="indicaties" #indicaties (click)="openIndicaties()" data-gtm="mentordashboard-indicaties-openen">
-            <span class="notificatie-counter">{{ indicatiesCounter }}</span>
-            <span class="text-content-semi color-primary-1">Indicaties</span>
+            <span class="notificatie-counter fg-on-warning-normal">{{ indicatiesCounter }}</span>
+            <span class="text-content-semi">Indicaties</span>
         </div>
     }
     <dt-avatar
@@ -14,8 +14,8 @@
         [fontsize]="28"
         [lazyLoaded]="false">
     </dt-avatar>
-    <span class="naam text-heading-2">{{ leerling | volledigeNaam }}</span>
-    <span class="adres text-content-semi color-typography-2">
+    <span class="naam text-heading-2 text-strong">{{ leerling | volledigeNaam }}</span>
+    <span class="adres text-content-semi text-weakest">
         {{ leerling.adres | adres: '• ' }}{{ leerling.geboortedatum | dtDate: 'dagnummer_maand_kort' }}
     </span>
     <div class="labels">
@@ -34,16 +34,16 @@
 <div class="buttons">
     @if (leerling.email || heeftBerichtenRecht) {
         <div class="button" #berichtButton [class.popup-open]="berichtPopupOpen" (click)="onBerichtClick()" cy="leerlingpersonalia-bericht">
-            <i class="fill-primary-1" [sizes]="['large', 'large', 'medium']" hmyIcon="bericht"></i>
-            <span class="text-content-semi color-primary-1 show-for-tablet">Bericht sturen</span>
-            <i class="fill-background-1" #berichtIcon hmyIcon="chevronOnder" size="small"></i>
+            <i [sizes]="['large', 'large', 'medium']" hmyIcon="bericht"></i>
+            <span class="text-content-semi show-for-tablet">Bericht sturen</span>
+            <i #berichtIcon hmyIcon="chevronOnder" size="small"></i>
         </div>
     }
     @if (telefoonnummers.length > 0) {
         <div class="button" #telefoonButton [class.popup-open]="telefoonnummerPopupOpen" (click)="onPhoneNumberClick()">
-            <i class="fill-primary-1" [sizes]="['large', 'large', 'medium']" hmyIcon="telefoon"></i>
-            <span class="text-content-semi color-primary-1 show-for-tablet">Telefoon</span>
-            <i class="fill-background-1" #telefoonIcon hmyIcon="chevronOnder" size="small"></i>
+            <i [sizes]="['large', 'large', 'medium']" hmyIcon="telefoon"></i>
+            <span class="text-content-semi show-for-tablet">Telefoon</span>
+            <i #telefoonIcon hmyIcon="chevronOnder" size="small"></i>
         </div>
     }
 </div>

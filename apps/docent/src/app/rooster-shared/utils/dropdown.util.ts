@@ -1,7 +1,7 @@
+import { AfspraakHerhalingDag, AfspraakHerhalingEindeType, AfspraakHerhalingType, SjabloonViewQuery } from '@docent/codegen';
 import { ColorToken } from 'harmony';
 import { IconName } from 'harmony-icons';
 import { curry, times } from 'lodash-es';
-import { AfspraakHerhalingDag, AfspraakHerhalingEindeType, AfspraakHerhalingType, SjabloonViewQuery } from '../../../generated/_types';
 import { dagNamen } from './date.utils';
 
 export interface DropDownOption<T> {
