@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Lesgroep } from '../../../generated/_types';
+import { Lesgroep } from '@docent/codegen';
 
 @Pipe({
     name: 'lesgroepNamen',

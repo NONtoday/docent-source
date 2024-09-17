@@ -1,5 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, inject, output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import {
+    BevrorenStatus,
+    Deeltoetskolom,
+    KolomActie,
+    MatrixResultaatkolomFieldsFragment,
+    ResultaatkolomType,
+    SamengesteldeToetskolom,
+    Toetskolom
+} from '@docent/codegen';
 import { ButtonComponent, IconDirective } from 'harmony';
 import {
     IconBewerken,
@@ -16,15 +25,6 @@ import {
     provideIcons
 } from 'harmony-icons';
 import { join } from 'lodash-es';
-import {
-    BevrorenStatus,
-    Deeltoetskolom,
-    KolomActie,
-    MatrixResultaatkolomFieldsFragment,
-    ResultaatkolomType,
-    SamengesteldeToetskolom,
-    Toetskolom
-} from '../../../generated/_types';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
 import { VerwijderButtonComponent } from '../../rooster-shared/components/verwijder-button/verwijder-button.component';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';

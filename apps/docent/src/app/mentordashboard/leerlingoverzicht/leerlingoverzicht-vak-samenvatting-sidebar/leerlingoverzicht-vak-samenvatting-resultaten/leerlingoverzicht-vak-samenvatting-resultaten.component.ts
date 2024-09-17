@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, inject, output } from '@angular/core';
-import {
-    GeldendResultaatFieldsFragment,
-    GemistResultaat,
-    MentorDashboardVakPeriodeResultaten,
-    VakToetsTrend
-} from '../../../../../generated/_types';
+import { GeldendResultaatFieldsFragment, GemistResultaat, MentorDashboardVakPeriodeResultaten, VakToetsTrend } from '@docent/codegen';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { Optional } from '../../../../rooster-shared/utils/utils';
 import { CommaResultPipe } from '../../../../shared/pipes/comma-result.pipe';

@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Afrondingsoverzicht } from '@docent/codegen';
 import { IconDirective, SwitchComponent, SwitchGroupComponent } from 'harmony';
 import { IconPlagiaat, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { Afrondingsoverzicht } from '../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { AvatarComponent } from '../../rooster-shared/components/avatar/avatar.component';

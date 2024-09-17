@@ -1,10 +1,10 @@
 import { UrlSegment } from '@angular/router';
+import { Afspraak, Differentiatiegroep, HuiswerkType, Lesgroep, SorteringOrder } from '@docent/codegen';
 import { format, isDate, isSameDay, parseISO, setHours, setMinutes, setSeconds } from 'date-fns';
 import { nl } from 'date-fns/locale';
 import { IconName } from 'harmony-icons';
 import { curry, get, isEqual, isFunction, isNull, isUndefined, negate } from 'lodash-es';
 import { matching } from 'shades';
-import { Afspraak, Differentiatiegroep, HuiswerkType, Lesgroep, SorteringOrder } from '../../../generated/_types';
 import { SorteerOrder } from '../../core/models/inleveropdrachten/inleveropdrachten.model';
 import { LoadingState } from '../../core/models/shared.model';
 

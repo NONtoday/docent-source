@@ -1,14 +1,14 @@
+import { Differentiatiegroep, DifferentiatiegroepKleur, Leerling } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { ColorToken } from 'harmony';
 import { sortBy } from 'lodash-es';
-import { Differentiatiegroep, DifferentiatiegroepKleur, Leerling } from '../../../generated/_types';
 import { KleurenStackElement } from '../../shared/components/kleuren-stack/kleuren-stack.component';
-import { getVolledigeNaam } from '../../shared/utils/leerling.utils';
 import { stringToHash } from './utils';
 
 export const actionColors = ['primary', 'warning', 'accent', 'negative', 'positive', 'neutral', 'alternative', 'disabled'] as const;
 export type ActionColor = (typeof actionColors)[number];
 
-export const backgroundIconColors = ['primary', 'warning', 'accent', 'negative', 'positive', 'neutral', 'alternative'] as const;
+export const backgroundIconColors = ['primary', 'warning', 'accent', 'negative', 'positive', 'neutral', 'alternative', 'disabled'] as const;
 export type BackgroundIconColor = (typeof backgroundIconColors)[number];
 
 export const stringToColor = (string: string, choices = backgroundIconColors): BackgroundIconColor => {

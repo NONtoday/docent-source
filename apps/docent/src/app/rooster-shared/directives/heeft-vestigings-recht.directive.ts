@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Directive, inject, Input, OnChanges, TemplateRef, ViewContainerRef } from '@angular/core';
+import { VestigingRechten } from '@docent/codegen';
 import { isEmpty } from 'lodash-es';
 import { take } from 'rxjs/operators';
-import { VestigingRechten } from '../../../generated/_types';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 
 // alle booleans uit VestigingRechten

@@ -2,11 +2,11 @@ import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDragPlaceholder, CdkDropList, C
 import { AsyncPipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Sjabloon, SjabloonCategorie, StudiewijzerCategorie, Vaksectie, VaksectieView } from '@docent/codegen';
 import { IconDirective, SpinnerComponent, SwitchComponent, SwitchGroupComponent } from 'harmony';
 import { IconDraggable, IconPijlBoven, IconPijlOnder, IconSjabloon, IconStudiewijzer, IconToevoegen, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
-import { Sjabloon, SjabloonCategorie, StudiewijzerCategorie, Vaksectie, VaksectieView } from '../../../generated/_types';
 import { allowChildAnimations } from '../../core/core-animations';
 import { startLoading, stopLoading } from '../../core/operators/loading.operators';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';

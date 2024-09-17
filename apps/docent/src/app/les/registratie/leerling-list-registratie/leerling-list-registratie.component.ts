@@ -9,6 +9,7 @@ import {
     ViewChildren,
     ViewContainerRef
 } from '@angular/core';
+import { KeuzelijstWaardeMogelijkheid, LesRegistratieQuery, VrijVeld, VrijVeldWaarde } from '@docent/codegen';
 import { IconDirective, IconPillComponent, MEDIUM_PX, PillComponent } from 'harmony';
 import {
     IconChevronBoven,
@@ -26,7 +27,6 @@ import {
     IconYesRadio,
     provideIcons
 } from 'harmony-icons';
-import { KeuzelijstWaardeMogelijkheid, LesRegistratieQuery, VrijVeld, VrijVeldWaarde } from '../../../../generated/_types';
 import { PopupDirection } from '../../../core/popup/popup.settings';
 import { ActionsPopupComponent } from '../../../rooster-shared/components/actions-popup/actions-popup.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';

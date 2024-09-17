@@ -1,5 +1,5 @@
 @if (!zonderHeader) {
-    <dt-header [metNavigatie]="!!(showHeaderNavigation$ | async)" titel="Notitieboek" icon="notitieboek">
+    <dt-header class="met-border" [metNavigatie]="!!(showHeaderNavigation$ | async)" titel="Notitieboek" icon="notitieboek">
         @if (navigatie$ | async; as navigatie) {
             <dt-groep-leerling-header-navigatie
                 [groep]="navigatie.groep"
@@ -25,6 +25,7 @@
 ) {
     @if (data.context) {
         <dt-notitie-stream
+            #streamComponent
             [(selectedLeerlingTotalen)]="selectedLeerlingTotalen"
             [(filterOptie)]="filterOptie"
             [(searchValue)]="searchValue"
@@ -33,8 +34,11 @@
             [context]="data.context"
             [huidigeSchooljaarSelected]="selectedSchooljaarIsHuidig()"
             [notitieStream$]="stream$"
-            [class.show-stream-for-mobile]="!data.detail && !data.edit && (tab() === 'Tijdlijn' || !selectedLeerlingTotalen())" />
-        @if (data.detail) {
+            [class.show-stream-for-mobile]="
+                !data.edit && (tab() === 'Tijdlijn' || !selectedLeerlingTotalen()) && (!data.detail || !isTabletOrDesktop())
+            "
+            (filteredStream)="this.filteredPeriodes.next($event)" />
+        @if (data.detail && isTabletOrDesktop()) {
             <dt-notitie-detail
                 [notitie]="data.detail.current"
                 [context]="data.context"
@@ -43,30 +47,28 @@
                 [prevNotitie]="data.detail.prev"
                 (onVerwijderNotitie)="verwijderNotitie($event)">
             </dt-notitie-detail>
-        }
-        @if (data.edit) {
+        } @else if (data.edit) {
             <dt-notitie-edit
                 [notitie]="data.edit"
                 [context]="data.context"
                 (onAnnuleerNotitie)="onAnnuleerNotitie()"
                 (onSaveNotitie)="onSavedNotitie($event.isNieuw, $event.notitieId)">
             </dt-notitie-edit>
-        }
-        @if (!data.detail && !data.edit) {
+        } @else {
             @if (tab() === 'Totalen per leerling') {
                 <dt-notitie-leerling-totalen
-                    [(filterOptie)]="filterOptie"
-                    [(schooljaar)]="selectedSchooljaar"
-                    [(searchValue)]="searchValue"
                     [context]="data.context"
                     [huidigeSchooljaarSelected]="selectedSchooljaarIsHuidig()"
                     [totalen]="selectedLeerlingTotalen()"
+                    [schooljaarHeeftNotities]="!(streamComponent.noTotalen$ | async)"
                     (onTerug)="selectedLeerlingTotalen.set(undefined)" />
             } @else {
                 <div class="geen-selectie text-content-semi">
                     <div class="text">
-                        <span class="text-weak">👈🏻 Selecteer een notitie {{ selectedSchooljaarIsHuidig() ? ' of' : '' }}</span
-                        ><br />
+                        <i class="geen-selectie-arrow" color="text-weak" hmyIcon="pijlKleinLinks"></i>
+                        <span class="geen-selectie-text text-weak">
+                            Selecteer een notitie {{ selectedSchooljaarIsHuidig() ? ' of' : '' }}
+                        </span>
                         @if (selectedSchooljaarIsHuidig()) {
                             <span
                                 class="action-primary-normal pointer nieuwe-notitie"
@@ -80,7 +82,7 @@
                                 }"
                                 data-gtm="notitieboek-notitie-toevoegen"
                                 queryParamsHandling="merge">
-                                Maak nieuwe notitie aan
+                                maak nieuwe notitie aan
                             </span>
                         }
                     </div>

@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { LesgroepDocument, LesgroepenMetDossierDocument, LesgroepenMetDossierQuery } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { LesgroepDocument, LesgroepenMetDossierDocument, LesgroepenMetDossierQuery } from '../../../generated/_types';
 
 @Injectable({
     providedIn: 'root'

@@ -11,8 +11,7 @@
         <div class="form-group" [formGroup]="selectedColumnsForm">
             @for (columnFilter of columns; track columnFilter.id) {
                 <div class="control pointer">
-                    <dt-form-checkbox [formControlName]="columnFilter.id"> </dt-form-checkbox>
-                    <span class="name ellipsis" (click)="toggleControl(columnFilter.id)">{{ columnFilter.display }}</span>
+                    <hmy-checkbox [formControlName]="columnFilter.id" [label]="columnFilter.display" />
                 </div>
             }
         </div>

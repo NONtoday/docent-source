@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, computed, inject, signal } from '@angular/core';
-import { MentordashboardResultatenInstellingen } from '../../../generated/_types';
+import { MentordashboardResultatenInstellingen } from '@docent/codegen';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { commaResult } from '../../shared/pipes/comma-result.pipe';

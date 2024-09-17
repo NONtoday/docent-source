@@ -4,9 +4,9 @@ import { take, takeUntil } from 'rxjs/operators';
 
 import { NgStyle } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Afspraak, HuiswerkType } from '@docent/codegen';
 import { IconDirective, IconPillComponent, SpinnerComponent, TooltipDirective } from 'harmony';
 import { IconKlok, IconLesplanning, provideIcons } from 'harmony-icons';
-import { Afspraak, HuiswerkType } from '../../../../../generated/_types';
 import { StudiewijzeritemPreview } from '../../../../core/models/studiewijzers/shared.model';
 import { DeviceService } from '../../../../core/services/device.service';
 import { LesplanningDataService } from '../../../../les/lesplanning/lesplanning-data.service';

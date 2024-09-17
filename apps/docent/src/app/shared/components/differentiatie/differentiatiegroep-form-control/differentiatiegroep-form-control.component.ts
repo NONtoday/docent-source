@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { Differentiatiegroep } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
-import { IconDirective } from 'harmony';
+import { CheckboxComponent, IconDirective } from 'harmony';
 import { IconChevronBoven, IconChevronOnder, provideIcons } from 'harmony-icons';
-import { Differentiatiegroep } from '../../../../../generated/_types';
-import { FormCheckboxComponent } from '../../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { KleurKeuzeComponent } from '../../../../rooster-shared/components/kleur-keuze/kleur-keuze.component';
 import { VolledigeNaamPipe } from '../../../../rooster-shared/pipes/volledige-naam.pipe';
 import { AvatarNaamComponent } from '../../avatar-naam/avatar-naam.component';
@@ -19,7 +18,7 @@ import { AvatarNaamComponent } from '../../avatar-naam/avatar-naam.component';
     imports: [
         FormsModule,
         ReactiveFormsModule,
-        FormCheckboxComponent,
+        CheckboxComponent,
         KleurKeuzeComponent,
         AvatarNaamComponent,
         VolledigeNaamPipe,

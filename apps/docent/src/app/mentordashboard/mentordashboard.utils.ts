@@ -1,9 +1,6 @@
 import { Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { groupBy, orderBy, padStart } from 'lodash-es';
-import { Observable, map, startWith } from 'rxjs';
-import { P, match } from 'ts-pattern';
 import {
     ExamendossierContext,
     KeuzelijstVrijVeldWaardeFieldsFragment,
@@ -22,7 +19,10 @@ import {
     TotaalRegistraties,
     VrijveldFieldsFragment,
     VrijveldRegistratiesFieldsFragment
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { groupBy, orderBy, padStart } from 'lodash-es';
+import { Observable, map, startWith } from 'rxjs';
+import { P, match } from 'ts-pattern';
 import { LeerlingCijferOverzicht } from '../core/models/mentordashboard.model';
 import { formatDateNL, getSchooljaar } from '../rooster-shared/utils/date.utils';
 import { Optional } from '../rooster-shared/utils/utils';

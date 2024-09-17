@@ -13,13 +13,6 @@ import {
     ViewContainerRef,
     inject
 } from '@angular/core';
-import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { addDays, addWeeks, getISOWeek, getYear, isSameDay, isSameWeek, startOfWeek, subWeeks } from 'date-fns';
-import { IconDirective, TagComponent } from 'harmony';
-import { IconChevronLinks, IconChevronRechts, IconFilter, IconPijlKleinOnder, IconWerkdruk, provideIcons } from 'harmony-icons';
-import { first, isEmpty, orderBy } from 'lodash-es';
-import { BehaviorSubject, Observable, Subject, combineLatest, of, zip } from 'rxjs';
-import { debounceTime, filter, map, scan, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import {
     Lesgroep,
     MentorleerlingenQuery,
@@ -27,7 +20,14 @@ import {
     WerkdrukLesgroep,
     WerkdrukVoorMentorLeerlingenQuery,
     WerkdrukVoorSelectieQuery
-} from '../../../../../generated/_types';
+} from '@docent/codegen';
+import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
+import { addDays, addWeeks, getISOWeek, getYear, isSameDay, isSameWeek, startOfWeek, subWeeks } from 'date-fns';
+import { IconDirective, TagComponent } from 'harmony';
+import { IconChevronLinks, IconChevronRechts, IconFilter, IconPijlKleinOnder, IconWerkdruk, provideIcons } from 'harmony-icons';
+import { first, isEmpty, orderBy } from 'lodash-es';
+import { BehaviorSubject, Observable, Subject, combineLatest, of, zip } from 'rxjs';
+import { debounceTime, filter, map, scan, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { allowChildAnimations } from '../../../../core/core-animations';
 import {
     LesmomentDag,

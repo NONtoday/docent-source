@@ -57,9 +57,11 @@ export type DateFormat =
     /** voorbeeld: 'Juni 2023' */
     | 'maand_jaar';
 
+export const toDtDate = (date: Optional<Date>, format: DateFormat) => (date ? formatDateNL(date, format) : '');
+
 @Pipe({ name: 'dtDate', standalone: true })
 export class DtDatePipe implements PipeTransform {
     transform(date: Optional<Date>, _format: DateFormat) {
-        return date ? formatDateNL(date, _format) : '';
+        return toDtDate(date, _format);
     }
 }

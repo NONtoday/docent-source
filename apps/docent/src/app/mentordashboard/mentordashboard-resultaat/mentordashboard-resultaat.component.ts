@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { DbResultaatkolomtype, GeldendResultaatFieldsFragment, ResultaatBijzonderheid } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import {
     IconDeeltoets,
@@ -9,7 +10,6 @@ import {
     IconWeging,
     provideIcons
 } from 'harmony-icons';
-import { DbResultaatkolomtype, GeldendResultaatFieldsFragment, ResultaatBijzonderheid } from '../../../generated/_types';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { Optional } from '../../rooster-shared/utils/utils';
 

@@ -11,12 +11,6 @@ import {
     inject
 } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { SpinnerComponent } from 'harmony';
-import { IconPijlLinks, IconSjabloon, IconStudiewijzer, IconToevoegen, IconVerversen, provideIcons } from 'harmony-icons';
-import get from 'lodash-es/get';
-import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import {
     Bijlage,
     BijlageFieldsFragment,
@@ -29,7 +23,13 @@ import {
     Studiewijzer,
     StudiewijzerJaarbijlagen,
     StudiewijzerQuery
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
+import { SpinnerComponent } from 'harmony';
+import { IconPijlLinks, IconSjabloon, IconStudiewijzer, IconToevoegen, IconVerversen, provideIcons } from 'harmony-icons';
+import get from 'lodash-es/get';
+import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { BulkDifferentiatieContainer } from '../../core/models/studiewijzers/shared.model';
 import { SidebarPage } from '../../core/models/studiewijzers/studiewijzer.model';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';

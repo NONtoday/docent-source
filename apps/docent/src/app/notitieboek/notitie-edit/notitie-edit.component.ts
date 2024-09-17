@@ -13,12 +13,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { IconDirective, TooltipDirective } from 'harmony';
-import { IconInformatie, IconPijlLinks, provideIcons } from 'harmony-icons';
-import { omit } from 'lodash-es';
-import { Observable, Subject, combineLatest, map, startWith, tap } from 'rxjs';
-import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { P, match } from 'ts-pattern';
 import {
     BijlageFieldsFragment,
     Maybe,
@@ -29,7 +23,13 @@ import {
     NotitieInput,
     Vak,
     VestigingVakkenQuery
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { IconDirective, TooltipDirective } from 'harmony';
+import { IconInformatie, IconPijlLinks, provideIcons } from 'harmony-icons';
+import { omit } from 'lodash-es';
+import { Observable, Subject, combineLatest, map, startWith, tap } from 'rxjs';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { P, match } from 'ts-pattern';
 import { bijlageFieldsFragmentToBijlageInput } from '../../core/converters/bijlage.converters';
 import { NotitieboekContext } from '../../core/models/notitieboek.model';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
@@ -219,7 +219,7 @@ export class NotitieEditComponent implements OnInit, OnChanges, OnDestroy {
             belangrijk: this.notitie.belangrijk,
             privacygevoelig: this.notitie.privacygevoelig,
             betrokkenen,
-            vak: this.isSavedNotitie(this.notitie) ? this.notitie.vak ?? null : this.defaultVak,
+            vak: this.isSavedNotitie(this.notitie) ? (this.notitie.vak ?? null) : this.defaultVak,
             titel: this.notitie.titel ?? '',
             inhoud: this.notitie.inhoud,
             gedeeldVoorMentoren: this.notitie.gedeeldVoorMentoren,

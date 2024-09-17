@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SjabloonViewQuery, SjabloonWeek } from '../../../generated/_types';
+import { SjabloonViewQuery, SjabloonWeek } from '@docent/codegen';
 import { getEersteVolledigeSchoolweek } from '../../rooster-shared/utils/date.utils';
 
 @Pipe({

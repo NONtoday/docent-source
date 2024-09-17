@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
-    ChangeDetectorRef,
     Component,
+    computed,
     HostBinding,
     inject,
     Input,
     NgZone,
-    Renderer2,
+    TemplateRef,
+    viewChild,
     ViewChild,
     ViewContainerRef
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { IconDirective } from 'harmony';
+import { InstellingenModalComponent } from '@docent/instellingen-modal/feature-instellingen-modal';
+import { IconDirective, ModalService, TooltipDirective } from 'harmony';
 import {
     IconBericht,
     IconFeedback,
@@ -25,23 +27,20 @@ import {
     provideIcons
 } from 'harmony-icons';
 import { fromEvent, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Medewerker } from '../../../generated/_types';
+import { filter } from 'rxjs/operators';
+import { VERSION } from 'version-generator';
+import { AuthService } from '../../auth';
 import { UriService } from '../../auth/uri-service';
-import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../../core/popup/popup.service';
-import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
+import { Appearance, PopupSettings } from '../../core/popup/popup.settings';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { AvatarComponent } from '../../rooster-shared/components/avatar/avatar.component';
 import { ZoekPopupComponent } from '../../rooster-shared/components/zoek-popup/zoek-popup.component';
-import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { VolledigeNaamPipe } from '../../rooster-shared/pipes/volledige-naam.pipe';
-import { Optional } from '../../rooster-shared/utils/utils';
 import { MenuComponent } from '../menu/menu.component';
 import { FeedbackMenuPopupComponent } from './feedback-menu-popup/feedback-menu-popup.component';
 import { FeedbackPopupComponent } from './feedback-popup/feedback-popup.component';
 import { HeaderService } from './header.service';
-import { ProfileMenuPopupComponent } from './profile-menu-popup/profile-menu-popup.component';
 
 @Component({
     selector: 'dt-header',
@@ -49,46 +48,40 @@ import { ProfileMenuPopupComponent } from './profile-menu-popup/profile-menu-pop
     styleUrls: ['./header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [MenuComponent, CommonModule, TooltipDirective, IconDirective, AvatarComponent, VolledigeNaamPipe],
+    imports: [MenuComponent, CommonModule, TooltipDirective, IconDirective, AvatarComponent, VolledigeNaamPipe, InstellingenModalComponent],
     providers: [provideIcons(IconTelefoon, IconZoeken, IconBericht, IconFeedback, IconWaarschuwing, IconTerugNaarSomtoday)]
 })
 export class HeaderComponent {
     private popupService = inject(PopupService);
-    private changeDetector = inject(ChangeDetectorRef);
     private uriService = inject(UriService);
     private headerService = inject(HeaderService);
     private medewerkerDataService = inject(MedewerkerDataService);
     private router = inject(Router);
+    private modalService = inject(ModalService);
+    public authService = inject(AuthService);
+
+    private instellingenModalRef = viewChild.required('instellingenModal', { read: TemplateRef });
+
     @HostBinding('class.met-navigatie') @Input() metNavigatie = false;
     @Input() titel: string;
     @Input() icon: IconName;
 
     private ngZone = inject(NgZone);
 
-    public isPopupOpen: boolean;
-    public showDarkModeToggle = false;
-    public medewerker$: Observable<Medewerker>;
     public isCoreReturnUrlSet$: Observable<boolean>;
-    public heeftBerichtenInzienRecht$: Observable<boolean>;
     public aantalOngelezenBerichten$ = this.medewerkerDataService.aantalOngelezenBerichten$;
-    public isUpdateBeschikbaar$: Observable<boolean>;
+    public isUpdateBeschikbaar = toSignal(this.headerService.isUpdateBeschikbaar$);
+
+    public medewerker = toSignal(this.medewerkerDataService.getMedewerker());
+    public heeftBerichtenInzienRecht = computed(() => this.medewerker()?.settings?.heeftBerichtenInzienRecht ?? false);
+    public versie = VERSION;
 
     @ViewChild('avatarContainer', { read: ViewContainerRef }) avatar: ViewContainerRef;
     @ViewChild('feedback', { read: ViewContainerRef, static: true }) feedbackRef: ViewContainerRef;
     @ViewChild('zoeken', { read: ViewContainerRef }) zoekenRef: ViewContainerRef;
 
-    private renderer = inject(Renderer2);
-
     constructor() {
-        this.medewerker$ = this.headerService.medewerker$.pipe(shareReplayLastValue());
-        this.heeftBerichtenInzienRecht$ = this.medewerker$.pipe(
-            map((medewerker) => medewerker.settings?.heeftBerichtenInzienRecht ?? false)
-        );
         this.isCoreReturnUrlSet$ = this.uriService.getCoreReturnUrlSetObservable();
-
-        this.isUpdateBeschikbaar$ = this.headerService.isUpdateBeschikbaar$;
-
-        this.showDarkModeToggle = ['topicusonderwijs.build', 'localhost:4200'].some((omgeving) => window.location.host.includes(omgeving));
 
         this.ngZone.runOutsideAngular(() => {
             fromEvent(window, 'keydown')
@@ -116,40 +109,12 @@ export class HeaderComponent {
         });
     }
 
-    toggleDarkMode() {
-        document.documentElement.classList.contains('dark')
-            ? this.renderer.removeClass(document.documentElement, 'dark')
-            : this.renderer.addClass(document.documentElement, 'dark');
+    public toggleProfileMenu() {
+        this.modalService.modal({
+            template: this.instellingenModalRef(),
+            settings: { widthModal: '720px', heightModal: '520px', heightRollup: '90%', title: 'Instellingen', contentPadding: 0 }
+        });
     }
-
-    public toggleProfileMenu(heeftUpdate: Optional<boolean>) {
-        if (this.isPopupOpen) {
-            this.popupService.closePopUp();
-            this.isPopupOpen = false;
-        } else {
-            this.isPopupOpen = true;
-            const popupSettings = new PopupSettings();
-            popupSettings.showHeader = false;
-            popupSettings.showCloseButton = false;
-            popupSettings.onCloseFunction = this.onPopUpClose;
-            popupSettings.preferedDirection = [PopupDirection.Bottom];
-
-            popupSettings.width = 320;
-            popupSettings.appearance = {
-                mobile: Appearance.Rollup,
-                tabletportrait: Appearance.Popout,
-                tablet: Appearance.Popout,
-                desktop: Appearance.Popout
-            };
-            const popup = this.popupService.popup(this.avatar, popupSettings, ProfileMenuPopupComponent);
-            popup.isUpdateBeschikbaar = heeftUpdate ?? false;
-        }
-    }
-
-    onPopUpClose = () => {
-        this.isPopupOpen = false;
-        this.changeDetector.markForCheck();
-    };
 
     openFeedbackOpties() {
         const popupSettings = new PopupSettings();

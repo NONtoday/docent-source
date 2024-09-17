@@ -1,8 +1,8 @@
 import { CdkDrag, CdkDropList, CdkDropListGroup } from '@angular/cdk/drag-drop';
 
 import { ChangeDetectionStrategy, Component, Input, output } from '@angular/core';
+import { Differentiatiegroep, Leerling } from '@docent/codegen';
 import { IconGroep, provideIcons } from 'harmony-icons';
-import { Differentiatiegroep, Leerling } from '../../../../../generated/_types';
 import { equalsId } from '../../../../rooster-shared/utils/utils';
 import { DifferentiatiegroepComponent } from '../differentiatiegroep/differentiatiegroep.component';
 

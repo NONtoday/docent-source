@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { InboxBericht } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBericht, IconBijlage, IconInleveropdracht, IconName, provideIcons } from 'harmony-icons';
-import { InboxBericht } from '../../../../generated/_types';
 import { DtDatePipe } from '../../pipes/dt-date.pipe';
 
 @Component({

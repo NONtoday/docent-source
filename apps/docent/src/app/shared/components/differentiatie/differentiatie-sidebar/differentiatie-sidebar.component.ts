@@ -1,11 +1,12 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Differentiatiegroep, DifferentiatiegroepKleur, Leerling, Lesgroep } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconDifferentiatie, IconPijlKleinOnder, IconPijlLinks, IconToevoegen, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { Differentiatiegroep, DifferentiatiegroepKleur, Leerling, Lesgroep } from '../../../../../generated/_types';
 import { DifferentiatiegroepenDataService } from '../../../../core/services/differentiatiegroepen-data.service';
 import { SidebarService } from '../../../../core/services/sidebar.service';
 import { ButtonComponent } from '../../../../rooster-shared/components/button/button.component';
@@ -14,7 +15,6 @@ import { SidebarComponent } from '../../../../rooster-shared/components/sidebar/
 import { BaseSidebar } from '../../../../rooster-shared/directives/base-sidebar.directive';
 import { TooltipDirective } from '../../../../rooster-shared/directives/tooltip.directive';
 import { Optional, notEqualsId, toId } from '../../../../rooster-shared/utils/utils';
-import { getVolledigeNaam } from '../../../utils/leerling.utils';
 import { LeerlingGroepFormControlComponent } from '../../leerling-groep-form-control/leerling-groep-form-control.component';
 import { DifferentiatiegroepHeaderComponent } from '../differentiatiegroep-header/differentiatiegroep-header.component';
 import { DifferentiatieLeerlingDropData, DifferentiatiegroepenComponent } from '../differentiatiegroepen/differentiatiegroepen.component';

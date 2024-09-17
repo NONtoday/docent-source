@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, output } from '@angular/core';
 import { BrowseComponent, IconDirective } from 'harmony';
 import { IconChevronLinks, IconChevronRechts, IconOpties, provideIcons } from 'harmony-icons';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
@@ -11,9 +11,6 @@ import { Optional } from '../../../rooster-shared/utils/utils';
     imports: [BackgroundIconComponent, TooltipDirective, IconDirective, BrowseComponent],
     templateUrl: './header-navigatie-buttons.component.html',
     styleUrls: ['./header-navigatie-buttons.component.scss'],
-    host: {
-        '[class.nieuwe-styling]': 'nieuweStyling()'
-    },
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [provideIcons(IconChevronLinks, IconChevronRechts, IconOpties)]
 })
@@ -27,8 +24,6 @@ export class HeaderNavigatieButtonsComponent {
     @Input() showMoreOptions = true;
     @Input() gtmVorigeButton: string;
     @Input() gtmVolgendeButton: string;
-
-    nieuweStyling = input<boolean>();
 
     vorigeClick = output<void>();
     volgendeClick = output<void>();

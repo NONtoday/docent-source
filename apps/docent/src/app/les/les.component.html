@@ -1,5 +1,5 @@
 @if ({ afspraak: afspraak$ | async }; as data) {
-    <dt-header [metNavigatie]="true" titel="Deze les" icon="rooster">
+    <dt-header class="met-border" [metNavigatie]="true" titel="Deze les" icon="rooster">
         @if (navigatie$ | async; as navigatie) {
             <dt-lesmoment-header-navigatie
                 [afspraak]="navigatie.afspraak"

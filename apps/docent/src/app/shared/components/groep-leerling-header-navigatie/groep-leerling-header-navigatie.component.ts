@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewChild, ViewContainerRef, inject, output } from '@angular/core';
+import { LesgroepFieldsFragment, PartialLeerlingFragment, StamgroepFieldsFragment } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconChevronOnder, IconChevronRechts, IconGroep, IconNotitieboek, provideIcons } from 'harmony-icons';
 import { Observable, map, startWith } from 'rxjs';
-import { LesgroepFieldsFragment, PartialLeerlingFragment, StamgroepFieldsFragment } from '../../../../generated/_types';
 import { DeviceService } from '../../../core/services/device.service';
 import { MentorLeerlingStamgroep } from '../../../mentordashboard/mentordashboard-navigatie/mentordashboard-navigatie.component';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
@@ -47,7 +47,6 @@ export class GroepLeerlingHeaderNavigatieComponent implements OnInit {
     @Input() heeftVorige: boolean;
     @Input() heeftVolgende: boolean;
     @Input() beschrijving: Optional<string>;
-    @Input() isActive = false;
     @Input() showMoreOptions = false;
     @Input() showBackgroundIcon = false;
     @Input() kanNavigerenNaarGroep = true;

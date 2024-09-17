@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NotitieboekMenuStamgroepItem } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconGroep, IconReactieToevoegen, provideIcons } from 'harmony-icons';
-import { NotitieboekMenuStamgroepItem } from '../../../generated/_types';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
 
 @Component({

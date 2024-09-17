@@ -21,8 +21,16 @@ import {
     Validators
 } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
+import {
+    Afspraak,
+    AfspraakHerhalingDag,
+    AfspraakHerhalingEindeType,
+    AfspraakHerhalingType,
+    BijlageFieldsFragment,
+    HerhalendeAfspraak
+} from '@docent/codegen';
 import { addDays, addHours, isBefore, isValid, setHours, setMinutes, startOfDay, subHours } from 'date-fns';
-import { IconDirective } from 'harmony';
+import { CheckboxComponent, IconDirective } from 'harmony';
 import { IconVerversen, IconVerwijderen, provideIcons } from 'harmony-icons';
 import { isEqual } from 'lodash-es';
 import {
@@ -39,14 +47,6 @@ import {
     takeUntil,
     tap
 } from 'rxjs';
-import {
-    Afspraak,
-    AfspraakHerhalingDag,
-    AfspraakHerhalingEindeType,
-    AfspraakHerhalingType,
-    BijlageFieldsFragment,
-    HerhalendeAfspraak
-} from '../../../../../generated/_types';
 import { Schooljaar } from '../../../../core/models/schooljaar.model';
 import { TijdInput } from '../../../../core/models/shared.model';
 import { PopupService } from '../../../../core/popup/popup.service';
@@ -73,7 +73,6 @@ import { DagenSelectieComponent } from '../../dagen-selectie/dagen-selectie.comp
 import { DatepickerStartEindComponent } from '../../datepicker-start-eind/datepicker-start-eind.component';
 import { DatepickerComponent } from '../../datepicker/datepicker.component';
 import { DeelnemerSelectieComponent } from '../../deelnemer-selectie/deelnemer-selectie.component';
-import { FormCheckboxComponent } from '../../form-checkbox/form-checkbox.component';
 import { FormDropdownComponent } from '../../form-dropdown/form-dropdown.component';
 import { OmschrijvingEnBijlageComponent } from '../../omschrijving-en-bijlage/omschrijving-en-bijlage.component';
 import { OutlineButtonComponent } from '../../outline-button/outline-button.component';
@@ -97,12 +96,12 @@ type HerhalingAfspraakValidatorMap = { [Property in keyof Partial<HerhalendeAfsp
         FormDropdownComponent,
         DagenSelectieComponent,
         DatepickerComponent,
-        FormCheckboxComponent,
         OmschrijvingEnBijlageComponent,
         OutlineButtonComponent,
         ButtonComponent,
         AsyncPipe,
-        IconDirective
+        IconDirective,
+        CheckboxComponent
     ]
 })
 export class AfspraakFormulierComponent implements OnInit, OnDestroy {

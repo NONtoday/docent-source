@@ -1,14 +1,14 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, inject, output } from '@angular/core';
-import { BgColorToken } from 'harmony';
-import { IconPinned, provideIcons } from 'harmony-icons';
 import {
     LeerlingMissendeToets,
     MatrixResultaatkolomFieldsFragment,
     Maybe,
     ResultaatkolomType,
     VoortgangsdossierMatrixVanLesgroepQuery
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { BgColorToken } from 'harmony';
+import { IconPinned, provideIcons } from 'harmony-icons';
 import { toetskolommenConfig } from '../../core/models/resultaten/resultaten.model';
 import { DeviceService } from '../../core/services/device.service';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';

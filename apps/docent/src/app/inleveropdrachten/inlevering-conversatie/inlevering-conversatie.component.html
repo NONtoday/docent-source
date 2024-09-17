@@ -1,6 +1,6 @@
 @if (berichtOpstellen) {
     <div class="mobile-detail-header">
-        <i class="pointer" (click)="openBerichtAnnulerenGuard()" color="bg-neutral-none" hmyIcon="pijlLinks" size="medium"></i>
+        <i class="pointer" (click)="openBerichtAnnulerenGuard()" color="action-neutral-normal" hmyIcon="pijlLinks" size="medium"></i>
         <span class="titel text-content-bold">Bericht sturen</span>
     </div>
     <div class="buttons">
@@ -29,6 +29,7 @@
     <div class="shadow-layer" [class.no-display]="!heeftBerichtenWijzigenRecht">
         <input #fileInput (change)="onFilesSelected($event)" type="file" style="display: none" multiple />
         <dt-editor-form-control
+            class="editor-only"
             [formGroup]="berichtForm"
             [showBorder]="true"
             [useMinHeight]="isPhoneOrTabletPortrait$ | async"

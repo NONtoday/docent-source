@@ -15,9 +15,6 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { getISOWeek } from 'date-fns';
 
-import { BrowseComponent, IconDirective } from 'harmony';
-import { IconPijlBoven, IconPijlOnder, IconToevoegen, provideIcons } from 'harmony-icons';
-import { partial } from 'lodash-es';
 import {
     HuiswerkType,
     Lesgroep,
@@ -26,7 +23,10 @@ import {
     StudiewijzerDag,
     StudiewijzerWeek,
     Toekenning
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { BrowseComponent, IconDirective } from 'harmony';
+import { IconPijlBoven, IconPijlOnder, IconToevoegen, provideIcons } from 'harmony-icons';
+import { partial } from 'lodash-es';
 import { DragDropData, StudiewijzerContent } from '../../../core/models/studiewijzers/studiewijzer.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { SidebarService } from '../../../core/services/sidebar.service';

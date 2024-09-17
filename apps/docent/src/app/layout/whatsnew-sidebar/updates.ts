@@ -12,9 +12,21 @@ export interface WhatsNewUpdate {
  * 1. update object toevoegen aan de updates array
  * 2. latestDevUpdateId updaten naar het laatste id
  */
-export const latestDevUpdateId = 136;
+export const latestDevUpdateId = 137;
 
 export const whatsnewUpdates: WhatsNewUpdate[] = [
+    {
+        id: 137,
+        titel: 'Donkere modus',
+        text: `Goed nieuws! Je kunt Somtoday Docent nu ook in donkere modus gebruiken. Voor veel gebruikers is dit fijner en rustiger voor de ogen. Het is niet voor niks dat veel moderne applicaties en apps deze optie bieden. Wil je de donkere modus instellen? Klik op je profielfoto rechtsboven en pas de weergave aan. Je vindt hier nu ook je profielinformatie, roosterinstellingen en de uitlog-knop.`,
+        detail: `
+        <div class="text">
+        <h1>Donkere modus</h1>
+        <p>Goed nieuws! Je kunt Somtoday Docent nu ook in donkere modus gebruiken. Voor veel gebruikers is dit fijner en rustiger voor de ogen. Het is niet voor niks dat veel moderne applicaties en apps deze optie bieden. Wil je de donkere modus instellen? Klik op je profielfoto rechtsboven en pas de weergave aan. Je vindt hier nu ook je profielinformatie, roosterinstellingen en de uitlog-knop.</p>
+        <p><img src="../../../assets/img/whatsnew/darkmode.gif" width="100%" height="auto"></img></p>
+        </div>
+        `
+    },
     {
         id: 136,
         titel: 'Inzicht in notities uit vorige schooljaren',

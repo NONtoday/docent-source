@@ -1,4 +1,3 @@
-import omit from 'lodash-es/omit';
 import {
     AfspraakToekenning,
     AfspraakToekenningInput,
@@ -14,7 +13,8 @@ import {
     ToekenningSortering,
     WeekToekenning,
     WeekToekenningInput
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import omit from 'lodash-es/omit';
 import { convertToLocalDate } from '../../rooster-shared/utils/date.utils';
 import { MAX_INT_VALUE, Optional, toId } from '../../rooster-shared/utils/utils';
 import { Interval } from '../models/studiewijzers/shared.model';

@@ -8,21 +8,22 @@ import {
     OnInit,
     ViewChild,
     ViewContainerRef,
+    computed,
     effect,
     inject,
     input,
     output,
     signal,
-    untracked,
     viewChild
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationStart, Router } from '@angular/router';
 import * as anime from 'animejs/lib/anime.js';
-import { IconSluiten, IconWaarschuwing, provideIcons } from 'harmony-icons';
+import { IconPijlLinks, IconSluiten, IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { createNotifier } from 'ngxtension/create-notifier';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 import { NgxDrag, NgxMove, NgxScroll, type NgxInjectDrag } from 'ngxtension/gestures';
-import { filter } from 'rxjs';
+import { debounceTime, filter, fromEvent } from 'rxjs';
 import { IconDirective } from '../../../icon/icon.directive';
 import { DeviceService } from '../../../services/device.service';
 import { modalContentAnimation, modalMaskAnimation } from './modal.animations';
@@ -39,7 +40,7 @@ import { ContentAnimationState, MaskAnimationState, ModalSettings } from './moda
     host: {
         '(window:keydown.escape)': 'animateAndClose()'
     },
-    providers: [provideIcons(IconSluiten, IconWaarschuwing)]
+    providers: [provideIcons(IconSluiten, IconWaarschuwing, IconPijlLinks)]
 })
 export class ModalComponent implements OnInit {
     @ViewChild('content', { read: ViewContainerRef, static: true }) contentRef: ViewContainerRef;
@@ -49,6 +50,7 @@ export class ModalComponent implements OnInit {
     private readonly deviceService = inject(DeviceService);
     readonly viewContainerRef = inject(ViewContainerRef);
     readonly destroyRef = inject(DestroyRef);
+    private readonly elementRef = inject(ElementRef);
     private isClosing = false;
     public closingBlocked = false;
 
@@ -63,21 +65,35 @@ export class ModalComponent implements OnInit {
     canScroll = signal<boolean>(false);
     isScrolling = signal<boolean>(false);
 
-    dragConfig: NgxInjectDrag['config'] = {
+    dragConfig: () => NgxInjectDrag['config'] = computed(() => ({
+        enabled: !this.deviceService.isTabletOrDesktop(),
         filterTaps: true,
         axis: 'y',
-        bounds: { top: 0 }
-    };
+        bounds: { top: 0 },
+        pointer: {
+            capture: false
+        }
+    }));
     calculateScroll = createNotifier();
+    calculateCanScroll = createNotifier();
 
     isDestroyed = false;
 
     constructor() {
-        effect(() => {
-            this.calculateScroll.listen();
-            untracked(() => {
+        effect(
+            () => {
+                this.calculateScroll.listen();
+
                 this.isScrolling.set(this.containerRef().nativeElement.scrollTop !== 0);
-            });
+            },
+            { allowSignalWrites: true }
+        );
+
+        explicitEffect([this.settings], ([settings]) => {
+            if (settings.closePosition.top)
+                this.elementRef.nativeElement.style.setProperty('--close-top', settings.closePosition.top + 'px');
+            if (settings.closePosition.right)
+                this.elementRef.nativeElement.style.setProperty('--close-right', settings.closePosition.right + 'px');
         });
         this.router.events
             .pipe(
@@ -89,21 +105,17 @@ export class ModalComponent implements OnInit {
             });
         this.destroyRef.onDestroy(() => (this.isDestroyed = true));
 
-        // gebruik een timeout om de scroll pas te berekenen als het component er in is geplaatst
-        setTimeout(() => {
+        explicitEffect([this.calculateCanScroll.listen], () => {
             this.canScroll.set(isScrollable(this.containerRef().nativeElement));
-        }, 200);
+        });
+        fromEvent(window, 'resize')
+            .pipe(debounceTime(50), takeUntilDestroyed())
+            .subscribe(() => this.calculateCanScroll.notify());
     }
 
     onDrag({ movement: [, y], last, first, currentTarget }: NgxInjectDrag['state']) {
         // wanneer we aan het scrollen zijn, moeten we de modal niet naar beneden draggen. Als we bovenaan zijn met de scroll wel.
-        if (
-            this.isClosing ||
-            this.deviceService.isTabletOrDesktop() ||
-            this.closingBlocked ||
-            (this.isScrolling() && (currentTarget as HTMLDivElement).scrollTop !== 0)
-        )
-            return;
+        if (this.isClosing || this.closingBlocked || (this.isScrolling() && (currentTarget as HTMLDivElement).scrollTop !== 0)) return;
         if (first) {
             this.dragging.set(true);
         }

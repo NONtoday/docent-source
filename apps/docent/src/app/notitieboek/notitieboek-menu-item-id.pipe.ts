@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { NotitieboekMenuQuery } from '@docent/codegen';
 import { P, match } from 'ts-pattern';
-import { NotitieboekMenuQuery } from '../../generated/_types';
 
 export const notitieboekMenuItemId = (item: NotitieboekMenuQuery['notitieboekMenu']['groepen'][number]): string =>
     match(item)

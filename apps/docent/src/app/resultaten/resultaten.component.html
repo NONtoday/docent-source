@@ -1,5 +1,5 @@
 @if (viewModel(); as data) {
-    <dt-header [metNavigatie]="true" titel="Voortgangsdossier" icon="voortgangsdossier">
+    <dt-header class="met-border" [metNavigatie]="true" titel="Voortgangsdossier" icon="voortgangsdossier">
         <div class="lesgroep-onderwijssoort-navigatie">
             <dt-background-icon [color]="$any(data.matrix.lesgroep.color)" [sizes]="['medium', 'small']" icon="groep"> </dt-background-icon>
             <div class="lesgroep-action" #lesgroep (click)="openResultatenQuickNavPopup()">

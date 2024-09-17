@@ -1,0 +1,14 @@
+<div class="form">
+    <div class="uitleg">
+        <span class="titel text-content-semi text-strong">Starttijd 1e uur</span>
+        <span class="ondertitel text-weak text-content-smallest">
+            Vanaf dit tijdstip worden vrije uren langer dan 20 minuten getoond in het rooster
+        </span>
+    </div>
+    <input class="tijd-input" [formControl]="tijd" type="time" cy="vrije-uren-starttijd" required="required" />
+</div>
+<div class="filler show-for-tablet"></div>
+
+<div class="button">
+    <hmy-button [disabled]="!tijd.dirty" (click)="opslaan()" label="Opslaan" data-gtm="gebruikers-rooster-instellingen-opslaan" />
+</div>

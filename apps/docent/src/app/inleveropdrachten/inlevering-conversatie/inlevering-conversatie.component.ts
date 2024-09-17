@@ -16,12 +16,12 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { BijlageFieldsFragment, BijlageType, InleveringenConversatieQuery } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBericht, IconBijlageToevoegen, IconPijlLinks, provideIcons } from 'harmony-icons';
 import { ContentChange } from 'ngx-quill';
 import { BehaviorSubject, Observable, ReplaySubject, Subject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
-import { BijlageFieldsFragment, BijlageType, InleveringenConversatieQuery } from '../../../generated/_types';
 import { PopupService } from '../../core/popup/popup.service';
 import { ComponentUploadService } from '../../core/services/component-upload.service';
 import { DeviceService, phoneQuery, tabletPortraitQuery } from '../../core/services/device.service';

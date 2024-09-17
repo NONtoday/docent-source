@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
 
+import { DifferentiatiegroepKleur } from '@docent/codegen';
 import { ColorToken, CssVarPipe, IconDirective } from 'harmony';
 import { IconName } from 'harmony-icons';
-import { DifferentiatiegroepKleur } from '../../../../generated/_types';
 import { differentiatieKleurConverter } from '../../../rooster-shared/utils/color-token-utils';
 import { Optional } from '../../utils/utils';
 

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { DecimalPipe, LowerCasePipe } from '@angular/common';
+import { WeekToekenning } from '@docent/codegen';
 import { IconDirective, IconPillComponent, TooltipDirective } from 'harmony';
 import { IconCheck, IconKlok, IconNietZichtbaar, IconNotificatie, IconTijd, IconUitklappenRechts, provideIcons } from 'harmony-icons';
-import { WeekToekenning } from '../../../../../generated/_types';
 import { ToekenningDatumPipe } from '../../../../rooster-shared/pipes/toekenningDatum.pipe';
 import { dagNamen } from '../../../../rooster-shared/utils/date.utils';
 import { DropDownOption } from '../../../../rooster-shared/utils/dropdown.util';

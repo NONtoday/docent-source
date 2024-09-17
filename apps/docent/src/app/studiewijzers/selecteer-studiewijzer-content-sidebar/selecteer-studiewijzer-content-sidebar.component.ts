@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 
+import { Studiewijzer } from '@docent/codegen';
 import { IconPijlLinks, IconStudiewijzer, provideIcons } from 'harmony-icons';
-import { Studiewijzer } from '../../../generated/_types';
 import { SidebarPage } from '../../core/models/studiewijzers/studiewijzer.model';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';

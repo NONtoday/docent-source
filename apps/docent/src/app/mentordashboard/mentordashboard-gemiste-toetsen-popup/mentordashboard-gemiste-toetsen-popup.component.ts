@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
+import { GemistResultaat } from '@docent/codegen';
 import { IconDirective, NotificationCounterComponent, PillComponent, TooltipDirective } from 'harmony';
 import { IconDeeltoets, IconReacties, IconWeging, provideIcons } from 'harmony-icons';
-import { GemistResultaat } from '../../../generated/_types';
 import { Appearance } from '../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';

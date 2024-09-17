@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { addWeeks, getISOWeek, getYear, isSameDay, isWeekend, subWeeks } from 'date-fns';
-import { curry, omit } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
 import {
     Afspraak,
     AfspraakParticipant,
@@ -28,7 +23,12 @@ import {
     ZoekParticipantenDocument,
     ZoekParticipantenQuery,
     namedOperations
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { addWeeks, getISOWeek, getYear, isSameDay, isWeekend, subWeeks } from 'date-fns';
+import { curry, omit } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { RoosterItem, TWINTIG_MIN_MS, VRoosterDag, VrijUur } from '../core/models';
 import { convertToLocalDate } from '../rooster-shared/utils/date.utils';
 import { sortAfspraakByBegin, toId } from '../rooster-shared/utils/utils';

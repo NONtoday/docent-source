@@ -2,7 +2,7 @@
     <div class="formulier-container">
         <form class="form" id="ngForm" [formGroup]="maatregelForm" (ngSubmit)="onSubmitClick()">
             <div class="control">
-                <label>Maatregel<span class="color-accent-warning-1">*</span></label>
+                <label>Maatregel<span class="fg-warning-normal">*</span></label>
                 <dt-form-dropdown
                     [scrollIntoView]="false"
                     [opties]="maatregelenOptions"
@@ -16,7 +16,7 @@
             </div>
 
             <div class="control">
-                <label>Datum<span class="color-accent-warning-1">*</span></label>
+                <label>Datum<span class="fg-warning-normal">*</span></label>
                 <dt-datepicker [schooljaar]="schooljaar" placeholder="" formControlName="datum" cy="maatregel-datum-field"> </dt-datepicker>
             </div>
 
@@ -30,7 +30,7 @@
             </div>
 
             <div class="checkbox-control">
-                <dt-form-checkbox formControlName="afgehandeld" cy="maatregel-afgehandeld-field"> </dt-form-checkbox>
+                <hmy-checkbox formControlName="afgehandeld" cy="maatregel-afgehandeld-field" />
                 <label>Maatregel afgehandeld</label>
             </div>
         </form>

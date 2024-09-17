@@ -16,18 +16,18 @@ import {
     runInInjectionContext
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
-import { DropdownComponent, DropdownItem, IconDirective } from 'harmony';
-import { IconPijlAfslaanRechts, IconSluiten, provideIcons } from 'harmony-icons';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import {
     LeerlingVoortgangsdossiersQuery,
     Maybe,
     ResultaatInputParam,
     Voortgangsdossier,
     VoortgangsdossierMatrixVanLesgroepQuery
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { slideInRightOnEnterAnimation, slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
+import { DropdownComponent, DropdownItem, IconDirective } from 'harmony';
+import { IconPijlAfslaanRechts, IconSluiten, provideIcons } from 'harmony-icons';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 import { PopupService } from '../../core/popup/popup.service';
 import { DeviceService } from '../../core/services/device.service';
 import { SidebarService } from '../../core/services/sidebar.service';
@@ -37,6 +37,7 @@ import { BaseSidebar } from '../../rooster-shared/directives/base-sidebar.direct
 import { VolledigeNaamPipe } from '../../rooster-shared/pipes/volledige-naam.pipe';
 import { Optional, isPresent } from '../../rooster-shared/utils/utils';
 import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { CijferPeriodeNaamPipe } from '../../shared/pipes/cijfer-periode-naam.pipe';
 import { ResultaatKeyPipe } from '../pipes/resultaat-key.pipe';
 import { ResultaatCellComponent } from '../resultaat-cell/resultaat-cell.component';
 import { ResultaatDataService } from '../resultaat-data.service';
@@ -79,7 +80,8 @@ type MatrixResultaatKolom =
         VolledigeNaamPipe,
         ResultaatKeyPipe,
         IconDirective,
-        DropdownComponent
+        DropdownComponent,
+        CijferPeriodeNaamPipe
     ],
     providers: [provideIcons(IconSluiten, IconPijlAfslaanRechts)]
 })

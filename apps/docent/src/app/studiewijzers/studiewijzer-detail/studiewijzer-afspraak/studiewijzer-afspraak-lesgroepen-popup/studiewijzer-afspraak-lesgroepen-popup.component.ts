@@ -1,13 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Afspraak, AfspraakToekenningenVoorLesgroepenQuery } from '@docent/codegen';
 import { getISOWeek } from 'date-fns';
 import { IconDirective } from 'harmony';
 import { IconChevronRechts, IconGroep, provideIcons } from 'harmony-icons';
 import { sortBy } from 'lodash-es';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Afspraak, AfspraakToekenningenVoorLesgroepenQuery } from '../../../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../../../core/popup/popup.settings';
 import { BackgroundIconComponent } from '../../../../rooster-shared/components/background-icon/background-icon.component';
 import { Popup, PopupComponent } from '../../../../rooster-shared/components/popup/popup.component';

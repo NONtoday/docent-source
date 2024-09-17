@@ -1,12 +1,14 @@
 import { AsyncPipe } from '@angular/common';
-import { ApplicationRef, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ApplicationRef, Component, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { SwUpdate, VersionEvent } from '@angular/service-worker';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { IconName } from 'harmony-icons';
 import { identity } from 'lodash-es';
 import get from 'lodash-es/get';
-import { Observable, Subject, concat, interval } from 'rxjs';
+import { explicitEffect } from 'ngxtension/explicit-effect';
+import { Observable, Subject, concat, fromEvent, interval } from 'rxjs';
 import { filter, first, map, switchMap, takeUntil } from 'rxjs/operators';
 import { allowChildAnimations } from '../../core/core-animations';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
@@ -51,7 +53,31 @@ export class DashComponent implements OnInit, OnDestroy {
 
     public onDestroy$ = new Subject<void>();
 
+    private renderer2 = inject(Renderer2);
+
     constructor() {
+        const systeemThemeDark = toSignal(
+            fromEvent(window.matchMedia('(prefers-color-scheme: dark)'), 'change').pipe(map((event: MediaQueryListEvent) => event.matches)),
+            {
+                initialValue: window.matchMedia('(prefers-color-scheme: dark)').matches
+            }
+        );
+
+        const themeSettings = toSignal(this.medewerkerService.getMedewerker().pipe(map((m) => m.settings.themeSettings)));
+
+        explicitEffect([systeemThemeDark, themeSettings], ([systeemThemeDark, themeSettings]) => {
+            if (!themeSettings) return;
+            if (themeSettings?.useSystemTheme) {
+                systeemThemeDark
+                    ? this.renderer2.addClass(document.documentElement, 'dark')
+                    : this.renderer2.removeClass(document.documentElement, 'dark');
+            } else {
+                themeSettings.theme === 'dark'
+                    ? this.renderer2.addClass(document.documentElement, 'dark')
+                    : this.renderer2.removeClass(document.documentElement, 'dark');
+            }
+        });
+
         const onMenuItemClick$ = this.router.events.pipe(
             filter((event) => event instanceof NavigationStart),
             filter((navstart: NavigationStart) => menuUrls.includes(navstart.url))

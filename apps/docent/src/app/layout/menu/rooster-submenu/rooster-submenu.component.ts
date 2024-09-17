@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Afspraak } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconChevronLinks, IconChevronRechts, IconSluiten, provideIcons } from 'harmony-icons';
-import { Afspraak } from '../../../../generated/_types';
 import { DeviceService } from '../../../core/services/device.service';
 import { LesuurAfspraakComponent } from '../../../rooster-shared/components/rooster-afspraak/lesuur-afspraak/lesuur-afspraak.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';

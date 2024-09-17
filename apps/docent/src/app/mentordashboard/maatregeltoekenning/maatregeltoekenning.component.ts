@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewChild, ViewContainerRef, inject, output } from '@angular/core';
+import { MaatregelToekenning } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBewerken, IconNoRadio, IconOpties, IconPrinten, IconVerwijderen, IconYesRadio, provideIcons } from 'harmony-icons';
-import { MaatregelToekenning } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { PopupService } from '../../core/popup/popup.service';
 import { ActionsPopupComponent } from '../../rooster-shared/components/actions-popup/actions-popup.component';

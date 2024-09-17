@@ -1,6 +1,6 @@
 import { ViewContainerRef } from '@angular/core';
+import { SjabloonWeek, StudiewijzerAfspraak, StudiewijzerDag, StudiewijzerWeek, Toekenning } from '@docent/codegen';
 import get from 'lodash-es/get';
-import { SjabloonWeek, StudiewijzerAfspraak, StudiewijzerDag, StudiewijzerWeek, Toekenning } from '../../../generated/_types';
 import { AbstractStudiewijzerId } from '../../core/models/studiewijzers/shared.model';
 import { StudiewijzerContent } from '../../core/models/studiewijzers/studiewijzer.model';
 import { PopupService } from '../../core/popup/popup.service';

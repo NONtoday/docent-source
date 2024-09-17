@@ -1,5 +1,5 @@
+import { HuiswerkType, WerkdrukStudiewijzeritem } from '@docent/codegen';
 import { curry } from 'lodash-es';
-import { HuiswerkType, WerkdrukStudiewijzeritem } from '../../../generated/_types';
 import { LesitemType } from '../../core/models/studiewijzers/shared.model';
 
 export const lestItemTypeToHuiswerkType = (type: LesitemType): HuiswerkType => {

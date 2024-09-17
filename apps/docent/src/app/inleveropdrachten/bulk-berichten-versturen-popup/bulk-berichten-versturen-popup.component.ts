@@ -1,13 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { BijlageFieldsFragment, BijlageType, Leerling, Medewerker, Projectgroep, Toekenning } from '@docent/codegen';
 import { format } from 'date-fns';
 import { IconDirective, TagComponent } from 'harmony';
 import { IconBericht, IconBijlageToevoegen, provideIcons } from 'harmony-icons';
 import { ContentChange } from 'ngx-quill';
 import { BehaviorSubject, Observable, ReplaySubject, Subject, combineLatest } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-import { BijlageFieldsFragment, BijlageType, Leerling, Medewerker, Projectgroep, Toekenning } from '../../../generated/_types';
 import { Appearance, PopupSettings } from '../../core/popup/popup.settings';
 import { ComponentUploadService } from '../../core/services/component-upload.service';
 import { DeviceService, phoneQuery, tabletPortraitQuery } from '../../core/services/device.service';

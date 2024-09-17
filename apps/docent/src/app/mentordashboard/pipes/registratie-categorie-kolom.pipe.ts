@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {
     MentordashboardOverzichtRegistratieCategorieFieldsFragment,
     MentordashboardOverzichtRegistratieKolomCategorie
-} from '../../../generated/_types';
+} from '@docent/codegen';
 @Pipe({
     name: 'registratieCategorieKolom',
     standalone: true

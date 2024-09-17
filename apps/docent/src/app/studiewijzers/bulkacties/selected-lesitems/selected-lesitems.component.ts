@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { Studiewijzeritem } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconInformatie, provideIcons } from 'harmony-icons';
-import { Studiewijzeritem } from '../../../../generated/_types';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { StudiewijzeritemTitelPipe } from '../../../rooster-shared/pipes/studiewijzeritem-titel.pipe';
 

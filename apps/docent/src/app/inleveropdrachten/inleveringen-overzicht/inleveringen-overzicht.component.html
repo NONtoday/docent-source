@@ -1,4 +1,4 @@
-<dt-header [metNavigatie]="true" titel="Inleveropdrachten" icon="inleveropdracht">
+<dt-header class="met-border" [metNavigatie]="true" titel="Inleveropdrachten" icon="inleveropdracht">
     @if (headerNavigatie$ | async; as headerNavigatie) {
         <div [class.show-for-tablet]="detail$ | async">
             @if (inleveringenOverzicht$ | async; as inleveringenOverzicht) {
@@ -60,7 +60,7 @@
             icon="opties"
             size="medium"></dt-icon>
     </div>
-    <div class="overzicht">
+    <div class="overzicht" [style.height]="overzichtHeight()">
         <div class="nieuw" [routerLink]="[]" [queryParams]="{ detail: 'nieuw' }" [class.active]="(detail$ | async) === 'nieuw'">
             <span class="text-content-small-semi">Nieuwe inleveringen</span>
             @if (inleveringenOverzicht.nieuw.length > 0) {

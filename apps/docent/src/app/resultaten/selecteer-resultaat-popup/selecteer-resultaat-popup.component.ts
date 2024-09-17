@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ImporteerbareResultatenVanLeerlingQuery, ResultaatkolomType } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconDownloaden, IconSamengesteldeToets, IconWeging, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
-import { ImporteerbareResultatenVanLeerlingQuery, ResultaatkolomType } from '../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';

@@ -1,6 +1,6 @@
+import { Differentiatiegroep, Leerling } from '@docent/codegen';
 import { toCssVar } from 'harmony';
 import { memoize } from 'lodash-es';
-import { Differentiatiegroep, Leerling } from '../../../generated/_types';
 import { getVolledigeNaam } from '../../rooster-shared/pipes/volledige-naam.pipe';
 import { differentiatieKleurConverter } from '../../rooster-shared/utils/color-token-utils';
 

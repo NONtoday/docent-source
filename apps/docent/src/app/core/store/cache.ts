@@ -1,8 +1,8 @@
 import { InMemoryCache } from '@apollo/client/core';
+import { HuiswerkType, InboxBericht, LeerlingoverzichtVakSamenvattingQueryVariables, Toekenning } from '@docent/codegen';
 import { isDate, parseISO } from 'date-fns';
 import { TypedTypePolicies } from '../../../generated/_apollo-helpers';
 import possibleTypesData from '../../../generated/_fragment-types';
-import { HuiswerkType, InboxBericht, LeerlingoverzichtVakSamenvattingQueryVariables, Toekenning } from '../../../generated/_types';
 import { stringToColor } from '../../rooster-shared/utils/color-token-utils';
 import { studiewijzerIcon } from '../../rooster-shared/utils/utils';
 
@@ -399,7 +399,8 @@ const typePolicies: TypedTypePolicies = {
     },
     VoortgangsdossierMatrix: {
         fields: {
-            laatstGewijzigdDatum: readDateField
+            laatstGewijzigdDatum: readDateField,
+            leerlingen: { merge: false }
         }
     },
     HistorischResultaat: {

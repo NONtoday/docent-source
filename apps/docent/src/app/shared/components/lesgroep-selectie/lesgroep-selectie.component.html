@@ -6,7 +6,7 @@
     <div class="lesgroepen" [formGroup]="formgroup">
         @for (lesgroep of lesgroepen; track lesgroep) {
             <div class="lesgroep" [class.selected]="formgroup.controls[lesgroep.id].value">
-                <dt-form-checkbox class="checkbox" [formControlName]="lesgroep.id"></dt-form-checkbox>
+                <hmy-checkbox class="checkbox" [formControlName]="lesgroep.id" />
                 <dt-background-icon [color]="$any(lesgroep.color)" size="medium" icon="groep"></dt-background-icon>
                 <span class="naam text-content-semi">{{ lesgroep.naam }}</span>
             </div>

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { MentordashboardOverzichtRegistratieCategorieFieldsFragment } from '@docent/codegen';
 import { match } from 'ts-pattern';
-import { MentordashboardOverzichtRegistratieCategorieFieldsFragment } from '../../../generated/_types';
 import { registratieContent } from '../leerlingoverzicht/leerlingoverzicht.model';
 @Pipe({
     name: 'registratieCategorieNaam',

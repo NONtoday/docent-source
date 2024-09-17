@@ -10,8 +10,8 @@ import {
     output
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { Afspraak } from '@docent/codegen';
 import { IconBewerken, IconKalenderDag, IconName, IconToevoegen, provideIcons } from 'harmony-icons';
-import { Afspraak } from '../../../../generated/_types';
 import { PopupService } from '../../../core/popup/popup.service';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { RoosterDataService } from '../../../rooster/rooster-data.service';

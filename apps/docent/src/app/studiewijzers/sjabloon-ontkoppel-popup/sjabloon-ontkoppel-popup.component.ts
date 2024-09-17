@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
+import { Sjabloon } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconInformatie, IconOntkoppelen, provideIcons } from 'harmony-icons';
-import { Sjabloon } from '../../../generated/_types';
 import { Appearance, PopupSettings } from '../../core/popup/popup.settings';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../rooster-shared/components/popup/popup.component';

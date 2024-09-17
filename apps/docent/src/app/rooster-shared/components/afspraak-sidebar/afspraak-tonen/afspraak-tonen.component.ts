@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, inject, output } from '@angular/core';
+import { Afspraak } from '@docent/codegen';
 import { IconDirective, TagComponent } from 'harmony';
 import { IconBewerken, IconCheck, IconKalenderDag, IconVerversen, IconVerwijderen, IconYesRadio, provideIcons } from 'harmony-icons';
-import { Afspraak } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { PopupDirection } from '../../../../core/popup/popup.settings';
 import { BijlageLijstComponent } from '../../../../shared/components/bijlage/bijlage-lijst.component';

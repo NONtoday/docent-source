@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { GeldendAdviesResultaat } from '../../../../../generated/_types';
+import { GeldendAdviesResultaat } from '@docent/codegen';
 import { Appearance, PopupDirection, PopupSettings } from '../../../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../../../rooster-shared/components/popup/popup.component';
 

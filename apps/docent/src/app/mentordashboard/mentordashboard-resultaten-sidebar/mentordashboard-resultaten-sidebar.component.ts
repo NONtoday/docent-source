@@ -1,15 +1,16 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, inject } from '@angular/core';
+import { GetMentorDashboardVakResultatenQuery, ResultaatBijzonderheid, Vak } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconReacties, IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { sortBy } from 'lodash-es';
 import { BehaviorSubject, Observable, filter, map, switchMap } from 'rxjs';
-import { GetMentorDashboardVakResultatenQuery, ResultaatBijzonderheid, Vak } from '../../../generated/_types';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';
 import { BaseSidebar } from '../../rooster-shared/directives/base-sidebar.directive';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { Optional } from '../../rooster-shared/utils/utils';
+import { CijferPeriodeNaamPipe } from '../../shared/pipes/cijfer-periode-naam.pipe';
 import { MentordashboardDataService } from '../mentordashboard-data.service';
 import { MentordashboardResultaatComponent } from '../mentordashboard-resultaat/mentordashboard-resultaat.component';
 
@@ -19,7 +20,15 @@ import { MentordashboardResultaatComponent } from '../mentordashboard-resultaat/
     styleUrls: ['./mentordashboard-resultaten-sidebar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [SidebarComponent, MentordashboardResultaatComponent, TooltipDirective, SpinnerComponent, AsyncPipe, IconDirective],
+    imports: [
+        SidebarComponent,
+        MentordashboardResultaatComponent,
+        TooltipDirective,
+        SpinnerComponent,
+        AsyncPipe,
+        IconDirective,
+        CijferPeriodeNaamPipe
+    ],
     providers: [provideIcons(IconReacties, IconWaarschuwing)]
 })
 export class MentordashboardResultatenSidebarComponent extends BaseSidebar implements OnInit, OnChanges {
@@ -28,7 +37,7 @@ export class MentordashboardResultatenSidebarComponent extends BaseSidebar imple
     @Input() leerlingId: string;
     @Input() vak: Vak;
     @Input() periode: number;
-    @Input() periodes: number[];
+    @Input() periodes: { nummer: number; afkorting?: Optional<string> }[];
     @Input() alternatieveNormering: Optional<boolean>;
 
     selectedPeriode$ = new BehaviorSubject<Optional<number>>(null);

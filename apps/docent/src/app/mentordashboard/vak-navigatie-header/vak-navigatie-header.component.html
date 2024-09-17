@@ -1,4 +1,4 @@
-<i class="terug fill-background-6" (click)="terugClick.emit()" hmyIcon="pijlLinks" size="medium"></i>
+<i class="terug" (click)="terugClick.emit()" color="action-neutral-normal" hmyIcon="pijlLinks" size="medium"></i>
 
 <div class="avatar-vak" (click)="onVakClick()">
     <dt-avatar
@@ -13,7 +13,14 @@
         position="bottom">
     </dt-avatar>
     <span class="vak-naam text-content-bold" cy="header-vak-naam">{{ vaknaam }}</span>
-    <i class="chevron fill-typography-5" hmyIcon="chevronOnder" size="smallest"> </i>
+    <i class="chevron" color="action-neutral-weak" hmyIcon="chevronOnder" size="smallest"> </i>
 </div>
 
-<i class="more-options" #moreOptionsIcon (click)="onMeerOptiesClick()" cy="header-more-options" hmyIcon="opties" size="large"></i>
+<i
+    class="more-options"
+    #moreOptionsIcon
+    (click)="onMeerOptiesClick()"
+    color="action-primary-normal"
+    cy="header-more-options"
+    hmyIcon="opties"
+    size="large"></i>

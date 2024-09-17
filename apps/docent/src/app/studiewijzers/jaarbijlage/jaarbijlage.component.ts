@@ -12,12 +12,12 @@ import {
     inject,
     output
 } from '@angular/core';
-import { IconDirective } from 'harmony';
+import { Bijlage, BijlageMap, BijlageType, Differentiatiegroep, Leerling, Sjabloon, Studiewijzer } from '@docent/codegen';
+import { CheckboxComponent, IconDirective } from 'harmony';
 import { IconCheckbox, IconInformatie, IconNietZichtbaar, IconOpties, provideIcons } from 'harmony-icons';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { set } from 'shades';
-import { Bijlage, BijlageMap, BijlageType, Differentiatiegroep, Leerling, Sjabloon, Studiewijzer } from '../../../generated/_types';
 import { PopupDirection } from '../../core/popup/popup.settings';
 import { DeviceService, desktopQuery } from '../../core/services/device.service';
 import {
@@ -29,7 +29,6 @@ import {
     verwijderButton,
     zichtbaarheidButton
 } from '../../rooster-shared/components/actions-popup/actions-popup.component';
-import { CheckboxComponent } from '../../rooster-shared/components/checkbox/checkbox.component';
 import { IconComponent } from '../../rooster-shared/components/icon/icon.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/utils/color-token-utils';

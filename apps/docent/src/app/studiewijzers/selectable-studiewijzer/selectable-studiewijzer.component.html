@@ -8,7 +8,7 @@
         dtTooltip="Je kunt alleen synchroniseren met studiewijzers van dezelfde vestiging en schooljaar."></i>
 }
 @if (!disabled) {
-    <dt-checkbox class="checkbox" [checked]="checked" (click)="onCheckboxClick($event)"></dt-checkbox>
+    <hmy-checkbox class="checkbox" [checked]="checked" (click)="onCheckboxClick($event)" />
 }
 <dt-background-icon class="groep-icon" [color]="$any(studiewijzer.lesgroep.color)" [sizes]="['medium']" icon="groep"> </dt-background-icon>
 <span class="text-content-semi text-strong">{{ studiewijzer.lesgroep.naam }}</span>

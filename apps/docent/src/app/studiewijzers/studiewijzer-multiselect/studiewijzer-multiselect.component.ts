@@ -1,13 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject, output } from '@angular/core';
+import { Studiewijzer, StudiewijzerFieldsFragment, StudiewijzerOverzichtViewQuery } from '@docent/codegen';
+import { CheckboxComponent } from 'harmony';
 import { IconCheckbox, IconGroep, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Studiewijzer, StudiewijzerFieldsFragment, StudiewijzerOverzichtViewQuery } from '../../../generated/_types';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
-import { CheckboxComponent } from '../../rooster-shared/components/checkbox/checkbox.component';
 import { SidebarCategorieDividerComponent } from '../sidebar-categorie-divider/sidebar-categorie-divider.component';
 import { StudiewijzerDataService } from '../studiewijzer-data.service';
 

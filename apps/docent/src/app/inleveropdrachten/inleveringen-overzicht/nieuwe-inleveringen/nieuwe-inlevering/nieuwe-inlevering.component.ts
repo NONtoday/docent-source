@@ -1,15 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { InleveringenOverzichtQuery, Inleverperiode, Leerling, PartialLeerlingFragment, ProjectgroepFieldsFragment } from '@docent/codegen';
 import { isBefore } from 'date-fns';
 import { IconDirective } from 'harmony';
 import { IconChevronRechts, IconTijd, provideIcons } from 'harmony-icons';
 import { memoize } from 'lodash-es';
-import {
-    InleveringenOverzichtQuery,
-    Inleverperiode,
-    Leerling,
-    PartialLeerlingFragment,
-    ProjectgroepFieldsFragment
-} from '../../../../../generated/_types';
 import { TooltipDirective } from '../../../../rooster-shared/directives/tooltip.directive';
 import { DtDatePipe } from '../../../../rooster-shared/pipes/dt-date.pipe';
 import { dagenUrenMinutenTussenDatums } from '../../../../rooster-shared/utils/date.utils';

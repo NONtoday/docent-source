@@ -1,7 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
-import { Observable, map, of } from 'rxjs';
-import { P, match } from 'ts-pattern';
 import {
     AantalOngelezenLeerlingNotitiesDocument,
     AantalOngelezenStamgroepNotitiesDocument,
@@ -27,6 +24,7 @@ import {
     NotitieboekMenuSearchDocument,
     NotitieboekMenuStamgroepLeerlingenDocument,
     NotitiestreamDocument,
+    NotitiestreamQueryVariables,
     OngelezenNotitiesAanwezigDocument,
     PartialLeerlingFragmentDoc,
     SaveNotitieDocument,
@@ -39,7 +37,10 @@ import {
     ZoekBetrokkenenDocument,
     ZoekBetrokkenenQuery,
     namedOperations
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { Apollo, gql } from 'apollo-angular';
+import { Observable, map, of } from 'rxjs';
+import { P, match } from 'ts-pattern';
 import { notEqualsId } from '../../rooster-shared/utils/utils';
 import { NotitieboekContext } from '../models/notitieboek.model';
 
@@ -49,18 +50,32 @@ import { NotitieboekContext } from '../models/notitieboek.model';
 export class NotitieboekDataService {
     private apollo = inject(Apollo);
 
+    // De notitiestream query kan met verschillende variabelen worden aangeroepen en deze moeten opnieuw worden meegegeven bij het lezen van de query uit de cache.
+    private lastNotitiestreamQueryVariables: NotitiestreamQueryVariables;
+
     public notitiestream(context: NotitieContext, contextId: string, startSchooljaar?: number, groepering?: NotitieStreamGroepering) {
+        this.lastNotitiestreamQueryVariables = {
+            notitieContext: context,
+            contextId,
+            startSchooljaar,
+            groepering
+        };
+
         return this.apollo
             .watchQuery({
                 query: NotitiestreamDocument,
-                variables: {
-                    notitieContext: context,
-                    contextId,
-                    startSchooljaar,
-                    groepering
-                }
+                variables: this.lastNotitiestreamQueryVariables
             })
-            .valueChanges.pipe(map((result) => result.data.notitiestream));
+            .valueChanges.pipe(
+                map((result) => ({
+                    ...result.data.notitiestream,
+                    schooljaren: result.data.notitiestream.schooljaren.map((schooljaar) => ({
+                        ...schooljaar,
+                        vanafDatum: new Date(schooljaar.vanafDatum),
+                        totDatum: new Date(schooljaar.totDatum)
+                    }))
+                }))
+            );
     }
 
     public zoekBetrokkenen(
@@ -221,7 +236,7 @@ export class NotitieboekDataService {
                     // Update NotitieStream
                     const streamQuery = cache.readQuery({
                         query: NotitiestreamDocument,
-                        variables: {
+                        variables: this.lastNotitiestreamQueryVariables || {
                             notitieContext: context.context,
                             contextId: context.id
                         }
@@ -229,7 +244,7 @@ export class NotitieboekDataService {
 
                     if (streamQuery) {
                         const isLaatsteOngelezenNotitie =
-                            streamQuery.notitiestream
+                            streamQuery.notitiestream.notitiePeriodes
                                 .flatMap((week) => week.notities)
                                 .filter((n) => !n.gelezenOp)
                                 .filter(notEqualsId(notitie.id)).length === 0;

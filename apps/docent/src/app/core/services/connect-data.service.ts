@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { SharedLinkContextDocument, SharedLinkContextQuery } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SharedLinkContextDocument, SharedLinkContextQuery } from '../../../generated/_types';
 
 @Injectable({
     providedIn: 'root'

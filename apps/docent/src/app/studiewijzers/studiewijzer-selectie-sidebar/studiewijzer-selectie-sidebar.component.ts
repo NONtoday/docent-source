@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, inject, output } from '@angular/core';
+import { Studiewijzer, StudiewijzerFieldsFragment, Studiewijzeritem } from '@docent/codegen';
 import { ButtonComponent } from 'harmony';
 import { IconName, IconStudiewijzer, provideIcons } from 'harmony-icons';
-import { Studiewijzer, StudiewijzerFieldsFragment, Studiewijzeritem } from '../../../generated/_types';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { NotitieLeerlingTotalen } from '../../../core/models/notitieboek.model';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';
+import { injectToonSchooljaarSelectie } from '../../notitieboek-providers';
 
 @Component({
     selector: 'dt-notitie-stream-totalen',
@@ -20,10 +21,12 @@ import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.
 })
 export class NotitieStreamTotalenComponent {
     private router = inject(Router);
+    private toonSchooljaarSelectie = injectToonSchooljaarSelectie();
 
     public noTotalen = input.required<boolean | null>();
     public stream = input.required<Observable<NotitieLeerlingTotalen[] | null>>();
     public selectedLeerlingTotalen = model.required<NotitieLeerlingTotalen | undefined>();
+    public heeftMeerdereSchooljaren = input.required<boolean>();
 
     public selectedLeerlingTotalenId = computed(() => this.selectedLeerlingTotalen()?.leerlingBetrokkene?.id);
 
@@ -36,5 +39,9 @@ export class NotitieStreamTotalenComponent {
             },
             queryParamsHandling: 'merge'
         });
+    }
+
+    selecteerAnderSchooljaar() {
+        this.toonSchooljaarSelectie.emit();
     }
 }

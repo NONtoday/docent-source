@@ -8,7 +8,7 @@
     <div body>
         @if (!loading()) {
             @if (maatregelToekenningen().length === 0) {
-                <div class="geen-items text-content-small color-typography-4">Geen actieve maatregelen</div>
+                <div class="geen-items text-content-small text-weak">Geen actieve maatregelen</div>
             }
             @for (toekenning of maatregelToekenningen(); track toekenning) {
                 <dt-maatregeltoekenning
@@ -20,7 +20,7 @@
             }
             <!-- '>' naast volledig overzicht moet blijven staan en is niet om de div te sluiten -->
             <div
-                class="color-primary-1 text-content volledig-overzicht"
+                class="action-primary-normal text-content volledig-overzicht"
                 (click)="onVolledigOverzicht($event)"
                 cy="maatregelen-volledig-overzicht">
                 Volledig overzicht ›

@@ -1,4 +1,3 @@
-import { isEqual } from 'date-fns';
 import {
     AbsentieMeldingFieldsFragment,
     AfspraakQuery,
@@ -7,7 +6,8 @@ import {
     LesRegistratieQuery,
     VrijVeld,
     VrijVeldWaarde
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { isEqual } from 'date-fns';
 import { ExterneRegistratieType } from '../../core/models/lesregistratie.model';
 import { Appearance, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { ActionButton } from '../components/actions-popup/actions-popup.component';

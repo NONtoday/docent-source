@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatrixResultaatkolomFieldsFragment } from '../../../generated/_types';
+import { MatrixResultaatkolomFieldsFragment } from '@docent/codegen';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../rooster-shared/components/outline-button/outline-button.component';
 import { AutosizeDirective } from '../../rooster-shared/directives/autosize.directive';

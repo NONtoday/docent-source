@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloQueryResult, DocumentNode, FetchResult } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { endOfDay, startOfDay } from 'date-fns';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { all, matching, mod, set, updateAll } from 'shades';
 import {
     AantalZwevendeLesitemsDocument,
     AfspraakQuery,
@@ -39,7 +34,12 @@ import {
     ZwevendeLesitemsDocument,
     ZwevendeLesitemsQuery,
     namedOperations
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { endOfDay, startOfDay } from 'date-fns';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { all, matching, mod, set, updateAll } from 'shades';
 import {
     convertToAfspraakToekenningInput,
     convertToDagToekenningInput,

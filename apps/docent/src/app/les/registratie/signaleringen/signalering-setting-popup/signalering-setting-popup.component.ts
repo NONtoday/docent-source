@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { IconDirective } from 'harmony';
+import { LesRegistratie, SignaleringenInstellingenQuery } from '@docent/codegen';
+import { CheckboxComponent, IconDirective } from 'harmony';
 import { IconSluiten, provideIcons } from 'harmony-icons';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { LesRegistratie, SignaleringenInstellingenQuery } from '../../../../../generated/_types';
 import { MedewerkerDataService } from '../../../../core/services/medewerker-data.service';
 import { ButtonComponent } from '../../../../rooster-shared/components/button/button.component';
-import { FormCheckboxComponent } from '../../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { OutlineButtonComponent } from '../../../../rooster-shared/components/outline-button/outline-button.component';
 import { Popup, PopupComponent } from '../../../../rooster-shared/components/popup/popup.component';
 import { RegistratieDataService } from '../../registratie-data.service';
@@ -16,15 +15,7 @@ import { RegistratieDataService } from '../../registratie-data.service';
     templateUrl: './signalering-setting-popup.component.html',
     styleUrls: ['./signalering-setting-popup.component.scss'],
     standalone: true,
-    imports: [
-        PopupComponent,
-        FormsModule,
-        ReactiveFormsModule,
-        FormCheckboxComponent,
-        OutlineButtonComponent,
-        ButtonComponent,
-        IconDirective
-    ],
+    imports: [PopupComponent, FormsModule, ReactiveFormsModule, OutlineButtonComponent, ButtonComponent, IconDirective, CheckboxComponent],
     providers: [provideIcons(IconSluiten)]
 })
 export class SignaleringSettingPopupComponent implements Popup, OnInit {

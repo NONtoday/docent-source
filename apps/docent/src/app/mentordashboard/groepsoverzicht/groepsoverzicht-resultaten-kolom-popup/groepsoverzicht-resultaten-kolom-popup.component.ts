@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, inject } from '@angular/core';
+import { MentordashboardResultatenInstellingen } from '@docent/codegen';
 import { CssVarPipe, NotificationCounterComponent } from 'harmony';
-import { MentordashboardResultatenInstellingen } from '../../../../generated/_types';
 import { LeerlingCijferOverzicht } from '../../../core/models/mentordashboard.model';
 import { Appearance } from '../../../core/popup/popup.settings';
 import { SidebarService } from '../../../core/services/sidebar.service';

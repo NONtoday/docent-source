@@ -8,9 +8,9 @@ import {
     ValidationErrors,
     Validators
 } from '@angular/forms';
+import { Maybe } from '@docent/codegen';
 import { IconDirective, NumbersOnlyDirective } from 'harmony';
 import { IconCheck, IconSluiten, provideIcons } from 'harmony-icons';
-import { Maybe } from '../../../../generated/_types';
 import { AutofocusDirective } from '../../../rooster-shared/directives/autofocus.directive';
 import { Optional, TextAlign } from '../../../rooster-shared/utils/utils';
 

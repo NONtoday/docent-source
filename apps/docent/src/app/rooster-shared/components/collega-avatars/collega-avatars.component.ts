@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, inject } from '@angular/core';
 import { take } from 'rxjs/operators';
 
-import { AfspraakMedewerkerFragment } from '../../../../generated/_types';
+import { AfspraakMedewerkerFragment } from '@docent/codegen';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { TooltipDirective } from '../../directives/tooltip.directive';
 import { PersonenNamenPipe } from '../../pipes/personen-namen.pipe';

@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Differentiatiegroep, Leerling } from '@docent/codegen';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { Differentiatiegroep, Leerling } from '../../../../../generated/_types';
 import { ButtonComponent } from '../../../../rooster-shared/components/button/button.component';
 import { OutlineButtonComponent } from '../../../../rooster-shared/components/outline-button/outline-button.component';
 import { equalsId, toId } from '../../../../rooster-shared/utils/utils';

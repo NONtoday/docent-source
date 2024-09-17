@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { endOfDay, getHours, setHours, startOfDay } from 'date-fns';
-import { ButtonComponent, IconDirective } from 'harmony';
+import { ButtonComponent, CheckboxComponent, IconDirective } from 'harmony';
 import { IconGoogleMeet, IconInformatie, IconMsTeams, IconSettings, IconWaarschuwing, provideIcons } from 'harmony-icons';
 import { sha256 } from 'js-sha256';
 import { isNil } from 'lodash-es';
@@ -13,7 +13,6 @@ import { localOrCookieStorage } from '../../../auth/storage-config';
 import { Schooljaar } from '../../../core/models/schooljaar.model';
 import { startVoorEindValidator } from '../../../core/validators/startVoorEind.validator';
 import { ENVIRONMENT_CONFIG } from '../../../environment.config';
-import { FormCheckboxComponent } from '../../../rooster-shared/components/form-checkbox/form-checkbox.component';
 import { MessageComponent } from '../../../rooster-shared/components/message/message.component';
 import { OutlineButtonComponent } from '../../../rooster-shared/components/outline-button/outline-button.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
@@ -39,7 +38,7 @@ export enum SupportedConferenceTypes {
         OutlineButtonComponent,
         MessageComponent,
         ReactiveFormsModule,
-        FormCheckboxComponent,
+        CheckboxComponent,
         RangedDatepickerComponent,
         IconDirective,
         ButtonComponent

@@ -1,5 +1,5 @@
+import { Differentiatiegroep, DifferentiatiegroepInput } from '@docent/codegen';
 import { curry } from 'lodash-es';
-import { Differentiatiegroep, DifferentiatiegroepInput } from '../../../generated/_types';
 import { toId } from '../../rooster-shared/utils/utils';
 
 export const toDifferentiatiegroepInput = curry(

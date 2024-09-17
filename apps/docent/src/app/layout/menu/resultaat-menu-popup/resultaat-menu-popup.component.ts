@@ -1,12 +1,12 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { LesgroepenQuery } from '@docent/codegen';
 import { IconDirective, SpinnerComponent, SwitchComponent, SwitchGroupComponent } from 'harmony';
 import { IconChevronRechts, IconExamendossier, IconGroep, IconVoortgangsdossier, provideIcons } from 'harmony-icons';
 import { groupBy } from 'lodash-es';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { LesgroepenQuery } from '../../../../generated/_types';
 import { UriService } from '../../../auth/uri-service';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { AfspraakParticipant, Leerling, Lesgroep, Medewerker, Stamgroep } from '@docent/codegen';
 import { IconGroep, provideIcons } from 'harmony-icons';
-import { AfspraakParticipant, Leerling, Lesgroep, Medewerker, Stamgroep } from '../../../../generated/_types';
 import { AfspraakParticipantNaamPipe } from '../../pipes/afspraakparticipant-naam.pipe';
 import { AvatarComponent } from '../avatar/avatar.component';
 import { BackgroundIconComponent } from '../background-icon/background-icon.component';

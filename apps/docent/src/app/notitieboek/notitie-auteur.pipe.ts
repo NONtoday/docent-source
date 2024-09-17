@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { NotitieFieldsFragment } from '../../generated/_types';
-import { getVolledigeNaam } from '../shared/utils/leerling.utils';
+import { NotitieFieldsFragment } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 
 @Pipe({
     name: 'notitieAuteur',

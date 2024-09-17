@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { HuiswerkType, MethodeInhoud } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconHuiswerk, IconLesstof, provideIcons } from 'harmony-icons';
-import { HuiswerkType, MethodeInhoud } from '../../../generated/_types';
 import { MethodeSelectie } from '../../core/models/studiewijzers/methode.model';
 import { ZichtbaarheidsToggleFormControlComponent } from '../../shared/components/zichtbaarheids-toggle-form-control/zichtbaarheids-toggle-form-control.component';
 

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AfspraakQuery } from '../../../generated/_types';
+import { AfspraakQuery } from '@docent/codegen';
 
 @Pipe({
     name: 'afspraakTitel',

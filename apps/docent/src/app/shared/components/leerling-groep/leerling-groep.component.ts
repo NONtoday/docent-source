@@ -9,8 +9,8 @@ import {
     inject,
     output
 } from '@angular/core';
+import { Leerling } from '@docent/codegen';
 import { IconVerwijderen, provideIcons } from 'harmony-icons';
-import { Leerling } from '../../../../generated/_types';
 import { PopupService } from '../../../core/popup/popup.service';
 import { DeviceService } from '../../../core/services/device.service';
 import { IconComponent } from '../../../rooster-shared/components/icon/icon.component';

@@ -9,8 +9,8 @@ import {
     inject,
     output
 } from '@angular/core';
+import { Differentiatiegroep, DifferentiatiegroepKleur } from '@docent/codegen';
 import { IconBewerken, IconOpties, IconVerwijderen, provideIcons } from 'harmony-icons';
-import { Differentiatiegroep, DifferentiatiegroepKleur } from '../../../../../generated/_types';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { DeviceService } from '../../../../core/services/device.service';
 import {

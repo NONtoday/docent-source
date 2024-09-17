@@ -1,6 +1,6 @@
 <div class="container" [formGroup]="formGroup">
     <div class="header">
-        <dt-form-checkbox [formControlName]="controlName"></dt-form-checkbox>
+        <hmy-checkbox [formControlName]="controlName" />
         <dt-kleur-keuze [kleur]="differentiatiegroep.kleur" [content]="differentiatiegroep.leerlingen?.length"> </dt-kleur-keuze>
         <span class="naam fg-primary-strongest text-content-semi" (click)="isOpen = !isOpen">{{ differentiatiegroep.naam }}</span>
         <i

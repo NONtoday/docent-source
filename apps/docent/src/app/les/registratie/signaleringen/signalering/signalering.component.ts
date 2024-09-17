@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostListener, Input, ViewContainerRef, inject } from '@angular/core';
-import { LeerlingSignaleringenFragment } from '../../../../../generated/_types';
+import { LeerlingSignaleringenFragment } from '@docent/codegen';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../../core/popup/popup.settings';
 import { LeerlingComponent } from '../../../../shared/components/leerling/leerling.component';

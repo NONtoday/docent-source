@@ -1,14 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren, ViewContainerRef, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { addWeeks, endOfDay, getISOWeek, isAfter, isSameDay, startOfDay } from 'date-fns';
-import { IconLesplanning, IconToevoegen, IconWerkdruk, IconZwevendItem, provideIcons } from 'harmony-icons';
-import get from 'lodash-es/get';
-import some from 'lodash-es/some';
-import { NG_PROGRESS_CONFIG, NgProgressComponent, NgProgressModule } from 'ngx-progressbar';
-import { Observable, Subject, combineLatest } from 'rxjs';
-import { map, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { all, into, matching, set, updateAll } from 'shades';
 import {
     Afspraak,
     AfspraakQuery,
@@ -22,7 +14,15 @@ import {
     ToekomendeAfsprakenQuery,
     WeekToekenning,
     namedOperations
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { addWeeks, endOfDay, getISOWeek, isAfter, isSameDay, startOfDay } from 'date-fns';
+import { IconLesplanning, IconToevoegen, IconWerkdruk, IconZwevendItem, provideIcons } from 'harmony-icons';
+import get from 'lodash-es/get';
+import some from 'lodash-es/some';
+import { NG_PROGRESS_CONFIG, NgProgressComponent, NgProgressModule } from 'ngx-progressbar';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { map, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { all, into, matching, set, updateAll } from 'shades';
 import { allowChildAnimations } from '../../core/core-animations';
 import { LesplanningType, SaveToekenningContainer, StudiewijzerItemEditAction } from '../../core/models/lesplanning.model';
 import { mapToSelectedAfspraakId } from '../../core/operators/mapToSelectedAfspraakId.operator';

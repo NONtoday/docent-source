@@ -1,12 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloCache } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import flatMap from 'lodash-es/flatMap';
-import sortBy from 'lodash-es/sortBy';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { all, matching, mod, set, updateAll } from 'shades';
-import { bijlageIsSelected, bijlageMapBijlagen, bijlageMapIsSelected } from '../../generated/_operations';
 import {
     Bijlage,
     BijlageFieldsFragment,
@@ -40,7 +33,14 @@ import {
     VerwijderJaarbijlageMapDocument,
     VerwijderJaarbijlagenBulkDocument,
     VerwijderMapDifferentiatiesDocument
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import flatMap from 'lodash-es/flatMap';
+import sortBy from 'lodash-es/sortBy';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { all, matching, mod, set, updateAll } from 'shades';
+import { bijlageIsSelected, bijlageMapBijlagen, bijlageMapIsSelected } from '../../generated/_operations';
 import {
     jaarbijlageToJaarbijlageInput,
     kopieerBijlagenOptimisticResponse,

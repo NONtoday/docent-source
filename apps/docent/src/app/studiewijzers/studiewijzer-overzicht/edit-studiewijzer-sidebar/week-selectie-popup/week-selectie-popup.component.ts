@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { CijferPeriodeWeek } from '@docent/codegen';
 import { getISOWeek } from 'date-fns';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconInformatie, IconReeks, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CijferPeriodeWeek } from '../../../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../../../core/popup/popup.settings';
 import { Popup, PopupComponent } from '../../../../rooster-shared/components/popup/popup.component';
 import { TooltipDirective } from '../../../../rooster-shared/directives/tooltip.directive';

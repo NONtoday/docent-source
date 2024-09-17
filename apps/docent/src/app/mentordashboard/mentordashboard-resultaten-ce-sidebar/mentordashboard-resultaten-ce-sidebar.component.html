@@ -20,14 +20,14 @@
                                     </div>
                                 }
                                 @if (ceResultaat.geldendResultaat.type === dbResultaatKolomType.DeelCentraalExamenkolom) {
-                                    <i class="fill-typography-4" hmyIcon="deeltoets" size="small"></i>
+                                    <i color="text-weakest" hmyIcon="deeltoets" size="small"></i>
                                 }
                                 @if (ceResultaat.geldendResultaat.type === dbResultaatKolomType.CentraalExamenVariantKolom) {
-                                    <i class="fill-typography-4" hmyIcon="examenVariant" size="small"></i>
+                                    <i color="text-weakest" hmyIcon="examenVariant" size="small"></i>
                                 }
                             </div>
-                            <span class="text-content-small-semi color-typography-2">{{ ceResultaat.geldendResultaat.toetscode }}</span>
-                            <span class="text-content-small-semi color-typography-3 omschrijving">{{
+                            <span class="text-content-small-semi text-strong">{{ ceResultaat.geldendResultaat.toetscode }}</span>
+                            <span class="text-content-small-semi text-weak omschrijving">{{
                                 ceResultaat.geldendResultaat.omschrijving
                             }}</span>
                         </div>
@@ -38,7 +38,7 @@
                     </div>
                 }
             } @else {
-                <span class="text-content-semi geen-resultaten color-typography-4">Geen resultaten</span>
+                <span class="text-content-semi geen-resultaten text-weakest">Geen resultaten</span>
             }
         </div>
     } @else {

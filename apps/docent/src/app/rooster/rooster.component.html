@@ -13,9 +13,9 @@
         (toggleVrijeUren)="onToggleVrijeUren()"></dt-rooster-toolbar>
     <dt-rooster-dagen-balk [date]="datum"></dt-rooster-dagen-balk>
     <div class="week">
-        @for (week of weken; track week) {
+        @for (week of weken; track $index) {
             <div class="dagen" [@weekAnimatie]="weekAnimationDirection">
-                @for (dag of week; track dag) {
+                @for (dag of week; track dag.datum) {
                     <dt-rooster-dag
                         [toonVrijeUren]="toonVrijeUren"
                         [dag]="dag"

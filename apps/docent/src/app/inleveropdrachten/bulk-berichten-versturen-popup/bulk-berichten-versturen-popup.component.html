@@ -18,6 +18,7 @@
             <div class="shadow-layer">
                 <input #fileInput (change)="onFilesSelected($event)" type="file" style="display: none" multiple />
                 <dt-editor-form-control
+                    class="editor-only"
                     [formGroup]="berichtForm"
                     [heeftBijlagen]="true"
                     [showBorder]="true"

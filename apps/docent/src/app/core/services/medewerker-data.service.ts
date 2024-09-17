@@ -5,9 +5,6 @@ import { isNil } from 'lodash-es';
 import { Observable, firstValueFrom, of } from 'rxjs';
 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { first, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
-import { all, set } from 'shades';
-import { VERSION } from 'version-generator';
 import {
     AantalOngelezenBerichtenDocument,
     BerichtenVanMedewerkerDocument,
@@ -29,7 +26,6 @@ import {
     MentorleerlingenQuery,
     OngelezenNotitiesAanwezigDocument,
     SaveSorteringDocument,
-    SetDagBegintijdDocument,
     SetLaatstGelezenUpdateDocument,
     SetSignaleringAantalDocument,
     Settings,
@@ -39,7 +35,10 @@ import {
     SorteringVeld,
     VakcodesVanDocentDocument,
     VakcodesVanDocentQuery
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { first, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { all, set } from 'shades';
+import { VERSION } from 'version-generator';
 import { MedewerkerRechten, Operation } from '../../rooster-shared/directives/heeft-recht.directive';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { SorteringNaam } from '../models/shared.model';
@@ -172,32 +171,6 @@ export class MedewerkerDataService {
                 query: IngelogdeMedewerkerDocument
             })
             .valueChanges.pipe(map((result) => result.data.ingelogdeMedewerker.settings.dagBegintijd));
-    }
-
-    public async setDagBegintijd(dagBegintijd: string) {
-        const medewerker = await this.getMedewerkerPromise();
-
-        this.apollo
-            .mutate({
-                mutation: SetDagBegintijdDocument,
-                variables: {
-                    medewerkerUuid: medewerker.uuid,
-                    dagBegintijd
-                },
-                update: (cache) => {
-                    let medewerkerQueryData = cache.readQuery({
-                        query: IngelogdeMedewerkerDocument
-                    })!.ingelogdeMedewerker;
-
-                    medewerkerQueryData = set('settings', 'dagBegintijd')(dagBegintijd)(medewerkerQueryData);
-
-                    cache.writeQuery({
-                        query: IngelogdeMedewerkerDocument,
-                        data: { ingelogdeMedewerker: medewerkerQueryData }
-                    });
-                }
-            })
-            .subscribe();
     }
 
     public getSignaleringAantal(): Observable<IngelogdeMedewerkerQuery['ingelogdeMedewerker']['settings']['signaleringAantal']> {

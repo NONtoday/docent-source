@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Maybe, NotitieBetrokkeneToegang, NotitieFieldsFragment, PartialLeerlingFragment, Vestiging } from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { IconDirective } from 'harmony';
 import {
@@ -28,7 +29,6 @@ import {
 import { memoize } from 'lodash-es';
 import { Observable, map, startWith, take } from 'rxjs';
 import { P, match } from 'ts-pattern';
-import { Maybe, NotitieBetrokkeneToegang, NotitieFieldsFragment, PartialLeerlingFragment, Vestiging } from '../../../generated/_types';
 import { allowChildAnimations } from '../../core/core-animations';
 import { NotitieboekContext } from '../../core/models/notitieboek.model';
 import { PopupService } from '../../core/popup/popup.service';

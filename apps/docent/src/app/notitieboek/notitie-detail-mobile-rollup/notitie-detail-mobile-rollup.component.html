@@ -1,0 +1,181 @@
+<div class="detail-scroll-wrapper" [style.max-height]="scrollWrapperMaxHeight()">
+    <header class="detail-header">
+        <div class="detail-header-content">
+            <div class="detail-header-icons">
+                @if (meerdereBetrokkenen()) {
+                    <dt-avatar-stack
+                        [leerlingen]="leerlingen()"
+                        [lesgroepen]="lesgroepen()"
+                        [stamgroepen]="stamgroepen()"
+                        [size]="20"
+                        [maxshown]="1" />
+                }
+                @if (notitie().bijlagen.length > 0) {
+                    <i hmyIcon="bijlage" color="text-weak" size="medium"></i>
+                }
+                @if (isGedeeldVoorDocenten() || isGedeeldVoorMentoren()) {
+                    <i hmyIcon="zichtbaar" color="text-weak" size="medium"></i>
+                }
+                @if (notitie().vastgeprikt) {
+                    <i hmyIcon="pinned" color="text-weak" size="medium"></i>
+                }
+                @if (notitie().bookmarked) {
+                    <i hmyIcon="bookmark" color="fg-accent-normal" size="medium"></i>
+                }
+            </div>
+            <div class="detail-header-labels">
+                @for (betrokkene of notitie().stamgroepBetrokkenen; track betrokkene.stamgroep.id) {
+                    @if ({ value: betrokkenenToegang().get(betrokkene.id) }; as toegankelijk) {
+                        <dt-notitie-detail-label
+                            [disabled]="!toegankelijk.value || !huidigSchooljaar()"
+                            [text]="betrokkene.stamgroep.naam"
+                            (click)="toegankelijk.value ? onGroepLabelClick.emit(betrokkene) : undefined"
+                            data-gtm="notitieboek-detail-mobile-label-stamgroep" />
+                    }
+                }
+                @for (betrokkene of notitie().lesgroepBetrokkenen; track betrokkene.lesgroep.id) {
+                    @if ({ value: betrokkenenToegang().get(betrokkene.id) }; as toegankelijk) {
+                        <dt-notitie-detail-label
+                            [disabled]="!toegankelijk.value || !huidigSchooljaar()"
+                            [text]="betrokkene.lesgroep.naam"
+                            (click)="toegankelijk.value ? onGroepLabelClick.emit(betrokkene) : undefined"
+                            data-gtm="notitieboek-detail-mobile-label-lesgroep" />
+                    }
+                }
+                @for (betrokkene of notitie().leerlingBetrokkenen; track betrokkene.leerling.id) {
+                    @if ({ value: betrokkenenToegang().get(betrokkene.id) }; as toegankelijk) {
+                        <dt-notitie-detail-label
+                            [disabled]="!toegankelijk.value || !huidigSchooljaar()"
+                            [text]="betrokkene.leerling | volledigeNaam"
+                            (click)="toegankelijk.value ? onLeerlingLabelClick.emit(betrokkene) : undefined"
+                            data-gtm="notitieboek-detail-mobile-label-leerling" />
+                    }
+                }
+                @if (notitie().vak; as vak) {
+                    <dt-notitie-detail-label [isVak]="true" [text]="vak.naam" />
+                }
+            </div>
+        </div>
+    </header>
+    <div class="detail-body">
+        <span class="detail-body-title">{{ notitie().titel }}</span>
+        <div class="detail-body-content" [innerHTML]="notitie().inhoud"></div>
+        @if (notitie().bijlagen.length > 0) {
+            <div class="detail-body-attachments">
+                @for (bijlage of notitie().bijlagen; track bijlage.id) {
+                    <dt-bijlage [bijlage]="bijlage" [toonZichtbaarheidToggle]="false" />
+                }
+            </div>
+        }
+        @if (isGewijzigd()) {
+            <span class="detail-body-last-modified text-content-small-semi">
+                Laatst gewijzigd • {{ notitie().lastModifiedAt | dtDate: 'dag_uitgeschreven_dagnummer_maand' }},
+                {{ notitie().lastModifiedAt | dtDate: 'tijd' }}
+            </span>
+        }
+        <div class="detail-body-tags">
+            @if (eigenNotitie()) {
+                <hmy-tag class="author own" label="Mijn notitie" icon="none" color="positive" />
+            } @else if (mentorNotitie()) {
+                <hmy-icon-tag class="author mentor" [label]="notitie() | notitieAuteur" icon="onderwijs" color="alternative" />
+            } @else {
+                <hmy-tag class="author other" [label]="notitie() | notitieAuteur" icon="none" color="neutral" />
+            }
+            @if (notitie().belangrijk) {
+                <hmy-icon-tag label="Belangrijk" icon="waarschuwing" color="warning" />
+            }
+            @if (notitie().privacygevoelig) {
+                <hmy-icon-tag label="Privacygevoelig" icon="informatie" color="primary" />
+            }
+        </div>
+    </div>
+</div>
+@if (huidigSchooljaar()) {
+    <footer class="detail-footer" #footer>
+        <div class="detail-footer-buttons" [class.single]="!eigenNotitie()">
+            @if (eigenNotitie()) {
+                <dt-outline-button
+                    [class.active]="showVisibility()"
+                    [class.shared]="isGedeeldVoorDocenten() || isGedeeldVoorMentoren()"
+                    (click)="toggleVisibility()"
+                    icon="zichtbaar"
+                    iconOnlyRangeEnd="tablet" />
+                <dt-outline-button
+                    [routerLink]="['./notitieboek']"
+                    [queryParams]="{ edit: true }"
+                    (click)="onNotitieEdit.emit()"
+                    queryParamsHandling="merge"
+                    icon="bewerken"
+                    color="primary"
+                    iconOnlyRangeEnd="tablet"
+                    data-gtm="notitieboek-detail-mobile-bewerken-notitie" />
+            }
+            <dt-outline-button
+                [routerLink]="['./notitieboek']"
+                [queryParams]="{
+                    notitie: 'nieuw',
+                    direct: null,
+                    edit: true,
+                    scrollto: null,
+                    leerlingBetrokkenenIds: leerlingBetrokkenenIds()
+                }"
+                [iconOnlyRangeEnd]="eigenNotitie() ? 'tablet' : 'never'"
+                (click)="onNewNotitie.emit()"
+                queryParamsHandling="merge"
+                icon="toevoegen"
+                color="positive"
+                data-gtm="notitieboek-detail-mobile-nieuwe-notitie">
+                @if (!eigenNotitie()) {
+                    Nieuw
+                }
+            </dt-outline-button>
+            @if (eigenNotitie()) {
+                <dt-outline-button
+                    [class.active]="showDelete()"
+                    (click)="toggleDelete()"
+                    icon="verwijderen"
+                    color="negative"
+                    iconOnlyRangeEnd="tablet" />
+            }
+        </div>
+        @if (showVisibility()) {
+            <form class="popup" id="visibility-settings" @slide [formGroup]="zichtbaarheidForm" (ngSubmit)="onVisibilitySubmit()">
+                <p class="popup-label">Notitie zichtbaar maken voor</p>
+                <div class="visibility-checkboxes">
+                    <label>
+                        <hmy-checkbox [customTabIndex]="1" formControlName="docenten" />
+                        Docenten
+                    </label>
+                    <label>
+                        <hmy-checkbox [customTabIndex]="1" formControlName="mentoren" />
+                        Mentoren
+                    </label>
+                </div>
+                <div class="popup-buttons">
+                    <hmy-button (click)="closeVisibility()" mode="quaternary" customTabindex="1" label="Annuleren" />
+                    <hmy-button
+                        [disabled]="!zichtbaarheidForm.dirty"
+                        customTabindex="1"
+                        label="Instellen"
+                        buttonType="positive"
+                        type="submit"
+                        data-gtm="notitieboek-detail-mobile-zichtbaarheid-wijzigen" />
+                </div>
+            </form>
+        }
+        @if (showDelete()) {
+            <div class="popup" id="delete-confirmation" @slide>
+                <p class="popup-label">Notitie verwijderen?</p>
+                <div class="popup-buttons">
+                    <hmy-button (click)="closeDelete()" customTabindex="1" label="Annuleren" mode="quaternary" />
+                    <hmy-button
+                        (click)="onNotitieDeleted.emit(notitie())"
+                        customTabindex="1"
+                        label="Verwijderen"
+                        mode="delete"
+                        data-gtm="notitieboek-detail-mobile-verwijderen-notitie" />
+                </div>
+            </div>
+        }
+    </footer>
+}

@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, Input, OnInit, inject, output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Methode, MethodenQuery, RecenteMethode, RecenteMethodesQuery } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconZoeken, provideIcons } from 'harmony-icons';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, startWith, switchMap, take } from 'rxjs/operators';
-import { Methode, MethodenQuery, RecenteMethode, RecenteMethodesQuery } from '../../../../generated/_types';
 import { MethodenTab } from '../../../core/models/studiewijzers/methode.model';
 import { startLoading, stopLoading } from '../../../core/operators/loading.operators';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';

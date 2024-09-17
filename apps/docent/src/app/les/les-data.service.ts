@@ -1,9 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { FetchPolicy } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { matching, set } from 'shades';
 import {
     AfspraakDocument,
     AfspraakQuery,
@@ -18,7 +14,11 @@ import {
     SaveAfspraakToekenningDocument,
     Toekenning,
     UpdateToekenningZichtbaarheidDocument
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { matching, set } from 'shades';
 import { convertToAfspraakToekenningInput, convertToDagToekenningInput } from '../core/converters/toekenningen.converters';
 import { equalsId, notEqualsId } from '../rooster-shared/utils/utils';
 

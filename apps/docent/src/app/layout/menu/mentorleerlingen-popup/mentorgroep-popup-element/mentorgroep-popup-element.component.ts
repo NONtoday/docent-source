@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MentorleerlingenQuery } from '@docent/codegen';
 import { IconGroep, provideIcons } from 'harmony-icons';
-import { MentorleerlingenQuery } from '../../../../../generated/_types';
 import { BackgroundIconComponent } from '../../../../rooster-shared/components/background-icon/background-icon.component';
 import { BackgroundIconColor } from '../../../../rooster-shared/utils/color-token-utils';
 

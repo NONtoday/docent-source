@@ -1,4 +1,5 @@
 import { Component, Input, ViewChild, inject } from '@angular/core';
+import { Lesgroep, SorteringOrder, SorteringVeld } from '@docent/codegen';
 import {
     IconAZ,
     IconBewerken,
@@ -23,7 +24,6 @@ import {
 } from 'harmony-icons';
 import { capitalize } from 'lodash-es';
 import { Observable } from 'rxjs';
-import { Lesgroep, SorteringOrder, SorteringVeld } from '../../../../generated/_types';
 import { SorteerOrder } from '../../../core/models/inleveropdrachten/inleveropdrachten.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';

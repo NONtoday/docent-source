@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewContainerRef, output } from '@angular/core';
+import { AfspraakQuery, Maybe } from '@docent/codegen';
 import { IconDirective, TooltipDirective } from 'harmony';
 import { IconPijlLinks, provideIcons } from 'harmony-icons';
-import { AfspraakQuery, Maybe } from '../../../generated/_types';
 import { LesuurComponent } from '../../rooster-shared/components/lesuur/lesuur.component';
 import { roosterToetsTooltip } from '../../rooster-shared/pipes/roostertoets.pipe';
 import { formatBeginEindTijd } from '../../rooster-shared/utils/date.utils';

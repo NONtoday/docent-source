@@ -1,17 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewContainerRef, inject, output } from '@angular/core';
+import { Differentiatiegroep, Leerling, LesgroepFieldsFragment, Maybe, Toekenning, ToekenningFieldsFragment } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import { IconDifferentiatie, IconToevoegen, IconVerversen, provideIcons } from 'harmony-icons';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-    Differentiatiegroep,
-    Leerling,
-    LesgroepFieldsFragment,
-    Maybe,
-    Toekenning,
-    ToekenningFieldsFragment
-} from '../../../../generated/_types';
 import { Differentiatie } from '../../../core/models/studiewijzers/shared.model';
 import { PopupService } from '../../../core/popup/popup.service';
 import { DifferentiatiegroepenDataService } from '../../../core/services/differentiatiegroepen-data.service';

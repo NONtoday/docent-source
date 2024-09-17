@@ -10,12 +10,12 @@ import {
     inject,
     output
 } from '@angular/core';
+import { HuiswerkType, Methode, MethodeInhoud, MethodenQuery, RecenteMethode, Toekenning } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import { IconMethode, IconPijlLinks, provideIcons } from 'harmony-icons';
 import { partial } from 'lodash-es';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { HuiswerkType, Methode, MethodeInhoud, MethodenQuery, RecenteMethode, Toekenning } from '../../../generated/_types';
 import { methodeInhoudToBijlage } from '../../core/converters/bijlage.converters';
 import { SaveToekenningContainer } from '../../core/models';
 import {

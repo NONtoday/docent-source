@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
+import { Maybe, MentorleerlingenQuery, StamgroepFieldsFragment } from '@docent/codegen';
 import { BehaviorSubject, distinctUntilChanged, filter, Observable } from 'rxjs';
-import { Maybe, MentorleerlingenQuery, StamgroepFieldsFragment } from '../../generated/_types';
 import { TableService } from '../core/services/table.service';
 import { MessageSoort } from '../rooster-shared/components/message/message.component';
 import { isPresent, Optional } from '../rooster-shared/utils/utils';

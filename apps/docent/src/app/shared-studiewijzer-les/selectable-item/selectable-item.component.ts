@@ -4,9 +4,9 @@ import { collapseAnimation } from 'angular-animations';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { Toekenning, ToekenningFieldsFragment } from '@docent/codegen';
 import { CheckboxComponent, IconDirective } from 'harmony';
 import { IconChevronOnder, IconInleveropdracht, IconName, IconStartmoment, IconSynchroniseren, provideIcons } from 'harmony-icons';
-import { Toekenning, ToekenningFieldsFragment } from '../../../generated/_types';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { StudiewijzeritemTitelPipe } from '../../rooster-shared/pipes/studiewijzeritem-titel.pipe';
 import { getVerschilTussenStartEnEindInleveropdracht } from '../../rooster-shared/utils/date.utils';

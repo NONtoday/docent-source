@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Lesgroep, LesgroepFieldsFragment, LesgroepStudiewijzerQuery, NotitieContext } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import {
     IconExamendossier,
@@ -13,7 +14,6 @@ import {
 } from 'harmony-icons';
 import { Subject, of } from 'rxjs';
 import { switchMap, takeUntil } from 'rxjs/operators';
-import { Lesgroep, LesgroepFieldsFragment, LesgroepStudiewijzerQuery, NotitieContext } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { LesgroepDataService } from '../../core/services/lesgroep-data.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';

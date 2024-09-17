@@ -1,8 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, HostBinding, ViewChild } from '@angular/core';
+import { PartialLeerlingFragment } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import { Observable } from 'rxjs';
-import { PartialLeerlingFragment } from '../../../../generated/_types';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { AvatarComponent } from '../../../rooster-shared/components/avatar/avatar.component';
 import { Popup, PopupComponent } from '../../../rooster-shared/components/popup/popup.component';

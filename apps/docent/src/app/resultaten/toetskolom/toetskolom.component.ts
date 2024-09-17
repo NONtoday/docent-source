@@ -13,11 +13,6 @@ import {
     inject,
     output
 } from '@angular/core';
-import { IconDirective, IconPillComponent, PillTagColor } from 'harmony';
-import { IconDeeltoets, IconSamengesteldeToets, IconSlot, IconSlotOpen, provideIcons } from 'harmony-icons';
-import { intersection, memoize } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
     Advieskolom,
     BevrorenStatus,
@@ -29,7 +24,12 @@ import {
     Resultaatkolom,
     ResultaatkolomType,
     VoortgangsdossierMatrixVanLesgroepQuery
-} from '../../../generated/_types';
+} from '@docent/codegen';
+import { IconDirective, IconPillComponent, PillTagColor } from 'harmony';
+import { IconDeeltoets, IconSamengesteldeToets, IconSlot, IconSlotOpen, provideIcons } from 'harmony-icons';
+import { intersection, memoize } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { toetskolommenConfig } from '../../core/models/resultaten/resultaten.model';
 import { DeviceService } from '../../core/services/device.service';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';

@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewContainerRef, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { AfspraakQuery, Lesgroep, Maybe, Toekenning } from '@docent/codegen';
 import { getDate, getMonth, getYear } from 'date-fns';
 import { IconDifferentiatie, IconRooster, provideIcons } from 'harmony-icons';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { AfspraakQuery, Lesgroep, Maybe, Toekenning } from '../../generated/_types';
 import { allowChildAnimations } from '../core/core-animations';
 import { Differentiatie } from '../core/models/studiewijzers/shared.model';
 import { shareReplayLastValue } from '../core/operators/shareReplayLastValue.operator';

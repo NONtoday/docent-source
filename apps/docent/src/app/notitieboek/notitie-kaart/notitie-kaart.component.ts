@@ -14,6 +14,14 @@ import {
     input,
     output
 } from '@angular/core';
+import {
+    LesgroepFieldsFragment,
+    Maybe,
+    NotitieContext,
+    NotitieFieldsFragment,
+    PartialLeerlingFragment,
+    StamgroepFieldsFragment
+} from '@docent/codegen';
 import { IconDirective, IconTagComponent, TagComponent } from 'harmony';
 import {
     IconBewerken,
@@ -34,14 +42,6 @@ import {
 import { orderBy } from 'lodash-es';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { match } from 'ts-pattern';
-import {
-    LesgroepFieldsFragment,
-    Maybe,
-    NotitieContext,
-    NotitieFieldsFragment,
-    PartialLeerlingFragment,
-    StamgroepFieldsFragment
-} from '../../../generated/_types';
 import { NotitieboekContext } from '../../core/models/notitieboek.model';
 import { PopupService } from '../../core/popup/popup.service';
 import { PopupDirection, defaultPopupOffsets } from '../../core/popup/popup.settings';
@@ -244,7 +244,7 @@ export class NotitieKaartComponent implements OnChanges, OnDestroy {
             );
         }
 
-        if (this.showEditOptions && this.isEigenNotitie) {
+        if (fromDesktop && this.showEditOptions && this.isEigenNotitie) {
             customButtons.push(primaryButton('bewerken', 'Bewerken', () => this.onBewerken(), 'notitie-bewerken'));
             customButtons.push(verwijderButton(() => this.onVerwijderen(), 'notitie-verwijderen'));
         }

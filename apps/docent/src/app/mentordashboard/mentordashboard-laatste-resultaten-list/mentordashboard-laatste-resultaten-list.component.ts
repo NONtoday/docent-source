@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, DestroyRef, Input, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Maybe, MentordashboardResultatenInstellingen, RecentResultaat } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconPijlRechts, IconPijlRechtsBeneden, IconPijlRechtsBoven, IconResultaten, provideIcons } from 'harmony-icons';
 import { Observable, combineLatest, map, of } from 'rxjs';
 import { match } from 'ts-pattern';
-import { Maybe, MentordashboardResultatenInstellingen, RecentResultaat } from '../../../generated/_types';
 import { MentordashboardDataService } from '../mentordashboard-data.service';
 import { MentordashboardToetsResultaatComponent } from '../mentordashboard-toets-resultaat/mentordashboard-toets-resultaat.component';
 import { MentordashboardTrendMetInfoComponent } from '../mentordashboard-trend-met-info/mentordashboard-trend-met-info.component';

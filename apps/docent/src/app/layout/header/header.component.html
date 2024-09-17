@@ -8,9 +8,6 @@
     @if (!metNavigatie) {
         <div class="title text-heading-2"><i [hmyIcon]="icon" [sizeInPx]="24"></i>{{ titel }}</div>
     }
-    @if (showDarkModeToggle) {
-        <i class="pointer dark-mode-switch" (click)="toggleDarkMode()" color="action-primary-normal" hmyIcon="telefoon" size="large"></i>
-    }
     <i
         class="header-icon"
         #zoeken
@@ -18,15 +15,15 @@
         hmyIcon="zoeken"
         color="action-primary-normal"
         size="large"
-        dtTooltip="Zoeken (ctrl+spatie)"
+        hmyTooltip="Zoeken (ctrl+spatie)"
         position="bottom"
         data-gtm="menu-item-zoek"></i>
-    @if (heeftBerichtenInzienRecht$ | async) {
+    @if (heeftBerichtenInzienRecht()) {
         <div class="berichten-container header-icon" (click)="openBerichtenSidebar()">
             <i
                 color="action-primary-normal"
                 hmyIcon="bericht"
-                dtTooltip="Berichten"
+                hmyTooltip="Berichten"
                 size="large"
                 position="bottom"
                 data-gtm="menu-item-berichten">
@@ -47,37 +44,44 @@
         hmyIcon="feedback"
         color="action-primary-normal"
         size="large"
-        dtTooltip="Feedback"
+        hmyTooltip="Feedback"
         position="bottom"
         cy="feedback"></i>
-    @if ({ beschikbaar: isUpdateBeschikbaar$ | async }; as update) {
-        <div class="avatar" #avatarContainer>
-            @if (medewerker$ | async; as medewerker) {
-                <dt-avatar
-                    [src]="medewerker.pasfoto"
-                    [initialen]="medewerker.initialen"
-                    [bordersize]="2"
-                    [allowPhotoPopup]="false"
-                    [class.popup-open]="isPopupOpen"
-                    [lazyLoaded]="false"
-                    (click)="toggleProfileMenu(update.beschikbaar)"
-                    dtTooltip="Instellingen"
-                    position="bottom"
-                    altTag="Account-opties - {{ medewerker | volledigeNaam }}"
-                    cy="profiel"></dt-avatar>
-            }
-            @if (update.beschikbaar) {
-                <i color="fg-warning-normal" hmyIcon="waarschuwing" size="medium"> </i>
-            }
-        </div>
-    }
+    <div class="avatar" #avatarContainer>
+        @if (medewerker(); as medewerker) {
+            <dt-avatar
+                [src]="medewerker.pasfoto"
+                [initialen]="medewerker.initialen"
+                [bordersize]="2"
+                [allowPhotoPopup]="false"
+                [lazyLoaded]="false"
+                (click)="toggleProfileMenu()"
+                hmyTooltip="Account en instellingen"
+                position="bottom"
+                altTag="Account-opties - {{ medewerker | volledigeNaam }}"
+                cy="profiel"></dt-avatar>
+        }
+        @if (isUpdateBeschikbaar()) {
+            <i color="fg-warning-normal" hmyIcon="waarschuwing" size="medium"> </i>
+        }
+    </div>
     <div
         class="naar-somtoday-knop hide-for-phone-only"
         [elementOffset]="-14"
         (click)="onSomtodayButtonClicked()"
-        dtTooltip="{{ (isCoreReturnUrlSet$ | async) ? 'Terug naar Somtoday' : 'Naar Somtoday' }}"
+        hmyTooltip="{{ (isCoreReturnUrlSet$ | async) ? 'Terug naar Somtoday' : 'Naar Somtoday' }}"
         position="bottom"
         data-gtm="menu-item-terug-naar-somtoday">
         <i color="action-primary-normal" hmyIcon="terugNaarSomtoday" size="medium"></i>
     </div>
 </div>
+
+<ng-template #instellingenModal>
+    @if (medewerker(); as medewerker) {
+        <dt-instellingen-modal
+            [docent]="medewerker"
+            [versie]="versie"
+            [heeftUpdate]="!!isUpdateBeschikbaar()"
+            (uitloggen)="authService.logoff()" />
+    }
+</ng-template>

@@ -8,7 +8,7 @@
     <div body>
         @if (preview$ | async; as preview) {
             @if (preview.aantalVastgeprikteNotities === 0) {
-                <div class="geen-items text-content-small color-typography-4">Geen vastgeprikte notities</div>
+                <div class="geen-items text-content-small text-weak">Geen vastgeprikte notities</div>
             }
             @for (notitie of preview.notities; track notitie) {
                 <dt-notitie-kaart
@@ -24,10 +24,7 @@
             }
             <!-- Het '>'-teken moet naast het volledig overzicht blijven staan en is niet om de div te sluiten -->
             @if (preview.aantalVastgeprikteNotities > 0) {
-                <div
-                    class="color-primary-1 text-content volledig-overzicht"
-                    (click)="openNotitiesSidebar($event)"
-                    cy="notities-volledig-overzicht">
+                <div class="text-content volledig-overzicht" (click)="openNotitiesSidebar($event)" cy="notities-volledig-overzicht">
                     Volledig overzicht ›
                 </div>
             }

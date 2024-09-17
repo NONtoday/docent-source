@@ -1,6 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, inject } from '@angular/core';
-import { IconPillComponent, PillComponent, TooltipDirective, shareReplayLastValue } from 'harmony';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CentraalExamenType, GetMentorDashboardExamendossierVoorPlaatsingQuery, ResultaatBijzonderheid, Vak } from '@docent/codegen';
+import { DeviceService, IconPillComponent, PillComponent, TooltipDirective, shareReplayLastValue } from 'harmony';
 import {
     IconExamenMetVarianten,
     IconHogerNiveau,
@@ -11,12 +13,6 @@ import {
     provideIcons
 } from 'harmony-icons';
 import { Observable, map } from 'rxjs';
-import {
-    CentraalExamenType,
-    GetMentorDashboardExamendossierVoorPlaatsingQuery,
-    ResultaatBijzonderheid,
-    Vak
-} from '../../../generated/_types';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';
 import { Optional } from '../../rooster-shared/utils/utils';
@@ -49,6 +45,9 @@ import { TrendPillColorPipe } from '../pipes/trend-pill-color.pipe';
 })
 export class ExamendossierComponent implements OnChanges {
     private sidebarService = inject(SidebarService);
+    private medewerkerDataService = inject(MedewerkerDataService);
+    private deviceService = inject(DeviceService);
+
     @Input({ required: true })
     resultaten: GetMentorDashboardExamendossierVoorPlaatsingQuery['getMentorDashboardExamendossierVoorPlaatsing'];
     @Input() plaatsingId: Optional<string>;
@@ -64,8 +63,7 @@ export class ExamendossierComponent implements OnChanges {
 
     public hasAtLeastOneCEOrEindCijfer: boolean;
     public toonTrend$: Observable<boolean>;
-
-    private medewerkerDataService = inject(MedewerkerDataService);
+    public isPhoneOrTabletPortrait = toSignal(this.deviceService.isPhoneOrTabletPortrait$, { initialValue: false });
 
     ngOnChanges(): void {
         this.hasAtLeastOneCEOrEindCijfer = this.resultaten?.examenVakSamenvattendeResultaten.some(

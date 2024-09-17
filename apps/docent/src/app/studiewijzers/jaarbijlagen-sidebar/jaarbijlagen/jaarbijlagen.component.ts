@@ -16,6 +16,18 @@ import {
     output
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+    Bijlage,
+    BijlageMap,
+    BijlageType,
+    Differentiatiegroep,
+    Leerling,
+    Sjabloon,
+    SjabloonQuery,
+    Studiewijzer,
+    StudiewijzerJaarbijlagen,
+    StudiewijzerQuery
+} from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { ButtonComponent, IconDirective } from 'harmony';
 import {
@@ -34,18 +46,6 @@ import get from 'lodash-es/get';
 import isNil from 'lodash-es/isNil';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import {
-    Bijlage,
-    BijlageMap,
-    BijlageType,
-    Differentiatiegroep,
-    Leerling,
-    Sjabloon,
-    SjabloonQuery,
-    Studiewijzer,
-    StudiewijzerJaarbijlagen,
-    StudiewijzerQuery
-} from '../../../../generated/_types';
 import { BulkDifferentiatieContainer } from '../../../core/models/studiewijzers/shared.model';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../../../core/popup/popup.service';

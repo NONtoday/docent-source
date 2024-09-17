@@ -10,9 +10,9 @@ import {
     output
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Maybe, ZoekBetrokkenenQuery } from '@docent/codegen';
 import { AvatarTagComponent, IconDirective, IconTagComponent, PillComponent } from 'harmony';
 import { IconGroep, IconPijlLinks, IconToevoegen, provideIcons } from 'harmony-icons';
-import { Maybe, ZoekBetrokkenenQuery } from '../../../generated/_types';
 import { AvatarComponent } from '../../rooster-shared/components/avatar/avatar.component';
 import { BackgroundIconComponent } from '../../rooster-shared/components/background-icon/background-icon.component';
 import { ButtonComponent } from '../../rooster-shared/components/button/button.component';

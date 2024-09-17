@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Maybe, MentorleerlingenQuery, Settings, Stamgroep } from '@docent/codegen';
 import { HorizontalScrollDirective } from 'harmony';
 import { IconArchief, IconDashboard, IconNotitieboek, IconResultaten, IconSmiley, IconYesRadio, provideIcons } from 'harmony-icons';
 import { Observable, combineLatest, map, startWith, take, tap } from 'rxjs';
-import { Maybe, MentorleerlingenQuery, Settings, Stamgroep } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { FeatureService } from '../../core/services/feature.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';

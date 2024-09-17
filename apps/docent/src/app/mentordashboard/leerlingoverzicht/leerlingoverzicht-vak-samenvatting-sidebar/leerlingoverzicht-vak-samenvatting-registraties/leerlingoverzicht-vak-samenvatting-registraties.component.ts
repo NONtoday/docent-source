@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input, signal } from '@angular/core';
-import { getYear } from 'date-fns';
-import { IconDirective, NotificationColor, TooltipDirective } from 'harmony';
-import { IconInformatie, provideIcons } from 'harmony-icons';
 import {
     LeerlingAfwezigheidsKolom,
     LeerlingoverzichtVakDetailRegistratie,
     LeerlingoverzichtVakDetailRegistratieWrapper,
     MentordashboardOverzichtRegistratieCategorie,
     Registratie
-} from '../../../../../generated/_types';
+} from '@docent/codegen';
+import { getYear } from 'date-fns';
+import { IconDirective, NotificationColor, TooltipDirective } from 'harmony';
+import { IconInformatie, provideIcons } from 'harmony-icons';
 import { getSchooljaar } from '../../../../rooster-shared/utils/date.utils';
 import { Optional } from '../../../../rooster-shared/utils/utils';
 import { MentordashboardOverzichtSidebarVakRegistratieComponent } from '../../../mentordashboard-overzicht-sidebar-registratiedetails/mentordashboard-overzicht-sidebar-vak-registratie/mentordashboard-overzicht-sidebar-vak-registratie.component';

@@ -17,12 +17,12 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Sjabloon, SjabloonCategorie, Studiewijzer, StudiewijzerCategorie } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBewerken, IconDraggable, IconOpties, IconPijlBoven, IconPijlOnder, IconVerwijderen, provideIcons } from 'harmony-icons';
 import get from 'lodash-es/get';
 import { fromEvent, merge } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
-import { Sjabloon, SjabloonCategorie, Studiewijzer, StudiewijzerCategorie } from '../../../generated/_types';
 import { PopupService } from '../../core/popup/popup.service';
 import { IconComponent } from '../../rooster-shared/components/icon/icon.component';
 import { AutofocusDirective } from '../../rooster-shared/directives/autofocus.directive';

@@ -6,7 +6,7 @@
             [alignCenter]="false"
             [maxWidth]="300">
             <div class="label-block show-for-tablet">P{{ periode.cijferPeriode.nummer }}</div>
-            <div class="periode-naam text-content-semi">Periode {{ periode.cijferPeriode.nummer }}</div>
+            <div class="periode-naam text-content-semi">{{ periode.cijferPeriode | cijferPeriodeNaam }}</div>
         </div>
     }
     @if (collapsed) {
@@ -19,7 +19,7 @@
         </div>
     }
     @if ((isPhoneOrTabletPortrait$ | async) || !collapsed) {
-        <div class="periode-naam text-content-semi hide-for-tablet">Periode {{ periode.cijferPeriode.nummer }}</div>
+        <div class="periode-naam text-content-semi hide-for-tablet">{{ periode.cijferPeriode | cijferPeriodeNaam }}</div>
     }
     @if (!collapsed) {
         <div class="kolom-toggles show-for-tablet">
@@ -97,12 +97,12 @@
                             hmyTooltip="<b>Rapportperiode is bevroren/bekoeld</b><br />
               Het is niet mogelijk om een toetskolom
               toe te voegen.">
-                            <dt-background-icon [sizes]="['small', 'medium']" icon="toevoegen" color="neutral"> </dt-background-icon>
-                            <span class="hide-for-tablet kolom-toevoegen">Toetskolom toevoegen</span>
+                            <dt-background-icon [sizes]="['small', 'medium']" icon="toevoegen" color="disabled"> </dt-background-icon>
+                            <span class="hide-for-tablet kolom-toevoegen text-content-small-semi">Toetskolom toevoegen</span>
                         </div>
                     }
                     <div class="klasgemiddelde bg-neutral-weak show-for-tablet"></div>
-                    @for (cijfercell of leerlingen; track cijfercell; let i = $index) {
+                    @for (cijfercell of leerlingen; track cijfercell.id; let i = $index) {
                         <div
                             class="resultaat-cell show-for-tablet"
                             [class.highlight]="highlight === i"
@@ -115,7 +115,7 @@
             <div class="filler-kolom show-for-tablet">
                 <div class="kolom-header"></div>
                 <div class="klasgemiddelde bg-neutral-none"></div>
-                @for (cijfercell of leerlingen; track cijfercell; let i = $index) {
+                @for (cijfercell of leerlingen; track cijfercell.id; let i = $index) {
                     <div
                         class="resultaat-cell"
                         [class.highlight]="highlight === i"

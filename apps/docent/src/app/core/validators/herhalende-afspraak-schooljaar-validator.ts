@@ -1,7 +1,7 @@
 import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
+import { AfspraakHerhalingDag, AfspraakHerhalingType } from '@docent/codegen';
 import { addBusinessDays, addDays, addMonths, addWeeks } from 'date-fns';
 import { isEqual } from 'lodash-es';
-import { AfspraakHerhalingDag, AfspraakHerhalingType } from '../../../generated/_types';
 import { getSchooljaar } from '../../rooster-shared/utils/date.utils';
 
 export const herhalendeAfspraakSchooljaarValidator: ValidatorFn = (formgroup: UntypedFormGroup) => {

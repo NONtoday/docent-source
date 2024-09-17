@@ -1,10 +1,11 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Leerling, MentorleerlingenQuery, PartialLeerlingFragment, Stamgroep } from '@docent/codegen';
+import { CheckboxComponent } from 'harmony';
 import { IconGroep, provideIcons } from 'harmony-icons';
 import { identity } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Leerling, MentorleerlingenQuery, PartialLeerlingFragment, Stamgroep } from '../../../../../generated/_types';
 import { QueriedWerkdrukDifferentiatiegroep, QueriedWerkdrukLesgroepen } from '../../../../core/models/werkdruk.model';
 import { Appearance, HorizontalOffset, PopupDirection, PopupSettings } from '../../../../core/popup/popup.settings';
 import { TooltipDirective } from '../../../directives/tooltip.directive';
@@ -13,7 +14,6 @@ import { VolledigeNaamPipe } from '../../../pipes/volledige-naam.pipe';
 import { Optional, equalsId, sortLocale, sortLocaleNested, toId } from '../../../utils/utils';
 import { AvatarComponent } from '../../avatar/avatar.component';
 import { BackgroundIconComponent } from '../../background-icon/background-icon.component';
-import { FormCheckboxComponent } from '../../form-checkbox/form-checkbox.component';
 import { KleurKeuzeComponent } from '../../kleur-keuze/kleur-keuze.component';
 import { Popup, PopupComponent } from '../../popup/popup.component';
 
@@ -56,13 +56,13 @@ export interface LeerlingStamgroep {
         PopupComponent,
         FormsModule,
         ReactiveFormsModule,
-        FormCheckboxComponent,
         BackgroundIconComponent,
         AvatarComponent,
         KleurKeuzeComponent,
         TooltipDirective,
         PersonenNamenPipe,
-        VolledigeNaamPipe
+        VolledigeNaamPipe,
+        CheckboxComponent
     ],
     providers: [provideIcons(IconGroep)]
 })

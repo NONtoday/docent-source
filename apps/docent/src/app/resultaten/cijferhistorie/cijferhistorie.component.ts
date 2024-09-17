@@ -1,9 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CijferhistorieQuery } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import { Observable } from 'rxjs';
-import { CijferhistorieQuery } from '../../../generated/_types';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
 import { VolledigeNaamPipe } from '../../rooster-shared/pipes/volledige-naam.pipe';
 import { ResultaatDataService } from '../resultaat-data.service';

@@ -1,13 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, ViewChild, ViewContainerRef, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { TotaaloverzichtRegistratiesQuery } from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { getYear } from 'date-fns';
 import { IconDirective, PillComponent, SpinnerComponent } from 'harmony';
 import { IconBlokken, IconFilter, IconInformatie, IconSettings, provideIcons } from 'harmony-icons';
 import { sortBy } from 'lodash-es';
 import { Observable, combineLatest, filter, map, of, switchMap, tap } from 'rxjs';
-import { TotaaloverzichtRegistratiesQuery } from '../../../generated/_types';
 import { allowChildAnimations } from '../../core/core-animations';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../../core/popup/popup.service';

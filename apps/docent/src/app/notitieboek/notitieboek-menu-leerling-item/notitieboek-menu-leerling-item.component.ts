@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Maybe, NotitieboekMenuLeerlingItemFieldsFragment } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconReactieToevoegen, provideIcons } from 'harmony-icons';
-import { Maybe, NotitieboekMenuLeerlingItemFieldsFragment } from '../../../generated/_types';
 import { AvatarComponent } from '../../rooster-shared/components/avatar/avatar.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { VolledigeNaamPipe } from '../../rooster-shared/pipes/volledige-naam.pipe';

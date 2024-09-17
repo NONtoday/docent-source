@@ -14,6 +14,18 @@ import {
     inject,
     output
 } from '@angular/core';
+import {
+    Afspraak,
+    CachedStudiewijzeritemQuery,
+    Lesgroep,
+    Sjabloon,
+    SjabloonFieldsFragment,
+    StudiewijzerFieldsFragment,
+    Studiewijzeritem,
+    Toekenning,
+    ToekomendeAfsprakenQuery,
+    namedOperations
+} from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { getYear } from 'date-fns';
 import { IconDirective, IconPillComponent, TooltipDirective } from 'harmony';
@@ -35,18 +47,6 @@ import { isEmpty, isEqual, reduce } from 'lodash-es';
 import { Observable, Subject } from 'rxjs';
 import { set } from 'shades';
 import { HasKey } from 'shades/types/utils';
-import {
-    Afspraak,
-    CachedStudiewijzeritemQuery,
-    Lesgroep,
-    Sjabloon,
-    SjabloonFieldsFragment,
-    StudiewijzerFieldsFragment,
-    Studiewijzeritem,
-    Toekenning,
-    ToekomendeAfsprakenQuery,
-    namedOperations
-} from '../../../../generated/_types';
 import { SaveToekenningContainer } from '../../../core/models';
 import { SidebarPage } from '../../../core/models/studiewijzers/studiewijzer.model';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';

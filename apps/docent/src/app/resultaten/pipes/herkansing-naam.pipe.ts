@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Herkansing } from '../../../generated/_types';
+import { Herkansing } from '@docent/codegen';
 
 export const convertHerkansingToNaam = (herkansing: Herkansing): string => {
     switch (herkansing) {

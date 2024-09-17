@@ -1,5 +1,13 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, ViewContainerRef, inject } from '@angular/core';
+import {
+    BevrorenStatus,
+    MatrixResultaatkolomFieldsFragment,
+    RapportCijferkolom,
+    Resultaat,
+    ResultaatkolomType,
+    VoortgangsdossierMatrixVanLesgroepQuery
+} from '@docent/codegen';
 import { slideInRightOnEnterAnimation } from 'angular-animations';
 import { getYear } from 'date-fns';
 import { IconDirective } from 'harmony';
@@ -16,14 +24,6 @@ import {
 } from 'harmony-icons';
 import { isEmpty, memoize } from 'lodash-es';
 import { map, switchMap, take } from 'rxjs';
-import {
-    BevrorenStatus,
-    MatrixResultaatkolomFieldsFragment,
-    RapportCijferkolom,
-    Resultaat,
-    ResultaatkolomType,
-    VoortgangsdossierMatrixVanLesgroepQuery
-} from '../../../generated/_types';
 import { PopupService } from '../../core/popup/popup.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';

@@ -9,9 +9,9 @@ import {
     ViewContainerRef,
     inject
 } from '@angular/core';
+import { Geslacht, LeerlingkaartQuery, Maybe, RelatieSoort } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBericht, IconChevronOnder, IconDupliceren, IconReacties, IconTelefoon, provideIcons } from 'harmony-icons';
-import { Geslacht, LeerlingkaartQuery, Maybe, RelatieSoort } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { PopupService } from '../../core/popup/popup.service';
 import { ActionButton, ActionsPopupComponent } from '../../rooster-shared/components/actions-popup/actions-popup.component';

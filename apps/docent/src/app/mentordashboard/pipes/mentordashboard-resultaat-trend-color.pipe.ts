@@ -9,7 +9,7 @@ import { Optional } from '../../rooster-shared/utils/utils';
 export class MentordashboardResultaatTrendColorPipe implements PipeTransform {
     transform(trendindicatie: Optional<number>): ColorToken {
         if (!trendindicatie || (trendindicatie > -0.2 && trendindicatie < 0.2)) {
-            return 'bg-neutral-strong';
+            return 'text-weakest';
         }
         if (trendindicatie <= -1) {
             return `action-negative-strong`;

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { ActueleNotitiesQuery, NotitieFieldsFragment } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { SpinnerComponent } from 'harmony';
 import {
     IconBewerken,
@@ -16,8 +18,7 @@ import {
 import { first, sortBy } from 'lodash-es';
 import { BehaviorSubject, Observable, filter, map, startWith, take } from 'rxjs';
 import { P, match } from 'ts-pattern';
-import { ActueleNotitiesQuery, NotitieFieldsFragment, NotitiestreamQuery } from '../../../generated/_types';
-import { NotitieboekContext } from '../../core/models/notitieboek.model';
+import { NotitiePeriodeQuery, NotitieboekContext } from '../../core/models/notitieboek.model';
 import { IdObject } from '../../core/models/shared.model';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { NotitieboekDataService } from '../../core/services/notitieboek-data.service';
@@ -29,7 +30,6 @@ import { BaseSidebar } from '../../rooster-shared/directives/base-sidebar.direct
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
 import { Optional } from '../../rooster-shared/utils/utils';
 import { AccordionComponent } from '../../shared/components/accordion/accordion.component';
-import { getVolledigeNaam } from '../../shared/utils/leerling.utils';
 import { NotitieEditComponent } from '../notitie-edit/notitie-edit.component';
 import { NotitieKaartComponent } from '../notitie-kaart/notitie-kaart.component';
 import { defaultNieuweNotitie, isHuidigeWeek as utilIsHuidigeWeek } from '../notitieboek.util';
@@ -130,7 +130,7 @@ export class ActueleNotitiesSidebarComponent extends BaseSidebar implements OnCh
         );
     }
 
-    isHuidigeWeek(week: NotitiestreamQuery['notitiestream'][number]): boolean {
+    isHuidigeWeek(week: NotitiePeriodeQuery): boolean {
         return utilIsHuidigeWeek(week);
     }
 

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
+import { HeeftLeerlingExamendossierDocument, LeerlingDocument, LeerlingMetSchooljarenDocument } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
-import { HeeftLeerlingExamendossierDocument, LeerlingDocument, LeerlingMetSchooljarenDocument } from '../../../generated/_types';
 
 @Injectable({
     providedIn: 'root'

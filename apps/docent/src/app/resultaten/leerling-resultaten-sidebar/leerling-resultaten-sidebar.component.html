@@ -11,7 +11,7 @@
         @for (periodeResultaten of leerlingPeriodeResultaten$ | async; track trackByPeriodeKolomId($index, periodeResultaten)) {
             <div class="periodes">
                 <div class="periode-header text-content-semi">
-                    <div class="periode-naam">Periode {{ periodeResultaten.matrixPeriode.cijferPeriode.nummer }}</div>
+                    <div class="periode-naam">{{ periodeResultaten.matrixPeriode.cijferPeriode | cijferPeriodeNaam }}</div>
                 </div>
                 @for (kolomResultaat of periodeResultaten.resultaten; track trackByKolomResultaatId($index, kolomResultaat)) {
                     <div

@@ -2,6 +2,7 @@ import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { AbstractControl, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Sjabloon, Studiewijzer, Vaksectie } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import {
     IconGroep,
@@ -16,7 +17,6 @@ import {
 } from 'harmony-icons';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { Sjabloon, Studiewijzer, Vaksectie } from '../../../../generated/_types';
 import { EditAction } from '../../../core/models/shared.model';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 import { SidebarService } from '../../../core/services/sidebar.service';

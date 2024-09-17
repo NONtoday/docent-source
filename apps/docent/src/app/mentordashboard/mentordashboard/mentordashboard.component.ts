@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewContainerRef, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { MaatregelenQuery, Maybe, PartialLeerlingFragment, StamgroepFieldsFragment } from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { IconGroep, IconGroepAlt, IconNotitieboek, provideIcons } from 'harmony-icons';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
-import { MaatregelenQuery, Maybe, PartialLeerlingFragment, StamgroepFieldsFragment } from '../../../generated/_types';
 import { allowChildAnimations } from '../../core/core-animations';
 import { PopupService } from '../../core/popup/popup.service';
 import { PopupDirection } from '../../core/popup/popup.settings';

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Maybe } from '../../../generated/_types';
+import { Maybe } from '@docent/codegen';
 import { Optional } from '../utils/utils';
 
 export interface Persoon {

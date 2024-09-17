@@ -3,9 +3,9 @@ import { isBefore } from 'date-fns';
 import { memoize } from 'lodash-es';
 
 import { DecimalPipe } from '@angular/common';
+import { Inlevering, PlagiaatInfo, PlagiaatType, SubmissionError } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconDownloaden, IconTijd, IconWaarschuwing, provideIcons } from 'harmony-icons';
-import { Inlevering, PlagiaatInfo, PlagiaatType, SubmissionError } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { SubmissionErrorDescription } from '../../core/models/inleveropdrachten/inleveropdrachten.model';
 import { InleveropdrachtenDataService } from '../../core/services/inleveropdrachten-data.service';

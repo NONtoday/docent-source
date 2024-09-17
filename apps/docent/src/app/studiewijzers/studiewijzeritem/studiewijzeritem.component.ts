@@ -15,7 +15,8 @@ import {
     output
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { IconDirective } from 'harmony';
+import { Differentiatiegroep, HuiswerkType, Leerling, Studiewijzeritem } from '@docent/codegen';
+import { CheckboxComponent, IconDirective } from 'harmony';
 import {
     IconCheckbox,
     IconDraggable,
@@ -34,7 +35,6 @@ import {
 } from 'harmony-icons';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Differentiatiegroep, HuiswerkType, Leerling, Studiewijzeritem } from '../../../generated/_types';
 import { Differentiatie } from '../../core/models/studiewijzers/shared.model';
 import { PopupService } from '../../core/popup/popup.service';
 import { DeviceService } from '../../core/services/device.service';
@@ -47,7 +47,6 @@ import {
     kopieerButton,
     verwijderButton
 } from '../../rooster-shared/components/actions-popup/actions-popup.component';
-import { CheckboxComponent } from '../../rooster-shared/components/checkbox/checkbox.component';
 import { StudiewijzeritemTitelPipe } from '../../rooster-shared/pipes/studiewijzeritem-titel.pipe';
 import { mapDifferentiatieToKleurenStackElements } from '../../rooster-shared/utils/color-token-utils';
 import { Optional } from '../../rooster-shared/utils/utils';
@@ -208,7 +207,7 @@ export class StudiewijzeritemComponent implements OnInit, OnChanges, OnDestroy {
     toggleChecked(event: any) {
         event.stopPropagation();
         const toontCheckbox = this.deviceService.isDesktop() || this.inBulkmode;
-        if (toontCheckbox && (event.target.type === 'checkbox' || event.target.className.includes('type'))) {
+        if (toontCheckbox && event.target.type === 'checkbox') {
             this.isChecked = !this.isChecked;
             const differentiatie: Differentiatie = {
                 differentiatiegroepen: this.differentiatiegroepen,

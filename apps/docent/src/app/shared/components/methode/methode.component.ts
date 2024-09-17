@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Methode } from '@docent/codegen';
 import { IconDirective, PillComponent } from 'harmony';
 import { IconChevronRechts, provideIcons } from 'harmony-icons';
-import { Methode } from '../../../../generated/_types';
 
 @Component({
     selector: 'dt-methode',

@@ -1,13 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { Medewerker, ProductboardTokenDocument, ProductboardTokenQuery, SendProductboardFeedbackDocument } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-    Medewerker,
-    ProductboardTokenDocument,
-    ProductboardTokenQuery,
-    SendProductboardFeedbackDocument
-} from '../../../../generated/_types';
 import { MedewerkerDataService } from '../../../core/services/medewerker-data.service';
 
 @Injectable({

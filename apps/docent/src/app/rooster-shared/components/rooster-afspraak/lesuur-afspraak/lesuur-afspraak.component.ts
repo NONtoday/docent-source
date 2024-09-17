@@ -12,11 +12,11 @@ import {
     inject
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { HuiswerkType } from '@docent/codegen';
 import { TooltipDirective } from 'harmony';
 import { IconHuiswerk, IconLesstof, IconToets, IconToetsGroot, IconZwevendItem, provideIcons } from 'harmony-icons';
 import { Subject, fromEvent } from 'rxjs';
 import { debounceTime, take, takeUntil } from 'rxjs/operators';
-import { HuiswerkType } from '../../../../../generated/_types';
 import { RoosterItem, isAfspraak } from '../../../../core/models';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../../core/popup/popup.settings';

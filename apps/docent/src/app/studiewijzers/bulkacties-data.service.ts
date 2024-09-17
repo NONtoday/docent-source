@@ -1,8 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import reject from 'lodash-es/reject';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { all, mod, updateAll } from 'shades';
 import {
     DifferentiatieToekennenBulkDocument,
     SjabloonViewDocument,
@@ -16,7 +12,11 @@ import {
     VerwijderBulkSjabloonDocument,
     VerwijderStudiewijzeritemsDocument,
     WeekToekenning
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import reject from 'lodash-es/reject';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { all, mod, updateAll } from 'shades';
 import { Differentiatie } from '../core/models/studiewijzers/shared.model';
 import { DeviceService } from '../core/services/device.service';
 

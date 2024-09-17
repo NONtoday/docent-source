@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, inject, output } from '@angular/core';
+import { Lesgroep } from '@docent/codegen';
 import { getYear } from 'date-fns';
 import { IconToevoegen, provideIcons } from 'harmony-icons';
-import { Lesgroep } from '../../../../generated/_types';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { SidebarComponent } from '../../../rooster-shared/components/sidebar/sidebar.component';
 import { BaseSidebar } from '../../../rooster-shared/directives/base-sidebar.directive';

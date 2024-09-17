@@ -1,8 +1,8 @@
 <dt-popup>
     <div class="content" #content popup-content>
         <div class="header">
-            <span class="text-content-semi color-typography-1">Signaleren</span>
-            <span class="text-content-small-semi color-typography-3">Markeer tellingen vanaf een waarde</span>
+            <span class="text-content-semi text-strong">Signaleren</span>
+            <span class="text-content-small-semi text-weak">Markeer tellingen vanaf een waarde</span>
         </div>
 
         <div class="switch text-content-semi">
@@ -11,12 +11,12 @@
         </div>
 
         <div class="alle-kolommen text-content-semi">
-            <div class="color-primary-3">Alle kolommen</div>
+            <div class="fg-primary-strongest">Alle kolommen</div>
             @if (!alleKolommenInEdit) {
-                <div class="instellen color-primary-1" (click)="setAlleKolommenInEdit(true); $event.stopPropagation()">Instellen</div>
+                <div class="instellen action-primary-normal" (click)="setAlleKolommenInEdit(true); $event.stopPropagation()">Instellen</div>
             }
             @if (alleKolommenInEdit) {
-                <div class="edit color-primary-1">
+                <div class="edit action-primary-normal">
                     <dt-inline-edit
                         [validators]="inlineEditValidators"
                         [maxLength]="3"
@@ -35,7 +35,7 @@
                         <span class="ellipsis">{{ filter.column }}</span>
                         @if (activeTab === 'leerling' && filterForm.get(activeTab + '-' + filter.column)!.value) {
                             <i
-                                class="fill-typography-4 pointer reset"
+                                class="pointer reset"
                                 (click)="resetValue(filter, activeTab, $event)"
                                 hmyIcon="noRadio"
                                 size="large"

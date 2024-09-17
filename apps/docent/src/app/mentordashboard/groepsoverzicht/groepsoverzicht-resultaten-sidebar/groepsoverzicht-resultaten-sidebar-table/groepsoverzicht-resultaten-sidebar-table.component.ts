@@ -1,11 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IconDirective, SpinnerComponent, TableHeaderComponent } from 'harmony';
-import { IconChevronRechts, provideIcons } from 'harmony-icons';
-import { isNil, orderBy } from 'lodash-es';
-import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
-import { match } from 'ts-pattern';
 import {
     GroepsoverzichtResultatenSidebarSorteringen,
     GroepsoverzichtResultatenSorteringenInput,
@@ -14,7 +9,12 @@ import {
     GroepsoverzichtVakRapportResultaatTrend,
     MentordashboardResultatenInstellingen,
     SorteringOrder
-} from '../../../../../generated/_types';
+} from '@docent/codegen';
+import { IconDirective, SpinnerComponent, TableHeaderComponent } from 'harmony';
+import { IconChevronRechts, provideIcons } from 'harmony-icons';
+import { isNil, orderBy } from 'lodash-es';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
+import { match } from 'ts-pattern';
 import { flipSortering } from '../../../../rooster-shared/utils/utils';
 import { MentordashboardDataService } from '../../../mentordashboard-data.service';
 import { GroepsoverzichtSidebarVakResultaatComponent } from '../groepsoverzicht-sidebar-vak-resultaat/groepsoverzicht-sidebar-vak-resultaat.component';

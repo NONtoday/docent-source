@@ -4,8 +4,9 @@
             <span class="label text-content-bold text-inverted">{{ i + 1 }}</span>
             <span class="naam text-content-semi text-strong">{{ hoofdstuk.naam }}</span>
             <i
-                class="svg-open-close fill-primary-1"
+                class="svg-open-close"
                 [class.close]="closedHoofdstukken[hoofdstuk.id]"
+                color="action-primary-normal"
                 hmyIcon="chevronBoven"
                 size="medium"></i>
         </div>

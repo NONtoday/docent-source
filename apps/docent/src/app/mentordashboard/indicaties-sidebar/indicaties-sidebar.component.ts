@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { BaseBeperkingFragment, BaseMedischHulpmiddelFragment, BaseSchoolInterventieFragment, LeerlingkaartQuery } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconInformatie, IconInterventies, IconOOhulpmiddelen, IconZorgindicaties, provideIcons } from 'harmony-icons';
-import {
-    BaseBeperkingFragment,
-    BaseMedischHulpmiddelFragment,
-    BaseSchoolInterventieFragment,
-    LeerlingkaartQuery
-} from '../../../generated/_types';
 import { SidebarComponent } from '../../rooster-shared/components/sidebar/sidebar.component';
 import { BaseSidebar } from '../../rooster-shared/directives/base-sidebar.directive';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BaseAfspraakFragment } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { IconDirective } from 'harmony';
 import { IconChevronOnder, IconPijlKleinRechts, provideIcons } from 'harmony-icons';
 import { memoize } from 'lodash-es';
-import { BaseAfspraakFragment } from '../../../../../generated/_types';
 import { LesmomentDag, QueriedWerkdrukLesgroepen } from '../../../../core/models/werkdruk.model';
 import { formatBeginEindTijd } from '../../../../rooster-shared/utils/date.utils';
 import { TooltipDirective } from '../../../directives/tooltip.directive';

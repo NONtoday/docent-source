@@ -1,5 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Afspraak, Differentiatiegroep, HuiswerkType, Leerling, PartialLeerlingFragment, Toekenning } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import {
     IconHuiswerk,
@@ -14,7 +15,6 @@ import {
 } from 'harmony-icons';
 import { partial } from 'lodash-es';
 import { Observable } from 'rxjs';
-import { Afspraak, Differentiatiegroep, HuiswerkType, Leerling, PartialLeerlingFragment, Toekenning } from '../../../generated/_types';
 import { Appearance, HorizontalOffset, PopupDirection, PopupSettings } from '../../core/popup/popup.settings';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { SidebarService } from '../../core/services/sidebar.service';

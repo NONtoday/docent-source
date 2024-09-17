@@ -1,8 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, inject } from '@angular/core';
+import { ActueleNotitieItemsQuery, NotitieContext } from '@docent/codegen';
 import { IconGroep, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
-import { ActueleNotitieItemsQuery, NotitieContext } from '../../../../generated/_types';
 import { DeviceService } from '../../../core/services/device.service';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { ActueleNotitiesSidebarComponent } from '../../../notitieboek/actuele-notities-sidebar/actuele-notities-sidebar.component';

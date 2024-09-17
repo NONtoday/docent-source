@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { Afspraak, AfspraakToekenning, Toekenning, WeekToekenning } from '../../../generated/_types';
+import { Afspraak, AfspraakToekenning, Toekenning, WeekToekenning } from '@docent/codegen';
 import { isDagToekenning } from '../../shared/utils/toekenning.utils';
 import { formatDateNL } from '../utils/date.utils';
 import { DropDownOption } from '../utils/dropdown.util';

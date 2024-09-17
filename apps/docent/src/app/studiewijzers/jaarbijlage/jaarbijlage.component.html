@@ -1,5 +1,5 @@
 @if (!editBijlage) {
-    <dt-checkbox class="checkbox" [checked]="!!bijlage.isSelected" (click)="toggleBijlageSelection($event)"> </dt-checkbox>
+    <hmy-checkbox class="checkbox" [checked]="!!bijlage.isSelected" (click)="toggleBijlageSelection($event)" />
     @if (bijlage.extensie) {
         <div class="extensie" [dtTooltip]="bijlage.synchroniseertMet">
             <dt-bijlage-extensie [extensie]="bijlage.extensie"> </dt-bijlage-extensie>
@@ -29,7 +29,7 @@
         </dt-kleuren-stack>
     }
     @if (!bijlage.zichtbaarVoorLeerling) {
-        <i class="fill-typography-3" hmyIcon="nietZichtbaar" size="medium"></i>
+        <i color="text-weak" hmyIcon="nietZichtbaar" size="medium"></i>
     }
     @if (!inBulkMode) {
         <div class="actions">
@@ -45,7 +45,7 @@
         </div>
     }
     @if (!isReadOnly) {
-        <div class="drag-handle color-background-1">
+        <div class="drag-handle text-inverted">
             <ng-content #dragHandle></ng-content>
         </div>
     }

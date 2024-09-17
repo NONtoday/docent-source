@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild, ViewContainerRef, output } from '@angular/core';
+import { PartialLeerlingFragment } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconChevronOnder, IconOpties, IconPijlLinks, provideIcons } from 'harmony-icons';
-import { PartialLeerlingFragment } from '../../../generated/_types';
 import { AvatarComponent } from '../../rooster-shared/components/avatar/avatar.component';
 
 @Component({

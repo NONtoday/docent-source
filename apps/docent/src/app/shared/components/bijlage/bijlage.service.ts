@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { UrlValidatie, ValidateUrlDocument, ValidateUrlQuery } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
 import { combineLatest, firstValueFrom, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
-import { UrlValidatie, ValidateUrlDocument, ValidateUrlQuery } from '../../../../generated/_types';
 
 interface UrlValidationResponse {
     validateUrl: {

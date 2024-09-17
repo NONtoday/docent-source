@@ -11,7 +11,7 @@
         <span class="menu-text text-content-small-bold">Somtoday</span>
         <i
             class="show-for-phone-only"
-            [color]="isTestEnvironment ? 'action-neutral-normal' : 'fg-on-primary-max'"
+            [color]="isTestEnvironment ? 'fg-on-primary-max' : 'action-neutral-normal'"
             (click)="closeMenu('Main', $event)"
             hmyIcon="sluiten"
             size="medium">
@@ -111,12 +111,7 @@
     }
     <div class="menu-item show-for-phone-only" (click)="naarSomtoday()" data-gtm="menu-item-terug-naar-somtoday">
         <i class="menu-icon" [sizeInPx]="24" hmyIcon="terugNaarSomtoday"> </i>
-        <span class="menu-text show-for-phone-only naar-somtoday">{{
-            isCoreUriSet
-                ? 'Terug naar Somtoday'
-                : 'Naar
-      Somtoday'
-        }}</span>
+        <span class="menu-text show-for-phone-only naar-somtoday">{{ isCoreUriSet ? 'Terug naar Somtoday' : 'Naar Somtoday' }}</span>
     </div>
     <div class="bottom-menu-items">
         <dt-whatsnew

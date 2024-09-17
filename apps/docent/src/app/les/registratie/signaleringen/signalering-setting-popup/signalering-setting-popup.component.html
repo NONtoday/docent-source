@@ -2,7 +2,7 @@
     <div class="content" popup-content>
         <div class="titel-container">
             <span class="titel text-content-semi">Instellingen</span
-            ><i class="action-primary-normal" (click)="popup.onClose()" hmyIcon="sluiten"></i>
+            ><i (click)="popup.onClose()" color="action-neutral-normal" hmyIcon="sluiten"></i>
         </div>
         <form [formGroup]="settingForm" (ngSubmit)="onSubmit()">
             <div class="text-content-small-semi subtitel">Leerlingen tonen na</div>
@@ -30,7 +30,7 @@
             <div class="checkbox-group">
                 @for (vrijVeldDef of vrijVeldDefinities; track vrijVeldDef.id) {
                     <div class="checkbox">
-                        <dt-form-checkbox [formControlName]="vrijVeldDef.id"></dt-form-checkbox>
+                        <hmy-checkbox [formControlName]="vrijVeldDef.id" />
                         <label>{{ vrijVeldDef.naam }} </label>
                     </div>
                 }

@@ -8,11 +8,27 @@ import {
     OnInit,
     ViewChild,
     ViewContainerRef,
-    inject
+    computed,
+    inject,
+    signal
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+    AfspraakToekenning,
+    DagToekenning,
+    Inlevering,
+    InleveringStatus,
+    InleveringenConversatieQuery,
+    InleveringenOverzicht,
+    InleveringenOverzichtQuery,
+    Lesgroep,
+    LesgroepFieldsFragment,
+    Toekenning,
+    ToekenningFieldsFragment,
+    namedOperations
+} from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { getYear, isAfter } from 'date-fns';
 import { IconDirective, IconPillComponent, PillComponent, SpinnerComponent } from 'harmony';
@@ -30,20 +46,6 @@ import {
 import { concat, find, flatMap, sum } from 'lodash-es';
 import { Observable, combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import {
-    AfspraakToekenning,
-    DagToekenning,
-    Inlevering,
-    InleveringStatus,
-    InleveringenConversatieQuery,
-    InleveringenOverzicht,
-    InleveringenOverzichtQuery,
-    Lesgroep,
-    LesgroepFieldsFragment,
-    Toekenning,
-    ToekenningFieldsFragment,
-    namedOperations
-} from '../../../generated/_types';
 import { localOrCookieStorage } from '../../auth/storage-config';
 import { allowChildAnimations } from '../../core/core-animations';
 import { SaveToekenningContainer } from '../../core/models';
@@ -145,7 +147,10 @@ import { NieuweInleveringenComponent } from './nieuwe-inleveringen/nieuwe-inleve
         IconDirective,
         IconPillComponent,
         PillComponent
-    ]
+    ],
+    host: {
+        '(window:scroll)': 'onWindowScroll()'
+    }
 })
 export class InleveringenOverzichtComponent implements OnInit, OnDestroy {
     private route = inject(ActivatedRoute);
@@ -163,6 +168,7 @@ export class InleveringenOverzichtComponent implements OnInit, OnDestroy {
     @HostBinding('class.show-detail') showDetail = false;
     @ViewChild('berichtenVersturen', { read: ViewContainerRef }) berichtenVersturenRef: ViewContainerRef;
     @ViewChild('moreOptions', { read: ViewContainerRef }) moreOptionsRef: ViewContainerRef;
+    private overzichtOffset = signal(0);
 
     public detail$: Observable<string | null>;
     public inleveringenOverzicht$: Observable<InleveringenOverzichtQuery['inleveringenOverzicht']>;
@@ -181,7 +187,7 @@ export class InleveringenOverzichtComponent implements OnInit, OnDestroy {
     public headerNavigatie$: Observable<HeaderNavigatie>;
     public isTabletOfDesktop = toSignal(this.deviceService.isTabletOrDesktop$, { initialValue: this.deviceService.isTabletOrDesktop() });
     public getInleveringenAantalColor = getInleveringenAantalPillTagColor;
-
+    public overzichtHeight = computed(() => `calc(100vh - 70px - 56px + ${this.overzichtOffset()}px`);
     public differentiatieSidebar$: SidebarInputs<DifferentiatieSidebarComponent>;
     public studiewijzeritemSidebar$: SidebarInputs<StudiewijzeritemSidebarComponent>;
     public differentiatieToekennenSidebar$: SidebarInputs<DifferentiatieToekennenSidebarComponent>;
@@ -197,7 +203,7 @@ export class InleveringenOverzichtComponent implements OnInit, OnDestroy {
 
         this.detail$ = combineLatest([this.deviceService.onDeviceChange$, this.route.queryParamMap]).pipe(
             map(([, queryParams]) => queryParams.get('detail')),
-            map((detail) => (this.deviceService.isPhoneOrTabletPortrait() ? detail : detail ?? 'nieuw')),
+            map((detail) => (this.deviceService.isPhoneOrTabletPortrait() ? detail : (detail ?? 'nieuw'))),
             tap((detail) =>
                 setTimeout(() => {
                     this.showDetail = !!detail;
@@ -640,6 +646,11 @@ export class InleveringenOverzichtComponent implements OnInit, OnDestroy {
             verwijderButton(() => this.verwijderOpdracht(inleveringenOverzicht.toekenning as any), 'inl-overzicht-verwijder-opdracht')
         ];
         popup.onActionClicked = () => this.popupService.closePopUp();
+    }
+
+    onWindowScroll() {
+        // Add scroll offset to height to grow it with the page until the headers disappear
+        this.overzichtOffset.set(window.scrollY < 126 ? window.scrollY : 126);
     }
 }
 

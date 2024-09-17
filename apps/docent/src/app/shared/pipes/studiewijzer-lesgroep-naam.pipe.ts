@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Studiewijzer } from '../../../generated/_types';
+import { Studiewijzer } from '@docent/codegen';
 
 @Pipe({
     name: 'studiewijzerLesgroepNaam',

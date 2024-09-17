@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject, output } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { CijferPeriode, Studiewijzer } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { getISOWeek } from 'date-fns';
 import { IconDirective, SpinnerComponent } from 'harmony';
@@ -7,7 +8,6 @@ import { IconChevronOnder, provideIcons } from 'harmony-icons';
 import { uniq } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { debounceTime, filter, map, startWith, takeUntil } from 'rxjs/operators';
-import { CijferPeriode, Studiewijzer } from '../../../../generated/_types';
 import {
     StudiewijzerViewAfspraakToekenning,
     StudiewijzerViewDagToekenning,

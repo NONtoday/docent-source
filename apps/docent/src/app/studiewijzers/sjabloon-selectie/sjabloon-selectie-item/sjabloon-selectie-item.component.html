@@ -1,9 +1,10 @@
 @if (displayCheckbox) {
-    <dt-checkbox
+    <hmy-checkbox
+        class="pointer"
         [checked]="isSelected"
         [disabled]="isDisabled"
         [disabledTooltip]="disabledCheckboxTooltip"
-        (click)="onCheckSjabloon($event)"></dt-checkbox>
+        (click)="onCheckSjabloon($event)" />
 }
 <span class="naam text-content-semi">{{ sjabloon.naam }}</span>
 @if (displaySynchronisatieStartWeek && sjabloon.synchronisatieStartweek) {

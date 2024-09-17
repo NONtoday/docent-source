@@ -1,6 +1,7 @@
+import { NotitieFieldsFragment, NotitieInput, PartialLeerlingFragment } from '@docent/codegen';
+import { getVolledigeNaam } from '@shared/utils/persoon-utils';
 import { isWithinInterval } from 'date-fns';
-import { NotitieFieldsFragment, NotitieInput, NotitiestreamQuery, PartialLeerlingFragment } from '../../generated/_types';
-import { getVolledigeNaam } from '../shared/utils/leerling.utils';
+import { NotitiePeriodeQuery } from '../core/models/notitieboek.model';
 import { Betrokkene, BetrokkeneTag } from './betrokkene-selectie/betrokkene-selectie.component';
 
 export const defaultNieuweNotitie: NotitieInput = {
@@ -67,6 +68,6 @@ export const betrokkeneToTag = (betrokkene: Betrokkene): BetrokkeneTag => {
 
 const betrokkeneIsLeerling = (betrokkene: Betrokkene): betrokkene is PartialLeerlingFragment => betrokkene.__typename === 'Leerling';
 
-export const isHuidigeWeek = (week: NotitiestreamQuery['notitiestream'][number]): boolean => {
+export const isHuidigeWeek = (week: NotitiePeriodeQuery): boolean => {
     return isWithinInterval(new Date(), { start: week.start, end: week.eind });
 };

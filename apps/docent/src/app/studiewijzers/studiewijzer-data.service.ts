@@ -1,12 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloCache, FetchResult } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { getISOWeek, getYear, isEqual, isSameDay } from 'date-fns';
-import { remove, sortBy } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { all, get, matching, mod, set, updateAll } from 'shades';
-import { studiewijzerOverzichtView, studiewijzercategorieEditMode, studiewijzeritemIsNieuw } from '../../generated/_operations';
 import {
     Afspraak,
     AfspraakFieldsFragment,
@@ -66,7 +59,14 @@ import {
     VerwijderWeekToekenningDocument,
     WeekToekenning,
     namedOperations
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { getISOWeek, getYear, isEqual, isSameDay } from 'date-fns';
+import { remove, sortBy } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import { all, get, matching, mod, set, updateAll } from 'shades';
+import { studiewijzerOverzichtView, studiewijzercategorieEditMode, studiewijzeritemIsNieuw } from '../../generated/_operations';
 import { StudiewijzerViewAfspraakToekenning, StudiewijzerViewDagToekenning } from '../core/models/studiewijzers/studiewijzer.model';
 import { MedewerkerDataService } from '../core/services/medewerker-data.service';
 import { convertToLocalDate } from '../rooster-shared/utils/date.utils';

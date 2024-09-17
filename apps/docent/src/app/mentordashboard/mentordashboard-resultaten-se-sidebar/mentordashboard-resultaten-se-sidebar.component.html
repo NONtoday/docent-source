@@ -35,8 +35,9 @@
                         <span class="text-content-small-semi">{{ toetssoortGemiddelde.toetssoortNaam }}</span>
                         @if (toetssoortGemiddelde.geldendResultaat.bijzonderheid === resultaatBijzonderheid.NietGemaakt) {
                             <i
-                                class="fill-typography-4 info-icon"
+                                class="info-icon"
                                 [onTouchAllowed]="true"
+                                color="text-weakest"
                                 hmyIcon="waarschuwing"
                                 size="small"
                                 dtTooltip="Gemiddelde waarbij toetsen missen"></i>
@@ -47,7 +48,7 @@
                     </div>
                 }
             } @else {
-                <span class="text-content-semi geen-resultaten color-typography-4">Geen resultaten</span>
+                <span class="text-content-semi geen-resultaten text-weakest">Geen resultaten</span>
             }
         </div>
     } @else {

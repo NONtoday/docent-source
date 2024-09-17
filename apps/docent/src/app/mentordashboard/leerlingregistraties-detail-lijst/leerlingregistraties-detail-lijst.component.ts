@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { KeuzelijstWaardeRegistraties, Registratie } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { IconDirective } from 'harmony';
 import { IconChevronBoven, provideIcons } from 'harmony-icons';
-import { KeuzelijstWaardeRegistraties, Registratie } from '../../../generated/_types';
 import { Optional, sortLocale } from '../../rooster-shared/utils/utils';
 import { LeerlingregistratiesDetailRegelComponent } from '../leerlingregistraties-detail-regel/leerlingregistraties-detail-regel.component';
 

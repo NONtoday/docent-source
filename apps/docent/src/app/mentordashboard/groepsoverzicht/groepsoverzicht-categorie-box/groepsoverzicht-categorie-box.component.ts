@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { MentordashboardOverzichtRegistratieVrijVeldCategorie, PartialLeerlingFragment } from '@docent/codegen';
 import { NotificationSolidComponent } from 'harmony';
-import { MentordashboardOverzichtRegistratieVrijVeldCategorie, PartialLeerlingFragment } from '../../../../generated/_types';
 import {
     GroepoverzichtRegistratieWithContent,
     MentordashboardOverzichtLeerlingRegistratieWithContent,

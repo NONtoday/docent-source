@@ -34,7 +34,7 @@
 }
 @if (type !== 'MSTEAMSCHANNEL') {
     @if (!hasResponse) {
-        <div class="container text-content-semi color-typography-2">
+        <div class="container text-content-semi text-strong">
             <form [formGroup]="meetingForm">
                 <div class="onderwerp-container">
                     <label>Titel <span class="required">*</span></label>
@@ -64,7 +64,7 @@
                     }
                 </div>
                 <div class="checkbox-options">
-                    <dt-form-checkbox class="hele-dag text-content" label="Hele dag" formControlName="heleDag"> </dt-form-checkbox>
+                    <hmy-checkbox class="hele-dag" label="Hele dag" formControlName="heleDag" />
                 </div>
             </form>
             <div class="buttons">

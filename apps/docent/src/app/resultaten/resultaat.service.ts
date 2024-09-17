@@ -1,5 +1,6 @@
 import { ElementRef, Injectable, OnDestroy, QueryList, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Maybe, ResultaatBerekeningResult, ResultaatInputParam, SaveResultatenMutation } from '@docent/codegen';
 import { IconName } from 'harmony-icons';
 import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
 import {
@@ -17,7 +18,6 @@ import {
     takeUntil,
     tap
 } from 'rxjs/operators';
-import { Maybe, ResultaatBerekeningResult, ResultaatInputParam, SaveResultatenMutation } from '../../generated/_types';
 import { shareReplayLastValue } from '../core/operators/shareReplayLastValue.operator';
 import { formatDateNL } from '../rooster-shared/utils/date.utils';
 import { Optional, isPresent } from '../rooster-shared/utils/utils';

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Registratie } from '@docent/codegen';
 import { endOfWeek } from 'date-fns';
 import { TooltipDirective } from 'harmony';
-import { Registratie } from '../../../../../generated/_types';
 import { DtDatePipe } from '../../../../rooster-shared/pipes/dt-date.pipe';
 import { formatDateNL } from '../../../../rooster-shared/utils/date.utils';
 import { RegistratiesVerloopDagComponent } from '../registraties-verloop-dag/registraties-verloop-dag.component';

@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { GeldendAdviesResultaat, GroepsoverzichtVakRapportResultaatTrend, MentordashboardResultatenInstellingen } from '@docent/codegen';
 import { CssVarPipe, IconPillComponent, PillComponent, PillTagColor, TagComponent, TagIcon, TooltipDirective } from 'harmony';
 import { IconChevronOnder, IconName, IconTrendBeneden, IconTrendBoven, provideIcons } from 'harmony-icons';
-import {
-    GeldendAdviesResultaat,
-    GroepsoverzichtVakRapportResultaatTrend,
-    MentordashboardResultatenInstellingen
-} from '../../../../../generated/_types';
 import { PopupOpenDirective } from '../../../../core/popup/popup-open.directive';
 import { PopupService } from '../../../../core/popup/popup.service';
 import { createTrendwaardePill } from '../../../mentordashboard.utils';

@@ -5,7 +5,7 @@
                 <div class="mobile-periodes">
                     @for (tabel of registratieTable.tables; track $index; let i = $index) {
                         <div class="mobile-periode" (click)="switchPeriode(tabel.header.nummer)">
-                            <span class="color-background-6 nummer text-content-semi">{{ tabel.header.label }}</span>
+                            <span class="action-neutral-normal nummer text-content-semi">{{ tabel.header.label }}</span>
                             <div [class.active]="tabel.header.nummer === selectedPeriode$.value"></div>
                         </div>
                     }
@@ -28,7 +28,7 @@
                                             registratieTable.periodes
                                         )
                                     ">
-                                    <span class="text-content-semi color-typography-2 naam">{{ item.value.naam }}</span>
+                                    <span class="text-content-semi text-strong naam">{{ item.value.naam }}</span>
                                     <span class="text-content-semi hoeveelheid no-background" [class.highlight]="item.value.signal">
                                         {{ item.value.label }}
                                     </span>
@@ -37,8 +37,8 @@
                         }
                     } @else {
                         <div class="geen-registraties">
-                            <span class="text-content-semi color-typography-3">Geen registraties geselecteerd</span>
-                            <span class="color-typography-3">
+                            <span class="text-content-semi text-strong">Geen registraties geselecteerd</span>
+                            <span class="text-strong">
                                 Selecteer een registratie via het filter om de aantallen van dit schooljaar te bekijken.
                             </span>
                         </div>
@@ -48,20 +48,22 @@
         } @else {
             <div class="overview title">
                 <div class="tabs">
-                    <div class="tab" [routerLink]="['../']" cy="registraties-totaal"><span class="name">Totalen</span></div>
-                    <div class="tab active" cy="registraties-per-vak"><span class="name">Per vak</span></div>
+                    <div class="tab action-neutral-normal" [routerLink]="['../']" cy="registraties-totaal">
+                        <span class="name">Totalen</span>
+                    </div>
+                    <div class="tab active action-primary-normal" cy="registraties-per-vak"><span class="name">Per vak</span></div>
                 </div>
                 @for (vak of registratieTable.vakken; track $index; let i = $index) {
                     <div class="item" (click)="onVakClick(i, registratieTable.vakken)">
-                        <span class="text-content-semi color-typography-2">{{ vak.naam }}</span>
+                        <span class="text-content-semi text-strong">{{ vak.naam }}</span>
                         @if (vak.signals && vak.signals > 0) {
                             <div
                                 class="highlight-pill highlight"
                                 [class.hightlight]="vak.signals > 0"
                                 (click)="openSignaleringenTotaalPopup($event, vak, i, registratieTable.vakken)">
-                                <i hmyIcon="waarschuwing" size="small"></i>
+                                <i color="fg-on-warning-weak" hmyIcon="waarschuwing" size="small"></i>
                                 <span class="text-content-semi">{{ vak.signals }}</span>
-                                <i hmyIcon="chevronOnder" size="smallest"></i>
+                                <i color="fg-on-warning-weak" hmyIcon="chevronOnder" size="smallest"></i>
                             </div>
                         }
                     </div>
@@ -72,12 +74,14 @@
         <ng-template #overview>
             <div class="overview title">
                 <div class="tabs">
-                    <div class="tab" [routerLink]="['../']" cy="registraties-totaal"><span class="name">Totalen</span></div>
-                    <div class="tab active" cy="registraties-per-vak"><span class="name">Per vak</span></div>
+                    <div class="tab action-neutral-normal" [routerLink]="['../']" cy="registraties-totaal">
+                        <span class="name">Totalen</span>
+                    </div>
+                    <div class="tab active action-primary-normal" cy="registraties-per-vak"><span class="name">Per vak</span></div>
                 </div>
                 @for (vak of registratieTable.vakken; track $index; let i = $index) {
                     <div class="item" (click)="onVakClick(i, registratieTable.vakken)">
-                        <span class="text-content-semi color-typography-2">{{ vak.naam }}</span>
+                        <span class="text-content-semi text-strong">{{ vak.naam }}</span>
                         @if (vak.signals && vak.signals > 0) {
                             <div
                                 class="highlight-pill highlight"
@@ -97,10 +101,10 @@
     <div class="show-for-tablet">
         <header class="info-header">
             <div class="tabs">
-                <div class="tab pointer" [routerLink]="['../']" cy="registraties-totaal">
+                <div class="tab pointer action-neutral-normal" [routerLink]="['../']" cy="registraties-totaal">
                     <span class="name">Totalen</span>
                 </div>
-                <div class="tab active" cy="registraties-per-vak"><span class="name">Per vak</span></div>
+                <div class="tab active action-primary-normal" cy="registraties-per-vak"><span class="name">Per vak</span></div>
             </div>
             <div class="buttons">
                 <div
@@ -108,8 +112,8 @@
                     #signaleringButton
                     (click)="openSignaleringPopup(registratieTable.signaleringPopupData)"
                     cy="table-signalering-button">
-                    <i class="fill-primary-1" hmyIcon="markeren" size="medium"></i>
-                    <span class="text-content-semi color-primary-1">Signaleren</span>
+                    <i color="action-primary-normal" hmyIcon="markeren" size="medium"></i>
+                    <span class="text-content-semi action-primary-normal">Signaleringen</span>
                     @if (registratieTable.aantalActieveSignaleringen > 0) {
                         <hmy-pill
                             class="show-for-tablet aantal-signaleringen"
@@ -122,8 +126,8 @@
                     #filterButton
                     (click)="openFilterPopup(registratieTable.columns, registratieTable.zichtbareKolommen)"
                     cy="filter-button">
-                    <i class="fill-primary-1" hmyIcon="blokken" size="medium"></i>
-                    <span class="text-content-semi color-primary-1">Weergave</span>
+                    <i color="action-primary-normal" hmyIcon="blokken" size="medium"></i>
+                    <span class="text-content-semi action-primary-normal">Weergave</span>
                     @if (registratieTable.zichtbareKolommen.length !== registratieTable.columns.length) {
                         <hmy-pill
                             class="show-for-tablet aantal-kolommen"
@@ -139,12 +143,12 @@
                     <div class="header no-right-border"></div>
                     <table [dataSource]="registratieTable.vakken" cdk-table>
                         <ng-container cdkColumnDef="naam">
-                            <th class="vak-naam-cell align-left" *cdkHeaderCellDef cdk-header-cell>Vak</th>
+                            <th class="vak-naam-cell align-left text-strong" *cdkHeaderCellDef cdk-header-cell>Vak</th>
                             <td
-                                class="vak-naam-cell no-hover text-content-semi align-left"
+                                class="vak-naam-cell no-hover text-content-semi align-left text-strong"
                                 *cdkCellDef="let row; let i = index"
                                 [class.is-totaal]="row.isTotaal"
-                                [class.color-primary-1]="highlightIndex === i"
+                                [class.action-primary-normal]="highlightIndex === i"
                                 cdk-cell>
                                 {{ row.naam }}
                             </td>
@@ -169,14 +173,14 @@
                                 [class.collapsed]="!periodetabel.header.open"
                                 (click)="mentordashboardService.togglePeriode(periodetabel.header.nummer)">
                                 <div class="header-content" [hmyTooltip]="periodetabel.header.tooltip" [elementOffset]="20">
-                                    <span class="label text-content-bold color-background-6">{{ periodetabel.header.label }}</span>
-                                    <span class="name text-content-semi color-typography-2">{{ periodetabel.header.name }}</span>
+                                    <span class="label text-content-bold">{{ periodetabel.header.label }}</span>
+                                    <span class="name text-content-semi text-strong">{{ periodetabel.header.name }}</span>
                                 </div>
                                 @if (periodetabel.header.open) {
-                                    <i class="fill-background-1 hidden" hmyIcon="uitklappenLinks" size="small"></i>
+                                    <i class="hidden" color="action-neutral-weak" hmyIcon="uitklappenLinks" size="small"></i>
                                 }
                                 @if (!periodetabel.header.open) {
-                                    <i class="fill-background-1 hidden" hmyIcon="uitklappenRechts" size="small"></i>
+                                    <i class="hidden" color="action-neutral-weak" hmyIcon="uitklappenRechts" size="small"></i>
                                 }
                             </div>
                             <!-- periode table -->
@@ -184,18 +188,29 @@
                                 @for (column of periodetabel.kolommen; track $index; let i = $index) {
                                     <ng-container [cdkColumnDef]="column">
                                         <th
-                                            class="text-content-semi"
+                                            class="text-content-semi text-strong"
                                             *cdkHeaderCellDef
                                             [hmyTooltip]="periodetabel.kolomTooltips[i]"
                                             cdk-header-cell>
                                             {{ column !== 'empty' ? column : '' }}
                                         </th>
                                         <td
+                                            class="text-strong"
                                             *cdkCellDef="let row"
                                             [class.empty]="row.isEmpty"
                                             [class.highlight]="row[column].signal"
                                             [attr.cy]="row[column].cy"
                                             [class.is-totaal]="row.isTotaal"
+                                            (mouseenter)="
+                                                generateTooltip(
+                                                    row.vak,
+                                                    row[column].naam,
+                                                    row[column].vrijVeld,
+                                                    row[column].keuzelijstWaardeMogelijkheid,
+                                                    row.periode
+                                                )
+                                            "
+                                            (mouseleave)="removeTooltip()"
                                             (click)="
                                                 !row.isTotaal
                                                     ? onClickCell(
@@ -212,18 +227,9 @@
                                             data-gtm="mentordashboard-leerling-registraties-sidebar">
                                             @if (row.vak && row[column].value > 0) {
                                                 <i
-                                                    class="fill-typography-4"
                                                     [hmyTooltip]="detailTooltip()"
-                                                    (mouseenter)="
-                                                        generateTooltip(
-                                                            row.vak,
-                                                            row[column].naam,
-                                                            row[column].vrijVeld,
-                                                            row[column].keuzelijstWaardeMogelijkheid,
-                                                            row.periode
-                                                        )
-                                                    "
-                                                    (mouseleave)="removeTooltip()"
+                                                    [sanitizeContentTooltip]="false"
+                                                    color="action-neutral-weak"
                                                     hmyIcon="informatie"
                                                     size="smallest"></i>
                                             }
@@ -243,8 +249,8 @@
                     }
                 } @else {
                     <div class="geen-registraties">
-                        <span class="text-content-semi color-typography-3">Geen registraties geselecteerd</span>
-                        <span class="color-typography-3">
+                        <span class="text-content-semi text-strong">Geen registraties geselecteerd</span>
+                        <span class="text-strong">
                             Selecteer een registratie via het filter om de aantallen van dit schooljaar te bekijken.
                         </span>
                     </div>

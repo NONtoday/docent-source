@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges, output } from '@angular/core';
+import { Differentiatiegroep, HuiswerkType, ItemFieldsFragment, Leerling, Studiewijzeritem } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { CounterTagComponent, IconDirective, TagComponent } from 'harmony';
 import { IconChevronBoven, IconLeerdoel, IconLijst, IconNietZichtbaar, IconReacties, IconToevoegen, provideIcons } from 'harmony-icons';
-import { Differentiatiegroep, HuiswerkType, ItemFieldsFragment, Leerling, Studiewijzeritem } from '../../../../generated/_types';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { VolledigeNaamPipe } from '../../../rooster-shared/pipes/volledige-naam.pipe';

@@ -8,9 +8,9 @@ import {
     ViewContainerRef,
     inject
 } from '@angular/core';
+import { LeerlingkaartQuery } from '@docent/codegen';
 import { IconDirective, PillComponent } from 'harmony';
 import { IconBericht, IconChevronOnder, IconDupliceren, IconInterventies, IconReacties, IconTelefoon, provideIcons } from 'harmony-icons';
-import { LeerlingkaartQuery } from '../../../generated/_types';
 import { UriService } from '../../auth/uri-service';
 import { PopupService } from '../../core/popup/popup.service';
 import { SidebarService } from '../../core/services/sidebar.service';

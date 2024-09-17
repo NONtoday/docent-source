@@ -98,4 +98,8 @@ export class DeviceService {
     public isTouch(): boolean {
         return this.isPhone() || this.isTabletPortraitOrTablet();
     }
+
+    public isDesktopOrTabletLandscape(): boolean {
+        return this.isDesktop() || this.isTablet();
+    }
 }

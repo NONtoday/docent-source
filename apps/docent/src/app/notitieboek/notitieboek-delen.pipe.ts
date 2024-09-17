@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { NotitieFieldsFragment } from '@docent/codegen';
 import { isArray, isEmpty } from 'lodash-es';
-import { NotitieFieldsFragment } from '../../generated/_types';
 import { Betrokkene } from '../notitieboek/betrokkene-selectie/betrokkene-selectie.component';
 
 type NotitieDelen = 'Docenten' | 'Mentoren';

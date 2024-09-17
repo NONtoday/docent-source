@@ -1,12 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloCache, Reference } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { getISOWeek, getYear, isSameDay } from 'date-fns';
-import { curry, get } from 'lodash-es';
-import flatMap from 'lodash-es/flatMap';
-import reject from 'lodash-es/reject';
-import { all, matching, mod, set, updateAll } from 'shades';
-import { toekenningFields } from '../../generated/_operations';
 import {
     AfspraakNaarAfspraakDocument,
     AfspraakNaarDagDocument,
@@ -33,7 +26,14 @@ import {
     WeekNaarDagDocument,
     WeekNaarWeekDocument,
     WeekToekenning
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { getISOWeek, getYear, isSameDay } from 'date-fns';
+import { curry, get } from 'lodash-es';
+import flatMap from 'lodash-es/flatMap';
+import reject from 'lodash-es/reject';
+import { all, matching, mod, set, updateAll } from 'shades';
+import { toekenningFields } from '../../generated/_operations';
 import {
     convertToAfspraakToekenningInput,
     convertToDagToekenningInput,

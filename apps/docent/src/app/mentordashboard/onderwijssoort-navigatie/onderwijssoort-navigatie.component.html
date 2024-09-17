@@ -1,6 +1,6 @@
 @for (stamgroepnormering of contexten.stamgroepen; track stamgroepnormering) {
     <div
-        class="soort text-content-semi color-typography-2"
+        class="soort text-content-semi action-neutral-normal"
         #soort
         [class.active]="stamgroepnormering.stamgroep!.id === stamgroepId && !isAlternatieveNormering"
         (click)="onStamgroepSelected(stamgroepnormering.stamgroep!.id, null, null, false)"
@@ -9,7 +9,7 @@
     </div>
     @if (stamgroepnormering.voortgangsDossiersHeeftAlternatieveNormering) {
         <div
-            class="soort text-content-semi color-typography-2"
+            class="soort text-content-semi action-neutral-normal"
             #soort
             [class.active]="stamgroepnormering.stamgroep!.id === stamgroepId && isAlternatieveNormering"
             (click)="onStamgroepSelected(stamgroepnormering.stamgroep!.id, null, null, true)"
@@ -21,7 +21,7 @@
 }
 @for (examencontext of contexten.examendossierContexten; track examencontext) {
     <div
-        class="soort text-content-semi color-typography-2"
+        class="soort text-content-semi action-neutral-normal"
         #soort
         [class.active]="examencontext.plaatsingId === plaatsingId && examencontext.lichtingId === lichtingId"
         (click)="onStamgroepSelected(null, examencontext.plaatsingId, examencontext.lichtingId, null)"

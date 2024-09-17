@@ -1,5 +1,5 @@
 <hmy-setting-button
-    [opties]="filterOpties"
+    [opties]="filterOpties()"
     [showLoader]="false"
     [selected]="filterOptie()"
     [hideLabel]="isDesktop() ?? false"
@@ -8,11 +8,11 @@
     icon="filter"
     hmyTooltip="Filteren"
     label="Filter" />
-@if (showSchooljaarSelector()) {
+@if (schooljaarDropdownItems().length) {
     <hmy-dropdown
         [modalOnMobile]="true"
         [buttonHeight]="40"
-        [items]="schooljaarOpties()"
+        [items]="schooljaarDropdownItems()"
         [selected]="selectedSchooljaar()"
         (onSelectionChanged)="selectSchooljaar($event)"
         data-gtm="notitieboek-schooljaar-dropdown"

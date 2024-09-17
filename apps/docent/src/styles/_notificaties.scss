@@ -1,25 +1,24 @@
-@import 'global-variables';
 @import 'breakpoints';
 
 @mixin nt-large {
     width: 20px;
     height: 20px;
 
-    border-radius: $br-label;
+    border-radius: var(--br-max);
 }
 
 @mixin nt-small {
     width: 12px;
     height: 12px;
 
-    border-radius: $br-label;
+    border-radius: var(--br-max);
 }
 
 @mixin nt-smallest {
     width: 8px;
     height: 8px;
 
-    border-radius: $br-label;
+    border-radius: var(--br-max);
 }
 
 @mixin nt-counter {
@@ -42,22 +41,22 @@
 .notificatie-counter-alt {
     @include nt-large;
     @include nt-counter;
-    color: $primary-1;
+    color: var(--fg-on-primary-weak);
 
-    background-color: $primary-4;
+    background-color: var(--bg-primary-weak);
 }
 
 .notificatie-counter-alt-2 {
     @include nt-large;
     @include nt-counter;
-    color: $accent-positive-1;
+    color: var(--fg-on-positive-weak);
 
-    background-color: $accent-positive-3;
+    background-color: var(--bg-positive-weak);
 }
 
 .notificatie-small {
     @include nt-small;
-    background-color: $primary-1;
+    background-color: var(--bg-primary-normal);
 }
 
 .notificatie-small-alt {
@@ -77,22 +76,22 @@
 
 .notificatie-smallest {
     @include nt-smallest;
-    background-color: $primary-1;
+    background-color: var(--bg-primary-normal);
 }
 
 .notificatie-smallest-alt {
     @include nt-smallest;
-    background-color: $accent-warning-1;
+    background-color: var(--bg-warning-normal);
 }
 
 .notificatie-smallest-alt-2 {
     @include nt-smallest;
-    background-color: $secondary-1;
+    background-color: var(--bg-accent-normal);
 }
 
 .notificatie-smallest-alt-3 {
     @include nt-smallest;
-    background-color: $accent-alt-1;
+    background-color: var(--bg-alternative-normal);
 }
 
 .notificatie-check {

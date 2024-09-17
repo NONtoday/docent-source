@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, ViewContainerRef, output } from '@angular/core';
+import { InleveringenOverzichtQuery } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconHistorie, IconPijlLinks, provideIcons } from 'harmony-icons';
-import { InleveringenOverzichtQuery } from '../../../../generated/_types';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';
 import { DtDatePipe } from '../../../rooster-shared/pipes/dt-date.pipe';
 import { StudiewijzeritemTitelPipe } from '../../../rooster-shared/pipes/studiewijzeritem-titel.pipe';

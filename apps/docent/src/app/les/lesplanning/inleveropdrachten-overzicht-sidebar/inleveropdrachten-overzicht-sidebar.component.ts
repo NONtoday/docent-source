@@ -12,12 +12,6 @@ import {
     inject,
     output
 } from '@angular/core';
-import { isBefore, parseISO } from 'date-fns';
-import { SpinnerComponent } from 'harmony';
-import { IconBewerken, IconInleveropdracht, IconPijlLinks, IconToevoegen, provideIcons } from 'harmony-icons';
-import { differenceBy, negate } from 'lodash-es';
-import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
-import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import {
     AfspraakQuery,
     DagToekenning,
@@ -25,7 +19,13 @@ import {
     Toekenning,
     ToekenningFieldsFragment,
     namedOperations
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { isBefore, parseISO } from 'date-fns';
+import { SpinnerComponent } from 'harmony';
+import { IconBewerken, IconInleveropdracht, IconPijlLinks, IconToevoegen, provideIcons } from 'harmony-icons';
+import { differenceBy, negate } from 'lodash-es';
+import { BehaviorSubject, Observable, Subject, combineLatest, of } from 'rxjs';
+import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { SaveToekenningContainer } from '../../../core/models';
 import { IdObject } from '../../../core/models/shared.model';
 import { startLoading, stopLoading } from '../../../core/operators/loading.operators';

@@ -14,6 +14,7 @@ import {
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 
 import { AsyncPipe, KeyValuePipe } from '@angular/common';
+import { BasisSjabloonFieldsFragment, Sjabloon, Studiewijzer, StudiewijzerFieldsFragment, namedOperations } from '@docent/codegen';
 import { IconDirective, PillComponent, SpinnerComponent, TooltipDirective } from 'harmony';
 import {
     IconOntkoppelen,
@@ -26,13 +27,6 @@ import {
     provideIcons
 } from 'harmony-icons';
 import { BehaviorSubject } from 'rxjs';
-import {
-    BasisSjabloonFieldsFragment,
-    Sjabloon,
-    Studiewijzer,
-    StudiewijzerFieldsFragment,
-    namedOperations
-} from '../../../generated/_types';
 import { PopupService } from '../../core/popup/popup.service';
 import { PopupDirection } from '../../core/popup/popup.settings';
 import { DeviceService } from '../../core/services/device.service';

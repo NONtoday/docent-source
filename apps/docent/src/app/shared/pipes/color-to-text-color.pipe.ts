@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { DifferentiatiegroepKleur } from '@docent/codegen';
 import { PillTagColor } from 'harmony';
-import { DifferentiatiegroepKleur } from '../../../generated/_types';
 
 const kleurToTagColorConverter: Record<DifferentiatiegroepKleur, PillTagColor> = {
     BLAUW: 'primary',

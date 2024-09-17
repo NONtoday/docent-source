@@ -6,11 +6,11 @@
                 <span class="title-text text-content-semi" data-cy="groepsoverzicht-categorie-popup-naam">
                     {{ registratieNaam }}
                     @if (keuzeLijstWaarde) {
-                        <span class="color-typography-4"> • {{ keuzeLijstWaarde }}</span>
+                        <span class="text-weakest"> • {{ keuzeLijstWaarde }}</span>
                     }
                 </span>
             </div>
-            <span class="periode text-content-small-semi color-typography-3">{{ tijdspan }}</span>
+            <span class="periode text-content-small-semi text-weak">{{ tijdspan }}</span>
         </div>
         @for (leerlingRegistratie of registratie.leerlingRegistratieTellingen; track leerlingRegistratie) {
             <dt-groepsoverzicht-leerling

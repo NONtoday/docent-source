@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, ViewChild, ViewContainerRef, inject, output } from '@angular/core';
+import { Deeltoetskolom, KolomActie, MatrixResultaatkolomFieldsFragment } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBewerken, IconDeeltoets, IconOpties, IconVerwijderen, provideIcons } from 'harmony-icons';
-import { Deeltoetskolom, KolomActie, MatrixResultaatkolomFieldsFragment } from '../../../generated/_types';
 import { PopupService } from '../../core/popup/popup.service';
 import { ActionsPopupComponent } from '../../rooster-shared/components/actions-popup/actions-popup.component';
 import { IconComponent } from '../../rooster-shared/components/icon/icon.component';

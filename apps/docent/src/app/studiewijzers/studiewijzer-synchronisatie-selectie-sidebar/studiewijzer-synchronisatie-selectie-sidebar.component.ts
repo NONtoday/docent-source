@@ -14,14 +14,15 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { SjabloonViewQuery, namedOperations } from '@docent/codegen';
 import { slideInUpOnEnterAnimation, slideOutDownOnLeaveAnimation } from 'angular-animations';
 import { getYear } from 'date-fns';
 import { flatMap, get, isNil } from 'lodash-es';
 import { BehaviorSubject, Observable, Subscription, of } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, take, tap } from 'rxjs/operators';
-import { SjabloonViewQuery, namedOperations } from '../../../generated/_types';
 
 import { AsyncPipe } from '@angular/common';
+import { Studiewijzer, SynchronisatieStudiewijzerOverzichtView } from '@docent/codegen';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import {
     IconGroep,
@@ -33,7 +34,6 @@ import {
     IconToevoegen,
     provideIcons
 } from 'harmony-icons';
-import { Studiewijzer, SynchronisatieStudiewijzerOverzichtView } from '../../../generated/_types';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../../core/popup/popup.service';
 import { PopupDirection } from '../../core/popup/popup.settings';

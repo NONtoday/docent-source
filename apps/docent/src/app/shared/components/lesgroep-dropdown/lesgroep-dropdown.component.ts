@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Lesgroep, Maybe } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconChevronOnder, IconGroep, IconInformatie, provideIcons } from 'harmony-icons';
-import { Lesgroep, Maybe } from '../../../../generated/_types';
 import { BackgroundIconComponent } from '../../../rooster-shared/components/background-icon/background-icon.component';
 
 @Component({

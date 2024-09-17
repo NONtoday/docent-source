@@ -15,7 +15,6 @@ import { ActivatedRoute } from '@angular/router';
 import { differenceInCalendarDays, differenceInMinutes, endOfDay, isSameDay, isToday, subHours } from 'date-fns';
 import { partial } from 'lodash-es';
 
-import { IconToevoegen, provideIcons } from 'harmony-icons';
 import {
     HuiswerkType,
     Inleverperiode,
@@ -24,7 +23,8 @@ import {
     StudiewijzerDag,
     StudiewijzerWeek,
     Toekenning
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { IconToevoegen, provideIcons } from 'harmony-icons';
 import { DragDropData, InleverperiodeWijziging, StudiewijzerContent } from '../../../core/models/studiewijzers/studiewijzer.model';
 import { PopupOpenDirective } from '../../../core/popup/popup-open.directive';
 import { PopupService } from '../../../core/popup/popup.service';

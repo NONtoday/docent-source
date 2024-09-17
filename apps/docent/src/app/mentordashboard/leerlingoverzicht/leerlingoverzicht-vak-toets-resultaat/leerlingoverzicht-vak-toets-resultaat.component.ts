@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CssVarPipe, IconDirective, TooltipDirective } from 'harmony';
-import { IconDeeltoets, IconHerkansing, IconReacties, IconWeging, provideIcons } from 'harmony-icons';
 import {
     DbResultaatkolomtype,
     GeldendResultaat,
     GeldendVoortgangsdossierResultaat,
     MentordashboardResultatenInstellingen
-} from '../../../../generated/_types';
+} from '@docent/codegen';
+import { CssVarPipe, IconDirective, TooltipDirective } from 'harmony';
+import { IconDeeltoets, IconHerkansing, IconReacties, IconWeging, provideIcons } from 'harmony-icons';
 import { Optional } from '../../../rooster-shared/utils/utils';
 import { MentordashboardResultaatKleurPipe } from '../../pipes/mentordashboard-resultaat-kleur.pipe';
 

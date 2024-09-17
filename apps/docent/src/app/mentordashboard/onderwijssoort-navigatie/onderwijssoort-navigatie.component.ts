@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, QueryList, ViewChildren, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GetMentorDashboardResultatenContextQuery } from '../../../generated/_types';
+import { GetMentorDashboardResultatenContextQuery } from '@docent/codegen';
 import { Optional } from '../../rooster-shared/utils/utils';
 
 @Component({

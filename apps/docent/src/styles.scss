@@ -1,11 +1,8 @@
 @import './styles/_normalize.css';
 @import 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
-@import './styles/mixins';
 @import './styles/breakpoints';
 @import './styles/visibility';
-@import './styles/global-variables';
 @import './styles/forms';
-@import './styles/colors';
 @import './styles/labels';
 @import './styles/svgs';
 @import './styles/notificaties';
@@ -31,20 +28,20 @@ body {
     overflow-x: hidden;
     overflow-anchor: none;
 
-    // Oude sidebar/popup header styling
-    --bg-sidebar-header: #{$primary-1};
-    --fg-sidebar-header-default: #{$typography-5};
-    --fg-sidebar-header-normal: var(--fg-on-primary-strongest);
-    --fg-sidebar-header-strong: var(--fg-on-primary-max);
+    // Sidebar/popup header styling
+    --bg-sidebar-header: var(--bg-elevated-none);
+    --fg-sidebar-header-default: var(--action-neutral-normal);
+    --fg-sidebar-header-normal: var(--text-moderate);
+    --fg-sidebar-header-strong: var(--text-strong);
 
-    // Oude pageheader styling
-    --fg-header-icon: #{$primary-3};
-    --fg-header-title: var(--text-moderate);
+    // Pageheader styling
+    --fg-header-icon: var(--fg-primary-normal);
+    --fg-header-title: var(--text-strong);
 
     // Oude mobile groep-leerling-header-navigatie styling
-    --bg-groep-leerling-header: #{$primary-1};
-    --fg-groep-leerling-header: var(--fg-on-primary-normal);
-    --text-groep-leerling-header: var(--text-inverted);
+    --bg-groep-leerling-header: var(--bg-neutral-none);
+    --fg-groep-leerling-header: var(--action-primary-normal);
+    --text-groep-leerling-header: var(--text-strong);
 
     .mask-overlay {
         cursor: pointer;
@@ -67,6 +64,19 @@ body {
     // Verberg tap highlights op touch die de browser toepast
     * {
         -webkit-tap-highlight-color: transparent;
+    }
+
+    // Override aantal angular material styles t.b.v. de correcte styling met eigen design tokens
+    --mat-datepicker-calendar-container-background-color: var(--bg-elevated-weakest);
+    --mat-datepicker-calendar-date-text-color: var(--text-strong);
+    --mat-datepicker-calendar-date-selected-state-text-color: var(--fg-on-primary-normal);
+
+    .mat-calendar-body-cell:hover {
+        --mat-datepicker-calendar-date-text-color: var(--text-inverted);
+    }
+
+    .mat-date-range-input-inner {
+        background-color: var(--bg-neutral-none);
     }
 }
 

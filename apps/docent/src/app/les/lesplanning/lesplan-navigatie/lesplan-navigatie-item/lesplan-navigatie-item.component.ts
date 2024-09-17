@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Input, OnChanges, inject } from '@angular/core';
+import { LesplanNavigatieWeekQuery } from '@docent/codegen';
 import { isSameDay } from 'date-fns';
 import { TooltipDirective } from 'harmony';
 import { memoize } from 'lodash-es';
-import { LesplanNavigatieWeekQuery } from '../../../../../generated/_types';
 import { CollegaAvatarsComponent } from '../../../../rooster-shared/components/collega-avatars/collega-avatars.component';
 import { LesuurComponent } from '../../../../rooster-shared/components/lesuur/lesuur.component';
 import { DtDatePipe } from '../../../../rooster-shared/pipes/dt-date.pipe';

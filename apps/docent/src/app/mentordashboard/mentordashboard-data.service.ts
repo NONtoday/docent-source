@@ -1,10 +1,5 @@
 import { Injectable, inject } from '@angular/core';
 import { ApolloCache } from '@apollo/client/core';
-import { Apollo } from 'apollo-angular';
-import { remove, sortBy } from 'lodash-es';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { match } from 'ts-pattern';
 import {
     ExamenDossierAanwezigDocument,
     ExamenDossierAanwezigIndividueelDocument,
@@ -71,7 +66,12 @@ import {
     VakoverzichtRegistratiesDocument,
     VakoverzichtRegistratiesQuery,
     namedOperations
-} from '../../generated/_types';
+} from '@docent/codegen';
+import { Apollo } from 'apollo-angular';
+import { remove, sortBy } from 'lodash-es';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { match } from 'ts-pattern';
 import { GroepsoverzichtResultaten, LeerlingCijferOverzicht } from '../core/models/mentordashboard.model';
 import { MedewerkerDataService } from '../core/services/medewerker-data.service';
 import { Optional } from '../rooster-shared/utils/utils';

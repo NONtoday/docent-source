@@ -1,10 +1,4 @@
-import {
-    BijlageFieldsFragment,
-    BijlageMapFieldsFragment,
-    BijlageType,
-    MethodeInhoud,
-    NotitieBijlageInput
-} from '../../../generated/_types';
+import { BijlageFieldsFragment, BijlageMapFieldsFragment, BijlageType, MethodeInhoud, NotitieBijlageInput } from '@docent/codegen';
 
 export const bijlagenToOptimisticResponse = (bijlagen: BijlageFieldsFragment[]) =>
     bijlagen.map((bijlage) => ({

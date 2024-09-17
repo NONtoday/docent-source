@@ -5,9 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
+import { AfspraakQuery, DagToekenning, Toekenning, ZwevendeLesitemsQuery } from '@docent/codegen';
 import { SpinnerComponent } from 'harmony';
 import { IconZwevendItem, provideIcons } from 'harmony-icons';
-import { AfspraakQuery, DagToekenning, Toekenning, ZwevendeLesitemsQuery } from '../../../../generated/_types';
 import { startLoading, stopLoading } from '../../../core/operators/loading.operators';
 import { mapToSelectedAfspraakId } from '../../../core/operators/mapToSelectedAfspraakId.operator';
 import { shareReplayLastValue } from '../../../core/operators/shareReplayLastValue.operator';

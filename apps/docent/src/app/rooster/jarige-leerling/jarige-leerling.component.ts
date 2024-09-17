@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { Leerling } from '@docent/codegen';
 import { differenceInCalendarDays, differenceInYears, isLeapYear } from 'date-fns';
-import { Leerling } from '../../../generated/_types';
 import { AvatarComponent } from '../../rooster-shared/components/avatar/avatar.component';
 import { DtDatePipe } from '../../rooster-shared/pipes/dt-date.pipe';
 import { VolledigeNaamPipe } from '../../rooster-shared/pipes/volledige-naam.pipe';

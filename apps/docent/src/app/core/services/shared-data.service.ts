@@ -1,9 +1,9 @@
 import { ApplicationRef, Injectable, inject } from '@angular/core';
+import { CurrentVersionDocument, StamgroepDocument } from '@docent/codegen';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 import { VERSION } from 'version-generator';
-import { CurrentVersionDocument, StamgroepDocument } from '../../../generated/_types';
 
 @Injectable({
     providedIn: 'root'

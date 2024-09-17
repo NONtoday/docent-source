@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
+import { IngelogdeMedewerkerQuery, OngelezenNotitiesAanwezigQuery } from '@docent/codegen';
 import { QueryRef } from 'apollo-angular';
 import { Observable, startWith } from 'rxjs';
-import { IngelogdeMedewerkerQuery, OngelezenNotitiesAanwezigQuery } from '../../../generated/_types';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';
 import { SharedDataService } from '../../core/services/shared-data.service';

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { HuiswerkType, Registratie } from '@docent/codegen';
 import { isWeekend } from 'date-fns';
 import { IconDirective } from 'harmony';
 import { IconToets, IconToetsGroot, provideIcons } from 'harmony-icons';
-import { HuiswerkType, Registratie } from '../../../../../generated/_types';
 import { DtDatePipe } from '../../../../rooster-shared/pipes/dt-date.pipe';
 
 @Component({

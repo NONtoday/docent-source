@@ -4,11 +4,11 @@
         [(searchValue)]="searchValue"
         [(schooljaar)]="schooljaar"
         [context]="context()"
-        [showSchooljaarSelector]="!!context().leerling" />
+        [schooljaarOpties]="schooljaarOpties()" />
     @if (showTabs()) {
         <div class="tabs">
             <div class="tabs-filler-before" role="none"></div>
-            <hmy-tab-row [tabs]="tabs" [activeTabLabel]="tab()" (activeTabChange)="onTabSelected($event)" />
+            <hmy-tab-row [tabs]="tabs()" [activeTabLabel]="tab()" (activeTabChange)="onTabSelected($event)" />
             <div class="tabs-filler-after" role="none"></div>
         </div>
     }
@@ -19,13 +19,15 @@
         [huidigeSchooljaarSelected]="huidigeSchooljaarSelected()"
         [stream]="filteredStream$"
         [noNotities]="noNotities$ | async"
-        [class.is-loading]="(filteredStream$ | async) ? false : true" />
+        [class.is-loading]="(filteredStream$ | async) ? false : true"
+        [heeftMeerdereSchooljaren]="heeftMeerdereSchooljaren()" />
 } @else if (displayTotalen()) {
     <dt-notitie-stream-totalen
         [(selectedLeerlingTotalen)]="selectedLeerlingTotalen"
         [stream]="totalenStream$"
         [noTotalen]="noTotalen$ | async"
-        [class.is-loading]="(totalenStream$ | async) ? false : true" />
+        [class.is-loading]="(totalenStream$ | async) ? false : true"
+        [heeftMeerdereSchooljaren]="heeftMeerdereSchooljaren()" />
 }
 @if (huidigeSchooljaarSelected()) {
     <div class="nieuw-button-row hide-for-desktop">

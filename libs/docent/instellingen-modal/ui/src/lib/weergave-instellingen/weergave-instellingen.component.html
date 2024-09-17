@@ -1,0 +1,17 @@
+<div class="weergave-opties">
+    <div class="optie light" data-gtm="gebruikers-instellingen-thema-light">
+        <label for="light"><img src="assets/lightmode.svg" alt="licht" /> <span class="label">Licht</span></label>
+        <input id="light" [formControl]="theme" type="radio" name="thema" value="light" />
+    </div>
+    <div class="optie dark" data-gtm="gebruikers-instellingen-thema-dark">
+        <label for="dark"> <img src="/assets/darkmode.svg" alt="donker" /> <span class="label">Donker</span></label>
+        <input id="dark" [formControl]="theme" type="radio" name="thema" value="dark" />
+    </div>
+</div>
+<div class="systeem-voorkeur">
+    <span class="settings-span ellipsis text-content-semi text-strong">Systeemvoorkeur gebruiken</span>
+    <hmy-toggle
+        class="toggle-systeemvoorkeur"
+        [formControl]="useSystemTheme"
+        data-gtm="gebruikers-instellingen-weergave-systeem-voorkeur"></hmy-toggle>
+</div>

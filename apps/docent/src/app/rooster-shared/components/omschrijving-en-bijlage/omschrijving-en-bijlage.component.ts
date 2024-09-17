@@ -11,10 +11,10 @@ import {
     output
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Bijlage, BijlageFieldsFragment, BijlageType } from '@docent/codegen';
 import { IconDirective } from 'harmony';
 import { IconBijlageToevoegen, IconMethode, provideIcons } from 'harmony-icons';
 import { Subject } from 'rxjs';
-import { Bijlage, BijlageFieldsFragment, BijlageType } from '../../../../generated/_types';
 import { PopupService } from '../../../core/popup/popup.service';
 import { Appearance, PopupDirection, PopupSettings } from '../../../core/popup/popup.settings';
 import { BijlageUploadLijstComponent } from '../../../shared/components/bijlage/bijlage-upload-lijst/bijlage-upload-lijst.component';

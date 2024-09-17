@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, computed, inject, signal } from '@angular/core';
+import { GemistResultaat, LeerlingoverzichtVakSamenvattingResponse, Vak, VakToetsTrend } from '@docent/codegen';
 import { BrowseComponent, SpinnerComponent, TabInput, TabRowComponent } from 'harmony';
 import { derivedAsync } from 'ngxtension/derived-async';
-import { GemistResultaat, LeerlingoverzichtVakSamenvattingResponse, Vak, VakToetsTrend } from '../../../../generated/_types';
 import { SidebarService } from '../../../core/services/sidebar.service';
 import { SidebarComponent } from '../../../rooster-shared/components/sidebar/sidebar.component';
 import { BaseSidebar } from '../../../rooster-shared/directives/base-sidebar.directive';

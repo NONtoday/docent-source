@@ -11,11 +11,11 @@ import {
     inject,
     output
 } from '@angular/core';
+import { Inlevering, InleveringStatus } from '@docent/codegen';
 import { collapseAnimation } from 'angular-animations';
 import { IconDirective, SpinnerComponent } from 'harmony';
 import { IconChevronBoven, IconDownloaden, IconSlot, provideIcons } from 'harmony-icons';
 import { Observable } from 'rxjs';
-import { Inlevering, InleveringStatus } from '../../../generated/_types';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../../core/popup/popup.service';
 import { MedewerkerDataService } from '../../core/services/medewerker-data.service';

@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Differentiatiegroep, Leerling } from '@docent/codegen';
 import { CounterTagComponent, TagComponent } from 'harmony';
 import { IconToevoegen, provideIcons } from 'harmony-icons';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Differentiatiegroep, Leerling } from '../../../../generated/_types';
 import { background_3, typography_3 } from '../../../rooster-shared/colors';
 import { Popup, PopupComponent } from '../../../rooster-shared/components/popup/popup.component';
 import { TooltipDirective } from '../../../rooster-shared/directives/tooltip.directive';

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input, OnChanges } from '@angular/core';
+import { HuiswerkType, Registratie } from '@docent/codegen';
 import { isSameDay } from 'date-fns';
 import { IconDirective } from 'harmony';
 import { IconReacties, IconTijd, IconToets, IconToetsGroot, provideIcons } from 'harmony-icons';
 import { join } from 'lodash-es';
-import { HuiswerkType, Registratie } from '../../../generated/_types';
 import { LesuurComponent } from '../../rooster-shared/components/lesuur/lesuur.component';
 import { TooltipDirective } from '../../rooster-shared/directives/tooltip.directive';
 import { formatBeginEindTijd, formatDateNL } from '../../rooster-shared/utils/date.utils';

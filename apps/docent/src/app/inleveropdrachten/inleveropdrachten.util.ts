@@ -1,5 +1,5 @@
+import { InleveringStatus, Inleverperiode } from '@docent/codegen';
 import { PillTagColor } from 'harmony';
-import { InleveringStatus, Inleverperiode } from '../../generated/_types';
 
 export type InleveringenOverzichtProperty = 'teBeoordelen' | 'inBeoordeling' | 'afgewezen' | 'akkoord' | 'nietIngeleverd';
 export type InleveropdrachtDownloadableStatus = Exclude<InleveringenOverzichtProperty, 'nietIngeleverd'>;

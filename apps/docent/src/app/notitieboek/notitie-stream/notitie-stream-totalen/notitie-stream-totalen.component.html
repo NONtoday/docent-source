@@ -16,7 +16,10 @@
                 [allowPhotoPopup]="false" />
             <span class="leerling-notities-card-naam">{{ leerlingTotalen.leerlingBetrokkene.leerling | volledigeNaam }}</span>
             <div class="tag-container">
-                <hmy-tag [label]="leerlingTotalen.notitiesCount + ' notities'" icon="none" color="alternative" />
+                <hmy-tag
+                    [label]="leerlingTotalen.notitiesCount + ' notitie' + (leerlingTotalen.notitiesCount > 1 ? 's' : '')"
+                    icon="none"
+                    color="alternative" />
                 @if (leerlingTotalen.belangrijkCount > 0) {
                     <hmy-tag [label]="leerlingTotalen.belangrijkCount + ' belangrijk'" icon="none" color="warning" />
                 }
@@ -30,7 +33,14 @@
         </button>
     }
     @if (noTotalen()) {
-        <span class="geen-notities text-content-semi text-weak">Geen notities gevonden</span>
+        <span class="geen-notities text-content-semi text-weak">
+            Geen notities gevonden.
+            @if (heeftMeerdereSchooljaren()) {
+                <br />
+                <span class="hide-for-tablet"><a (click)="selecteerAnderSchooljaar()">Selecteer een ander jaar.</a></span>
+                <span class="show-for-tablet">Selecteer een ander jaar.</span>
+            }
+        </span>
     }
 } @else {
     <hmy-spinner [centeredInParent]="true" />

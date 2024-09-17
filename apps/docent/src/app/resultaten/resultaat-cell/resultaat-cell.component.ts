@@ -16,6 +16,18 @@ import {
     output
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, UntypedFormControl, Validators } from '@angular/forms';
+import {
+    Advieskolom,
+    Maybe,
+    PeriodeGemiddeldekolom,
+    RapportCijferkolom,
+    RapportGemiddeldekolom,
+    Resultaat,
+    ResultaatLabel,
+    ResultaatLabelLijst,
+    Resultaatkolom,
+    ResultaatkolomType
+} from '@docent/codegen';
 import { getYear } from 'date-fns';
 import { IconDirective, TooltipDirective } from 'harmony';
 import {
@@ -33,18 +45,6 @@ import { escapeRegExp, isEmpty, memoize } from 'lodash-es';
 import { NgClickOutsideDelayOutsideDirective, NgClickOutsideDirective, NgClickOutsideExcludeDirective } from 'ng-click-outside2';
 import { BehaviorSubject, Observable, Subject, of } from 'rxjs';
 import { filter, map, switchMap, take, takeUntil } from 'rxjs/operators';
-import {
-    Advieskolom,
-    Maybe,
-    PeriodeGemiddeldekolom,
-    RapportCijferkolom,
-    RapportGemiddeldekolom,
-    Resultaat,
-    ResultaatLabel,
-    ResultaatLabelLijst,
-    Resultaatkolom,
-    ResultaatkolomType
-} from '../../../generated/_types';
 import { shareReplayLastValue } from '../../core/operators/shareReplayLastValue.operator';
 import { PopupService } from '../../core/popup/popup.service';
 import { PopupDirection } from '../../core/popup/popup.settings';
